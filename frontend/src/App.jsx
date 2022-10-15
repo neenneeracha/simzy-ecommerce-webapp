@@ -1,9 +1,10 @@
-function App() {
-  return (
-    <div className="App">
-      App
-    </div>
-  );
-}
+// import Home from "./pages/Home";
+import Home from "./pages/Home";
+import Product from "./pages/Product";
+import ProductList from "./pages/ProductList";
+
+const App = () => {
+  return <ProductList />;
+};
 
 export default App;
