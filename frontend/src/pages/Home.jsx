@@ -13,8 +13,8 @@ const Home = () => {
             <Slider/>
             <Categories/>
             <Products/>
-            <Footer/>
             <Newsletter/>
+            <Footer/>
         </div>
     )
 }
