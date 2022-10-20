@@ -70,6 +70,9 @@ const MenuItem = styled.div`
 `;
 
 
+const Bag = styled.div`
+`;
+
 const Navbar = () => {
   return (
     <Container>
@@ -118,7 +121,7 @@ const Navbar = () => {
           </SearchContainer>
           <MenuItem>
             <Badge color="secondary" badgeContent={99}>
-              <ShoppingCartOutlined />
+              <MenuItem>CART</MenuItem>
             </Badge>
           </MenuItem>
           <MenuItem>PROFILE</MenuItem>
