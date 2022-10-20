@@ -54,6 +54,7 @@ const Name = styled.img`
 
 `;
   
+
   const Icon = styled.div`
     width: 40px;
     height: 40px;
@@ -64,6 +65,7 @@ const Name = styled.img`
     justify-content: center;
     margin: 10px;
     transition: all 0.5s ease;
+    
     &:hover {
       background-color: #EDA3B5;
       text-decoration: underline;
@@ -76,7 +78,7 @@ const Name = styled.img`
         <Circle />
         <Image src={item.img} />
         <Info>
-          <Name />
+          <Name/>
           <Icon>
             <ShoppingCartOutlined />
           </Icon>
