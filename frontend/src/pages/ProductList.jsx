@@ -2,9 +2,6 @@ import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Products from "../components/Products";
-import Newsletter from '../components/NewLetter';
-import { popularProducts } from "../data";
-import {useState} from "react";
 
 const Container = styled.div``;
 
@@ -36,25 +33,6 @@ const Filter = styled.div`
 
 
 const ProductList = () => {
-
-  const [ users, setUsers ] = (popularProducts);
-
-  const [ sorted, setSorted ] = useState({sorted: "price", reversed: false});
-
-  const sortByPrice = () => {
-    setSorted({sorted: "price", reversed: !sorted.reversed});
-    
-    const usersCopy = [...users];
-    usersCopy.sort((userA, userB)=>{
-        return userB.price - userA.price;
-    })
-    setUsers(usersCopy);
-  }
-
-
-  
-  
-
   return (
     <Container>
       <Navbar />
@@ -95,16 +73,15 @@ const ProductList = () => {
           </Select>
         </Filter>
         <Filter>
-          <FilterText onChange={sortByPrice} >Sort By:</FilterText>
+          <FilterText >Sort By:</FilterText>
           <Select>
             <Option selected >Default</Option>
-            <Option onChange={sortByPrice} >Price (asc)</Option>
-            <Option onChange={sortByPrice} >Price (desc)</Option>
+            <Option >Price (asc)</Option>
+            <Option >Price (desc)</Option>
           </Select>
         </Filter>
       </FilterContainer>
       <Products />
-      {/* <Newsletter/> */}
       <Footer />
     </Container>
   );

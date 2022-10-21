@@ -4,7 +4,6 @@ import Navbar from "../components/Navbar";
 import { Col, Image, Row } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 
-
 const Container = styled.div``;
 
 const Title = styled.h3`
@@ -41,6 +40,7 @@ const Button = styled.h3`
 `;
 
 const Register = () => {
+
   return (
     <Container>
       <Navbar />
@@ -57,25 +57,25 @@ const Register = () => {
             WELCOME TO SIMZY!
           </Title>
           <Form style={{ width: "80%", marginLeft: "10%", marginTop: "5%" }}>
-            <Form.Group className="mb-3" controlId="email" required>
+            <Form.Group className="mb-3" controlId="firstName" required>
               <Form.Label>First Name: </Form.Label>
               <Form.Control type="text" placeholder="Enter your first name" />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="email">
+            <Form.Group className="mb-3" controlId="lastName">
               <Form.Label>Last Name: </Form.Label>
-              <Form.Control type="text" placeholder="Enter your first name" />
+              <Form.Control type="text" placeholder="Enter your last name" />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="email">
               <Form.Label>Email: </Form.Label>
-              <Form.Control type="text" placeholder="Enter your first name" />
-              <Form.Text className="text-muted">
+              <Form.Control type="text" placeholder="Enter your email" />
+              {/* <Form.Text className="text-muted">
                 We'll never share your email with anyone else.
-              </Form.Text>
+              </Form.Text> */}
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Group className="mb-3" controlId="password">
               <Form.Label>Password: </Form.Label>
               <Form.Control type="password" placeholder="Password" />
             </Form.Group>

@@ -1,5 +1,5 @@
 import { Badge } from "@material-ui/core";
-import { Search, ShoppingCartOutlined } from "@material-ui/icons";
+import { Search } from "@material-ui/icons";
 import React from "react";
 import styled from "styled-components";
 import NavDropdown from 'react-bootstrap/NavDropdown';
@@ -70,9 +70,6 @@ const MenuItem = styled.div`
 `;
 
 
-const Bag = styled.div`
-`;
-
 const Navbar = () => {
   return (
     <Container>
@@ -124,7 +121,7 @@ const Navbar = () => {
               <MenuItem>CART</MenuItem>
             </Badge>
           </MenuItem>
-          <MenuItem>PROFILE</MenuItem>
+          <MenuItem>LOGIN</MenuItem>
         </Right>
       </Wrapper>
     </Container>

@@ -11,7 +11,7 @@ const Container  = styled.div`
 
 const Categories = () => {
   return (
-    <Container>
+    <Container style = {{marginTop: "5%"}}>
         {categories.map(item=>(
             <CategoryItem item={item} key={item.id}/>
         ))}

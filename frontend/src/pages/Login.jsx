@@ -62,7 +62,7 @@ const Login = () => {
           
           <Form.Group className="mb-3" controlId="email">
             <Form.Label >Email: </Form.Label>
-            <Form.Control type="text" placeholder="Enter your first name" />
+            <Form.Control type="text" placeholder="Enter your email" />
             <Form.Text className="text-muted">
               We'll never share your email with anyone else.
             </Form.Text>
