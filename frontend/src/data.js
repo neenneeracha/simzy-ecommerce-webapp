@@ -2,17 +2,20 @@ export const categories = [
     {
         id: 1,
         img: "https://image.uniqlo.com/UQ/ST3/th/imagesgoods/436181/item/thgoods_69_436181.jpg?width=1600&impolicy=quality_75",
-        title: "MEN"
+        title: "MEN",
+        cate: "men"
     },
     {
         id: 2,
         img: "https://im.uniqlo.com/global-cms/spa/resa057d257ef23d136afefbad1aae7dde7fr.jpg",
-        title: "WOMEN"
+        title: "WOMEN",
+        cate: "women"
     },
     {
         id: 3,
         img: "https://image.uniqlo.com/UQ/ST3/th/imagesgoods/452714/item/thgoods_66_452714.jpg?width=1600&impolicy=quality_75",
-        title: "KIDS"
+        title: "KIDS",
+        cate: "kids"
     }
 ]
 

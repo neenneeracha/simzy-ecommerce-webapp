@@ -1,4 +1,3 @@
-// import Home from "./pages/Home";
 import Home from "./pages/Home";
 import Product from "./pages/Product";
 import ProductList from "./pages/ProductList";
@@ -19,7 +18,7 @@ const App = () => {
     <Router>
       <Routes>
         <Route path='/' element={<Home/>} > </Route>
-        <Route path='/Product/:category' element={<ProductList/>} > </Route>
+        <Route path='/Products/:category' element={<ProductList/>} > </Route>
         <Route path='/Product/:id' element={<Product/>} > </Route>
         <Route path='/Cart' element={<Product/>} > </Route>
         <Route path='/Login' element={ user ? <Navigate to = "/"/> : <Login/> } > </Route>

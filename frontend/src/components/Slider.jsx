@@ -4,7 +4,7 @@ import Carousel from 'react-bootstrap/Carousel';
 
 const Slider = () => {
   return (
-    <Carousel style = {{width: "100%", height: ""}}>
+    <Carousel style = {{width: "100%", marginTop: "1%"}}>
       <Carousel.Item>
         <img
           className="d-block w-100"
