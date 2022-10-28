@@ -30,9 +30,11 @@ const Button = styled.h3`
   font-size: 20px;
   padding: 10px 60px;
   border-radius: 5px;
-  border: 1px solid #eda3b5;
+  border: 2px solid #eda3b5;
   margin: 10px 0px;
   cursor: pointer;
+  font-weight: 500;
+
 
   &:hover {
     color: white; 

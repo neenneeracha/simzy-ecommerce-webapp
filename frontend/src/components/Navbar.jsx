@@ -1,9 +1,9 @@
-import { Badge } from "@material-ui/core";
 import { Search } from "@material-ui/icons";
 import React from "react";
 import styled from "styled-components";
-import NavDropdown from 'react-bootstrap/NavDropdown';
-
+import NavDropdown from "react-bootstrap/NavDropdown";
+import Badge from 'react-bootstrap/Badge';
+import Button from 'react-bootstrap/Button';
 
 const Container = styled.div`
   height: 60px;
@@ -22,7 +22,6 @@ const Left = styled.div`
   align-items: center;
   font-weight: bold;
 `;
-
 
 const SearchContainer = styled.div`
   border: 0.5px solid lightgray;
@@ -69,7 +68,6 @@ const MenuItem = styled.div`
   }
 `;
 
-
 const Navbar = () => {
   return (
     <Container>
@@ -77,7 +75,7 @@ const Navbar = () => {
         <Left>
           <MenuItem>HOME</MenuItem>
           <MenuItem>
-          <NavDropdown title="WOMEN" id="basic-nav-dropdown">
+            <NavDropdown title="WOMEN" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">JEANS</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">DRESSES</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.3">T-SHIRTS</NavDropdown.Item>
@@ -85,24 +83,28 @@ const Navbar = () => {
               <NavDropdown.Item href="#action/3.5">SHORTS</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.6">SKIRTS</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.7">TOP&SHIRTS</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.8">SWEATSHIRTS</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.8">
+                SWEATSHIRTS
+              </NavDropdown.Item>
               <NavDropdown.Item href="#action/3.9">JACKETS</NavDropdown.Item>
             </NavDropdown>
           </MenuItem>
-          <MenuItem> 
-          <NavDropdown title="MEN" id="basic-nav-dropdown">
+          <MenuItem>
+            <NavDropdown title="MEN" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">SHIRTS</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">T-SHIRTS</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.3">PANTS</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.4">SHORTS</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.5">POLOS</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.6">JEANS</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.7">SWEATSHIRTS</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.7">
+                SWEATSHIRTS
+              </NavDropdown.Item>
               <NavDropdown.Item href="#action/3.8">JACKETS</NavDropdown.Item>
             </NavDropdown>
           </MenuItem>
           <MenuItem>
-          <NavDropdown title="KIDS" id="basic-nav-dropdown">
+            <NavDropdown title="KIDS" id="basic-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">GIRLS</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">BOYS</NavDropdown.Item>
             </NavDropdown>
@@ -117,9 +119,10 @@ const Navbar = () => {
             <Search style={{ color: "gray", fontsize: 16 }} />
           </SearchContainer>
           <MenuItem>
-            <Badge color="secondary" badgeContent={99}>
-              <MenuItem>CART</MenuItem>
-            </Badge>
+            <Button variant="light">
+              CART <Badge bg="danger">9</Badge>
+              {/* <span className="visually-hidden">unread messages</span> */}
+            </Button>
           </MenuItem>
           <MenuItem>LOGIN</MenuItem>
         </Right>

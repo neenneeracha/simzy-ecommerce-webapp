@@ -13,11 +13,21 @@ const Wrapper = styled.div`
 const ImgContainer = styled.div`
   flex: 1;
 `;
+const GroupImage = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2%;
+`;
 
 const Image = styled.img`
   width: 100%;
   height: 90vh;
   object-fit: cover;
+`;
+
+const DetailImg = styled.img`
+  width: 25%;
+  height: 25%;
 `;
 
 const InfoContainer = styled.div`
@@ -26,7 +36,7 @@ const InfoContainer = styled.div`
 `;
 
 const Title = styled.h1`
-  font-weight: 200;
+  font-weight: 350;
 `;
 
 const Desc = styled.p`
@@ -40,37 +50,57 @@ const Price = styled.span`
 
 const FilterContainer = styled.div`
   width: 50%;
-  margin: 30px 0px;
-  display: flex;
+  margin: 30px 0;
   justify-content: space-between;
 `;
 
-const Filter = styled.div`
+const ColorInfo = styled.div`
   display: flex;
   align-items: center;
 `;
 
-const FilterTitle = styled.span`
-  font-size: 20px;
-  font-weight: 200;
+const SizeInfo = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const FilterTitle = styled.h4`
+  
 `;
 
 const FilterColor = styled.div`
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
   background-color: ${(props) => props.color};
-  margin: 0px 5px;
+  margin: 5%;
   cursor: pointer;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+
+  &:hover {
+    background-color: ${(props) => props.color};
+    transform: scale(1.2);
+  }
 `;
 
-const FilterSize = styled.select`
-  margin-left: 10px;
-  padding: 5px;
+const FilterSize = styled.div`
+  padding: 15px;
+  border: 2px solid #e9e9e9;
+  background-color: white;
+  cursor: pointer;
+  font-weight: 500;
+  margin: 5%;
+
+  &:hover {
+    background-color: #eda3b5;
+    transform: scale(1.1);
+    color: white;
+  }
 `;
-
-const FilterSizeOption = styled.option``;
-
+const MaterialDetail = styled.div``;
+const MaterialTitle = styled.h4`
+  margin: 30px 0;
+`;
+const MaterialContent = styled.div``;
 const AddContainer = styled.div`
   width: 50%;
   display: flex;
@@ -85,25 +115,28 @@ const AmountContainer = styled.div`
 `;
 
 const Amount = styled.span`
-  width: 30px;
-  height: 30px;
-  border-radius: 10px;
-  border: 1px solid teal;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0px 5px;
+  padding: 15px;
+  border: 2px solid #e9e9e9;
+  background-color: white;
+  cursor: pointer;
+  font-weight: 500;
+  margin: 5%;
+  margin-left: 10%;
 `;
 
 const Button = styled.button`
   padding: 15px;
-  border: 2px solid teal;
+  border: 2px solid #eda3b5;
   background-color: white;
   cursor: pointer;
   font-weight: 500;
+  margin: 5%;
+  margin-left: 10%;
 
   &:hover {
-    background-color: #f8f4f4;
+    background-color: #eda3b5;
+    transform: scale(1.1);
+    color: white;
   }
 `;
 
@@ -114,43 +147,58 @@ const Product = () => {
       <Wrapper>
         <ImgContainer>
           <Image src="https://image.uniqlo.com/UQ/ST3/th/imagesgoods/449878/item/thgoods_12_449878.jpg?width=1600&impolicy=quality_75" />
+          <GroupImage>
+            <DetailImg src="https://image.uniqlo.com/UQ/ST3/th/imagesgoods/449878/sub/thgoods_449878_sub7.jpg?width=1600&impolicy=quality_75" />
+            <DetailImg src="https://image.uniqlo.com/UQ/ST3/th/imagesgoods/449878/sub/thgoods_449878_sub8.jpg?width=1600&impolicy=quality_75" />
+            <DetailImg src="https://image.uniqlo.com/UQ/ST3/th/imagesgoods/449878/sub/thgoods_449878_sub9.jpg?width=1600&impolicy=quality_75" />
+            <DetailImg src="https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/449878/sub/goods_449878_sub12.jpg?width=1600&impolicy=quality_75" />
+          </GroupImage>
         </ImgContainer>
         <InfoContainer>
-          <Title>Denim Jumpsuit</Title>
+          <Title>HEATTECH Pile Lined Sweat Full-Zip Long Sleeve Hoodie</Title>
           <Desc>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-            venenatis, dolor in finibus malesuada, lectus ipsum porta nunc, at
-            iaculis arcu nisi sed mauris. Nulla fermentum vestibulum ex, eget
-            tristique tortor pretium ut. Curabitur elit justo, consequat id
-            condimentum ac, volutpat ornare.
+            HEATTECH hoodie with a warm, fluffy lining. Updated for added
+            comfort.
           </Desc>
-          <Price>$ 20</Price>
+          <Price>THB 1,490.00 </Price>
+          <MaterialDetail>
+            <MaterialTitle>Material: </MaterialTitle>
+            <MaterialContent>
+              {" "}
+              Body: 67% Polyester, 19% Acrylic, 14% Rayon/ Rib: 58% Cotton, 39%
+              Polyester, 3% Spandex/ Pocket Lining: Outer Layer: 60% Acrylic,
+              40% Rayon/ Back: 67% Polyester, 19% Acrylic, 14% Rayon WASHING
+              INSTRUCTIONS Machine wash cold, gentle cycle, Do not Dry Clean -
+              The images shown may include colors that are not available.
+            </MaterialContent>
+          </MaterialDetail>
           <FilterContainer>
-            <Filter>
-              <FilterTitle>Color</FilterTitle>
+            <ColorInfo>
+              <FilterTitle>Color: </FilterTitle>
               <FilterColor color="black" />
-              <FilterColor color="blue" />
+              <FilterColor color="grey" />
               <FilterColor color="pink" />
-            </Filter>
-            <Filter>
-              <FilterTitle>Size</FilterTitle>
-              <FilterSize>
-                <FilterSizeOption>XS</FilterSizeOption>
-                <FilterSizeOption>S</FilterSizeOption>
-                <FilterSizeOption>M</FilterSizeOption>
-                <FilterSizeOption>L</FilterSizeOption>
-                <FilterSizeOption>XL</FilterSizeOption>
-              </FilterSize>
-            </Filter>
+            </ColorInfo>
+            <SizeInfo>
+              <FilterTitle>Size: </FilterTitle>
+              <FilterSize>XS</FilterSize>
+              <FilterSize>S</FilterSize>
+              <FilterSize>M</FilterSize>
+              <FilterSize>L</FilterSize>
+              <FilterSize>XL</FilterSize>
+            </SizeInfo>
+            <AddContainer style={{ marginTop: "5%" }}>
+              <FilterTitle>Quantity: </FilterTitle>
+              <AmountContainer>
+                <Remove />
+                <Amount>1</Amount>
+                <Add />
+              </AmountContainer>
+            </AddContainer>
           </FilterContainer>
-          <AddContainer>
-            <AmountContainer>
-              <Remove />
-              <Amount>1</Amount>
-              <Add />
-            </AmountContainer>
-            <Button>ADD TO CART</Button>
-          </AddContainer>
+
+          <Button>ADD TO CART</Button>
+          <Button>SHOP NOW</Button>
         </InfoContainer>
       </Wrapper>
       <Footer />
