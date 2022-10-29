@@ -8,6 +8,7 @@ import Checkout from "./pages/Checkout";
 import Summary from "./pages/Summary";
 import Success from "./pages/Success";
 
+
 // import {
 //   BrowserRouter as Router,
 //   Routes,
@@ -31,7 +32,7 @@ const App = () => {
     //     <Route path='/Register' element={ user ? <Navigate to = "/"/> : <Register/> }  > </Route>
     //   </Routes>
     // </Router>
-      <Success />
+      <Checkout />
   );
 };
 

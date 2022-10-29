@@ -11,22 +11,22 @@ const Content = styled.div`
 const SuccessAlert = styled.div`
   padding: 50px;
   background-color: white;
-  margin-top: 3%;
+  margin: 3% 0;
 `;
 const Text = styled.h3`
-    text-align: center;
-    margin-top: 30px;
-    color: #299F00;
+  text-align: center;
+  margin-top: 30px;
+  color: #299f00;
 `;
 
 const TextThank = styled.h6`
-    text-align: center;
-    color: #938E8E;
+  text-align: center;
+  color: #938e8e;
 `;
 
 const OrderReference = styled.h6`
-    text-align: center;
-    color: #938E8E;
+  text-align: center;
+  margin: 30px;
 `;
 
 const Button = styled.h3`
@@ -38,7 +38,6 @@ const Button = styled.h3`
   border: 2px solid #eda3b5;
   cursor: pointer;
   font-weight: 500;
-  margin: 30px;
   align-items: center;
   &:hover {
     color: white;
@@ -62,11 +61,15 @@ const Success = () => {
               />
               <Text>Successfully ordered!</Text>
               <TextThank>THANK YOU FOR YOUR ORDER</TextThank>
-              <OrderReference></OrderReference>
+              <OrderReference>
+                <b>YOUR ORDER REFERENCE: 1</b>
+              </OrderReference>
+              <Button type="create" className="d-block mx-auto w-50">
+                BACK TO SHOP
+              </Button>
             </SuccessAlert>
-            <Button type="create" className="d-block mx-auto w-50">BACK TO SHOP</Button>
           </Col>
-          
+
           <Col></Col>
         </Row>
       </Content>
