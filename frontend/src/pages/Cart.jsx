@@ -60,7 +60,6 @@ const Details = styled.div`
 
 const ProductName = styled.span``;
 
-const ProductId = styled.span``;
 
 const ProductColor = styled.div`
   width: 20px;
@@ -159,9 +158,6 @@ const Cart = () => {
                   <ProductName>
                     <b>Product:</b> JESSIE THUNDER SHOES
                   </ProductName>
-                  <ProductId>
-                    <b>ID:</b> 93813718293
-                  </ProductId>
                   <ProductColor color="black" />
                   <ProductSize>
                     <b>Size:</b> L
@@ -185,9 +181,6 @@ const Cart = () => {
                   <ProductName>
                     <b>Product:</b> HAKURA T-SHIRT
                   </ProductName>
-                  <ProductId>
-                    <b>ID:</b> 93813718293
-                  </ProductId>
                   <ProductColor color="gray" />
                   <ProductSize>
                     <b>Size:</b> M

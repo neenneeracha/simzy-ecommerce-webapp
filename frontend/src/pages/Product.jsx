@@ -64,9 +64,7 @@ const SizeInfo = styled.div`
   align-items: center;
 `;
 
-const FilterTitle = styled.h4`
-  
-`;
+const FilterTitle = styled.h4``;
 
 const FilterColor = styled.div`
   background-color: ${(props) => props.color};

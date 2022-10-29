@@ -4,6 +4,8 @@ import ProductList from "./pages/ProductList";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
+import Summary from "./pages/Summary";
 
 // import {
 //   BrowserRouter as Router,
@@ -28,7 +30,7 @@ const App = () => {
     //     <Route path='/Register' element={ user ? <Navigate to = "/"/> : <Register/> }  > </Route>
     //   </Routes>
     // </Router>
-      <Cart />
+      <Summary />
   );
 };
 
