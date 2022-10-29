@@ -1,3 +1,8 @@
+import {
+  createBrowserRouter,
+  RouterProvider
+} from "react-router-dom"
+
 import Home from "./pages/Home";
 import Product from "./pages/Product";
 import ProductList from "./pages/ProductList";
@@ -16,6 +21,44 @@ import Success from "./pages/Success";
 //   Navigate
 // } from "react-router-dom";
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home/>
+  },
+  {
+    path: "/products",
+    element: <ProductList/>
+  },
+  {
+    path: "/product/:id",
+    element: <Product/>
+  },
+  {
+    path: "/cart",
+    element: <Cart/>
+  }, 
+  {
+    path: "/login",
+    element: <Login/>
+  },
+  {
+    path: "/register",
+    element: <Register/>
+  },
+  {
+    path: "/checkout",
+    element: <Checkout/>
+  },
+  {
+    path: "/summary",
+    element: <Summary/>
+  },
+  {
+    path: "/success",
+    element: <Success/>
+  }
+])
 
 const App = () => {
 
@@ -32,7 +75,10 @@ const App = () => {
     //     <Route path='/Register' element={ user ? <Navigate to = "/"/> : <Register/> }  > </Route>
     //   </Routes>
     // </Router>
-      <Checkout />
+    //  <Home />
+    <>
+      <RouterProvider router={router}/>
+    </>
   );
 };
 

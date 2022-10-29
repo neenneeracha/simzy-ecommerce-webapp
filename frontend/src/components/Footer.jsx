@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import {
     Facebook,
     Instagram,
@@ -65,11 +66,6 @@ import {
   const ListItem = styled.li`
     width: 50%;
     margin-bottom: 10px;
-
-    &:hover {
-      color: #EDA3B5;
-      text-decoration: underline;
-    }
   `;
   
   const Right = styled.div`
@@ -89,6 +85,38 @@ import {
   }
   `;
 
+  const LinkItem = styled.div`
+    color: black;
+    text-decoration: none;
+
+    &:hover {
+      color: #EDA3B5;
+      text-decoration: underline;
+  }
+`;
+
+  const usefulLinks = [
+    {
+      name: "Home",
+      url: "/"
+    }, 
+    {
+      name: "Cart",
+      url: "/cart"
+    },
+    {
+      name: "Man Fashion",
+      url: "/products?main_category=Men"
+    },
+    {
+      name: "Woman Fashion",
+      url: "/products?main_category=Women"
+    },
+    {
+      name: "Kids Fashion",
+      url: "/products?main_category=Kids"
+    }
+]
   
   const Footer = () => {
     return (
@@ -117,11 +145,15 @@ import {
         <Center>
           <Title>Useful Links</Title>
           <List>
-            <ListItem>Home</ListItem>
-            <ListItem>Cart</ListItem>
-            <ListItem>Man Fashion</ListItem>
-            <ListItem>Woman Fashion</ListItem>
-            <ListItem>Kids Fashion</ListItem>
+            {usefulLinks.map((link, index) => 
+              <ListItem key={index}>
+                <Link style={{ textDecoration: "none" }} to={link.url}>
+                  <LinkItem>
+                    {link.name}
+                  </LinkItem>
+                </Link>
+              </ListItem>
+            )}
           </List>
         </Center>
         <Right>

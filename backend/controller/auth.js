@@ -23,9 +23,9 @@ const login = (req, res) => {
     const email = req.body.email
     const password = req.body.password
 
-    const q1 = "SELECT password FROM userinfo WHERE email = ?"
+    const q = "SELECT password FROM userinfo WHERE email = ?"
 
-    pool.query(q1, [email], (err, data) => {
+    pool.query(q, [email], (err, data) => {
         if (err) return res.status(500).json(err)
 
         if (data.length > 0) {
