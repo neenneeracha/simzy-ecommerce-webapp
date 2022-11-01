@@ -212,6 +212,7 @@ const Cart = () => {
               <SummaryItemPrice>฿3,660</SummaryItemPrice>
             </SummaryItem>
             <Button>CHECKOUT NOW</Button>
+            <Button>BACK TO HOMEPAGE</Button>
           </Summary>
         </Bottom>
       </Wrapper>

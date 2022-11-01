@@ -1,11 +1,11 @@
-import React from "react";
-import styled from "styled-components";
-import Navbar from "../components/Navbar";
+import React, { useState } from "react";
 import { Col, Image, Row } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
+import Navbar from "../components/Navbar";
+import styled from "styled-components";
+import Button from 'react-bootstrap/Button';
 
 const Container = styled.div``;
-
 const Title = styled.h3`
   color: #eda3b5;
   text-align: center;
@@ -13,85 +13,90 @@ const Title = styled.h3`
 `;
 
 const Text = styled.div`
-    text-align: center;
+  text-align: center;
 
-    &:hover {
+  &:hover {
     color: #eda3b5;
     text-decoration: underline;
   }
 `;
 
-const Button = styled.h3`
-  text-align: center;
-  color: #eda3b5;
-  font-size: 15px;
-  padding: 10px 60px;
-  border-radius: 5px;
-  border: 1px solid #eda3b5;
-  margin: 10px 0px;
-  cursor: pointer;
+const styles = {
+  customButton: {
+      backgroundColor: '#eda3b5',
+      borderColor: '#eda3b5',
+      color: 'white',
+      borderRadius: '5px'
+}
 
-  &:hover {
-    color: white; 
-    background-color: #eda3b5;
-    opacity: 0.7;
-    cursor: default;
-  }
-`;
-
+};
 const Register = () => {
+  const [validated, setValidated] = useState(false);
+
+  const handleSubmit = (event) => {
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    setValidated(true);
+  };
 
   return (
     <Container>
       <Navbar />
       <Row>
-      <Col>
-        <Image src={process.env.PUBLIC_URL+"img/login.png"} height = "100%" width= "100%" />
-      </Col>
+        <Col xs={6}>
+          <Image
+            src={process.env.PUBLIC_URL + "img/login.png"}
+            height="100%"
+            width="100%"
+          />
+        </Col>
         <Col>
-          {" "}
           <Title
             style={{ width: "80%", marginLeft: "10%", marginTop: "10%" }}
-            class="center"
+            className="center"
           >
             WELCOME TO SIMZY!
           </Title>
-          <Form style={{ width: "80%", marginLeft: "10%", marginTop: "5%" }}>
-            <Form.Group className="mb-3" controlId="firstName" required>
-              <Form.Label>First Name: </Form.Label>
-              <Form.Control type="text" placeholder="Enter your first name" />
+          <Form noValidate validated={validated} onSubmit={handleSubmit} style = {{margin: "30px"}}>
+            
+            <Form.Group className="d-block mx-auto w-50" controlId="validationCustom01" style={{ marginTop: "30px" }} >
+              <Form.Label><b>First Name:</b></Form.Label>
+              <Form.Control type="text" placeholder="Enter your first name" name = "firstname"  required />
+              <Form.Control.Feedback type="invalid"> Please provide your first name</Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="lastName">
-              <Form.Label>Last Name: </Form.Label>
-              <Form.Control type="text" placeholder="Enter your last name" />
+              <Form.Group className="d-block mx-auto w-50" controlId="validationCustom02" style={{ marginTop: "30px" }} >
+              <Form.Label><b>Last Name:</b> </Form.Label>
+              <Form.Control type="text" placeholder="Enter your last name" name = "lastname" required />
+              <Form.Control.Feedback type="invalid"> Please provide your last name </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="email">
-              <Form.Label>Email: </Form.Label>
-              <Form.Control type="text" placeholder="Enter your email" />
-              {/* <Form.Text className="text-muted">
-                We'll never share your email with anyone else.
-              </Form.Text> */}
+
+           <Form.Group className="d-block mx-auto w-50" controlId="email" style={{ marginTop: "30px" }} >
+              <Form.Label><b>Email: </b></Form.Label>
+              <Form.Control type="text" placeholder="Enter your email" name = "email" required />
+              <Form.Control.Feedback type="invalid"> Please provide your email </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="password">
-              <Form.Label>Password: </Form.Label>
-              <Form.Control type="password" placeholder="Password" />
+            <Form.Group className="d-block mx-auto w-50" controlId="validationCustom03" style={{ marginTop: "30px" }} >
+              <Form.Label><b>Password:</b> </Form.Label>
+              <Form.Control type="password" placeholder="Password" name = "password"  required />
+              <Form.Control.Feedback type="invalid"> Please provide a valid state </Form.Control.Feedback>
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="text">
-              <Form.Label>Address: </Form.Label>
-              <Form.Control type="text" placeholder="Enter your Address" />
-
-              <Form.Group className="mb-3" controlId="formBasicCheckbox" style = {{marginTop: "5%", marginBottom: "5%"}}>
-              <Form.Check type="checkbox" label="I have read the policy" />
+            <Form.Group className="d-block mx-auto w-50" controlId="validationCustom04" style={{ marginTop: "30px", marginBottom: "30px" }} >
+              <Form.Label><b>Address:</b> </Form.Label>
+              <Form.Control as="textarea" rows={3} placeholder="Enter your Address" name = "address"  required />
+              <Form.Control.Feedback type="invalid"> Please provide a valid state </Form.Control.Feedback>
             </Form.Group>
 
-            </Form.Group>
-
-            <Button type="create" style = {{marginTop: "5%"}}>CREATE NEW ACCOUNT</Button>
-            <Text style = {{marginTop: "5%"}}>Already have an account? </Text>
+            
+            <Button className="d-block mx-auto w-50" type="submit" style={styles.customButton}>Submit form</Button>
+            <Text style={{ marginTop: "2%" }} type="submit" >Already have an account? </Text>
           </Form>
         </Col>
       </Row>

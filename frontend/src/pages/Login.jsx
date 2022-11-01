@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import { Col, Image, Row } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 
+
 const Container = styled.div``;
 
 const Title = styled.h3`
@@ -44,6 +45,9 @@ const Button = styled.h3`
   }
 `;
 
+
+
+
 const Login = () => {
   return (
     <Container>
@@ -56,7 +60,7 @@ const Login = () => {
         {" "}
         <Title
           style={{ width: "80%", marginLeft: "10%", marginTop: "10%" }}
-          class="center"
+          className="center"
         >
           WELCOME TO SIMZY!
         </Title>
