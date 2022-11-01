@@ -7,4 +7,5 @@ router.route("/:id").get(getOneProduct)
 router.route("/img/:id").get(getProductImg)
 router.route("/color/:id").get(getProductColor)
 router.route("/stock/:id").get(getProductStock)
+
 module.exports = router

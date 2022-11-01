@@ -2,11 +2,11 @@ const pool = require('../database/connector')
 
 // get all product for each sub category page
 const getAllProducts = (req, res) => {
-    const mainCategory = req.query.main_category
-    const subCategory = req.query.sub_category
+    const main_category = req.query.main_category
+    const sub_category = req.query.sub_category
 
     const q = "SELECT p.product_id, product_name, price, created_at, color, img_link FROM ((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id) LEFT JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE category_id = (SELECT category_id FROM category WHERE main_category = ? AND sub_category = ?)"
-    pool.query(q, [mainCategory, subCategory], (err, data) => {
+    pool.query(q, [main_category, sub_category], (err, data) => {
         if (err) return res.status(500).json(err)
 
         return res.status(200).json(data)
@@ -37,6 +37,7 @@ const getProductImg = (req, res) => {
     })
 }
 
+// get product color for a product
 const getProductColor = (req, res) => {
     const product_id = req.params.id
 
@@ -48,7 +49,7 @@ const getProductColor = (req, res) => {
     })
 }
 
-
+// get product stock for a product
 const getProductStock = (req, res) => {
     const product_id = req.params.id
 

@@ -1,4 +1,7 @@
 import { Search } from "@material-ui/icons";
+import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 import React from "react";
 import styled from "styled-components";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -68,45 +71,110 @@ const MenuItem = styled.div`
   }
 `;
 
+const LinkItem = styled.div`
+color: black;
+text-decoration: none;
+
+&:hover {
+  color: #EDA3B5;
+  text-decoration: underline;
+}
+`;
+
+const LinkCat = styled.div`
+color: black;
+text-decoration: none;
+`;
+
 const Navbar = () => {
+  const [womenCats, setWomenCats] = useState([])
+  const [menCats, setMenCats] = useState([])
+  const [kidsCats, setKidsCats] = useState([])
+
+useEffect(() => {
+
+  const getWomenCat = async () => {
+      try {
+        const res = await axios.get("http://localhost:8080/api/v1/category?category=Women")
+        setWomenCats(res.data)
+      } catch (error) {
+        console.log(error)
+      }
+  }
+
+  const getMenCat = async () => {
+    try {
+      const res = await axios.get("http://localhost:8080/api/v1/category?category=Men")
+      setMenCats(res.data)
+    } catch (error) {
+      console.log(error)
+    }
+}
+
+const getKidsCat = async () => {
+  try {
+    const res = await axios.get("http://localhost:8080/api/v1/category?category=Kids")
+    setKidsCats(res.data)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+  getWomenCat()
+  getMenCat()
+  getKidsCat()
+
+}, [])
+
+
   return (
     <Container>
       <Wrapper>
         <Left>
-          <MenuItem>HOME</MenuItem>
+          <MenuItem>
+            <Link style={{ textDecoration: "none" }} to="/">
+              <LinkItem>
+                HOME
+              </LinkItem>
+            </Link>
+          </MenuItem>
           <MenuItem>
             <NavDropdown title="WOMEN" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">JEANS</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">DRESSES</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">T-SHIRTS</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.4">PANTS</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.5">SHORTS</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.6">SKIRTS</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.7">TOP&SHIRTS</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.8">
-                SWEATSHIRTS
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.9">JACKETS</NavDropdown.Item>
+            {womenCats.map((cat) => 
+                 <NavDropdown.Item>
+                 <Link style={{ textDecoration: "none" }} to={`/products?main_category=Women&sub_category=${cat.sub_category}`}>
+                   <LinkCat>
+                   {cat.sub_category}
+                   </LinkCat>
+                 </Link>
+             </NavDropdown.Item>
+              )}
             </NavDropdown>
           </MenuItem>
           <MenuItem>
             <NavDropdown title="MEN" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">SHIRTS</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">T-SHIRTS</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">PANTS</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.4">SHORTS</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.5">POLOS</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.6">JEANS</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.7">
-                SWEATSHIRTS
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.8">JACKETS</NavDropdown.Item>
+            {menCats.map((cat) => 
+                 <NavDropdown.Item>
+                 <Link style={{ textDecoration: "none" }} to={`/products?main_category=Men&sub_category=${cat.sub_category}`}>
+                   <LinkCat>
+                   {cat.sub_category}
+                   </LinkCat>
+                 </Link>
+             </NavDropdown.Item>
+              )}
             </NavDropdown>
           </MenuItem>
           <MenuItem>
             <NavDropdown title="KIDS" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">GIRLS</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">BOYS</NavDropdown.Item>
+              {kidsCats.map((cat) => 
+                <NavDropdown.Item>
+                  <Link style={{ textDecoration: "none" }} to={`/products?main_category=Kids&sub_category=${cat.sub_category}`}>
+                    <LinkCat>
+                    {cat.sub_category}
+                    </LinkCat>
+                  </Link>
+              </NavDropdown.Item>
+              )}
             </NavDropdown>
           </MenuItem>
         </Left>
@@ -124,7 +192,13 @@ const Navbar = () => {
               {/* <span className="visually-hidden">unread messages</span> */}
             </Button>
           </MenuItem>
-          <MenuItem>LOGIN</MenuItem>
+          <MenuItem>
+          <Link style={{ textDecoration: "none" }} to="/login">
+              <LinkItem>
+                LOGIN
+              </LinkItem>
+            </Link>
+          </MenuItem>
         </Right>
       </Wrapper>
     </Container>
