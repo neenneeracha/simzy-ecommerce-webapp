@@ -12,6 +12,9 @@ import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import Summary from "./pages/Summary";
 import Success from "./pages/Success";
+import Profile from "./pages/Profile";
+
+
 
 
 // import {
@@ -57,6 +60,10 @@ const router = createBrowserRouter([
   {
     path: "/success",
     element: <Success/>
+  },
+  {
+    path: "/profile",
+    element: <Profile/>
   }
 ])
 

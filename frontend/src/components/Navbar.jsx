@@ -189,7 +189,7 @@ const getKidsCat = async () => {
           </SearchContainer>
           <MenuItem>
             <Button variant="light">
-              CART <Badge bg="danger">9</Badge>
+              CART <Badge bg="danger">0</Badge>
               {/* <span className="visually-hidden">unread messages</span> */}
             </Button>
           </MenuItem>
