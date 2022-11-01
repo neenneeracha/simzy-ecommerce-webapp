@@ -46,6 +46,7 @@ const Input = styled.input`
 const Center = styled.div`
   flex: 1;
   text-align: center;
+  padding-top: 5px;
 `;
 
 const Logo = styled.h1`
@@ -140,8 +141,8 @@ const getKidsCat = async () => {
           </MenuItem>
           <MenuItem>
             <NavDropdown title="WOMEN" id="basic-nav-dropdown">
-            {womenCats.map((cat) => 
-                 <NavDropdown.Item>
+            {womenCats.map((cat,index) => 
+                 <NavDropdown.Item as="li" key={index}>
                  <Link style={{ textDecoration: "none" }} to={`/products?main_category=Women&sub_category=${cat.sub_category}`}>
                    <LinkCat>
                    {cat.sub_category}
@@ -153,8 +154,8 @@ const getKidsCat = async () => {
           </MenuItem>
           <MenuItem>
             <NavDropdown title="MEN" id="basic-nav-dropdown">
-            {menCats.map((cat) => 
-                 <NavDropdown.Item>
+            {menCats.map((cat,index) => 
+                 <NavDropdown.Item as="li" key={index}>
                  <Link style={{ textDecoration: "none" }} to={`/products?main_category=Men&sub_category=${cat.sub_category}`}>
                    <LinkCat>
                    {cat.sub_category}
@@ -166,8 +167,8 @@ const getKidsCat = async () => {
           </MenuItem>
           <MenuItem>
             <NavDropdown title="KIDS" id="basic-nav-dropdown">
-              {kidsCats.map((cat) => 
-                <NavDropdown.Item>
+              {kidsCats.map((cat,index) => 
+                <NavDropdown.Item as="li" key={index}>
                   <Link style={{ textDecoration: "none" }} to={`/products?main_category=Kids&sub_category=${cat.sub_category}`}>
                     <LinkCat>
                     {cat.sub_category}

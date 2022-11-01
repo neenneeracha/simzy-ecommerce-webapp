@@ -76,18 +76,18 @@ const Name = styled.img`
     return (
       <Container>
         <Circle />
-        <Image src={item.img} />
+        <Image src={item.img_link} />
         <Info>
           <Name/>
-          <Icon>
+          {/* <Icon>
             <ShoppingCartOutlined />
-          </Icon>
+          </Icon> */}
           <Icon>
             <SearchOutlined />
           </Icon>
-          <Icon>
+          {/* <Icon>
             <FavoriteBorderOutlined />
-          </Icon>
+          </Icon> */}
         </Info>
       </Container>
     );

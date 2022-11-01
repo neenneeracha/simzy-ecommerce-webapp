@@ -36,13 +36,15 @@ const Button = styled.button`
     border:none;
     padding: 10px;
     background-color: white;
-    color: LightPink;
+    color: black;
     cursor: pointer;
     font-weight: 600;
+    border-radius: 7px;
     &:hover {
       background-color: #EDA3B5;
       transform: scale(1.1);
-      color:white;
+      color: white;
+      border-radius: 0px;
     }
 `;
 
@@ -51,13 +53,13 @@ const Button = styled.button`
 const CategoryItem = ({item}) => {
     return (
         <Container>
-          {/* <Link to = {`/products/${item.cate}`}> */}
-           <Image src ={item.img}/>
+          <Link to={item.url}>
+           <Image src={item.img}/>
             <Info>
                 <Title>{item.title}</Title>
                 <Button>SHOP NOW</Button>
             </Info>
-          {/* </Link> */}
+          </Link>
            
         </Container>
   )

@@ -2,12 +2,17 @@ import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Products from "../components/Products";
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+import { useSearchParams } from "react-router-dom";
 
 const Container = styled.div``;
 
 const Title = styled.h1`
-  margin: 20px;
+  margin: 40px 20px 20px;
   text-align: center;
+  color: #EDA3B5;
+  font-weight: bold;
 `;
 
 const FilterContainer = styled.div`
@@ -33,10 +38,33 @@ const Filter = styled.div`
 
 
 const ProductList = () => {
+  const [products, setProducts] = useState([])
+  const [searchParams] = useSearchParams();
+  const main_category = searchParams.get('main_category')
+  const sub_category = searchParams.get('sub_category')
+
+  // sub_category ? console.log(sub_category) : console.log(main_category)
+
+useEffect(() => {
+  const getProducts = async () => {
+      try {
+        const res = await axios.get(
+          sub_category ? `http://localhost:8080/api/v1/products?main_category=${main_category}&sub_category=${sub_category}` 
+          : `http://localhost:8080/api/v1/products?main_category=${main_category}`)
+        setProducts(res.data)
+      } catch (error) {
+        console.log(error)
+      }
+  }
+
+  getProducts()
+
+}, [main_category, sub_category])
+
   return (
     <Container>
       <Navbar />
-      <Title>Dresses</Title>
+      <Title>{ sub_category ? sub_category : main_category}</Title>
       <FilterContainer>
         <Filter>
           <FilterText>Filter By:</FilterText>
@@ -81,7 +109,7 @@ const ProductList = () => {
           </Select>
         </Filter>
       </FilterContainer>
-      <Products />
+      <Products products={products}/>
       <Footer />
     </Container>
   );
