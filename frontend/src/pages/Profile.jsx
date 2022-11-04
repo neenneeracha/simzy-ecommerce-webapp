@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React from "react";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
@@ -21,14 +20,3 @@ const Profile = () => {
 };
 
 export default Profile;
-=======
-import React from 'react'
-
-const Profile = () => {
-  return (
-    <div>Profile</div>
-  )
-}
-
-export default Profile
->>>>>>> 21d83452411a8277c11e0492f29aa4dba0308495
