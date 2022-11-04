@@ -3,7 +3,11 @@ import { Col, Image, Row } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Navbar from "../components/Navbar";
 import styled from "styled-components";
+<<<<<<< HEAD
 import Button from "react-bootstrap/Button";
+=======
+import Button from 'react-bootstrap/Button';
+>>>>>>> 21d83452411a8277c11e0492f29aa4dba0308495
 import BackBtn from "../components/BackBtn";
 import { Link } from "react-router-dom";
 
@@ -24,6 +28,7 @@ const Text = styled.div`
 `;
 
 const LinkItem = styled.span`
+<<<<<<< HEAD
   color: #eda3b5;
   text-decoration: underline;
 
@@ -31,10 +36,20 @@ const LinkItem = styled.span`
     font-weight: bold;
     color: black;
   }
+=======
+color: #EDA3B5;
+text-decoration: underline;
+
+&:hover {
+  font-weight: bold;
+  color: black;
+}
+>>>>>>> 21d83452411a8277c11e0492f29aa4dba0308495
 `;
 
 const styles = {
   customButton: {
+<<<<<<< HEAD
     backgroundColor: "#eda3b5",
     borderColor: "#eda3b5",
     color: "white",
@@ -42,6 +57,15 @@ const styles = {
   },
 };
 
+=======
+      backgroundColor: '#eda3b5',
+      borderColor: '#eda3b5',
+      color: 'white',
+      borderRadius: '5px'
+}
+
+};
+>>>>>>> 21d83452411a8277c11e0492f29aa4dba0308495
 const Register = () => {
   const [validated, setValidated] = useState(false);
 
@@ -58,7 +82,11 @@ const Register = () => {
   return (
     <Container>
       {/* <Navbar /> */}
+<<<<<<< HEAD
       {/* <BackBtn /> */}
+=======
+      <BackBtn/>
+>>>>>>> 21d83452411a8277c11e0492f29aa4dba0308495
       <Row>
         <Col xs={6}>
           <Image
@@ -74,6 +102,7 @@ const Register = () => {
           >
             WELCOME TO SIMZY!
           </Title>
+<<<<<<< HEAD
           <Form
             noValidate
             validated={validated}
@@ -282,6 +311,47 @@ const Register = () => {
               <Link style={{ textDecoration: "none" }} to="/login">
                 <LinkItem>SIGN IN</LinkItem>
               </Link>
+=======
+          <Form noValidate validated={validated} onSubmit={handleSubmit} style = {{margin: "30px"}}>
+            
+            <Form.Group className="d-block mx-auto w-50" controlId="validationCustom01" style={{ marginTop: "30px" }} >
+              <Form.Label><b>First Name:</b></Form.Label>
+              <Form.Control type="text" placeholder="Enter your first name" name = "firstname"  required />
+              <Form.Control.Feedback type="invalid"> Please provide your first name</Form.Control.Feedback>
+            </Form.Group>
+
+              <Form.Group className="d-block mx-auto w-50" controlId="validationCustom02" style={{ marginTop: "30px" }} >
+              <Form.Label><b>Last Name:</b> </Form.Label>
+              <Form.Control type="text" placeholder="Enter your last name" name = "lastname" required />
+              <Form.Control.Feedback type="invalid"> Please provide your last name </Form.Control.Feedback>
+            </Form.Group>
+
+
+           <Form.Group className="d-block mx-auto w-50" controlId="email" style={{ marginTop: "30px" }} >
+              <Form.Label><b>Email: </b></Form.Label>
+              <Form.Control type="text" placeholder="Enter your email" name = "email" required />
+              <Form.Control.Feedback type="invalid"> Please provide your email </Form.Control.Feedback>
+            </Form.Group>
+
+            <Form.Group className="d-block mx-auto w-50" controlId="validationCustom03" style={{ marginTop: "30px" }} >
+              <Form.Label><b>Password:</b> </Form.Label>
+              <Form.Control type="password" placeholder="Password" name = "password"  required />
+              <Form.Control.Feedback type="invalid"> Please provide a valid state </Form.Control.Feedback>
+            </Form.Group>
+
+            <Form.Group className="d-block mx-auto w-50" controlId="validationCustom04" style={{ marginTop: "30px", marginBottom: "30px" }} >
+              <Form.Label><b>Address:</b> </Form.Label>
+              <Form.Control as="textarea" rows={3} placeholder="Enter your Address" name = "address"  required />
+              <Form.Control.Feedback type="invalid"> Please provide a valid state </Form.Control.Feedback>
+            </Form.Group>
+
+            
+            <Button className="d-block mx-auto w-50" type="submit" style={styles.customButton}>Submit form</Button>
+            <Text style={{ marginTop: "2%" }} type="submit" >Already have an account? &nbsp;
+            <Link style={{ textDecoration: "none" }} to="/login">
+              <LinkItem>CREATE NOW</LinkItem>
+            </Link>
+>>>>>>> 21d83452411a8277c11e0492f29aa4dba0308495
             </Text>
           </Form>
         </Col>

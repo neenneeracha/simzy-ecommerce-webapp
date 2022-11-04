@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from "react";
 import Button from "react-bootstrap/Button";
 
@@ -15,3 +16,14 @@ const BackBtn = () => {
 };
 
 export default BackBtn;
+=======
+import React from 'react'
+
+const BackBtn = () => {
+  return (
+    <div>BackBtn</div>
+  )
+}
+
+export default BackBtn
+>>>>>>> 21d83452411a8277c11e0492f29aa4dba0308495
