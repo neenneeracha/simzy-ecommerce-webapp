@@ -1,22 +1,9 @@
-import React from "react";
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
-import styled from "styled-components";
-const Container = styled.div``;
-const Content = styled.div`
- 
-`;
+import React from 'react'
 
 const Profile = () => {
   return (
-    <Container>
-      <Content>
-        <Navbar />
-      </Content>
+    <div>Profile</div>
+  )
+}
 
-      <Footer />
-    </Container>
-  );
-};
-
-export default Profile;
+export default Profile

@@ -4,7 +4,6 @@ import {
     ShoppingCartOutlined,
   } from "@material-ui/icons";
   import styled from "styled-components";
-  import { Link } from "react-router-dom";
   
   const Info = styled.div`
     opacity: 0;
@@ -16,7 +15,6 @@ import {
     background-color: rgba(0, 0, 0, 0.2);
     z-index: 3;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     transition: all 0.5s ease;
@@ -52,22 +50,10 @@ import {
     z-index: 2;
   `;
 
-const Name = styled.h3`
-    color: white;
-    font-size: 18px;
-    margin: 0px 15px;
-    text-align: center;
+const Name = styled.img`
+
 `;
   
-
-const Price = styled.h3`
-    color: #EDA3B5;
-    font-size: 18px;
-    text-align: center;
-    font-weight: bold;
-    background-color: white;
-    font-family: sans serif;
-`;
 
   const Icon = styled.div`
     width: 40px;
@@ -92,13 +78,16 @@ const Price = styled.h3`
         <Circle />
         <Image src={item.img_link} />
         <Info>
-        <Name>{item.product_name}</Name>
-        <Price>Price: {item.price} THB</Price>
+          <Name/>
+          {/* <Icon>
+            <ShoppingCartOutlined />
+          </Icon> */}
           <Icon>
-            <Link to={`/product/${item.product_id}`}>
-              <SearchOutlined style={{color: "black"}} />
-            </Link>
+            <SearchOutlined />
           </Icon>
+          {/* <Icon>
+            <FavoriteBorderOutlined />
+          </Icon> */}
         </Info>
       </Container>
     );

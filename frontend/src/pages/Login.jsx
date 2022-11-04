@@ -1,10 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
-import BackBtn from "../components/BackBtn";
 import { Col, Image, Row } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
-import { Link } from "react-router-dom";
 
 
 const Container = styled.div``;
@@ -19,10 +17,10 @@ const Title = styled.h3`
 const Text = styled.div`
     text-align: center;
 
-  //   &:hover {
-  //   color: #eda3b5;
-  //   text-decoration: underline;
-  // }
+    &:hover {
+    color: #eda3b5;
+    text-decoration: underline;
+  }
 `;
 
 
@@ -43,26 +41,17 @@ const Button = styled.h3`
     color: white; 
     background-color: #eda3b5;
     opacity: 0.7;
-    // cursor: default;
+    cursor: default;
   }
 `;
 
-const LinkItem = styled.span`
-color: #EDA3B5;
-text-decoration: underline;
 
-&:hover {
-  font-weight: bold;
-  color: black;
-}
-`;
 
 
 const Login = () => {
   return (
     <Container>
-    {/* <Navbar /> */}
-    <BackBtn/>
+    <Navbar />
     <Row>
       <Col>
         <Image src={process.env.PUBLIC_URL+"img/login.png"} height = "100%" width= "100%" />
@@ -92,11 +81,7 @@ const Login = () => {
 
      
           <Button type="create" style = {{marginTop: "5%"}}>SIGN IN</Button>
-          <Text style = {{marginTop: "5%"}}>NEED AN ACCOUNT? &nbsp;
-          <Link style={{ textDecoration: "none" }} to="/register">
-            <LinkItem>CREATE NOW</LinkItem>
-          </Link>
-          </Text>
+          <Text style = {{marginTop: "5%"}}>NEED AN ACCOUNT? CREATE NOW</Text>
         </Form>
       </Col>
     </Row>

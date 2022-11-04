@@ -3,9 +3,7 @@ import { Col, Image, Row } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Navbar from "../components/Navbar";
 import styled from "styled-components";
-import Button from "react-bootstrap/Button";
-import BackBtn from "../components/BackBtn";
-import { Link } from "react-router-dom";
+import Button from 'react-bootstrap/Button';
 
 const Container = styled.div``;
 const Title = styled.h3`
@@ -17,31 +15,21 @@ const Title = styled.h3`
 const Text = styled.div`
   text-align: center;
 
-  // &:hover {
-  //   color: #eda3b5;
-  //   text-decoration: underline;
-  // }
-`;
-
-const LinkItem = styled.span`
-  color: #eda3b5;
-  text-decoration: underline;
-
   &:hover {
-    font-weight: bold;
-    color: black;
+    color: #eda3b5;
+    text-decoration: underline;
   }
 `;
 
 const styles = {
   customButton: {
-    backgroundColor: "#eda3b5",
-    borderColor: "#eda3b5",
-    color: "white",
-    borderRadius: "5px",
-  },
-};
+      backgroundColor: '#eda3b5',
+      borderColor: '#eda3b5',
+      color: 'white',
+      borderRadius: '5px'
+}
 
+};
 const Register = () => {
   const [validated, setValidated] = useState(false);
 
@@ -57,8 +45,7 @@ const Register = () => {
 
   return (
     <Container>
-      {/* <Navbar /> */}
-      <BackBtn/>
+      <Navbar />
       <Row>
         <Col xs={6}>
           <Image
@@ -109,11 +96,7 @@ const Register = () => {
 
             
             <Button className="d-block mx-auto w-50" type="submit" style={styles.customButton}>Submit form</Button>
-            <Text style={{ marginTop: "2%" }} type="submit" >Already have an account? &nbsp;
-            <Link style={{ textDecoration: "none" }} to="/login">
-              <LinkItem>CREATE NOW</LinkItem>
-            </Link>
-            </Text>
+            <Text style={{ marginTop: "2%" }} type="submit" >Already have an account? </Text>
           </Form>
         </Col>
       </Row>
