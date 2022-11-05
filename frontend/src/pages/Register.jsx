@@ -3,7 +3,7 @@ import { Col, Image, Row } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Navbar from "../components/Navbar";
 import styled from "styled-components";
-import Button from 'react-bootstrap/Button';
+import Button from "react-bootstrap/Button";
 import BackBtn from "../components/BackBtn";
 import { Link } from "react-router-dom";
 
@@ -24,24 +24,24 @@ const Text = styled.div`
 `;
 
 const LinkItem = styled.span`
-color: #EDA3B5;
-text-decoration: underline;
+  color: #eda3b5;
+  text-decoration: underline;
 
-&:hover {
-  font-weight: bold;
-  color: black;
-}
+  &:hover {
+    font-weight: bold;
+    color: black;
+  }
 `;
 
 const styles = {
   customButton: {
-      backgroundColor: '#eda3b5',
-      borderColor: '#eda3b5',
-      color: 'white',
-      borderRadius: '5px'
-}
-
+    backgroundColor: "#eda3b5",
+    borderColor: "#eda3b5",
+    color: "white",
+    borderRadius: "5px",
+  },
 };
+
 const Register = () => {
   const [validated, setValidated] = useState(false);
 
@@ -58,7 +58,7 @@ const Register = () => {
   return (
     <Container>
       {/* <Navbar /> */}
-      <BackBtn/>
+      <BackBtn />
       <Row>
         <Col xs={6}>
           <Image
@@ -74,45 +74,212 @@ const Register = () => {
           >
             WELCOME TO SIMZY!
           </Title>
-          <Form noValidate validated={validated} onSubmit={handleSubmit} style = {{margin: "30px"}}>
-            
-            <Form.Group className="d-block mx-auto w-50" controlId="validationCustom01" style={{ marginTop: "30px" }} >
-              <Form.Label><b>First Name:</b></Form.Label>
-              <Form.Control type="text" placeholder="Enter your first name" name = "firstname"  required />
-              <Form.Control.Feedback type="invalid"> Please provide your first name</Form.Control.Feedback>
-            </Form.Group>
+          <Form
+            noValidate
+            validated={validated}
+            onSubmit={handleSubmit}
+            style={{ margin: "30px" }}
+          >
+            <Row>
+              <Form.Group
+                className="d-block mx-auto w-50"
+                controlId="validationCustom01"
+                style={{ marginTop: "30px" }}
+              >
+                <Form.Label>
+                  <b>First Name:</b>
+                </Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter your first name"
+                  name="firstname"
+                  required
+                />
+                <Form.Control.Feedback type="invalid">
+                  {" "}
+                  First Name is required
+                </Form.Control.Feedback>
+              </Form.Group>
 
-              <Form.Group className="d-block mx-auto w-50" controlId="validationCustom02" style={{ marginTop: "30px" }} >
-              <Form.Label><b>Last Name:</b> </Form.Label>
-              <Form.Control type="text" placeholder="Enter your last name" name = "lastname" required />
-              <Form.Control.Feedback type="invalid"> Please provide your last name </Form.Control.Feedback>
-            </Form.Group>
+              <Form.Group
+                className="d-block mx-auto w-50"
+                controlId="validationCustom02"
+                style={{ marginTop: "30px" }}
+              >
+                <Form.Label>
+                  <b>Last Name:</b>{" "}
+                </Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter your last name"
+                  name="lastname"
+                  required
+                />
+                <Form.Control.Feedback type="invalid">
+                  {" "}
+                  Last Name is required{" "}
+                </Form.Control.Feedback>
+              </Form.Group>
+            </Row>
 
+            <Row>
+              <Form.Group
+                className="d-block mx-auto w-50"
+                controlId="email"
+                style={{ marginTop: "30px", marginBottom: "30px" }}
+              >
+                <Form.Label>
+                  <b>Email: </b>
+                </Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter your email"
+                  name="email"
+                  required
+                />
+                <Form.Control.Feedback type="invalid">
+                  {" "}
+                  Please provide your email{" "}
+                </Form.Control.Feedback>
+              </Form.Group>
 
-           <Form.Group className="d-block mx-auto w-50" controlId="email" style={{ marginTop: "30px" }} >
-              <Form.Label><b>Email: </b></Form.Label>
-              <Form.Control type="text" placeholder="Enter your email" name = "email" required />
-              <Form.Control.Feedback type="invalid"> Please provide your email </Form.Control.Feedback>
-            </Form.Group>
+              <Form.Group
+                className="d-block mx-auto w-50"
+                controlId="validationCustom03"
+                style={{ marginTop: "30px" }}
+              >
+                <Form.Label>
+                  <b>Password:</b>{" "}
+                </Form.Label>
+                <Form.Control
+                  type="password"
+                  placeholder="Password"
+                  name="password"
+                  required
+                />
+                <Form.Control.Feedback type="invalid">
+                  {" "}
+                  Password is required{" "}
+                </Form.Control.Feedback>
+              </Form.Group>
+            </Row>
+            <Row></Row>
+            <Form.Label>
+              <b>Gender: </b>
+            </Form.Label>
+            {["radio"].map((type) => (
+              <div key={`inline-${type}`} className="mb-3">
+                <Form.Check
+                  inline
+                  label="Woman"
+                  name="group1"
+                  type={type}
+                  id={`inline-${type}-1`}
+                />
+                <Form.Check
+                  inline
+                  label="Man"
+                  name="group1"
+                  type={type}
+                  id={`inline-${type}-2`}
+                />
+                <Form.Check
+                  inline
+                  label="Other"
+                  name="group1"
+                  type={type}
+                  id={`inline-${type}-1`}
+                />
+              </div>
+            ))}
 
-            <Form.Group className="d-block mx-auto w-50" controlId="validationCustom03" style={{ marginTop: "30px" }} >
-              <Form.Label><b>Password:</b> </Form.Label>
-              <Form.Control type="password" placeholder="Password" name = "password"  required />
-              <Form.Control.Feedback type="invalid"> Please provide a valid state </Form.Control.Feedback>
-            </Form.Group>
+            <Row>
+              <Form.Group className="d-block mx-auto w-50" controlId="address">
+                <Form.Label>
+                  <b>Address: </b>
+                </Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter your address"
+                  name="address"
+                  required
+                />
+                <Form.Control.Feedback type="invalid">
+                  {" "}
+                  Address is required{" "}
+                </Form.Control.Feedback>
+              </Form.Group>
 
-            <Form.Group className="d-block mx-auto w-50" controlId="validationCustom04" style={{ marginTop: "30px", marginBottom: "30px" }} >
-              <Form.Label><b>Address:</b> </Form.Label>
-              <Form.Control as="textarea" rows={3} placeholder="Enter your Address" name = "address"  required />
-              <Form.Control.Feedback type="invalid"> Please provide a valid state </Form.Control.Feedback>
-            </Form.Group>
+              <Form.Group
+                className="d-block mx-auto w-50"
+                controlId="validationCustom03"
+                style={{ marginBottom: "30px" }}
+              >
+                <Form.Label>
+                  <b>District:</b>{" "}
+                </Form.Label>
+                <Form.Control
+                  type="district"
+                  placeholder="Enter your district"
+                  name="district"
+                  required
+                />
+                <Form.Control.Feedback type="invalid">
+                  {" "}
+                  District is required{" "}
+                </Form.Control.Feedback>
+              </Form.Group>
+            </Row>
 
-            
-            <Button className="d-block mx-auto w-50" type="submit" style={styles.customButton}>Submit form</Button>
-            <Text style={{ marginTop: "2%" }} type="submit" >Already have an account? &nbsp;
-            <Link style={{ textDecoration: "none" }} to="/login">
-              <LinkItem>CREATE NOW</LinkItem>
-            </Link>
+            <Row>
+              <Form.Group className="d-block mx-auto w-50" controlId="address">
+                <Form.Label>
+                  <b>Province: </b>
+                </Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter your province"
+                  name="province"
+                  required
+                />
+                <Form.Control.Feedback type="invalid">
+                  {" "}
+                  Province is required{" "}
+                </Form.Control.Feedback>
+              </Form.Group>
+
+              <Form.Group
+                className="d-block mx-auto w-50"
+                controlId="validationCustom03"
+                style={{ marginBottom: "30px" }}
+              >
+                <Form.Label>
+                  <b>Zipcode:</b>{" "}
+                </Form.Label>
+                <Form.Control
+                  type="Zipcode"
+                  placeholder="Enter your Zipcode"
+                  name="Zipcode"
+                  required
+                />
+                <Form.Control.Feedback type="invalid">
+                  {" "}
+                  Zipcode is required{" "}
+                </Form.Control.Feedback>
+              </Form.Group>
+            </Row>
+            <Button
+              className="d-block mx-auto w-75"
+              type="submit"
+              style={styles.customButton}
+            >
+              Submit
+            </Button>
+            <Text style={{ marginTop: "2%" }} type="submit">
+              Already have an account? &nbsp;
+              <Link style={{ textDecoration: "none" }} to="/login">
+                <LinkItem>SIGN IN</LinkItem>
+              </Link>
             </Text>
           </Form>
         </Col>
