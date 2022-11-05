@@ -1,5 +1,5 @@
 import { Search } from "@material-ui/icons";
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import React from "react";
@@ -41,6 +41,9 @@ const SearchContainer = styled.div`
 
 const Input = styled.input`
   border: none;
+  color: black;
+  font-size: 16px;
+  padding-left: 10px;
 `;
 
 const Center = styled.div`
@@ -88,9 +91,11 @@ text-decoration: none;
 `;
 
 const Navbar = () => {
+  const [searchInput, setSearchInput] = useState("")
   const [womenCats, setWomenCats] = useState([])
   const [menCats, setMenCats] = useState([])
   const [kidsCats, setKidsCats] = useState([])
+  const navigate = useNavigate()
 
 useEffect(() => {
 
@@ -127,6 +132,9 @@ const getKidsCat = async () => {
 
 }, [])
 
+const handleSearch = () => {
+  navigate(`/products?search_input=${searchInput}`)
+}
 
   return (
     <Container>
@@ -183,9 +191,9 @@ const getKidsCat = async () => {
           <Logo>SIMZY</Logo>
         </Center>
         <Right>
-          <SearchContainer>
-            <Input />
-            <Search style={{ color: "gray", fontsize: 16 }} />
+          <SearchContainer style={{ textDecoration: "none" }}>
+            <Input placeholder="search product" onChange={(e) => setSearchInput(e.target.value)} />
+            <Search style={{ color: "gray", fontsize: 16, cursor: "pointer" }} onClick={handleSearch}/>
           </SearchContainer>
           <MenuItem>
             <Button variant="light">
