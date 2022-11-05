@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { Col, Image, Row } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
-import Navbar from "../components/Navbar";
 import styled from "styled-components";
 import Button from "react-bootstrap/Button";
-import BackBtn from "../components/BackBtn";
+import BackNavBar from "../components/BackNavBar";
 import { Link } from "react-router-dom";
 
 const Container = styled.div``;
@@ -58,7 +57,7 @@ const Register = () => {
   return (
     <Container>
       {/* <Navbar /> */}
-      <BackBtn />
+      <BackNavBar />
       <Row>
         <Col xs={6}>
           <Image

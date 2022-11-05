@@ -15,8 +15,6 @@ import Success from "./pages/Success";
 import Profile from "./pages/Profile";
 
 
-
-
 // import {
 //   BrowserRouter as Router,
 //   Routes,

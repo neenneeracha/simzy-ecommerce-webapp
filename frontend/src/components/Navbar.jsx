@@ -46,7 +46,7 @@ const Input = styled.input`
 const Center = styled.div`
   flex: 1;
   text-align: center;
-  padding-top: 5px;
+  padding-top: 7px;
 `;
 
 const Logo = styled.h1`
