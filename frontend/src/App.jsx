@@ -1,15 +1,15 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import Home from "./pages/Home";
-import Product from "./pages/Product";
-import ProductList from "./pages/ProductList";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
-import Cart from "./pages/Cart";
-import Checkout from "./pages/Checkout";
-import Summary from "./pages/Summary";
-import Success from "./pages/Success";
-import UserInfo from "./pages/UserInfo";
+import Home from "./user/pages/Home";
+import Product from "./user/pages/Product";
+import ProductList from "./user/pages/ProductList";
+import Register from "./user/pages/Register";
+import Login from "./user/pages/Login";
+import Cart from "./user/pages/Cart";
+import Checkout from "./user/pages/Checkout";
+import Summary from "./user/pages/Summary";
+import Success from "./user/pages/Success";
+import UserInfo from "./user/pages/UserInfo";
 
 
 // import {
