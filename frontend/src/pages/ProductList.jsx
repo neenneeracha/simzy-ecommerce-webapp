@@ -42,15 +42,17 @@ const ProductList = () => {
   const [searchParams] = useSearchParams();
   const main_category = searchParams.get('main_category')
   const sub_category = searchParams.get('sub_category')
+  const search_input = searchParams.get('search_input')
 
-  // sub_category ? console.log(sub_category) : console.log(main_category)
+  // sub_category ? alert(sub_category) : main_category ? alert(main_category) : alert(search_input)
 
 useEffect(() => {
   const getProducts = async () => {
       try {
         const res = await axios.get(
           sub_category ? `http://localhost:8080/api/v1/products?main_category=${main_category}&sub_category=${sub_category}` 
-          : `http://localhost:8080/api/v1/products?main_category=${main_category}`)
+          : main_category ? `http://localhost:8080/api/v1/products?main_category=${main_category}`
+          : `http://localhost:8080/api/v1/products?search_input=${search_input}`)
         setProducts(res.data)
       } catch (error) {
         console.log(error)
@@ -59,12 +61,12 @@ useEffect(() => {
 
   getProducts()
 
-}, [main_category, sub_category])
+}, [main_category, sub_category, search_input])
 
   return (
     <Container>
       <Navbar />
-      <Title>{ sub_category ? sub_category : main_category}</Title>
+      <Title>{ sub_category ? sub_category : main_category ? main_category : search_input }</Title>
       <FilterContainer>
         <Filter>
           <FilterText>Filter By:</FilterText>

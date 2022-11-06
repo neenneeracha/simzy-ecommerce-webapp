@@ -3,7 +3,7 @@ import { Col, Image, Row } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import styled from "styled-components";
 import Button from "react-bootstrap/Button";
-import BackBtn from "../components/BackBtn";
+import BackNavBar from "../components/BackNavBar";
 import { Link } from "react-router-dom";
 
 const Container = styled.div``;
@@ -57,7 +57,7 @@ const Login = () => {
   return (
     <Container>
       {/* <Navbar /> */}
-      <BackBtn />
+      <BackNavBar />
       <Row>
         <Col xs={6}>
           <Image
@@ -107,7 +107,7 @@ const Login = () => {
                 <b>Password:</b>{" "}
               </Form.Label>
               <Form.Control
-                type="text"
+                type="password"
                 placeholder="Enter your password"
                 name="password"
                 required
