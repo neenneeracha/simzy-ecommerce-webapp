@@ -71,7 +71,7 @@ const BackNavBar = () => {
       <Wrapper>
         <Left>
         <MenuItem onClick={handleClick}>
-            <ArrowBack style={{fontSize: 18, marginBottom: 2, marginRight: 4}}/>  BACK
+            <ArrowBack style={{fontSize: 18, marginBottom: 3, marginRight: 4}}/>  BACK
           </MenuItem>
         </Left>
         <Center>
