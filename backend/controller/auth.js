@@ -1,20 +1,30 @@
 const pool = require('../database/connector')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+require('dotenv').config()
 
 // add new user
 const addNewUser = (req, res) => {
-    const saltRounds = 10
-    const password = bcrypt.hashSync(req.body.password, saltRounds)
-    const values = [req.body.email, password, req.body.name, req.body.surname, req.body.gender, req.body.phoneNumber, req.body.address, req.body.district, req.body.province, req.body.zipCode]
-        // const q = 
-        // const q = "INSERT INTO userinfo (`email`,`password`,`name`,`surname`,`gender`, `phone_number`, `address`, `district`, `province`, `zip_code`) VALUES (?)"
+    let q = "SELECT EXISTS (SELECT * FROM userinfo WHERE email = ?) AS userExist"
 
-    // pool.query(q, [values], (err, data) => {
-    //     if (err) return res.status(500).json(err)
+    pool.query(q, [req.body.email], (err, data) => {
+        if (err) return res.status(500).json(err)
 
-    //     return res.status(200).json(data.insertId)
+        if (data[0].userExist === 1)
+            return res.status(409).json({ msg: `user with email: ${req.body.email} already exist` })
 
-    // })
+        const saltRounds = 10
+        const password = bcrypt.hashSync(req.body.password, saltRounds)
+        const values = [req.body.email, password, req.body.name, req.body.surname, req.body.gender, req.body.phoneNumber, req.body.address, req.body.district, req.body.province, req.body.zipCode]
+        q = "INSERT INTO userinfo (`email`,`password`,`name`,`surname`,`gender`,`phone_number`,`address`,`district`,`province`,`zip_code`) VALUES (?)"
+
+        pool.query(q, [values], (err, data) => {
+            if (err) return res.status(500).json(err)
+
+            return res.status(200).json(data.insertId)
+        })
+
+    })
 
 }
 
@@ -23,7 +33,7 @@ const login = (req, res) => {
     const email = req.body.email
     const password = req.body.password
 
-    const q = "SELECT password FROM userinfo WHERE email = ?"
+    const q = "SELECT user_id, password, is_admin FROM userinfo WHERE email = ?"
 
     pool.query(q, [email], (err, data) => {
         if (err) return res.status(500).json(err)
@@ -32,7 +42,10 @@ const login = (req, res) => {
             const isEqual = bcrypt.compareSync(password, data[0].password)
 
             if (isEqual) {
-                return res.status(200).json({ msg: "successfully logged in" })
+
+                const token = jwt.sign({ user_id: data[0].user_id, is_admin: data[0].is_admin }, process.env.TOKEN_KEY, { expiresIn: "120s" })
+
+                return res.status(200).json({ user_id: data[0].user_id, is_admin: data[0].is_admin, token: token })
 
             } else return res.status(401).json({ msg: "incorrect password" })
 

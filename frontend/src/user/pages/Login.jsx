@@ -5,6 +5,8 @@ import styled from "styled-components";
 import Button from "react-bootstrap/Button";
 import BackNavBar from "../components/BackNavBar";
 import { Link } from "react-router-dom";
+import axios from 'axios'
+import Cookie from 'js-cookie'
 
 const Container = styled.div``;
 const Title = styled.h3`
@@ -43,17 +45,40 @@ const styles = {
 };
 
 const Login = () => {
-  const [validated, setValidated] = useState(false);
+  const [validated, setValidated] = useState(false)
+  const [inputs, setInputs] = useState({
+    email: "",
+    password: "",
+  })
 
-  const handleSubmit = (event) => {
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
+  const handleChange = e => {
+    
+    // if (e.currentTarget.checkValidity() === false) {
+    //   e.stopPropagation();
+    // } 
+    // setValidated(true)
+    setInputs(prev => ({...prev, [e.target.name]: e.target.value}))
+  }
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(
+        "http://localhost:8080/api/v1/auth/login", inputs
+      )
+
+      if (res.data.token.length > 0) {
+        Cookie.set('Token', res.data.token, { path: '/' , expires: 1/24})
+        Cookie.set('user_id', res.data.user_id, { path: '/' , expires: 1/24})
+        Cookie.set('is_admin', res.data.is_admin,  { path: '/' , expires: 1/24})
+      }
+    } catch (error) {
+      console.log(error);
     }
 
-    setValidated(true);
-  };
+  }
+
+
   return (
     <Container>
       {/* <Navbar /> */}
@@ -92,6 +117,7 @@ const Login = () => {
                 placeholder="Enter your email"
                 name="email"
                 required
+                onChange={handleChange}
               />
               <Form.Control.Feedback type="invalid">
                 {" "}
@@ -111,6 +137,7 @@ const Login = () => {
                 placeholder="Enter your password"
                 name="password"
                 required
+                onChange={handleChange}
               />
               <Form.Control.Feedback type="invalid">
                 {" "}
