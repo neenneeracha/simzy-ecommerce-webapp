@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Col, Image, Row } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
-import Navbar from "../components/Navbar";
 import styled from "styled-components";
 import Button from "react-bootstrap/Button";
 import BackBtn from "../components/BackBtn";
@@ -63,8 +62,9 @@ const Login = () => {
         <Col xs={6}>
           <Image
             src={process.env.PUBLIC_URL + "img/login.png"}
-            height="100%"
-            width="100%"
+            height="80%"
+            width="80%"
+            style={{marginLeft: "10%", marginTop: "10%" }}
           />
         </Col>
         <Col>

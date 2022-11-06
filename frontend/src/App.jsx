@@ -1,7 +1,4 @@
-import {
-  createBrowserRouter,
-  RouterProvider
-} from "react-router-dom"
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import Home from "./pages/Home";
 import Product from "./pages/Product";
@@ -12,79 +9,56 @@ import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import Summary from "./pages/Summary";
 import Success from "./pages/Success";
-import Profile from "./pages/Profile";
+import UserInfo from "./pages/UserInfo";
 
-
-
-
-// import {
-//   BrowserRouter as Router,
-//   Routes,
-//   Route,
-//   Navigate
-// } from "react-router-dom";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home/>
+    element: <Home />,
   },
   {
     path: "/products",
-    element: <ProductList/>
+    element: <ProductList />,
   },
   {
     path: "/product/:id",
-    element: <Product/>
+    element: <Product />,
   },
   {
     path: "/cart",
-    element: <Cart/>
-  }, 
+    element: <Cart />,
+  },
   {
     path: "/login",
-    element: <Login/>
+    element: <Login />,
   },
   {
     path: "/register",
-    element: <Register/>
+    element: <Register />,
   },
   {
     path: "/checkout",
-    element: <Checkout/>
+    element: <Checkout />,
   },
   {
     path: "/summary",
-    element: <Summary/>
+    element: <Summary />,
   },
   {
     path: "/success",
-    element: <Success/>
+    element: <Success />,
   },
   {
-    path: "/profile",
-    element: <Profile/>
-  }
-])
+    path: "/userinfo",
+    element: <UserInfo />,
+  },
+]);
 
 const App = () => {
-
-  // const user = true
-
   return (
-    // <Router>
-    //   <Routes>
-    //     <Route path='/' element={<Home/>} > </Route>
-    //     <Route path='/Products/:category' element={<ProductList/>} > </Route>
-    //     <Route path='/Product/:id' element={<Product/>} > </Route>
-    //     <Route path='/Cart' element={<Product/>} > </Route>
-    //     <Route path='/Login' element={ user ? <Navigate to = "/"/> : <Login/> } > </Route>
-    //     <Route path='/Register' element={ user ? <Navigate to = "/"/> : <Register/> }  > </Route>
-    //   </Routes>
-    // </Router>
-    //  <Home />
     <>
-      <RouterProvider router={router}/>
+      <RouterProvider router={router} />
     </>
   );
 };
