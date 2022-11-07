@@ -7,18 +7,15 @@ const Container = styled.div`
   flex: 1;
   border-right: 0.5px solid lightgrey;
   min-height: 100vh;
-
-  hr {
-    height: 0;
-    border: 0.5px solid lightgrey;
-  }
+  background-color: white;
 `;
 const Top = styled.div`
-  height: 30px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
+
 const Center = styled.div`
   padding-left: 20px;
 
@@ -42,21 +39,22 @@ const List = styled.div`
     span {
       font-size: 13px;
       font-weight: 600;
-      color: #888;
+      color: black;
       margin-left: 10px;
     }
   }
 `;
 const Logo = styled.div`
-  font-size: 40px;
+  font-size: 35px;
   font-weight: bold;
   color: pink;
-  margin-top: 10px;
 `;
 const Title = styled.div`
   font-size: 10px;
   font-weight: bold;
   color: #999;
+  margin-top: 15px;
+  margin-bottom: 5px;
 `;
 const AdSidebar = () => {
   return (
@@ -64,33 +62,29 @@ const AdSidebar = () => {
       <Top>
         <Logo>SIMZY</Logo>
       </Top>
-      <hr />
+      
       <Center>
         <List>
           <ul>
-          {/* <Title>MAIN</Title>
-            <li>
-              <Link to="/dashboard">
-                <MDBIcon far icon="chart-bar" style={{ color: "pink" }} />
-                <span>Dashboard</span>
-              </Link>
-            </li> */}
-            {/* <Title>LISTS</Title> */}
-            <li>
-              <Link to="/users">
+            <Title>LISTS</Title>
+
+            <Link to="/AdHome">
+              <li>
                 <MDBIcon fas icon="user-alt" style={{ color: "pink" }} />
                 <span>Users</span>
-              </Link>
-            </li>
-            <li>
-              <Link to="/products">
-                <MDBIcon fas icon="shopping-bag" style={{ color: "pink" }} />
+              </li>
+            </Link>
 
-                <span>Products</span>
-              </Link>
-            </li>
-            <li>
-              <Link to="/orders">
+            <Link to="/Adproducts">
+              {" "}
+              <li>
+                <MDBIcon fas icon="shopping-bag" style={{ color: "pink" }} />
+                <span>Products</span>{" "}
+              </li>
+            </Link>
+
+            <Link to="/adorder">
+              <li>
                 <MDBIcon
                   fas
                   icon="file-invoice-dollar"
@@ -98,8 +92,25 @@ const AdSidebar = () => {
                 />
 
                 <span>Orders</span>
-              </Link>
-            </li>
+              </li>
+            </Link>
+            <Title>USER</Title>
+
+            <Link to="/orders">
+              <li>
+                <MDBIcon far icon="user-circle" style={{ color: "pink" }} />
+
+                <span>Profile</span>
+              </li>
+            </Link>
+
+            <Link to="/orders">
+              <li>
+                <MDBIcon fas icon="sign-out-alt" style={{ color: "pink" }} />
+
+                <span>Logout</span>
+              </li>
+            </Link>
           </ul>
         </List>
       </Center>

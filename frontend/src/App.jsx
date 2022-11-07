@@ -11,6 +11,9 @@ import Summary from "./user/pages/Summary";
 import Success from "./user/pages/Success";
 import UserInfo from "./user/pages/UserInfo";
 import AdHome from "./admin/pages/AdHome";
+import AdProducts from "./admin/pages/AdProducts";
+import AdOrder from "./admin/pages/AdOrder";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -55,6 +58,14 @@ const router = createBrowserRouter([
   {
     path: "/admin",
     element: <AdHome />,
+  },
+  {
+    path: "/adproducts",
+    element: <AdProducts />,
+  },
+  {
+    path: "/adorder",
+    element: <AdOrder />,
   },
 ]);
 

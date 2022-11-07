@@ -18,7 +18,7 @@ const AdHome = () => {
         <AdSidebar />
         <Container>
           <AdNavbar />
-          HomeContainer
+         adHomepage
         </Container>
       </Home>
     </div>
