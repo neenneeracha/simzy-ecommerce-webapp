@@ -10,15 +10,7 @@ import Checkout from "./user/pages/Checkout";
 import Summary from "./user/pages/Summary";
 import Success from "./user/pages/Success";
 import UserInfo from "./user/pages/UserInfo";
-
-
-// import {
-//   BrowserRouter as Router,
-//   Routes,
-//   Route,
-//   Navigate
-// } from "react-router-dom";
-
+import AdHome from "./admin/pages/AdHome";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -59,6 +51,10 @@ const router = createBrowserRouter([
   {
     path: "/userinfo",
     element: <UserInfo />,
+  },
+  {
+    path: "/admin",
+    element: <AdHome />,
   },
 ]);
 
