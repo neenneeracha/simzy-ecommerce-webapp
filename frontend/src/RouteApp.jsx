@@ -119,6 +119,10 @@ const userRouter = createBrowserRouter([
   {
     path: "/userinfo",
     element: <UserInfo />,
+  },
+  {
+    path: "/*",
+    element: <PageNotfound />,
   }
 ]);
 
@@ -139,6 +143,14 @@ const adminRouter = createBrowserRouter([
     path: "/vieworders",
     element: <AdOrder />,
   },
+  {
+    path: "/userinfo",
+    element: <UserInfo />,
+  },
+  {
+    path: "/*",
+    element: <PageNotfound />,
+  }
 ]);
 
 const RouteApp = () => {

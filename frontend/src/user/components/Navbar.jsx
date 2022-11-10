@@ -1,4 +1,4 @@
-import { Search } from "@material-ui/icons";
+import { Search, AccountCircle } from "@material-ui/icons";
 import { Link, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -6,8 +6,7 @@ import styled from "styled-components";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Badge from "react-bootstrap/Badge";
 import { useSelector } from "react-redux";
-
-
+import { useUser, useUserUpdate } from "../../UserContext"
 
 const Container = styled.div`
   height: 60px;
@@ -102,6 +101,8 @@ const Navbar = () => {
   const [menCats, setMenCats] = useState([]);
   const [kidsCats, setKidsCats] = useState([]);
   const navigate = useNavigate();
+  const { removeToken } = useUserUpdate()
+  const user = useUser();
 
   const quantity = useSelector(state => state.cart.quantity)
 
@@ -147,6 +148,12 @@ const Navbar = () => {
 
   const handleSearch = () => {
     navigate(`/products?search_input=${searchInput}`)
+  }
+
+  const handleLogout = () => {
+      removeToken()
+      navigate("/")
+      window.location.reload()
   }
   
   return (
@@ -217,9 +224,42 @@ const Navbar = () => {
             </Link>
           </MenuItem>
           <MenuItem>
-            <Link style={{ textDecoration: "none" }} to="/login">
-              <LinkItem>LOGIN</LinkItem>
-            </Link>
+            <NavDropdown title={<AccountCircle style={{ fontSize: 32 }}/>} id="basic-nav-dropdown">
+              { user == null?
+              <>
+                <NavDropdown.Item as="li">
+                  <Link
+                    style={{ textDecoration: "none" }}
+                    to="/login"
+                  >
+                    <LinkCat>Login</LinkCat>
+                  </Link>
+                </NavDropdown.Item>
+                <NavDropdown.Item as="li">
+                  <Link
+                    style={{ textDecoration: "none" }}
+                    to="/register"
+                  >
+                    <LinkCat>Register</LinkCat>
+                  </Link>
+                </NavDropdown.Item>
+              </>
+              : <>
+              <NavDropdown.Item as="li">
+                  <Link
+                    style={{ textDecoration: "none" }}
+                    to="/userinfo"
+                  >
+                    <LinkCat>Profile</LinkCat>
+                  </Link>
+                </NavDropdown.Item>
+                <NavDropdown.Item as="li">
+                    <LinkCat onClick={handleLogout}>Logout</LinkCat>
+                </NavDropdown.Item>
+              </>
+              }
+                
+            </NavDropdown>
           </MenuItem>
         </Right>
       </Wrapper>
