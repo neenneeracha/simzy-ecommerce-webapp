@@ -43,7 +43,7 @@ const login = (req, res) => {
 
             if (isEqual) {
 
-                const token = jwt.sign({ user_id: data[0].user_id, is_admin: data[0].is_admin }, process.env.TOKEN_KEY, { expiresIn: "1m" })
+                const token = jwt.sign({ user_id: data[0].user_id, is_admin: data[0].is_admin }, process.env.TOKEN_KEY, { expiresIn: "6h" })
 
                 return res.status(200).json({ user_id: data[0].user_id, is_admin: data[0].is_admin, accessToken: token })
 
