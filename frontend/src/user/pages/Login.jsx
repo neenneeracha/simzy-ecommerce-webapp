@@ -4,9 +4,9 @@ import Form from "react-bootstrap/Form";
 import styled from "styled-components";
 import Button from "react-bootstrap/Button";
 import BackNavBar from "../components/BackNavBar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useUserUpdate } from "../../UserContext";
 import axios from 'axios'
-import Cookie from 'js-cookie'
 
 const Container = styled.div``;
 const Title = styled.h3`
@@ -45,14 +45,16 @@ const styles = {
 };
 
 const Login = () => {
+  const { setToken } = useUserUpdate()
+  const navigate = useNavigate()
   const [validated, setValidated] = useState(false)
   const [inputs, setInputs] = useState({
     email: "",
     password: "",
   })
 
+
   const handleChange = e => {
-    
     // if (e.currentTarget.checkValidity() === false) {
     //   e.stopPropagation();
     // } 
@@ -61,27 +63,25 @@ const Login = () => {
   }
 
   const handleSubmit = async e => {
-    e.preventDefault();
+
+    e.preventDefault()
+
     try {
-      const res = await axios.post(
-        "http://localhost:8080/api/v1/auth/login", inputs
-      )
-
-      if (res.data.token.length > 0) {
-        Cookie.set('Token', res.data.token, { path: '/' , expires: 1/24})
-        Cookie.set('user_id', res.data.user_id, { path: '/' , expires: 1/24})
-        Cookie.set('is_admin', res.data.is_admin,  { path: '/' , expires: 1/24})
-      }
-    } catch (error) {
-      console.log(error);
+      const res = await axios.post("http://localhost:8080/api/v1/auth/login", inputs)
+      
+      setToken(res.data)
+      navigate("/")
+      window.location.reload()
+      
+    } catch (err) {
+      console.log(err)
     }
-
   }
+  
 
 
   return (
     <Container>
-      {/* <Navbar /> */}
       <BackNavBar />
       <Row>
         <Col xs={6}>

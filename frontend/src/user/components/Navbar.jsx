@@ -7,6 +7,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
 
+
 const Container = styled.div`
   height: 60px;
 `;
@@ -95,13 +96,14 @@ const LinkCat = styled.div`
 `;
 
 const Navbar = () => {
-  const [searchInput, setSearchInput] = useState("")
+  const [searchInput, setSearchInput] = useState("");
   const [womenCats, setWomenCats] = useState([]);
   const [menCats, setMenCats] = useState([]);
   const [kidsCats, setKidsCats] = useState([]);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
+
     const getWomenCat = async () => {
       try {
         const res = await axios.get(
