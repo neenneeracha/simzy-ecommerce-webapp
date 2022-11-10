@@ -36,7 +36,7 @@ export const UserProvider = ({children}) => {
 
     const setToken = (user) => {
         if (user.accessToken) {
-            Cookie.set('accessToken', user.accessToken, { path: '/', expires: 1/2400})
+            Cookie.set('accessToken', user.accessToken, { path: '/', expires: 6/24})
           }
         setUser(user)
     }

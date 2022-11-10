@@ -4,7 +4,8 @@ import Form from "react-bootstrap/Form";
 import styled from "styled-components";
 import Button from "react-bootstrap/Button";
 import BackNavBar from "../components/BackNavBar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from 'axios'
 
 const Container = styled.div``;
 const Title = styled.h3`
@@ -41,22 +42,55 @@ const styles = {
   },
 };
 
+
 const Register = () => {
   const [validated, setValidated] = useState(false);
+  const [inputs, setInputs] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "",
+    gender: "",
+    address: "",
+    district: "",
+    province: "",
+    zipCode: "",
+    phoneNumber: "02"
+  })
 
-  const handleSubmit = (event) => {
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
+  const navigate = useNavigate()
+
+  const handleChange = (e) => {
+    setInputs(prev => ({...prev, [e.target.name]: e.target.value}))
+  }
+
+  const handleSubmit = async e => {
+    e.preventDefault()
+
+    try {
+      const res = await axios.post("http://localhost:8080/api/v1/auth", inputs)
+      
+      console.log(res.data)
+      navigate("/login")
+      window.location.reload()
+      
+    } catch (err) {
+      console.log(err)
     }
+  }
 
-    setValidated(true);
-  };
+  // const handleSubmit = (event) => {
+  //   const form = event.currentTarget;
+  //   if (form.checkValidity() === false) {
+  //     event.preventDefault();
+  //     event.stopPropagation();
+  //   }
+
+  //   setValidated(true);
+  // };
 
   return (
     <Container>
-      {/* <Navbar /> */}
       <BackNavBar />
       <Row>
         <Col xs={6}>
@@ -94,6 +128,7 @@ const Register = () => {
                   placeholder="Enter your first name"
                   name="firstname"
                   required
+                  onChange={handleChange}
                 />
                 <Form.Control.Feedback type="invalid">
                   {" "}
@@ -114,6 +149,7 @@ const Register = () => {
                   placeholder="Enter your last name"
                   name="lastname"
                   required
+                  onChange={handleChange}
                 />
                 <Form.Control.Feedback type="invalid">
                   {" "}
@@ -132,10 +168,11 @@ const Register = () => {
                   <b>Email: </b>
                 </Form.Label>
                 <Form.Control
-                  type="text"
+                  type="email"
                   placeholder="Enter your email"
                   name="email"
                   required
+                  onChange={handleChange}
                 />
                 <Form.Control.Feedback type="invalid">
                   {" "}
@@ -156,6 +193,7 @@ const Register = () => {
                   placeholder="Password"
                   name="password"
                   required
+                  onChange={handleChange}
                 />
                 <Form.Control.Feedback type="invalid">
                   {" "}
@@ -172,23 +210,29 @@ const Register = () => {
                 <Form.Check
                   inline
                   label="Woman"
-                  name="group1"
+                  name="gender"
+                  value="W"
                   type={type}
                   id={`inline-${type}-1`}
+                  onChange={handleChange}
                 />
                 <Form.Check
                   inline
                   label="Man"
-                  name="group1"
+                  name="gender"
+                  value="M"
                   type={type}
                   id={`inline-${type}-2`}
+                  onChange={handleChange}
                 />
                 <Form.Check
                   inline
                   label="Other"
-                  name="group1"
+                  name="gender"
+                  value="O"
                   type={type}
-                  id={`inline-${type}-1`}
+                  id={`inline-${type}-3`}
+                  onChange={handleChange}
                 />
               </div>
             ))}
@@ -203,6 +247,7 @@ const Register = () => {
                   placeholder="Enter your address"
                   name="address"
                   required
+                  onChange={handleChange}
                 />
                 <Form.Control.Feedback type="invalid">
                   {" "}
@@ -223,6 +268,7 @@ const Register = () => {
                   placeholder="Enter your district"
                   name="district"
                   required
+                  onChange={handleChange}
                 />
                 <Form.Control.Feedback type="invalid">
                   {" "}
@@ -241,6 +287,7 @@ const Register = () => {
                   placeholder="Enter your province"
                   name="province"
                   required
+                  onChange={handleChange}
                 />
                 <Form.Control.Feedback type="invalid">
                   {" "}
@@ -259,8 +306,9 @@ const Register = () => {
                 <Form.Control
                   type="Zipcode"
                   placeholder="Enter your Zipcode"
-                  name="Zipcode"
+                  name="zipCode"
                   required
+                  onChange={handleChange}
                 />
                 <Form.Control.Feedback type="invalid">
                   {" "}

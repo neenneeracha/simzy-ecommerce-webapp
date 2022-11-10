@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { MDBIcon } from "mdb-react-ui-kit";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useUserUpdate } from "../../UserContext"
+import NavDropdown from "react-bootstrap/NavDropdown";
+import { AccountCircle } from "@material-ui/icons";
 
 const Navbar = styled.div`
   height: 50px;
@@ -37,11 +40,41 @@ const UserName = styled.div`
   margin-right: 10px;
 `;
 
+const MenuItem = styled.div`
+  font-size: 14px;
+  cursor: pointer;
+  margin-left: 25px;
+  margin-bottom: 10px;
+
+  #basic-nav-dropdown {
+    color: black;
+
+    &:hover {
+      color: #eda3b5;
+      text-decoration: underline;
+    }
+  }
+`;
+
+const LinkCat = styled.div`
+  color: black;
+  text-decoration: none;
+`;
+
 const AdNavbar = () => {
+  const navigate = useNavigate();
+  const { removeToken } = useUserUpdate()
+
+  const handleLogout = () => {
+    removeToken()
+    navigate("/")
+    window.location.reload()
+}
+
   return (
     <Navbar>
       <Wrapper>
-        <Items>
+        {/* <Items>
           <Item>
             <UserName>
               <b>Hi, Jack</b>
@@ -55,7 +88,22 @@ const AdNavbar = () => {
               style = {{marginBottom: "20px"}}
             />
           </Item>
-        </Items>
+        </Items> */}
+        <MenuItem>
+        <NavDropdown title={<AccountCircle style={{ fontSize: 32, marginBottom: 6 }}/>} id="basic-nav-dropdown">
+            <NavDropdown.Item as="li">
+                  <Link
+                    style={{ textDecoration: "none" }}
+                    to="/userinfo"
+                  >
+                    <LinkCat>Profile</LinkCat>
+                  </Link>
+                </NavDropdown.Item>
+                <NavDropdown.Item as="li">
+                    <LinkCat onClick={handleLogout}>Logout</LinkCat>
+                </NavDropdown.Item>
+            </NavDropdown>
+        </MenuItem>
       </Wrapper>
     </Navbar>
   );
