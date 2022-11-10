@@ -35,20 +35,21 @@ const List = styled.div`
     &:hover {
       background: #ffe7ed;
     }
-
-    span {
-      font-size: 13px;
-      font-weight: 600;
-      color: black;
-      margin-left: 10px;
-    }
   }
 `;
 const Logo = styled.div`
   font-size: 35px;
   font-weight: bold;
-  color: pink;
+  color: black;
 `;
+const Topic = styled.h6`
+  font-size: 13px;
+  font-weight: 600;
+  color: black;
+  margin-left: 10px;
+  text-decoration: none;
+`;
+
 const Title = styled.div`
   font-size: 10px;
   font-weight: bold;
@@ -56,34 +57,42 @@ const Title = styled.div`
   margin-top: 15px;
   margin-bottom: 5px;
 `;
+
+const Custom = {
+  text: {
+    textDecoration: "none",
+  },
+};
 const AdSidebar = () => {
   return (
     <Container>
       <Top>
-        <Logo>SIMZY</Logo>
+        <Link to="/admin" style={Custom.text}>
+          <Logo>SIMZY</Logo>
+        </Link>
       </Top>
-      
+
       <Center>
         <List>
           <ul>
             <Title>LISTS</Title>
 
-            <Link to="/AdHome">
+            <Link to="/admin">
               <li>
                 <MDBIcon fas icon="user-alt" style={{ color: "pink" }} />
-                <span>Users</span>
+                <Topic>Users</Topic>
               </li>
             </Link>
 
-            <Link to="/Adproducts">
+            <Link to="/viewproducts">
               {" "}
               <li>
                 <MDBIcon fas icon="shopping-bag" style={{ color: "pink" }} />
-                <span>Products</span>{" "}
+                <Topic>Products</Topic>{" "}
               </li>
             </Link>
 
-            <Link to="/adorder">
+            <Link to="/vieworders">
               <li>
                 <MDBIcon
                   fas
@@ -91,7 +100,7 @@ const AdSidebar = () => {
                   style={{ color: "pink" }}
                 />
 
-                <span>Orders</span>
+                <Topic>Orders</Topic>
               </li>
             </Link>
             <Title>USER</Title>
@@ -100,7 +109,7 @@ const AdSidebar = () => {
               <li>
                 <MDBIcon far icon="user-circle" style={{ color: "pink" }} />
 
-                <span>Profile</span>
+                <Topic>Profile</Topic>
               </li>
             </Link>
 
@@ -108,7 +117,7 @@ const AdSidebar = () => {
               <li>
                 <MDBIcon fas icon="sign-out-alt" style={{ color: "pink" }} />
 
-                <span>Logout</span>
+                <Topic>Logout</Topic>
               </li>
             </Link>
           </ul>

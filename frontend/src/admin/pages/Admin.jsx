@@ -11,7 +11,7 @@ const Home = styled.div`
   display: flex;
   margin-top: 10px;
 `;
-const AdHome = () => {
+const Admin = () => {
   return (
     <div>
       <Home>
@@ -25,4 +25,4 @@ const AdHome = () => {
   );
 };
 
-export default AdHome;
+export default Admin;

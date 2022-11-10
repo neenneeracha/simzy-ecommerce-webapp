@@ -19,7 +19,7 @@ const Text = styled.h4`
   height: 40%;
   width: 40%;
   b {
-    color: red;
+    color: #eda3b5;
     font-size: 40px;
   }
 `;

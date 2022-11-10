@@ -1,10 +1,17 @@
 import React from "react";
 import styled from "styled-components";
-import { MDBIcon } from "mdb-react-ui-kit";
-import { Link } from "react-router-dom";
 import AdSidebar from "../components/AdSidebar";
 import AdNavbar from "../components/AdNavbar";
 import AdDataTable from "../components/AdDataTable";
+import {
+  MDBBadge,
+  MDBBtn,
+  MDBTable,
+  MDBTableHead,
+  MDBTableBody,
+} from "mdb-react-ui-kit";
+import { Link } from "react-router-dom";
+
 const Container = styled.div`
   display: flex;
   margin-top: 10px;
@@ -15,25 +22,38 @@ const ListContainer = styled.div`
 `;
 const Title = styled.h2`
   width: 100%;
-  margin: 30px;
   color: black;
   margin-bottom: 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 `;
+const Top = styled.div`
+  display: flex;
+  margin: 30px;
+`;
 
-const AdOrder = () => {
+const AdUser = () => {
   return (
     <Container>
       <AdSidebar />
       <ListContainer>
         <AdNavbar />
-        <Title>Order List</Title>
+        <Top>
+          <Title>User List</Title>
+          <Link to="/">
+            <MDBBtn
+              color="pink"
+              style={{ marginRight: "30px", width: "200px" }}
+            >
+              + Add new User
+            </MDBBtn>
+          </Link>
+        </Top>
         <AdDataTable />
       </ListContainer>
     </Container>
   );
 };
 
-export default AdOrder;
+export default AdUser;

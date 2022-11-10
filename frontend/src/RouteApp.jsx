@@ -11,7 +11,7 @@ import Checkout from "./user/pages/Checkout";
 import Summary from "./user/pages/Summary";
 import Success from "./user/pages/Success";
 import UserInfo from "./user/pages/UserInfo";
-import AdHome from "./admin/pages/AdHome";
+import Admin from "./admin/pages/Admin";
 import AdProducts from "./admin/pages/AdProducts";
 import AdOrder from "./admin/pages/AdOrder";
 import PageNotfound from "./user/pages/PageNotfound";
@@ -129,7 +129,7 @@ const adminRouter = createBrowserRouter([
   },
   {
     path: "/admin",
-    element: <AdHome />,
+    element: <Admin />,
   },
   {
     path: "/viewproducts",

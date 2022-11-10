@@ -2,6 +2,9 @@ import { Add, Remove } from "@material-ui/icons";
 import styled from "styled-components";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
+import { useSelector } from "react-redux";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Container = styled.div``;
 
@@ -60,7 +63,6 @@ const Details = styled.div`
 
 const ProductName = styled.span``;
 
-
 const ProductColor = styled.div`
   width: 20px;
   height: 20px;
@@ -95,7 +97,7 @@ const ProductPrice = styled.div`
 `;
 
 const Hr = styled.hr`
-  background-color: #CED0CD;
+  background-color: #ced0cd;
   border: none;
   height: 1px;
 `;
@@ -103,7 +105,7 @@ const Hr = styled.hr`
 const Summary = styled.div`
   flex: 1;
   border-radius: 10px;
-  background-color: #FBFBFB;
+  background-color: #fbfbfb;
   padding: 20px;
 `;
 
@@ -141,6 +143,18 @@ const Button = styled.h3`
   }
 `;
 const Cart = () => {
+  const cart = useSelector((state) => state.cart);
+  const [quantity, setQuantity] = useState(1);
+  const handleQuantity = (type) => {
+    if (type === "dec") {
+      quantity > 1 && setQuantity(quantity - 1);
+    } else {
+      setQuantity(quantity + 1);
+    }
+  };
+  const handleClick = () => {
+    window.history.back();
+  };
   return (
     <Container>
       <Navbar />
@@ -151,51 +165,37 @@ const Cart = () => {
         </Top>
         <Bottom>
           <Info>
-            <Product>
-              <ProductDetail>
-                <Image src="https://image.uniqlo.com/UQ/ST3/th/imagesgoods/449878/item/thgoods_12_449878.jpg?width=1600&impolicy=quality_75" />
-                <Details>
-                  <ProductName>
-                    <b>Product:</b> JESSIE THUNDER SHOES
-                  </ProductName>
-                  <ProductColor color="black" />
-                  <ProductSize>
-                    <b>Size:</b> L
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>2</ProductAmount>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>฿1,190</ProductPrice>
-              </PriceDetail>
-            </Product>
+            {cart.products.map((product) => (
+              <Product>
+                <ProductDetail>
+                  <Image src="https://image.uniqlo.com/UQ/ST3/th/imagesgoods/449878/item/thgoods_12_449878.jpg?width=1600&impolicy=quality_75" />
+                  <Details>
+                    <ProductName>
+                      <b>Product:</b> {product.name}
+                    </ProductName>
+                    <ProductColor color="black" />
+                    <ProductSize>
+                      <b>Size:</b> L
+                    </ProductSize>
+                  </Details>
+                </ProductDetail>
+                <PriceDetail>
+                  <ProductAmountContainer>
+                    <Remove
+                      onClick={() => handleQuantity("dec")}
+                      style={{ cursor: "pointer" }}
+                    />
+                    <ProductAmount>{quantity}</ProductAmount>
+                    <Add
+                      onClick={() => handleQuantity("inc")}
+                      style={{ cursor: "pointer" }}
+                    />
+                  </ProductAmountContainer>
+                  <ProductPrice>฿1,190</ProductPrice>
+                </PriceDetail>
+              </Product>
+            ))}
             <Hr />
-            <Product>
-              <ProductDetail>
-                <Image src="https://image.uniqlo.com/UQ/ST3/th/imagesgoods/449874/item/thgoods_01_449874.jpg?width=1600&impolicy=quality_75" />
-                <Details>
-                  <ProductName>
-                    <b>Product:</b> HAKURA T-SHIRT
-                  </ProductName>
-                  <ProductColor color="gray" />
-                  <ProductSize>
-                    <b>Size:</b> M
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>1</ProductAmount>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>฿1,190</ProductPrice>
-              </PriceDetail>
-            </Product>
           </Info>
           <Summary>
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
@@ -212,7 +212,7 @@ const Cart = () => {
               <SummaryItemPrice>฿3,660</SummaryItemPrice>
             </SummaryItem>
             <Button>CHECKOUT NOW</Button>
-            <Button>BACK TO HOMEPAGE</Button>
+            <Button onClick={handleClick}> BACK</Button>
           </Summary>
         </Bottom>
       </Wrapper>
