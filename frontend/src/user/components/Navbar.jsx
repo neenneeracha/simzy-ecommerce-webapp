@@ -5,7 +5,7 @@ import axios from "axios";
 import styled from "styled-components";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Badge from "react-bootstrap/Badge";
-import Button from "react-bootstrap/Button";
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   height: 60px;
@@ -101,6 +101,8 @@ const Navbar = () => {
   const [kidsCats, setKidsCats] = useState([]);
   const navigate = useNavigate()
 
+  const quantity = useSelector(state => state.cart.quantity)
+
   useEffect(() => {
     const getWomenCat = async () => {
       try {
@@ -143,7 +145,7 @@ const Navbar = () => {
   const handleSearch = () => {
     navigate(`/products?search_input=${searchInput}`)
   }
-
+  
   return (
     <Container>
       <Wrapper>
@@ -207,7 +209,7 @@ const Navbar = () => {
           <MenuItem>
             <Link style={{ textDecoration: "none" }} to="/cart">
               <LinkItem>
-                CART <Badge bg="danger">0</Badge>
+                CART <Badge bg="danger">{quantity}</Badge>
               </LinkItem>
             </Link>
           </MenuItem>

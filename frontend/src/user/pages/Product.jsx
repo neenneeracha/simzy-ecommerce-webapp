@@ -2,6 +2,15 @@ import { Add, Remove } from "@material-ui/icons";
 import styled from "styled-components";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
+import { data } from "../../data";
+import React, { useState, useEffect } from "react";
+import Button from "react-bootstrap/Button";
+import { Col, Row } from "react-bootstrap";
+import { MDBIcon, MDBRadio } from "mdb-react-ui-kit";
+import { addProduct } from "../redux/cartRedux";
+import { useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
 
 const Container = styled.div``;
 
@@ -11,23 +20,25 @@ const Wrapper = styled.div`
 `;
 
 const ImgContainer = styled.div`
-  flex: 1;
-`;
-const GroupImage = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 2%;
+  max-width: 80rem;
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+
+  ul {
+    margin-top: 10px;
+    padding-left: 0;
+  }
+  ul li {
+    display: inline;
+    justify-content: flex-start;
+  }
 `;
 
 const Image = styled.img`
-  width: 100%;
-  height: 90vh;
-  object-fit: cover;
-`;
-
-const DetailImg = styled.img`
-  width: 25%;
-  height: 25%;
+  width: 80%;
+  height: 80%;
+  border-radius: 1rem;
+  margin-left: 80px;
 `;
 
 const InfoContainer = styled.div`
@@ -41,11 +52,11 @@ const Title = styled.h1`
 
 const Desc = styled.p`
   margin: 20px 0px;
+  color: #999;
 `;
 
-const Price = styled.span`
+const Price = styled.h3`
   font-weight: 100;
-  font-size: 40px;
 `;
 
 const FilterContainer = styled.div`
@@ -64,41 +75,26 @@ const SizeInfo = styled.div`
   align-items: center;
 `;
 
-const FilterTitle = styled.h4``;
+const FilterTitle = styled.h5``;
 
 const FilterColor = styled.div`
-  background-color: ${(props) => props.color};
   margin: 5%;
   cursor: pointer;
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-
-  &:hover {
-    background-color: ${(props) => props.color};
-    transform: scale(1.2);
-  }
+  display: flex;
 `;
 
 const FilterSize = styled.div`
-  padding: 15px;
-  border: 2px solid #e9e9e9;
-  background-color: white;
-  cursor: pointer;
-  font-weight: 500;
   margin: 5%;
-
-  &:hover {
-    background-color: #eda3b5;
-    transform: scale(1.1);
-    color: white;
-  }
+  cursor: pointer;
+  display: flex;
 `;
 const MaterialDetail = styled.div``;
-const MaterialTitle = styled.h4`
+const MaterialTitle = styled.h5`
   margin: 30px 0;
 `;
-const MaterialContent = styled.div``;
+const MaterialContent = styled.h6`
+  color: #999;
+`;
 const AddContainer = styled.div`
   width: 50%;
   display: flex;
@@ -122,82 +118,224 @@ const Amount = styled.span`
   margin-left: 10%;
 `;
 
-const Button = styled.button`
-  padding: 15px;
-  border: 2px solid #eda3b5;
-  background-color: white;
+const Imagethumbnail = styled.img`
+  width: 20%;
+  height: 20%;
+  border-radius: 1rem;
   cursor: pointer;
-  font-weight: 500;
-  margin: 5%;
-  margin-left: 10%;
-
-  &:hover {
-    background-color: #eda3b5;
-    transform: scale(1.1);
-    color: white;
-  }
 `;
 
+const ButtonGroup = styled.div`
+  display: flex;
+`;
+
+const ImageLightbox = styled.div``;
+const styles = {
+  customButton: {
+    backgroundColor: "#eda3b5",
+    borderColor: "#eda3b5",
+    color: "white",
+    borderRadius: "5px",
+    marginTop: "30px",
+  },
+};
+
+
 const Product = () => {
+  const [productData] = useState(data);
+  const location = useLocation();
+  const id = location.pathname.split("/")[2];
+  const [value, setValue] = useState(0);
+  const [quantity, setQuantity] = useState(1);
+  const [product, setProduct] = useState({});
+  const [color, setColor] = useState("");
+  const [size, setSize] = useState("");
+  const dispatch = useDispatch();
+  const { img } = productData[value]; /* get img from product */
+
+  // useEffect(() => {
+  //   const getProduct = async () => {
+  //     try {
+  //       const res = await axios.get("http://localhost:8080/api/v1/products/" + id);
+  //       setProduct(res.data);
+  //     } catch {}
+  //   };
+  //   getProduct();
+  // }, [id]);
+
+  const addTocarthandler = () => {
+    /* update cart */
+    dispatch(addProduct({ ...product, quantity }));
+  };
+
+  const handleQuantity = (type) => {
+    if (type === "dec") {
+      quantity > 1 && setQuantity(quantity - 1);
+    } else {
+      setQuantity(quantity + 1);
+    }
+  };
+
+
   return (
     <Container>
       <Navbar />
       <Wrapper>
-        <ImgContainer>
-          <Image src="https://image.uniqlo.com/UQ/ST3/th/imagesgoods/449878/item/thgoods_12_449878.jpg?width=1600&impolicy=quality_75" />
-          <GroupImage>
-            <DetailImg src="https://image.uniqlo.com/UQ/ST3/th/imagesgoods/449878/sub/thgoods_449878_sub7.jpg?width=1600&impolicy=quality_75" />
-            <DetailImg src="https://image.uniqlo.com/UQ/ST3/th/imagesgoods/449878/sub/thgoods_449878_sub8.jpg?width=1600&impolicy=quality_75" />
-            <DetailImg src="https://image.uniqlo.com/UQ/ST3/th/imagesgoods/449878/sub/thgoods_449878_sub9.jpg?width=1600&impolicy=quality_75" />
-            <DetailImg src="https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/449878/sub/goods_449878_sub12.jpg?width=1600&impolicy=quality_75" />
-          </GroupImage>
-        </ImgContainer>
-        <InfoContainer>
-          <Title>HEATTECH Pile Lined Sweat Full-Zip Long Sleeve Hoodie</Title>
-          <Desc>
-            HEATTECH hoodie with a warm, fluffy lining. Updated for added
-            comfort.
-          </Desc>
-          <Price>THB 1,490.00 </Price>
-          <MaterialDetail>
-            <MaterialTitle>Material: </MaterialTitle>
-            <MaterialContent>
-              {" "}
-              Body: 67% Polyester, 19% Acrylic, 14% Rayon/ Rib: 58% Cotton, 39%
-              Polyester, 3% Spandex/ Pocket Lining: Outer Layer: 60% Acrylic,
-              40% Rayon/ Back: 67% Polyester, 19% Acrylic, 14% Rayon WASHING
-              INSTRUCTIONS Machine wash cold, gentle cycle, Do not Dry Clean -
-              The images shown may include colors that are not available.
-            </MaterialContent>
-          </MaterialDetail>
-          <FilterContainer>
-            <ColorInfo>
-              <FilterTitle>Color: </FilterTitle>
-              <FilterColor color="black" />
-              <FilterColor color="grey" />
-              <FilterColor color="pink" />
-            </ColorInfo>
-            <SizeInfo>
-              <FilterTitle>Size: </FilterTitle>
-              <FilterSize>XS</FilterSize>
-              <FilterSize>S</FilterSize>
-              <FilterSize>M</FilterSize>
-              <FilterSize>L</FilterSize>
-              <FilterSize>XL</FilterSize>
-            </SizeInfo>
-            <AddContainer style={{ marginTop: "5%" }}>
-              <FilterTitle>Quantity: </FilterTitle>
-              <AmountContainer>
-                <Remove />
-                <Amount>1</Amount>
-                <Add />
-              </AmountContainer>
-            </AddContainer>
-          </FilterContainer>
+        <Row>
+          <Col>
+            <ImgContainer>
+              <article>
+                <ImageLightbox></ImageLightbox>
+                <Image src={img} />
+                <ul>
+                  {productData.map((item, index) => (
+                    <li
+                      key={item.id}
+                      onClick={() => setValue(index)}
+                      className={index === value && "opacity-30"}
+                    >
+                      <Imagethumbnail src={item.img} />
+                    </li>
+                  ))}{" "}
+                </ul>
+              </article>
+            </ImgContainer>
+          </Col>
 
-          <Button>ADD TO CART</Button>
-          <Button>SHOP NOW</Button>
-        </InfoContainer>
+          <Col>
+            <InfoContainer>
+              <Title>
+                HEATTECH Pile Lined Sweat Full-Zip Long Sleeve Hoodie
+              </Title>
+              <Desc>
+                HEATTECH hoodie with a warm, fluffy lining. Updated for added
+                comfort.
+              </Desc>
+              <Price> $ 1,900</Price>
+              <MaterialDetail>
+                <MaterialTitle>Material: </MaterialTitle>
+                <MaterialContent>
+                  {" "}
+                  Body: 67% Polyester, 19% Acrylic, 14% Rayon/ Rib: 58% Cotton,
+                  39% Polyester, 3% Spandex/ Pocket Lining: Outer Layer: 60%
+                  Acrylic, 40% Rayon/ Back: 67% Polyester, 19% Acrylic, 14%
+                  Rayon WASHING INSTRUCTIONS Machine wash cold, gentle cycle, Do
+                  not Dry Clean - The images shown may include colors that are
+                  not available.
+                </MaterialContent>
+              </MaterialDetail>
+              <FilterContainer>
+                <ColorInfo>
+                  <FilterTitle>Color: </FilterTitle>
+                  <FilterColor>
+                    <MDBRadio
+                      name="inlineRadio"
+                      id="inlineRadio1"
+                      value="option1"
+                      label="black"
+                      inline
+                    />
+                    <MDBRadio
+                      name="inlineRadio"
+                      id="inlineRadio2"
+                      value="option2"
+                      label="pink"
+                      inline
+                    />
+                    <MDBRadio
+                      name="inlineRadio"
+                      id="inlineRadio3"
+                      value="option3"
+                      label="white"
+                      inline
+                    />
+                  </FilterColor>
+                </ColorInfo>
+                <SizeInfo>
+                  <FilterTitle>Size: {""} </FilterTitle>
+                  <FilterSize>
+                    <MDBRadio
+                      name="size"
+                      id="size4"
+                      value="option1"
+                      label="XS"
+                      inline
+                    />
+                    <MDBRadio
+                      name="size"
+                      id="size5"
+                      value="option2"
+                      label="S"
+                      inline
+                    />
+                    <MDBRadio
+                      name="size"
+                      id="size6"
+                      value="option2"
+                      label="M"
+                      inline
+                    />
+                    <MDBRadio
+                      name="size"
+                      id="size7"
+                      value="option2"
+                      label="L"
+                      inline
+                    />
+                    <MDBRadio
+                      name="size"
+                      id="size8"
+                      value="option2"
+                      label="XL"
+                      inline
+                    />
+                  </FilterSize>
+                </SizeInfo>
+                <AddContainer style={{ marginTop: "5%" }}>
+                  <FilterTitle>Quantity: </FilterTitle>
+                  <AmountContainer>
+                    <Remove
+                      onClick={() => handleQuantity("dec")}
+                      style={{ cursor: "pointer" }}
+                    />
+                    <Amount>{quantity}</Amount>
+                    <Add
+                      onClick={() => handleQuantity("inc")}
+                      style={{ cursor: "pointer" }}
+                    />
+                  </AmountContainer>
+                </AddContainer>
+              </FilterContainer>
+              <ButtonGroup>
+                <Button
+                  className="d-block mx-auto w-35"
+                  type="submit"
+                  style={styles.customButton}
+                  onClick={addTocarthandler}
+                >
+                  <MDBIcon
+                    fas
+                    icon="shopping-cart"
+                    style={{ marginRight: "10px" }}
+                  />{" "}
+                  ADD TO CART
+                </Button>
+                <Button
+                  className="d-block mx-auto w-35"
+                  type="submit"
+                  style={styles.customButton}
+                >
+                  <MDBIcon
+                    far
+                    icon="money-bill-alt"
+                    style={{ marginRight: "10px" }}
+                  />{" "}
+                  CHECK OUT
+                </Button>
+              </ButtonGroup>
+            </InfoContainer>
+          </Col>
+        </Row>
       </Wrapper>
       <Footer />
     </Container>

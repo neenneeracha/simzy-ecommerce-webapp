@@ -66,7 +66,7 @@ const router = createBrowserRouter([
   {
     path: "/adorder",
     element: <AdOrder />,
-  },
+  }
 ]);
 
 const App = () => {

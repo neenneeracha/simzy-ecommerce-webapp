@@ -18,6 +18,38 @@ export const categories = [{
     }
 ]
 
+export const data = [{
+    id: 1,
+    img: "https://image.uniqlo.com/UQ/ST3/th/imagesgoods/449878/item/thgoods_12_449878.jpg?width=1600&impolicy=quality_75",
+    title: "MEN",
+    cate: "men"
+},
+{
+    id: 2,
+    img: "https://image.uniqlo.com/UQ/ST3/th/imagesgoods/449878/sub/thgoods_449878_sub7.jpg?width=1600&impolicy=quality_75",
+    title: "WOMEN",
+    cate: "women"
+},
+{
+    id: 3,
+    img: "https://image.uniqlo.com/UQ/ST3/th/imagesgoods/449878/sub/thgoods_449878_sub8.jpg?width=1600&impolicy=quality_75",
+    title: "KIDS",
+    cate: "kids"
+},
+{
+    id: 4,
+    img: "https://image.uniqlo.com/UQ/ST3/th/imagesgoods/449878/sub/thgoods_449878_sub9.jpg?width=1600&impolicy=quality_75",
+    title: "KIDS",
+    cate: "kids"
+},
+{
+    id: 5,
+    img: "https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/449878/sub/goods_449878_sub12.jpg?width=1600&impolicy=quality_75",
+    title: "KIDS",
+    cate: "kids"
+}
+]
+
 export const popularProducts = [{
         id: 1,
         name: "Dresses",
