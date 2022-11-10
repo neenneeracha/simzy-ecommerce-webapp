@@ -15,7 +15,8 @@ const addNewUser = (req, res) => {
 
         const saltRounds = 10
         const password = bcrypt.hashSync(req.body.password, saltRounds)
-        const values = [req.body.email, password, req.body.name, req.body.surname, req.body.gender, req.body.phoneNumber, req.body.address, req.body.district, req.body.province, req.body.zipCode]
+        const values = [req.body.email, password, req.body.firstname, req.body.lastname, req.body.gender, req.body.phoneNumber, req.body.address, req.body.district, req.body.province, req.body.zipCode]
+
         q = "INSERT INTO userinfo (`email`,`password`,`name`,`surname`,`gender`,`phone_number`,`address`,`district`,`province`,`zip_code`) VALUES (?)"
 
         pool.query(q, [values], (err, data) => {
