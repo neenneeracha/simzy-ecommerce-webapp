@@ -60,7 +60,7 @@ const guestRouter = createBrowserRouter([
   {
     path: "/*",
     element: <PageNotfound />,
-  },
+  }
 ]);
 
 const userRouter = createBrowserRouter([
@@ -117,7 +117,7 @@ const userRouter = createBrowserRouter([
     element: <Success />,
   },
   {
-    path: "/userinfoq",
+    path: "/userinfo",
     element: <UserInfo />,
   }
 ]);
