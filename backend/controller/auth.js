@@ -43,9 +43,9 @@ const login = (req, res) => {
 
             if (isEqual) {
 
-                const token = jwt.sign({ user_id: data[0].user_id, is_admin: data[0].is_admin }, process.env.TOKEN_KEY, { expiresIn: "120s" })
+                const token = jwt.sign({ user_id: data[0].user_id, is_admin: data[0].is_admin }, process.env.TOKEN_KEY, { expiresIn: "1m" })
 
-                return res.status(200).json({ user_id: data[0].user_id, is_admin: data[0].is_admin, token: token })
+                return res.status(200).json({ user_id: data[0].user_id, is_admin: data[0].is_admin, accessToken: token })
 
             } else return res.status(401).json({ msg: "incorrect password" })
 
@@ -54,4 +54,21 @@ const login = (req, res) => {
     })
 }
 
-module.exports = { addNewUser, login }
+const verifyUser = (req, res) => {
+    const token = req.body.token
+
+    if (!token) {
+        return res.status(401).json({ msg: "Token not found" })
+    }
+
+    const user = jwt.verify(token, process.env.TOKEN_KEY)
+
+    if (!user) {
+        return res.status(403).json({ msg: "Invalid token" })
+    }
+
+    return res.status(200).json(user)
+
+}
+
+module.exports = { addNewUser, login, verifyUser }
