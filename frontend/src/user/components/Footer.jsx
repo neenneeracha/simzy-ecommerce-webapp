@@ -11,9 +11,12 @@ import {
   import styled from "styled-components";
   
   const Container = styled.div`
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    margin-bottom: -225px;
     display: flex;
     background-color: #EFEFF4;
-    
   `;
   
   const Left = styled.div`

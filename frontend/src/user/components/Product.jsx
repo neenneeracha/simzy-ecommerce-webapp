@@ -67,6 +67,7 @@ const Price = styled.h3`
     font-weight: bold;
     background-color: white;
     font-family: sans serif;
+    margin-top: 2px;
 `;
 
   const Icon = styled.div`

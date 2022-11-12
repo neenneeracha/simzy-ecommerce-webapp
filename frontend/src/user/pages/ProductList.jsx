@@ -2,11 +2,15 @@ import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Products from "../components/Products";
+import ProductNotFound from "../components/ProductNotFound";
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useSearchParams } from "react-router-dom";
 
-const Container = styled.div``;
+const Container = styled.div`
+  min-height: 100vh;
+  position: relative;
+`;
 
 const Title = styled.h1`
   margin: 40px 20px 20px;
@@ -167,9 +171,10 @@ console.log(products.length)
       </Filter>
     </FilterContainer>
     {products.length === 0 ? 
-      <>
-      <h2>Sorry, no product found with this filter</h2>
-      </>
+      // <>
+      // <h2>Sorry, no product found with this filter</h2>
+      // </>
+      <ProductNotFound filtered={true}/>
       : <Products products={products}/>
       }
     </>
