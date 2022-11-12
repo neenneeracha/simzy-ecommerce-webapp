@@ -8,7 +8,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useUserUpdate } from "../../UserContext";
 import axios from 'axios'
 
-const Container = styled.div``;
+const Container = styled.div`
+  position: fixed;
+`;
 const Title = styled.h3`
   color: #eda3b5;
   text-align: center;

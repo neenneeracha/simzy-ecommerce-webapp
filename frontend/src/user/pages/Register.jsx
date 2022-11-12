@@ -5,9 +5,12 @@ import styled from "styled-components";
 import Button from "react-bootstrap/Button";
 import BackNavBar from "../components/BackNavBar";
 import { Link, useNavigate } from "react-router-dom";
-import axios from 'axios'
+import axios from "axios";
 
-const Container = styled.div``;
+const Container = styled.div`
+  max-width: 100%;
+  overflow-x: hidden;
+`;
 const Title = styled.h3`
   color: #eda3b5;
   text-align: center;
@@ -42,7 +45,6 @@ const styles = {
   },
 };
 
-
 const Register = () => {
   const [validated, setValidated] = useState(false);
   const [inputs, setInputs] = useState({
@@ -55,29 +57,28 @@ const Register = () => {
     district: "",
     province: "",
     zipCode: "",
-    phoneNumber: "02"
-  })
+    phoneNumber: "02",
+  });
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setInputs(prev => ({...prev, [e.target.name]: e.target.value}))
-  }
+    setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
-  const handleSubmit = async e => {
-    e.preventDefault()
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:8080/api/v1/auth", inputs)
-      
-      console.log(res.data)
-      navigate("/login")
-      window.location.reload()
-      
+      const res = await axios.post("http://localhost:8080/api/v1/auth", inputs);
+
+      console.log(res.data);
+      navigate("/login");
+      window.location.reload();
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }
+  };
 
   // const handleSubmit = (event) => {
   //   const form = event.currentTarget;
@@ -98,7 +99,7 @@ const Register = () => {
             src={process.env.PUBLIC_URL + "img/login.png"}
             height="80%"
             width="80%"
-            style={{marginLeft: "10%", marginTop: "10%" }}
+            style={{ marginLeft: "10%", marginTop: "10%" }}
           />
         </Col>
         <Col>
