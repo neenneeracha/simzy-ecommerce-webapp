@@ -2,14 +2,21 @@ import { Add, Remove } from "@material-ui/icons";
 import styled from "styled-components";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import { useSelector } from "react-redux";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import LocalMallIcon from "@material-ui/icons/LocalMall";
+import DeleteIcon from "@material-ui/icons/Delete";
+import { useDispatch, useSelector } from "react-redux";
+import { removeFromCart } from "../redux/cartRedux";
+import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
 
 const Container = styled.div``;
 
 const Wrapper = styled.div`
   padding: 20px;
+  min-height: 100vh;
+  position: relative;
 `;
 
 const Title = styled.h1`
@@ -17,21 +24,9 @@ const Title = styled.h1`
   text-align: center;
 `;
 
-const Top = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px;
-`;
-
-const TopText = styled.h3`
-  cursor: pointer;
-  font-weight: bold;
-  margin: 0px 10px;
-`;
-
 const Bottom = styled.div`
   display: flex;
+  margin-top: 70px;
   justify-content: space-between;
 `;
 
@@ -63,12 +58,7 @@ const Details = styled.div`
 
 const ProductName = styled.span``;
 
-const ProductColor = styled.div`
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: ${(props) => props.color};
-`;
+const ProductColor = styled.div``;
 
 const ProductSize = styled.span``;
 
@@ -125,7 +115,7 @@ const SummaryItemText = styled.span``;
 
 const SummaryItemPrice = styled.span``;
 
-const Button = styled.h3`
+const ButtonCheck = styled.h3`
   text-align: center;
   color: #eda3b5;
   font-size: 20px;
@@ -142,9 +132,39 @@ const Button = styled.h3`
     cursor: default;
   }
 `;
+
+const CartEmpty = styled.div``;
+
+const Text = styled.h3`
+  text-align: center;
+  margin: 30px;
+  
+  b {
+    color: black;
+  }
+
+  p {
+    color: #999;
+    font-size: 20px;
+  }
+`;
+const Icon = styled.div`
+  text-align: center;
+  margin: 50px 0 30px;
+`;
+const useStyles = makeStyles((theme) => ({
+  button: {
+    margin: theme.spacing(1),
+  },
+}));
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const [quantity, setQuantity] = useState(1);
+
+  const dispatch = useDispatch();
+
+  const classes = useStyles();
+
   const handleQuantity = (type) => {
     if (type === "dec") {
       quantity > 1 && setQuantity(quantity - 1);
@@ -155,66 +175,94 @@ const Cart = () => {
   const handleClick = () => {
     window.history.back();
   };
+  const handleRemoveFromCart = (product) => {
+    dispatch(removeFromCart(product));
+  };
+
   return (
     <Container>
       <Navbar />
       <Wrapper>
         <Title>MY CART</Title>
-        <Top>
-          <TopText>SHOPPING CART(2)</TopText>
-        </Top>
-        <Bottom>
-          <Info>
-            {cart.products.map((product) => (
-              <Product>
-                <ProductDetail>
-                  <Image src="https://image.uniqlo.com/UQ/ST3/th/imagesgoods/449878/item/thgoods_12_449878.jpg?width=1600&impolicy=quality_75" />
-                  <Details>
-                    <ProductName>
-                      <b>Product:</b> {product.name}
-                    </ProductName>
-                    <ProductColor color="black" />
-                    <ProductSize>
-                      <b>Size:</b> L
-                    </ProductSize>
-                  </Details>
-                </ProductDetail>
-                <PriceDetail>
-                  <ProductAmountContainer>
-                    <Remove
-                      onClick={() => handleQuantity("dec")}
-                      style={{ cursor: "pointer" }}
-                    />
-                    <ProductAmount>{quantity}</ProductAmount>
-                    <Add
-                      onClick={() => handleQuantity("inc")}
-                      style={{ cursor: "pointer" }}
-                    />
-                  </ProductAmountContainer>
-                  <ProductPrice>฿1,190</ProductPrice>
-                </PriceDetail>
-              </Product>
-            ))}
-            <Hr />
-          </Info>
-          <Summary>
-            <SummaryTitle>ORDER SUMMARY</SummaryTitle>
-            <SummaryItem>
-              <SummaryItemText>Subtotal</SummaryItemText>
-              <SummaryItemPrice>฿3,570</SummaryItemPrice>
-            </SummaryItem>
-            <SummaryItem>
-              <SummaryItemText>Estimated Shipping</SummaryItemText>
-              <SummaryItemPrice>฿90</SummaryItemPrice>
-            </SummaryItem>
-            <SummaryItem type="total">
-              <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>฿3,660</SummaryItemPrice>
-            </SummaryItem>
-            <Button>CHECKOUT NOW</Button>
-            <Button onClick={handleClick}> BACK</Button>
-          </Summary>
-        </Bottom>
+
+        {cart.products.length=== 0 ? (
+          <CartEmpty>
+            <Icon>
+              <LocalMallIcon style={{ fontSize: "100px", color: "#eda3b5" }} />{" "}
+            </Icon>
+            <Text>
+              {" "}
+              <b>"You cart is currently empty"</b> <br /> <p>Looks like you haven't added anything to your cart yet</p>
+              <Link to="/">
+                <h5>Start to shopping</h5>
+              </Link>
+            </Text>
+          </CartEmpty>
+        ) : (
+          <Bottom>
+            <Info>
+              {cart.products.map((product) => (
+                <Product>
+                  <ProductDetail>
+                    <Image src="https://image.uniqlo.com/UQ/ST3/th/imagesgoods/449878/item/thgoods_12_449878.jpg?width=1600&impolicy=quality_75" />
+                    <Details>
+                      <ProductName>
+                        <b>Product:</b> {product.name}
+                      </ProductName>
+                      <ProductColor>
+                        <b>Color:</b> {product.color}
+                      </ProductColor>
+                      <ProductSize>
+                        <b>Size:</b> L
+                      </ProductSize>
+                    </Details>
+                  </ProductDetail>
+                  <PriceDetail>
+                    <ProductAmountContainer>
+                      <Remove
+                        onClick={() => handleQuantity("dec")}
+                        style={{ cursor: "pointer" }}
+                      />
+                      <ProductAmount>{quantity}</ProductAmount>
+                      <Add
+                        onClick={() => handleQuantity("inc")}
+                        style={{ cursor: "pointer" }}
+                      />
+                    </ProductAmountContainer>
+                    <ProductPrice>฿1,190</ProductPrice>
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      className={classes.button}
+                      startIcon={<DeleteIcon />}
+                      onClick={() => handleRemoveFromCart(product)}
+                    >
+                      Delete
+                    </Button>
+                  </PriceDetail>
+                </Product>
+              ))}
+              <Hr />
+            </Info>
+            <Summary>
+              <SummaryTitle>ORDER SUMMARY</SummaryTitle>
+              <SummaryItem>
+                <SummaryItemText>Subtotal</SummaryItemText>
+                <SummaryItemPrice>฿3,570</SummaryItemPrice>
+              </SummaryItem>
+              <SummaryItem>
+                <SummaryItemText>Estimated Shipping</SummaryItemText>
+                <SummaryItemPrice>฿90</SummaryItemPrice>
+              </SummaryItem>
+              <SummaryItem type="total">
+                <SummaryItemText>Total</SummaryItemText>
+                <SummaryItemPrice>฿3,660</SummaryItemPrice>
+              </SummaryItem>
+              <ButtonCheck>CHECKOUT NOW</ButtonCheck>
+              <ButtonCheck onClick={handleClick}> BACK</ButtonCheck>
+            </Summary>
+          </Bottom>
+        )}
       </Wrapper>
       <Footer />
     </Container>

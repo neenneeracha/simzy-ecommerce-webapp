@@ -12,7 +12,10 @@ import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 
-const Container = styled.div``;
+const Container = styled.div`
+  min-height: 100vh;
+  position: relative;
+`;
 
 const Wrapper = styled.div`
   padding: 50px;
@@ -152,16 +155,6 @@ const Product = () => {
   const [size, setSize] = useState("");
   const dispatch = useDispatch();
   const { img } = productData[value]; /* get img from product */
-
-  // useEffect(() => {
-  //   const getProduct = async () => {
-  //     try {
-  //       const res = await axios.get("http://localhost:8080/api/v1/products/" + id);
-  //       setProduct(res.data);
-  //     } catch {}
-  //   };
-  //   getProduct();
-  // }, [id]);
 
   const addTocarthandler = () => {
     /* update cart */
