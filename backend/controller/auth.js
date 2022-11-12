@@ -7,7 +7,7 @@ require('dotenv').config()
 const addNewUser = (req, res) => {
     let q = "SELECT EXISTS (SELECT * FROM userinfo WHERE email = ?) AS userExist"
 
-    pool.query(q, [req.body.email], (err, data) => {
+    pool.query(q, req.body.email, (err, data) => {
         if (err) return res.status(500).json(err)
 
         if (data[0].userExist === 1)
@@ -19,7 +19,7 @@ const addNewUser = (req, res) => {
 
         q = "INSERT INTO userinfo (`email`,`password`,`name`,`surname`,`gender`,`phone_number`,`address`,`district`,`province`,`zip_code`) VALUES (?)"
 
-        pool.query(q, [values], (err, data) => {
+        pool.query(q, values, (err, data) => {
             if (err) return res.status(500).json(err)
 
             return res.status(200).json(data.insertId)
@@ -36,7 +36,7 @@ const login = (req, res) => {
 
     const q = "SELECT user_id, password, is_admin FROM userinfo WHERE email = ?"
 
-    pool.query(q, [email], (err, data) => {
+    pool.query(q, email, (err, data) => {
         if (err) return res.status(500).json(err)
 
         if (data.length > 0) {

@@ -36,23 +36,31 @@ const Filter = styled.div`
   margin: 10px;
 `;
 
-
 const ProductList = () => {
   const [products, setProducts] = useState([])
-  const [searchParams] = useSearchParams();
+  const [searchParams] = useSearchParams()
+  const [color, setColor] = useState(null)
+  const [size, setSize] = useState(null)
+  const [price, setPrice] = useState(null)
+  const [sort, setSort] = useState("Newest")
   const main_category = searchParams.get('main_category')
   const sub_category = searchParams.get('sub_category')
   const search_input = searchParams.get('search_input')
 
-  // sub_category ? alert(sub_category) : main_category ? alert(main_category) : alert(search_input)
-
 useEffect(() => {
+  
   const getProducts = async () => {
       try {
         const res = await axios.get(
-          sub_category ? `http://localhost:8080/api/v1/products?main_category=${main_category}&sub_category=${sub_category}` 
-          : main_category ? `http://localhost:8080/api/v1/products?main_category=${main_category}`
-          : `http://localhost:8080/api/v1/products?search_input=${search_input}`)
+          sub_category ? (color || size || price) ? 
+                      `http://localhost:8080/api/v1/products/filtered?main_category=${main_category}&sub_category=${sub_category}&color=${color}&size=${size}&price=${price}` 
+                    : `http://localhost:8080/api/v1/products?main_category=${main_category}&sub_category=${sub_category}`
+          : main_category ? (color || size || price) ? 
+                      `http://localhost:8080/api/v1/products/filtered?main_category=${main_category}&color=${color}&size=${size}&price=${price}` 
+                    : `http://localhost:8080/api/v1/products?main_category=${main_category}`
+          : (color || size || price) ? 
+                      `http://localhost:8080/api/v1/products/filtered?search_input=${search_input}&color=${color}&size=${size}&price=${price}` 
+                    : `http://localhost:8080/api/v1/products?search_input=${search_input}`)
         setProducts(res.data)
       } catch (error) {
         console.log(error)
@@ -61,7 +69,7 @@ useEffect(() => {
 
   getProducts()
 
-}, [main_category, sub_category, search_input])
+}, [main_category, sub_category, search_input, color, size, price])
 
   return (
     <Container>
@@ -70,18 +78,19 @@ useEffect(() => {
       <FilterContainer>
         <Filter>
           <FilterText>Filter By:</FilterText>
-          <Select>
+          
+          <Select onChange={(e) => setColor(e.target.value)}>
             <Option disabled selected>
               Color
             </Option>
             <Option>White</Option>
             <Option>Black</Option>
-            <Option>Red</Option>
+            <Option>Pink</Option>
             <Option>Blue</Option>
             <Option>Yellow</Option>
             <Option>Green</Option>
           </Select>
-          <Select>
+          <Select onChange={(e) => setSize(e.target.value)}>
             <Option disabled selected>
               Size
             </Option>
@@ -91,21 +100,21 @@ useEffect(() => {
             <Option>L</Option>
             <Option>XL</Option>
           </Select>
-          <Select>
+          <Select onChange={(e) => setPrice(e.target.value)}>
             <Option disabled selected>
-              Price
+              Price Range
             </Option>
-            <Option>500THB - 999THB</Option>
-            <Option>1000THB - 1999THB</Option>
-            <Option>2000THB - 2999THB</Option>
-            <Option>3000THB - 3999THB</Option>
-            <Option>4000THB - 4999THB</Option>
+            <Option value="999">0THB - 999THB</Option>
+            <Option value="1999">1000THB - 1999THB</Option>
+            <Option value="2999">2000THB - 2999THB</Option>
+            <Option value="3999">3000THB - 3999THB</Option>
+            <Option value="4999">4000THB - 4999THB</Option>
           </Select>
         </Filter>
         <Filter>
           <FilterText >Sort By:</FilterText>
-          <Select>
-            <Option selected >Default</Option>
+          <Select onChange={(e) => {setSort(e.target.value)}}>
+            <Option selected >Newest</Option>
             <Option >Price (asc)</Option>
             <Option >Price (desc)</Option>
           </Select>
