@@ -7,7 +7,7 @@ const getAllProducts = (req, res) => {
         const main_category = req.query.main_category
             // only main category
         if (typeof req.query.sub_category !== "string") {
-            const q = "SELECT p.product_id, product_name, price, created_at, img_link FROM ((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pc.is_main_color = 1 AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE category_id IN (SELECT category_id FROM category WHERE main_category = ?) ORDER BY created_at DESC"
+            const q = "SELECT p.product_id, product_name, price, created_at, img_link FROM ((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pc.is_main_color = 1 AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE category_id IN (SELECT category_id FROM category WHERE main_category = ?)"
             pool.query(q, [main_category], (err, data) => {
                 if (err) return res.status(500).json(err)
 
@@ -16,7 +16,7 @@ const getAllProducts = (req, res) => {
         } else {
             // sub category exists
             const sub_category = req.query.sub_category
-            const q = "SELECT p.product_id, product_name, price, created_at, img_link FROM ((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pc.is_main_color = 1 AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE category_id = (SELECT category_id FROM category WHERE main_category = ? AND sub_category = ?) ORDER BY created_at DESC"
+            const q = "SELECT p.product_id, product_name, price, created_at, img_link FROM ((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pc.is_main_color = 1 AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE category_id = (SELECT category_id FROM category WHERE main_category = ? AND sub_category = ?)"
             pool.query(q, [main_category, sub_category], (err, data) => {
                 if (err) return res.status(500).json(err)
 
@@ -26,7 +26,7 @@ const getAllProducts = (req, res) => {
     } else {
         // search
         const search_input = req.query.search_input
-        const q = "SELECT p.product_id, product_name, price, created_at, img_link FROM ((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pc.is_main_color = 1 AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE product_name LIKE ? ORDER BY created_at DESC"
+        const q = "SELECT p.product_id, product_name, price, created_at, img_link FROM ((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pc.is_main_color = 1 AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE product_name LIKE ?"
         pool.query(q, ['%' + search_input + '%'], (err, data) => {
             if (err) return res.status(500).json(err)
 
@@ -66,17 +66,17 @@ const getAllFilteredProducts = (req, res) => {
                 if (typeof req.query.search_input !== "string") {
                     if (typeof req.query.sub_category !== "string") {
                         // only main category
-                        q = "SELECT p.product_id, product_name, price, created_at, img_link FROM (((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id AND pc.color_group_id IN (SELECT c.color_group_id FROM colorgroup c JOIN productcolor pc ON c.color_group_id = pc.color_group_id WHERE color_group = ?)) JOIN productstock ps ON pc.product_color_id = ps.product_color_id AND ps.size = ? AND quantity > 0) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE category_id IN (SELECT category_id FROM category WHERE main_category = ?) AND price BETWEEN ? AND ? GROUP BY p.product_id ORDER BY created_at DESC"
+                        q = "SELECT p.product_id, product_name, price, created_at, img_link FROM (((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id AND pc.color_group_id IN (SELECT c.color_group_id FROM colorgroup c JOIN productcolor pc ON c.color_group_id = pc.color_group_id WHERE color_group = ?)) JOIN productstock ps ON pc.product_color_id = ps.product_color_id AND ps.size = ? AND quantity > 0) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE category_id IN (SELECT category_id FROM category WHERE main_category = ?) AND price BETWEEN ? AND ? GROUP BY p.product_id"
                         values = [req.query.color, req.query.size, req.query.main_category, minPrice, req.query.price]
 
                     } else {
                         // sub category exists
-                        q = "SELECT p.product_id, product_name, price, created_at, img_link FROM (((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id AND pc.color_group_id IN (SELECT c.color_group_id FROM colorgroup c JOIN productcolor pc ON c.color_group_id = pc.color_group_id WHERE color_group = ?)) JOIN productstock ps ON pc.product_color_id = ps.product_color_id AND ps.size = ? AND quantity > 0) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE category_id = (SELECT category_id FROM category WHERE main_category = ? AND sub_category = ?) AND price BETWEEN ? AND ? GROUP BY p.product_id ORDER BY created_at DESC"
+                        q = "SELECT p.product_id, product_name, price, created_at, img_link FROM (((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id AND pc.color_group_id IN (SELECT c.color_group_id FROM colorgroup c JOIN productcolor pc ON c.color_group_id = pc.color_group_id WHERE color_group = ?)) JOIN productstock ps ON pc.product_color_id = ps.product_color_id AND ps.size = ? AND quantity > 0) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE category_id = (SELECT category_id FROM category WHERE main_category = ? AND sub_category = ?) AND price BETWEEN ? AND ? GROUP BY p.product_id"
                         values = [req.query.color, req.query.size, req.query.main_category, req.query.sub_category, minPrice, req.query.price]
                     }
                 } else {
                     // search
-                    q = "SELECT p.product_id, product_name, price, created_at, img_link FROM (((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id AND pc.color_group_id IN (SELECT c.color_group_id FROM colorgroup c JOIN productcolor pc ON c.color_group_id = pc.color_group_id WHERE color_group = ?)) JOIN productstock ps ON pc.product_color_id = ps.product_color_id AND ps.size = ? AND quantity > 0) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE product_name LIKE ? AND price BETWEEN ? AND ? GROUP BY p.product_id ORDER BY created_at DESC"
+                    q = "SELECT p.product_id, product_name, price, created_at, img_link FROM (((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id AND pc.color_group_id IN (SELECT c.color_group_id FROM colorgroup c JOIN productcolor pc ON c.color_group_id = pc.color_group_id WHERE color_group = ?)) JOIN productstock ps ON pc.product_color_id = ps.product_color_id AND ps.size = ? AND quantity > 0) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE product_name LIKE ? AND price BETWEEN ? AND ? GROUP BY p.product_id"
                     values = [req.query.color, req.query.size, '%' + req.query.search_input + '%', minPrice, req.query.price]
 
                 }
@@ -85,17 +85,17 @@ const getAllFilteredProducts = (req, res) => {
                 if (typeof req.query.search_input !== "string") {
                     if (typeof req.query.sub_category !== "string") {
                         // only main category
-                        q = "SELECT p.product_id, product_name, price, created_at, img_link FROM (((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id AND pc.color_group_id IN (SELECT c.color_group_id FROM colorgroup c JOIN productcolor pc ON c.color_group_id = pc.color_group_id WHERE color_group = ?)) JOIN productstock ps ON pc.product_color_id = ps.product_color_id AND ps.size = ? AND quantity > 0) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE category_id IN (SELECT category_id FROM category WHERE main_category = ?) GROUP BY p.product_id ORDER BY created_at DESC"
+                        q = "SELECT p.product_id, product_name, price, created_at, img_link FROM (((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id AND pc.color_group_id IN (SELECT c.color_group_id FROM colorgroup c JOIN productcolor pc ON c.color_group_id = pc.color_group_id WHERE color_group = ?)) JOIN productstock ps ON pc.product_color_id = ps.product_color_id AND ps.size = ? AND quantity > 0) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE category_id IN (SELECT category_id FROM category WHERE main_category = ?) GROUP BY p.product_id"
                         values = [req.query.color, req.query.size, req.query.main_category]
 
                     } else {
                         // sub category exists
-                        q = "SELECT p.product_id, product_name, price, created_at, img_link FROM (((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id AND pc.color_group_id IN (SELECT c.color_group_id FROM colorgroup c JOIN productcolor pc ON c.color_group_id = pc.color_group_id WHERE color_group = ?)) JOIN productstock ps ON pc.product_color_id = ps.product_color_id AND ps.size = ? AND quantity > 0) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE category_id = (SELECT category_id FROM category WHERE main_category = ? AND sub_category = ?) GROUP BY p.product_id ORDER BY created_at DESC"
+                        q = "SELECT p.product_id, product_name, price, created_at, img_link FROM (((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id AND pc.color_group_id IN (SELECT c.color_group_id FROM colorgroup c JOIN productcolor pc ON c.color_group_id = pc.color_group_id WHERE color_group = ?)) JOIN productstock ps ON pc.product_color_id = ps.product_color_id AND ps.size = ? AND quantity > 0) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE category_id = (SELECT category_id FROM category WHERE main_category = ? AND sub_category = ?) GROUP BY p.product_id"
                         values = [req.query.color, req.query.size, req.query.main_category, req.query.sub_category]
                     }
                 } else {
                     // search
-                    q = "SELECT p.product_id, product_name, price, created_at, img_link FROM (((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id AND pc.color_group_id IN (SELECT c.color_group_id FROM colorgroup c JOIN productcolor pc ON c.color_group_id = pc.color_group_id WHERE color_group = ?)) JOIN productstock ps ON pc.product_color_id = ps.product_color_id AND ps.size = ? AND quantity > 0) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE product_name LIKE ? GROUP BY p.product_id ORDER BY created_at DESC"
+                    q = "SELECT p.product_id, product_name, price, created_at, img_link FROM (((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id AND pc.color_group_id IN (SELECT c.color_group_id FROM colorgroup c JOIN productcolor pc ON c.color_group_id = pc.color_group_id WHERE color_group = ?)) JOIN productstock ps ON pc.product_color_id = ps.product_color_id AND ps.size = ? AND quantity > 0) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE product_name LIKE ? GROUP BY p.product_id"
                     values = [req.query.color, req.query.size, '%' + req.query.search_input + '%']
 
                 }
@@ -105,16 +105,16 @@ const getAllFilteredProducts = (req, res) => {
             if (typeof req.query.search_input !== "string") {
                 if (typeof req.query.sub_category !== "string") {
                     // only main category
-                    q = "SELECT p.product_id, product_name, price, created_at, img_link FROM ((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id AND pc.color_group_id IN (SELECT c.color_group_id FROM colorgroup c JOIN productcolor pc ON c.color_group_id = pc.color_group_id WHERE color_group = ?)) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE category_id IN (SELECT category_id FROM category WHERE main_category = ?) AND price BETWEEN ? AND ? GROUP BY p.product_id ORDER BY created_at DESC"
+                    q = "SELECT p.product_id, product_name, price, created_at, img_link FROM ((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id AND pc.color_group_id IN (SELECT c.color_group_id FROM colorgroup c JOIN productcolor pc ON c.color_group_id = pc.color_group_id WHERE color_group = ?)) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE category_id IN (SELECT category_id FROM category WHERE main_category = ?) AND price BETWEEN ? AND ? GROUP BY p.product_id"
                     values = [req.query.color, req.query.main_category, minPrice, req.query.price]
                 } else {
                     // sub category exists
-                    q = "SELECT p.product_id, product_name, price, created_at, img_link FROM ((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id AND pc.color_group_id IN (SELECT c.color_group_id FROM colorgroup c JOIN productcolor pc ON c.color_group_id = pc.color_group_id WHERE color_group = ?)) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE category_id = (SELECT category_id FROM category WHERE main_category = ? AND sub_category = ?) AND price BETWEEN ? AND ? GROUP BY p.product_id ORDER BY created_at DESC"
+                    q = "SELECT p.product_id, product_name, price, created_at, img_link FROM ((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id AND pc.color_group_id IN (SELECT c.color_group_id FROM colorgroup c JOIN productcolor pc ON c.color_group_id = pc.color_group_id WHERE color_group = ?)) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE category_id = (SELECT category_id FROM category WHERE main_category = ? AND sub_category = ?) AND price BETWEEN ? AND ? GROUP BY p.product_id"
                     values = [req.query.color, req.query.main_category, req.query.sub_category, minPrice, req.query.price]
                 }
             } else {
                 // search
-                q = "SELECT p.product_id, product_name, price, created_at, img_link FROM ((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id AND pc.color_group_id IN (SELECT c.color_group_id FROM colorgroup c JOIN productcolor pc ON c.color_group_id = pc.color_group_id WHERE color_group = ?)) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE product_name LIKE ? AND price BETWEEN ? AND ? GROUP BY p.product_id ORDER BY created_at DESC"
+                q = "SELECT p.product_id, product_name, price, created_at, img_link FROM ((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id AND pc.color_group_id IN (SELECT c.color_group_id FROM colorgroup c JOIN productcolor pc ON c.color_group_id = pc.color_group_id WHERE color_group = ?)) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE product_name LIKE ? AND price BETWEEN ? AND ? GROUP BY p.product_id"
                 values = [req.query.color, '%' + req.query.search_input + '%', minPrice, req.query.price]
             }
 
@@ -124,16 +124,16 @@ const getAllFilteredProducts = (req, res) => {
 
                 if (typeof req.query.sub_category !== "string") {
                     // only main category
-                    q = "SELECT p.product_id, product_name, price, created_at, img_link FROM ((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id AND pc.color_group_id IN (SELECT c.color_group_id FROM colorgroup c JOIN productcolor pc ON c.color_group_id = pc.color_group_id WHERE color_group = ?)) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE category_id IN (SELECT category_id FROM category WHERE main_category = ?) GROUP BY p.product_id ORDER BY created_at DESC"
+                    q = "SELECT p.product_id, product_name, price, created_at, img_link FROM ((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id AND pc.color_group_id IN (SELECT c.color_group_id FROM colorgroup c JOIN productcolor pc ON c.color_group_id = pc.color_group_id WHERE color_group = ?)) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE category_id IN (SELECT category_id FROM category WHERE main_category = ?) GROUP BY p.product_id"
                     values = [req.query.color, req.query.main_category]
                 } else {
                     // sub category exists
-                    q = "SELECT p.product_id, product_name, price, created_at, img_link FROM ((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id AND pc.color_group_id IN (SELECT c.color_group_id FROM colorgroup c JOIN productcolor pc ON c.color_group_id = pc.color_group_id WHERE color_group = ?)) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE category_id = (SELECT category_id FROM category WHERE main_category = ? AND sub_category = ?) GROUP BY p.product_id ORDER BY created_at DESC"
+                    q = "SELECT p.product_id, product_name, price, created_at, img_link FROM ((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id AND pc.color_group_id IN (SELECT c.color_group_id FROM colorgroup c JOIN productcolor pc ON c.color_group_id = pc.color_group_id WHERE color_group = ?)) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE category_id = (SELECT category_id FROM category WHERE main_category = ? AND sub_category = ?) GROUP BY p.product_id"
                     values = [req.query.color, req.query.main_category, req.query.sub_category]
                 }
             } else {
                 // search
-                q = "SELECT p.product_id, product_name, price, created_at, img_link FROM ((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id AND pc.color_group_id IN (SELECT c.color_group_id FROM colorgroup c JOIN productcolor pc ON c.color_group_id = pc.color_group_id WHERE color_group = ?)) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE product_name LIKE ? GROUP BY p.product_id ORDER BY created_at DESC"
+                q = "SELECT p.product_id, product_name, price, created_at, img_link FROM ((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id AND pc.color_group_id IN (SELECT c.color_group_id FROM colorgroup c JOIN productcolor pc ON c.color_group_id = pc.color_group_id WHERE color_group = ?)) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE product_name LIKE ? GROUP BY p.product_id"
                 values = [req.query.color, '%' + req.query.search_input + '%']
             }
 
@@ -146,16 +146,16 @@ const getAllFilteredProducts = (req, res) => {
             if (typeof req.query.search_input !== "string") {
                 // only main category
                 if (typeof req.query.sub_category !== "string") {
-                    q = "SELECT p.product_id, product_name, price, created_at, img_link FROM (((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id) JOIN productstock ps ON pc.product_color_id = ps.product_color_id AND ps.size = ? AND quantity > 0) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pc.is_main_color = 1 AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE category_id IN (SELECT category_id FROM category WHERE main_category = ?) AND price BETWEEN ? AND ? ORDER BY created_at DESC"
+                    q = "SELECT p.product_id, product_name, price, created_at, img_link FROM (((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id) JOIN productstock ps ON pc.product_color_id = ps.product_color_id AND ps.size = ? AND quantity > 0) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pc.is_main_color = 1 AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE category_id IN (SELECT category_id FROM category WHERE main_category = ?) AND price BETWEEN ? AND ?"
                     values = [req.query.size, req.query.main_category, minPrice, req.query.price]
                 } else {
                     // sub category exists
-                    q = "SELECT p.product_id, product_name, price, created_at, img_link FROM (((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id) JOIN productstock ps ON pc.product_color_id = ps.product_color_id AND ps.size = ? AND quantity > 0) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pc.is_main_color = 1 AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE category_id = (SELECT category_id FROM category WHERE main_category = ? AND sub_category = ?) AND price BETWEEN ? AND ? ORDER BY created_at DESC"
+                    q = "SELECT p.product_id, product_name, price, created_at, img_link FROM (((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id) JOIN productstock ps ON pc.product_color_id = ps.product_color_id AND ps.size = ? AND quantity > 0) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pc.is_main_color = 1 AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE category_id = (SELECT category_id FROM category WHERE main_category = ? AND sub_category = ?) AND price BETWEEN ? AND ?"
                     values = [req.query.size, req.query.main_category, req.query.sub_category, minPrice, req.query.price]
                 }
             } else {
                 // search
-                q = "SELECT p.product_id, product_name, price, created_at, img_link FROM (((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id) JOIN productstock ps ON pc.product_color_id = ps.product_color_id AND ps.size = ? AND quantity > 0) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pc.is_main_color = 1 AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE product_name LIKE ? AND price BETWEEN ? AND ? ORDER BY created_at DESC"
+                q = "SELECT p.product_id, product_name, price, created_at, img_link FROM (((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id) JOIN productstock ps ON pc.product_color_id = ps.product_color_id AND ps.size = ? AND quantity > 0) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pc.is_main_color = 1 AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE product_name LIKE ? AND price BETWEEN ? AND ?"
                 values = [req.query.size, '%' + req.query.search_input + '%', minPrice, req.query.price]
             }
 
@@ -166,16 +166,16 @@ const getAllFilteredProducts = (req, res) => {
 
                 if (typeof req.query.sub_category !== "string") {
                     // only main category
-                    q = "SELECT p.product_id, product_name, price, created_at, img_link FROM (((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id) JOIN productstock ps ON pc.product_color_id = ps.product_color_id AND ps.size = ? AND quantity > 0) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pc.is_main_color = 1 AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE category_id IN (SELECT category_id FROM category WHERE main_category = ?) ORDER BY created_at DESC"
+                    q = "SELECT p.product_id, product_name, price, created_at, img_link FROM (((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id) JOIN productstock ps ON pc.product_color_id = ps.product_color_id AND ps.size = ? AND quantity > 0) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pc.is_main_color = 1 AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE category_id IN (SELECT category_id FROM category WHERE main_category = ?)"
                     values = [req.query.size, req.query.main_category]
                 } else {
                     // sub category exists
-                    q = "SELECT p.product_id, product_name, price, created_at, img_link FROM (((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id) JOIN productstock ps ON pc.product_color_id = ps.product_color_id AND ps.size = ? AND quantity > 0) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pc.is_main_color = 1 AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE category_id = (SELECT category_id FROM category WHERE main_category = ? AND sub_category = ?) ORDER BY created_at DESC"
+                    q = "SELECT p.product_id, product_name, price, created_at, img_link FROM (((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id) JOIN productstock ps ON pc.product_color_id = ps.product_color_id AND ps.size = ? AND quantity > 0) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pc.is_main_color = 1 AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE category_id = (SELECT category_id FROM category WHERE main_category = ? AND sub_category = ?)"
                     values = [req.query.size, req.query.main_category, req.query.sub_category]
                 }
             } else {
                 // search
-                q = "SELECT p.product_id, product_name, price, created_at, img_link FROM (((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id) JOIN productstock ps ON pc.product_color_id = ps.product_color_id AND ps.size = ? AND quantity > 0) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pc.is_main_color = 1 AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE product_name LIKE ? ORDER BY created_at DESC"
+                q = "SELECT p.product_id, product_name, price, created_at, img_link FROM (((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id) JOIN productstock ps ON pc.product_color_id = ps.product_color_id AND ps.size = ? AND quantity > 0) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pc.is_main_color = 1 AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE product_name LIKE ?"
                 values = [req.query.size, '%' + req.query.search_input + '%']
             }
 
@@ -186,17 +186,17 @@ const getAllFilteredProducts = (req, res) => {
         if (typeof req.query.search_input !== "string") {
             if (typeof req.query.sub_category !== "string") {
                 // only main category
-                q = "SELECT p.product_id, product_name, price, created_at, img_link FROM ((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pc.is_main_color = 1 AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE category_id IN (SELECT category_id FROM category WHERE main_category = ?) AND price BETWEEN ? AND ? ORDER BY created_at DESC"
+                q = "SELECT p.product_id, product_name, price, created_at, img_link FROM ((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pc.is_main_color = 1 AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE category_id IN (SELECT category_id FROM category WHERE main_category = ?) AND price BETWEEN ? AND ?"
                 values = [req.query.main_category, minPrice, req.query.price]
 
             } else {
                 // sub category exists
-                q = "SELECT p.product_id, product_name, price, created_at, img_link FROM ((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pc.is_main_color = 1 AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE category_id = (SELECT category_id FROM category WHERE main_category = ? AND sub_category = ?) AND price BETWEEN ? AND ? ORDER BY created_at DESC"
+                q = "SELECT p.product_id, product_name, price, created_at, img_link FROM ((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pc.is_main_color = 1 AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE category_id = (SELECT category_id FROM category WHERE main_category = ? AND sub_category = ?) AND price BETWEEN ? AND ?"
                 values = [req.query.main_category, req.query.sub_category, minPrice, req.query.price]
             }
         } else {
             // search
-            q = "SELECT p.product_id, product_name, price, created_at, img_link FROM ((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pc.is_main_color = 1 AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE product_name LIKE ? AND price BETWEEN ? AND ? ORDER BY created_at DESC"
+            q = "SELECT p.product_id, product_name, price, created_at, img_link FROM ((product p LEFT JOIN productcolor pc ON p.product_id = pc.product_id) JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pc.is_main_color = 1 AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1)) WHERE product_name LIKE ? AND price BETWEEN ? AND ?"
             values = ['%' + req.query.search_input + '%', minPrice, req.query.price]
         }
 
