@@ -148,6 +148,7 @@ const Navbar = () => {
 
   const handleSearch = () => {
     navigate(`/products?search_input=${searchInput}`)
+    window.location.reload()
   }
 
   const handleLogout = () => {

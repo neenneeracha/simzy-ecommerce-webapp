@@ -8,7 +8,7 @@ import axios from 'axios'
 import { useSearchParams } from "react-router-dom";
 
 const Container = styled.div`
-  min-height: 100vh;
+  min-height: 85vh;
   position: relative;
 `;
 
@@ -108,9 +108,7 @@ console.log(products.length)
       <Navbar />
       <Title>{ sub_category ? sub_category : main_category ? main_category : `Search results for "${search_input}"`}</Title>
       {(!color && !size && !price) && products.length === 0 ? 
-      <>
-      <h2>Sorry no product found</h2>
-      </>
+      <ProductNotFound filtered={false}/>
       :
       <>
       <FilterContainer>
@@ -171,9 +169,6 @@ console.log(products.length)
       </Filter>
     </FilterContainer>
     {products.length === 0 ? 
-      // <>
-      // <h2>Sorry, no product found with this filter</h2>
-      // </>
       <ProductNotFound filtered={true}/>
       : <Products products={products}/>
       }
