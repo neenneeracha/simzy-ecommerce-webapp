@@ -80,16 +80,6 @@ const Register = () => {
     }
   };
 
-  // const handleSubmit = (event) => {
-  //   const form = event.currentTarget;
-  //   if (form.checkValidity() === false) {
-  //     event.preventDefault();
-  //     event.stopPropagation();
-  //   }
-
-  //   setValidated(true);
-  // };
-
   return (
     <Container>
       <BackNavBar />
@@ -202,6 +192,28 @@ const Register = () => {
                 </Form.Control.Feedback>
               </Form.Group>
             </Row>
+            <Form.Group
+              className="d-block mx-auto"
+              controlId="validationCustom01"
+              
+            >
+              <Form.Label>
+                <b>Phone Number:</b>
+              </Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter your phone number"
+                name="phoneNumber"
+                required
+                style={{ marginBottom: "30px" }}
+                onChange={handleChange}
+              />
+              <Form.Control.Feedback type="invalid">
+                {" "}
+                Phone Number is required
+              </Form.Control.Feedback>
+            </Form.Group>
+
             <Row></Row>
             <Form.Label>
               <b>Gender: </b>
