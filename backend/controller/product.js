@@ -218,7 +218,7 @@ const getAllFilteredProducts = (req, res) => {
 const getOneProduct = (req, res) => {
     const product_id = req.params.id
 
-    const q = "SELECT * FROM product WHERE product_id = ?"
+    const q = "SELECT product_id, product_name, description, details, price, main_category, sub_category FROM product p JOIN category c ON p.category_id = c.category_id  WHERE product_id = ?"
     pool.query(q, [product_id], (err, data) => {
         if (err) return res.status(500).json(err)
 
@@ -230,7 +230,7 @@ const getOneProduct = (req, res) => {
 const getProductImg = (req, res) => {
     const product_id = req.params.id
 
-    const q = "SELECT pi.product_color_id, img_link FROM ((productimage pi LEFT JOIN productcolor pc ON pi.product_color_id = pc.product_color_id) LEFT JOIN product p ON pc.product_id = p.product_id) WHERE p.product_id = ?"
+    const q = "SELECT pi.product_color_id, pi.img_link, pc.is_main_color FROM productimage pi JOIN productcolor pc ON pi.product_color_id = pc.product_color_id AND pc.product_color_id IN (SELECT product_color_id FROM productcolor pc WHERE pc.product_id = ?)"
     pool.query(q, [product_id], (err, data) => {
         if (err) return res.status(500).json(err)
 
@@ -242,7 +242,7 @@ const getProductImg = (req, res) => {
 const getProductColor = (req, res) => {
     const product_id = req.params.id
 
-    const q = "SELECT product_color_id, color, is_main_color FROM productcolor WHERE product_id = ?"
+    const q = "SELECT pc.product_color_id, pc.is_main_color, cg.color FROM productcolor pc JOIN colorgroup cg ON pc.color_group_id = cg.color_group_id WHERE product_id = ?"
     pool.query(q, [product_id], (err, data) => {
         if (err) return res.status(500).json(err)
 
@@ -254,7 +254,7 @@ const getProductColor = (req, res) => {
 const getProductStock = (req, res) => {
     const product_id = req.params.id
 
-    const q = "SELECT stock_id, ps.product_color_id, size, quantity FROM productstock ps LEFT JOIN productcolor pc ON ps.product_color_id = pc.product_color_id WHERE pc.product_id = ?"
+    const q = "SELECT * FROM productstock WHERE product_color_id IN (SELECT product_color_id FROM productcolor WHERE product_id = ?) AND quantity > 0"
     pool.query(q, [product_id], (err, data) => {
         if (err) return res.status(500).json(err)
 

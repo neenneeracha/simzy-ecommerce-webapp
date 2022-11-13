@@ -2,17 +2,19 @@ import { Add, Remove } from "@material-ui/icons";
 import styled from "styled-components";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import { data } from "../../data";
 import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import { Col, Row } from "react-bootstrap";
 import { MDBIcon, MDBRadio } from "mdb-react-ui-kit";
 import { addProduct } from "../redux/cartRedux";
 import { useDispatch } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams, Link } from "react-router-dom";
 import axios from "axios";
 
-const Container = styled.div``;
+const Container = styled.div`
+  min-height: 100vh;
+  position: relative;
+`;
 
 const Wrapper = styled.div`
   padding: 50px;
@@ -130,6 +132,15 @@ const ButtonGroup = styled.div`
 `;
 
 const ImageLightbox = styled.div``;
+
+const Line = styled.hr`
+
+`;
+
+const Message = styled.h3`
+
+`;
+
 const styles = {
   customButton: {
     backgroundColor: "#eda3b5",
@@ -140,42 +151,141 @@ const styles = {
   },
 };
 
-
 const Product = () => {
-  const [productData] = useState(data);
   const location = useLocation();
-  const id = location.pathname.split("/")[2];
-  const [value, setValue] = useState(0);
+  const { id } = useParams()
+  const [url, setUrl] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState({});
-  const [color, setColor] = useState("");
-  const [size, setSize] = useState("");
+  const [colors, setColors] = useState([]);
+  const [selectedColor, setSelectedColor] = useState(null);
+  const [mainColor, setMainColor] = useState(null)
+  const [stocks, setStocks] = useState([]);
+  const [images, setImages] = useState([]);
+  const [sizes, setSizes] = useState([]);
+  const [selectedSize, setSelectedSize] = useState(null);
+  const [filteredColors, setFilteredColors] = useState([]);
+
+  const sizeOptions = ["XS", "S", "M", "L", "XL"];
   const dispatch = useDispatch();
-  const { img } = productData[value]; /* get img from product */
 
-  // useEffect(() => {
-  //   const getProduct = async () => {
-  //     try {
-  //       const res = await axios.get("http://localhost:8080/api/v1/products/" + id);
-  //       setProduct(res.data);
-  //     } catch {}
-  //   };
-  //   getProduct();
-  // }, [id]);
+  useEffect(() => {
 
-  const addTocarthandler = () => {
-    /* update cart */
+    const getProduct = async () => {
+      try {
+        const res = await axios.get("http://localhost:8080/api/v1/products/" + id);
+        setProduct(res.data[0]);
+      } catch (error) {
+        console.log(error)
+      }
+    };
+
+    const getColors = async () => {
+      try {
+        const res = await axios.get("http://localhost:8080/api/v1/products/color/" + id);
+        setColors(res.data);
+      } catch (error) {
+        console.log(error)
+      }
+    };
+
+    const getImages = async () => {
+      try {
+        const res = await axios.get("http://localhost:8080/api/v1/products/img/" + id);
+        setImages(res.data);
+        for (let i = 0; i < res.data.length; i++){
+          if (res.data[i].is_main_color) {
+            setMainColor(res.data[i].product_color_id)
+            setUrl(res.data[i].img_link)
+            break;
+          }
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    };
+
+    const getStocks = async () => {
+      try {
+        const res = await axios.get("http://localhost:8080/api/v1/products/stock/" + id);
+        setStocks(res.data);
+      } catch (error) {
+        console.log(error)
+      }
+    };
+    
+    getProduct();
+    getColors();
+    getImages();
+    getStocks();
+
+  }, [id]);
+
+  useEffect(() => {
+    const changeImage = () => {
+      if (selectedColor !== null) {
+       setUrl((images.filter(img => img.product_color_id === selectedColor).slice(0))[0].img_link)
+      } 
+    }
+    changeImage();
+  }, [images, mainColor, selectedColor])
+
+  useEffect(() => {
+    const manageSize = () => {
+      if (selectedColor !== null) {
+        setSizes(stocks.filter(stock => stock.product_color_id === selectedColor))
+      } 
+    }
+    manageSize();
+  }, [stocks, selectedColor])
+
+  useEffect(() => {
+    const manageColor = () => {
+    if (selectedSize != null) {
+      setFilteredColors(stocks.filter(stock => stock.size === selectedSize))
+    }
+  }
+  manageColor();
+
+  }, [stocks, selectedSize])
+
+  useEffect(() => {
+    const checkQuantity = () => {
+      if (selectedColor && selectedSize) {
+        const stock = (stocks.filter(stock => stock.product_color_id === selectedColor && stock.size === selectedSize).slice(0))[0].quantity
+        if (stock < quantity) {
+          // quantity exceed
+          const color = (colors.filter(color => color.product_color_id === selectedColor).slice(0))[0].color
+          alert(`Sorry, we only have ${stock} items for ${color} - ${selectedSize} in the stock`)
+          setQuantity(stock)
+        } 
+    }
+  }
+
+  checkQuantity()
+  }, [selectedSize, selectedColor, quantity, stocks, colors])
+
+  const addToCartHandler = () => {
+    if (!selectedColor || !selectedSize) {
+      alert("Please select both color and size")
+    } else {
+      /* update cart */
     dispatch(addProduct({ ...product, quantity }));
+    }
+    
   };
 
   const handleQuantity = (type) => {
+
     if (type === "dec") {
       quantity > 1 && setQuantity(quantity - 1);
     } else {
-      setQuantity(quantity + 1);
+        setQuantity(quantity + 1);
     }
-  };
+    
 
+    
+  };
 
   return (
     <Container>
@@ -186,15 +296,19 @@ const Product = () => {
             <ImgContainer>
               <article>
                 <ImageLightbox></ImageLightbox>
-                <Image src={img} />
+                 {url ? 
+                 <Image src={url} /> : 
+                 undefined
+                 }
+                 
                 <ul>
-                  {productData.map((item, index) => (
+                  {images.filter(img => img.is_main_color === 1).map((img, index) => (
                     <li
-                      key={item.id}
-                      onClick={() => setValue(index)}
-                      className={index === value && "opacity-30"}
+                      key={index}
+                      onClick={() => setUrl(img.img_link)}
+                      className={img.img_link === url ? "opacity-30" : undefined}
                     >
-                      <Imagethumbnail src={item.img} />
+                      <Imagethumbnail src={img.img_link} />
                     </li>
                   ))}{" "}
                 </ul>
@@ -205,90 +319,94 @@ const Product = () => {
           <Col>
             <InfoContainer>
               <Title>
-                HEATTECH Pile Lined Sweat Full-Zip Long Sleeve Hoodie
+                {product.product_name}
               </Title>
               <Desc>
-                HEATTECH hoodie with a warm, fluffy lining. Updated for added
-                comfort.
+                  {product.description}
               </Desc>
-              <Price> $ 1,900</Price>
+              <Price>{product.price} THB</Price>
               <MaterialDetail>
                 <MaterialTitle>Material: </MaterialTitle>
                 <MaterialContent>
                   {" "}
-                  Body: 67% Polyester, 19% Acrylic, 14% Rayon/ Rib: 58% Cotton,
-                  39% Polyester, 3% Spandex/ Pocket Lining: Outer Layer: 60%
-                  Acrylic, 40% Rayon/ Back: 67% Polyester, 19% Acrylic, 14%
-                  Rayon WASHING INSTRUCTIONS Machine wash cold, gentle cycle, Do
-                  not Dry Clean - The images shown may include colors that are
-                  not available.
+                  {product.details}
                 </MaterialContent>
               </MaterialDetail>
+              {stocks.length > 0 ? 
+              <>
               <FilterContainer>
                 <ColorInfo>
                   <FilterTitle>Color: </FilterTitle>
                   <FilterColor>
-                    <MDBRadio
-                      name="inlineRadio"
-                      id="inlineRadio1"
-                      value="option1"
-                      label="black"
+                    { !selectedSize ? 
+                    <>
+                    {colors.map((color,index) => (
+                      <MDBRadio
+                      key={index}
+                      name="inlineRadio-color"
+                      id={`inlineRadio${color.product_color_id}`}
+                      value={color.product_color_id}
+                      label={color.color}
                       inline
-                    />
-                    <MDBRadio
-                      name="inlineRadio"
-                      id="inlineRadio2"
-                      value="option2"
-                      label="pink"
+                      onChange={(e) => setSelectedColor(parseInt(e.target.value))}
+                      />
+                    ))}
+                    </>
+                    :
+                    <>
+                    {colors.map((color,index) => (
+                      <MDBRadio
+                      key={index}
+                      name="inlineRadio-color"
+                      id={`inlineRadio${color.product_color_id}`}
+                      value={color.product_color_id}
+                      label={color.color}
                       inline
-                    />
-                    <MDBRadio
-                      name="inlineRadio"
-                      id="inlineRadio3"
-                      value="option3"
-                      label="white"
-                      inline
-                    />
+                      disabled={filteredColors.filter(filter => filter.product_color_id === color.product_color_id).length > 0 ? false : true} 
+                      onChange={(e) => setSelectedColor(parseInt(e.target.value))}
+                      />
+                    ))}
+                    </>
+
+                    }
+                 
                   </FilterColor>
                 </ColorInfo>
                 <SizeInfo>
                   <FilterTitle>Size: {""} </FilterTitle>
                   <FilterSize>
-                    <MDBRadio
-                      name="size"
-                      id="size4"
-                      value="option1"
-                      label="XS"
+                    {!selectedColor ? 
+                    <>
+                    {sizeOptions.map((size,index) => (
+                      (
+                        <MDBRadio
+                      key={index}
+                      name="inlineRadio-size"
+                      id={size}
+                      value={size}
+                      label={size}
                       inline
+                      onChange={(e) => setSelectedSize(e.target.value)}
                     />
-                    <MDBRadio
-                      name="size"
-                      id="size5"
-                      value="option2"
-                      label="S"
+                      )))}
+                     
+                    </> :
+                    <>
+                    {sizeOptions.map((size,index) => (
+                      (
+                        <MDBRadio
+                      key={index}
+                      name="inlineRadio-size"
+                      id={size}
+                      value={size}
+                      label={size}
                       inline
+                      disabled={sizes.filter(stock => stock.size === size).length > 0 ? false : true}                      
+                      onChange={(e) => setSelectedSize(e.target.value)}
                     />
-                    <MDBRadio
-                      name="size"
-                      id="size6"
-                      value="option2"
-                      label="M"
-                      inline
-                    />
-                    <MDBRadio
-                      name="size"
-                      id="size7"
-                      value="option2"
-                      label="L"
-                      inline
-                    />
-                    <MDBRadio
-                      name="size"
-                      id="size8"
-                      value="option2"
-                      label="XL"
-                      inline
-                    />
+                      )))}
+                    </>
+                    }
                   </FilterSize>
                 </SizeInfo>
                 <AddContainer style={{ marginTop: "5%" }}>
@@ -311,7 +429,7 @@ const Product = () => {
                   className="d-block mx-auto w-35"
                   type="submit"
                   style={styles.customButton}
-                  onClick={addTocarthandler}
+                  onClick={addToCartHandler}
                 >
                   <MDBIcon
                     fas
@@ -320,7 +438,7 @@ const Product = () => {
                   />{" "}
                   ADD TO CART
                 </Button>
-                <Button
+                {/* <Button
                   className="d-block mx-auto w-35"
                   type="submit"
                   style={styles.customButton}
@@ -331,8 +449,23 @@ const Product = () => {
                     style={{ marginRight: "10px" }}
                   />{" "}
                   CHECK OUT
-                </Button>
+                </Button> */}
+                <Button onClick={() => window.location.reload()}>Clear selection</Button>
               </ButtonGroup>
+              </>
+              :
+              <>
+              <Line/>
+              <Message>Sorry, this product is currently out of stock</Message>
+              <Link to={`/products?main_category=${product.main_category}&sub_category=${product.sub_category}`}>
+              <Button>
+                {product.main_category !== "Kids" ? `View other ${product.main_category}'s ${product.sub_category}` 
+              : `View other products for ${product.main_category} (${product.sub_category})`} 
+              </Button>
+              </Link>
+              </>
+              }
+              
             </InfoContainer>
           </Col>
         </Row>

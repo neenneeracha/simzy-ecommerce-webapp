@@ -101,8 +101,6 @@ const resetFilter = () => {
   setPrice(null)
 }
 
-console.log(products.length)
-
   return (
     <Container>
       <Navbar />

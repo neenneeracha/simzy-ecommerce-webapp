@@ -14,7 +14,7 @@ import {
     position: absolute;
     bottom: 0;
     width: 100%;
-    margin-bottom: -225px;
+    margin-bottom: -300px;
     display: flex;
     background-color: #EFEFF4;
   `;
