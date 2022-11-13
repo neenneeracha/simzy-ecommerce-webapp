@@ -223,7 +223,7 @@ const Product = () => {
     getImages();
     getStocks();
 
-  }, [id]);
+  }, [id, navigate]);
 
   useEffect(() => {
     const changeImage = () => {

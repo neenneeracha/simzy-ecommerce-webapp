@@ -19,7 +19,7 @@ const addNewUser = (req, res) => {
 
         q = "INSERT INTO userinfo (`email`,`password`,`name`,`surname`,`gender`,`phone_number`,`address`,`district`,`province`,`zip_code`) VALUES (?)"
 
-        pool.query(q, values, (err, data) => {
+        pool.query(q, [values], (err, data) => {
             if (err) return res.status(500).json(err)
 
             return res.status(200).json(data.insertId)
