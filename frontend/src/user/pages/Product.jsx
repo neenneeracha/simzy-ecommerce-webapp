@@ -8,7 +8,7 @@ import { Col, Row } from "react-bootstrap";
 import { MDBIcon, MDBRadio } from "mdb-react-ui-kit";
 import { addProduct } from "../redux/cartRedux";
 import { useDispatch } from "react-redux";
-import { useLocation, useParams, Link } from "react-router-dom";
+import { useLocation, useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Container = styled.div`
@@ -165,6 +165,7 @@ const Product = () => {
   const [sizes, setSizes] = useState([]);
   const [selectedSize, setSelectedSize] = useState(null);
   const [filteredColors, setFilteredColors] = useState([]);
+  const navigate = useNavigate()
 
   const sizeOptions = ["XS", "S", "M", "L", "XL"];
   const dispatch = useDispatch();
@@ -174,6 +175,9 @@ const Product = () => {
     const getProduct = async () => {
       try {
         const res = await axios.get("http://localhost:8080/api/v1/products/" + id);
+        if (res.data.length !== 1) {
+          navigate("/*")
+        }
         setProduct(res.data[0]);
       } catch (error) {
         console.log(error)
