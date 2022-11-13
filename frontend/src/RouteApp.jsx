@@ -1,5 +1,12 @@
-import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
-import { useUser } from "./UserContext"
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Navigate,
+} from "react-router-dom";
+import { useUser } from "./UserContext";
+import { ToastContainer } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 
 import Home from "./user/pages/Home";
 import Product from "./user/pages/Product";
@@ -60,7 +67,7 @@ const guestRouter = createBrowserRouter([
   {
     path: "/*",
     element: <PageNotfound />,
-  }
+  },
 ]);
 
 const userRouter = createBrowserRouter([
@@ -123,7 +130,7 @@ const userRouter = createBrowserRouter([
   {
     path: "/*",
     element: <PageNotfound />,
-  }
+  },
 ]);
 
 const adminRouter = createBrowserRouter([
@@ -150,15 +157,26 @@ const adminRouter = createBrowserRouter([
   {
     path: "/*",
     element: <PageNotfound />,
-  }
+  },
 ]);
 
 const RouteApp = () => {
-  const user = useUser()
-  
-  return (
-    <RouterProvider router={user == null? guestRouter : user.is_admin === 1? adminRouter : userRouter}/>
-  )
-}
+  const user = useUser();
 
-export default RouteApp
+  return (
+    <>
+      <RouterProvider
+        router={
+          user == null
+            ? guestRouter
+            : user.is_admin === 1
+            ? adminRouter
+            : userRouter
+        }
+      />
+      <ToastContainer />
+    </>
+  );
+};
+
+export default RouteApp;
