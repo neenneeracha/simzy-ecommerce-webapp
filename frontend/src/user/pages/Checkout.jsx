@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -7,8 +8,15 @@ import Col from "react-bootstrap/Col";
 import Accordion from "react-bootstrap/Accordion";
 import Shipping from "../components/Shipping";
 import Form from "react-bootstrap/Form";
+import StripeCheckout from 'react-stripe-checkout'
+import axios from 'axios'
 
-const Container = styled.div``;
+const publishableKey = "pk_test_51LchXIApEdj0AcTgW6ZKmx7Kt6z9i7Yz2FePwNv3GDXg4fv8ziF1lMFVJZIffoZUC9N1Zf1BV4orEBzsd9BovjoE00Dm08fmgu"
+
+const Container = styled.div`
+  min-height: 100vh;
+  position: relative;
+`;
 
 const Wrapper = styled.div`
   padding: 20px;
@@ -66,8 +74,23 @@ const Button = styled.h3`
     cursor: default;
   }
 `;
+
 const Checkout = () => {
   const [show, setShow] = useState("");
+  const navigate = useNavigate();
+  //const [stripeToken, setStripeToken] = useState(null)
+
+  const onToken = async token => {
+    try {
+      const res = await axios.post("http://localhost:8080/api/v1/payment", {tokenId: token.id, amount: 2000})
+      if (res.data.paid) {
+        navigate("/success", {state: {data: 1}})
+      }
+      
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <Container>
@@ -174,7 +197,16 @@ const Checkout = () => {
             </Summary>
           </Col>
         </Row>
-        <Button className="d-block mx-auto w-25" >CONTINUE</Button>
+        <StripeCheckout
+          name="Simzy"
+          description="Your total is 2000 THB"
+          email="hi@gmail.com"
+          amount={2000}
+          token={onToken}
+          stripeKey={publishableKey}
+        >
+          <Button className="d-block mx-auto w-25" >CONTINUE</Button>
+        </StripeCheckout>
       </Wrapper>
       <Footer />
     </Container>

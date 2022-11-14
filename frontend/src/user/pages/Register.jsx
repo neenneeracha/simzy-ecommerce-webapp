@@ -57,7 +57,7 @@ const Register = () => {
     district: "",
     province: "",
     zipCode: "",
-    phoneNumber: "02",
+    phoneNumber: "",
   });
 
   const navigate = useNavigate();

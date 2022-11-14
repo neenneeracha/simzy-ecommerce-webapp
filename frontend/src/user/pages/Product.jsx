@@ -133,9 +133,13 @@ const ButtonGroup = styled.div`
 
 const ImageLightbox = styled.div``;
 
-const Line = styled.hr``;
+const Line = styled.hr`
 
-const Message = styled.h3``;
+`;
+
+const Message = styled.h3`
+
+`;
 
 const styles = {
   customButton: {
@@ -149,172 +153,142 @@ const styles = {
 
 const Product = () => {
   const location = useLocation();
-  const { id } = useParams();
+  const { id } = useParams()
   const [url, setUrl] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState({});
   const [colors, setColors] = useState([]);
   const [selectedColor, setSelectedColor] = useState(null);
-  const [mainColor, setMainColor] = useState(null);
+  const [mainColor, setMainColor] = useState(null)
   const [stocks, setStocks] = useState([]);
   const [images, setImages] = useState([]);
   const [sizes, setSizes] = useState([]);
   const [selectedSize, setSelectedSize] = useState(null);
   const [filteredColors, setFilteredColors] = useState([]);
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const sizeOptions = ["XS", "S", "M", "L", "XL"];
   const dispatch = useDispatch();
 
   useEffect(() => {
+
     const getProduct = async () => {
       try {
-        const res = await axios.get(
-          "http://localhost:8080/api/v1/products/" + id
-        );
+        const res = await axios.get("http://localhost:8080/api/v1/products/" + id);
         if (res.data.length !== 1) {
-          navigate("/*");
+          navigate("/*")
         }
         setProduct(res.data[0]);
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     };
 
     const getColors = async () => {
       try {
-        const res = await axios.get(
-          "http://localhost:8080/api/v1/products/color/" + id
-        );
+        const res = await axios.get("http://localhost:8080/api/v1/products/color/" + id);
         setColors(res.data);
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     };
 
     const getImages = async () => {
       try {
-        const res = await axios.get(
-          "http://localhost:8080/api/v1/products/img/" + id
-        );
+        const res = await axios.get("http://localhost:8080/api/v1/products/img/" + id);
         setImages(res.data);
-        for (let i = 0; i < res.data.length; i++) {
+        for (let i = 0; i < res.data.length; i++){
           if (res.data[i].is_main_color) {
-            setMainColor(res.data[i].product_color_id);
-            setUrl(res.data[i].img_link);
+            setMainColor(res.data[i].product_color_id)
+            setUrl(res.data[i].img_link)
             break;
           }
         }
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     };
 
     const getStocks = async () => {
       try {
-        const res = await axios.get(
-          "http://localhost:8080/api/v1/products/stock/" + id
-        );
+        const res = await axios.get("http://localhost:8080/api/v1/products/stock/" + id);
         setStocks(res.data);
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
     };
-
+    
     getProduct();
     getColors();
     getImages();
     getStocks();
-  }, [id]);
+
+  }, [id, navigate]);
 
   useEffect(() => {
     const changeImage = () => {
       if (selectedColor !== null) {
-        setUrl(
-          images
-            .filter((img) => img.product_color_id === selectedColor)
-            .slice(0)[0].img_link
-        );
-      }
-    };
+       setUrl((images.filter(img => img.product_color_id === selectedColor).slice(0))[0].img_link)
+      } 
+    }
     changeImage();
-  }, [images, mainColor, selectedColor]);
+  }, [images, mainColor, selectedColor])
 
   useEffect(() => {
     const manageSize = () => {
       if (selectedColor !== null) {
-        setSizes(
-          stocks.filter((stock) => stock.product_color_id === selectedColor)
-        );
-      }
-    };
+        setSizes(stocks.filter(stock => stock.product_color_id === selectedColor))
+      } 
+    }
     manageSize();
-  }, [stocks, selectedColor]);
+  }, [stocks, selectedColor])
 
   useEffect(() => {
     const manageColor = () => {
-      if (selectedSize != null) {
-        setFilteredColors(
-          stocks.filter((stock) => stock.size === selectedSize)
-        );
-      }
-    };
-    manageColor();
-  }, [stocks, selectedSize]);
+    if (selectedSize != null) {
+      setFilteredColors(stocks.filter(stock => stock.size === selectedSize))
+    }
+  }
+  manageColor();
+
+  }, [stocks, selectedSize])
 
   useEffect(() => {
     const checkQuantity = () => {
       if (selectedColor && selectedSize) {
-        const stock = stocks
-          .filter(
-            (stock) =>
-              stock.product_color_id === selectedColor &&
-              stock.size === selectedSize
-          )
-          .slice(0)[0].quantity;
+        const stock = (stocks.filter(stock => stock.product_color_id === selectedColor && stock.size === selectedSize).slice(0))[0].quantity
         if (stock < quantity) {
           // quantity exceed
-          const color = colors
-            .filter((color) => color.product_color_id === selectedColor)
-            .slice(0)[0].color;
-          alert(
-            `Sorry, we only have ${stock} items for ${color} - ${selectedSize} in the stock`
-          );
-          setQuantity(stock);
-        }
-      }
-    };
+          const color = (colors.filter(color => color.product_color_id === selectedColor).slice(0))[0].color
+          alert(`Sorry, we only have ${stock} items for ${color} - ${selectedSize} in the stock`)
+          setQuantity(stock)
+        } 
+    }
+  }
 
-    checkQuantity();
-  }, [selectedSize, selectedColor, quantity, stocks, colors]);
+  checkQuantity()
+  }, [selectedSize, selectedColor, quantity, stocks, colors])
 
   const addToCartHandler = () => {
     if (!selectedColor || !selectedSize) {
-      alert("Please select both color and size");
+      alert("Please select both color and size")
     } else {
       /* update cart */
-      const color = colors
-        .filter((color) => color.product_color_id === selectedColor)
-        .slice(0)[0].color;
-        
-      dispatch(
-        addProduct({
-          ...product,
-          selectedSize,
-          quantity,
-          color,
-          url,
-        })
-      );
+    dispatch(addProduct({ ...product, quantity }));
     }
+    
   };
 
   const handleQuantity = (type) => {
+
     if (type === "dec") {
       quantity > 1 && setQuantity(quantity - 1);
     } else {
-      setQuantity(quantity + 1);
+        setQuantity(quantity + 1);
     }
+    
+
+    
   };
 
   return (
@@ -326,22 +300,21 @@ const Product = () => {
             <ImgContainer>
               <article>
                 <ImageLightbox></ImageLightbox>
-                {url ? <Image src={url} /> : undefined}
-
+                 {url ? 
+                 <Image src={url} /> : 
+                 undefined
+                 }
+                 
                 <ul>
-                  {images
-                    .filter((img) => img.is_main_color === 1)
-                    .map((img, index) => (
-                      <li
-                        key={index}
-                        onClick={() => setUrl(img.img_link)}
-                        className={
-                          img.img_link === url ? "opacity-30" : undefined
-                        }
-                      >
-                        <Imagethumbnail src={img.img_link} />
-                      </li>
-                    ))}{" "}
+                  {images.filter(img => img.is_main_color === 1).map((img, index) => (
+                    <li
+                      key={index}
+                      onClick={() => setUrl(img.img_link)}
+                      className={img.img_link === url ? "opacity-30" : undefined}
+                    >
+                      <Imagethumbnail src={img.img_link} />
+                    </li>
+                  ))}{" "}
                 </ul>
               </article>
             </ImgContainer>
@@ -349,137 +322,127 @@ const Product = () => {
 
           <Col>
             <InfoContainer>
-              <Title>{product.product_name}</Title>
-              <Desc>{product.description}</Desc>
+              <Title>
+                {product.product_name}
+              </Title>
+              <Desc>
+                  {product.description}
+              </Desc>
               <Price>{product.price} THB</Price>
               <MaterialDetail>
                 <MaterialTitle>Material: </MaterialTitle>
-                <MaterialContent> {product.details}</MaterialContent>
+                <MaterialContent>
+                  {" "}
+                  {product.details}
+                </MaterialContent>
               </MaterialDetail>
-              {stocks.length > 0 ? (
-                <>
-                  <FilterContainer>
-                    <ColorInfo>
-                      <FilterTitle>Color: </FilterTitle>
-                      <FilterColor>
-                        {!selectedSize ? (
-                          <>
-                            {colors.map((color, index) => (
-                              <MDBRadio
-                                key={index}
-                                name="inlineRadio-color"
-                                id={`inlineRadio${color.product_color_id}`}
-                                value={color.product_color_id}
-                                label={color.color}
-                                inline
-                                onChange={(e) =>
-                                  setSelectedColor(parseInt(e.target.value))
-                                }
-                              />
-                            ))}
-                          </>
-                        ) : (
-                          <>
-                            {colors.map((color, index) => (
-                              <MDBRadio
-                                key={index}
-                                name="inlineRadio-color"
-                                id={`inlineRadio${color.product_color_id}`}
-                                value={color.product_color_id}
-                                label={color.color}
-                                inline
-                                disabled={
-                                  filteredColors.filter(
-                                    (filter) =>
-                                      filter.product_color_id ===
-                                      color.product_color_id
-                                  ).length > 0
-                                    ? false
-                                    : true
-                                }
-                                onChange={(e) =>
-                                  setSelectedColor(parseInt(e.target.value))
-                                }
-                              />
-                            ))}
-                          </>
-                        )}
-                      </FilterColor>
-                    </ColorInfo>
-                    <SizeInfo>
-                      <FilterTitle>Size: {""} </FilterTitle>
-                      <FilterSize>
-                        {!selectedColor ? (
-                          <>
-                            {sizeOptions.map((size, index) => (
-                              <MDBRadio
-                                key={index}
-                                name="inlineRadio-size"
-                                id={size}
-                                value={size}
-                                label={size}
-                                inline
-                                onChange={(e) =>
-                                  setSelectedSize(e.target.value)
-                                }
-                              />
-                            ))}
-                          </>
-                        ) : (
-                          <>
-                            {sizeOptions.map((size, index) => (
-                              <MDBRadio
-                                key={index}
-                                name="inlineRadio-size"
-                                id={size}
-                                value={size}
-                                label={size}
-                                inline
-                                disabled={
-                                  sizes.filter((stock) => stock.size === size)
-                                    .length > 0
-                                    ? false
-                                    : true
-                                }
-                                onChange={(e) =>
-                                  setSelectedSize(e.target.value)
-                                }
-                              />
-                            ))}
-                          </>
-                        )}
-                      </FilterSize>
-                    </SizeInfo>
-                    <AddContainer style={{ marginTop: "5%" }}>
-                      <FilterTitle>Quantity: </FilterTitle>
-                      <AmountContainer>
-                        <Remove
-                          onClick={() => handleQuantity("dec")}
-                          style={{ cursor: "pointer" }}
-                        />
-                        <Amount>{quantity}</Amount>
-                        <Add
-                          onClick={() => handleQuantity("inc")}
-                          style={{ cursor: "pointer" }}
-                        />
-                      </AmountContainer>
-                    </AddContainer>
-                  </FilterContainer>
-                  <ButtonGroup>
-                    <Button
-                      className="d-block mx-auto w-35"
-                      type="submit"
-                      style={styles.customButton}
-                      onClick={addToCartHandler}
-                    >
-                      <MDBIcon
-                        fas
-                        icon="shopping-cart"
-                        style={{ marginRight: "10px" }}
-                      />{" "}
-                      ADD TO CART
-                    </Button>
-                    {/* <Button
+              {stocks.length > 0 ? 
+              <>
+              <FilterContainer>
+                <ColorInfo>
+                  <FilterTitle>Color: </FilterTitle>
+                  <FilterColor>
+                    { !selectedSize ? 
+                    <>
+                    {colors.map((color,index) => (
+                      <MDBRadio
+                      key={index}
+                      name="inlineRadio-color"
+                      id={`inlineRadio${color.product_color_id}`}
+                      value={color.product_color_id}
+                      label={color.color}
+                      inline
+                      onChange={(e) => setSelectedColor(parseInt(e.target.value))}
+                      />
+                    ))}
+                    </>
+                    :
+                    <>
+                    {colors.map((color,index) => (
+                      <MDBRadio
+                      key={index}
+                      name="inlineRadio-color"
+                      id={`inlineRadio${color.product_color_id}`}
+                      value={color.product_color_id}
+                      label={color.color}
+                      inline
+                      disabled={filteredColors.filter(filter => filter.product_color_id === color.product_color_id).length > 0 ? false : true} 
+                      onChange={(e) => setSelectedColor(parseInt(e.target.value))}
+                      />
+                    ))}
+                    </>
+
+                    }
+                 
+                  </FilterColor>
+                </ColorInfo>
+                <SizeInfo>
+                  <FilterTitle>Size: {""} </FilterTitle>
+                  <FilterSize>
+                    {!selectedColor ? 
+                    <>
+                    {sizeOptions.map((size,index) => (
+                      (
+                        <MDBRadio
+                      key={index}
+                      name="inlineRadio-size"
+                      id={size}
+                      value={size}
+                      label={size}
+                      inline
+                      onChange={(e) => setSelectedSize(e.target.value)}
+                    />
+                      )))}
+                     
+                    </> :
+                    <>
+                    {sizeOptions.map((size,index) => (
+                      (
+                        <MDBRadio
+                      key={index}
+                      name="inlineRadio-size"
+                      id={size}
+                      value={size}
+                      label={size}
+                      inline
+                      disabled={sizes.filter(stock => stock.size === size).length > 0 ? false : true}                      
+                      onChange={(e) => setSelectedSize(e.target.value)}
+                    />
+                      )))}
+                    </>
+                    }
+                  </FilterSize>
+                </SizeInfo>
+                <AddContainer style={{ marginTop: "5%" }}>
+                  <FilterTitle>Quantity: </FilterTitle>
+                  <AmountContainer>
+                    <Remove
+                      onClick={() => handleQuantity("dec")}
+                      style={{ cursor: "pointer" }}
+                    />
+                    <Amount>{quantity}</Amount>
+                    <Add
+                      onClick={() => handleQuantity("inc")}
+                      style={{ cursor: "pointer" }}
+                    />
+                  </AmountContainer>
+                </AddContainer>
+              </FilterContainer>
+              <ButtonGroup>
+                <Button
+                  className="d-block mx-auto w-35"
+                  type="submit"
+                  style={styles.customButton}
+                  onClick={addToCartHandler}
+                >
+                  <MDBIcon
+                    fas
+                    icon="shopping-cart"
+                    style={{ marginRight: "10px" }}
+                  />{" "}
+                  ADD TO CART
+                </Button>
+                {/* <Button
                   className="d-block mx-auto w-35"
                   type="submit"
                   style={styles.customButton}
@@ -491,32 +454,22 @@ const Product = () => {
                   />{" "}
                   CHECK OUT
                 </Button> */}
-                    <Button
-                      onClick={() => window.location.reload()}
-                      style={styles.customButton}
-                    >
-                      {" "}
-                      <MDBIcon fas icon="trash-alt" /> Clear selection{" "}
-                    </Button>
-                  </ButtonGroup>
-                </>
-              ) : (
-                <>
-                  <Line />
-                  <Message>
-                    Sorry, this product is currently out of stock
-                  </Message>
-                  <Link
-                    to={`/products?main_category=${product.main_category}&sub_category=${product.sub_category}`}
-                  >
-                    <Button>
-                      {product.main_category !== "Kids"
-                        ? `View other ${product.main_category}'s ${product.sub_category}`
-                        : `View other products for ${product.main_category} (${product.sub_category})`}
-                    </Button>
-                  </Link>
-                </>
-              )}
+                <Button onClick={() => window.location.reload()}>Clear selection</Button>
+              </ButtonGroup>
+              </>
+              :
+              <>
+              <Line/>
+              <Message>Sorry, this product is currently out of stock</Message>
+              <Link to={`/products?main_category=${product.main_category}&sub_category=${product.sub_category}`}>
+              <Button>
+                {product.main_category !== "Kids" ? `View other ${product.main_category}'s ${product.sub_category}` 
+              : `View other products for ${product.main_category} (${product.sub_category})`} 
+              </Button>
+              </Link>
+              </>
+              }
+              
             </InfoContainer>
           </Col>
         </Row>
