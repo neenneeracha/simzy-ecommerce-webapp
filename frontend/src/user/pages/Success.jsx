@@ -1,5 +1,4 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -51,7 +50,6 @@ const Button = styled.h3`
   }
 `;
 const Success = () => {
-  const location = useLocation()
 
   return (
     <Container>
@@ -68,7 +66,7 @@ const Success = () => {
               <Text>Successfully ordered!</Text>
               <TextThank>THANK YOU FOR YOUR ORDER</TextThank>
               <OrderReference>
-                <b>YOUR ORDER REFERENCE: {location.state.data}</b>
+                <b>YOUR ORDER REFERENCE: 1</b>
               </OrderReference>
               <Button type="create" className="d-block mx-auto w-50">
                 BACK TO SHOP

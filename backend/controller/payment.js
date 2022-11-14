@@ -19,4 +19,26 @@ const handlePayment = (req, res) => {
 
 }
 
-module.exports = { handlePayment }
+const stripePayment = async(req, res) => {
+    const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        customer_email: "hello@gmail.com",
+        line_items: [{
+            price_data: {
+                product_data: {
+                    name: "T-shirt"
+                },
+                unit_amount: 1500,
+                currency: 'thb',
+            },
+            quantity: 1,
+        }],
+        mode: 'payment',
+        success_url: 'http://localhost:3000/success',
+        cancel_url: 'http://localhost:3000/checkout',
+    });
+
+    res.send({ url: session.url })
+}
+
+module.exports = { handlePayment, stripePayment }

@@ -83,8 +83,9 @@ const Checkout = () => {
   const onToken = async token => {
     try {
       const res = await axios.post("http://localhost:8080/api/v1/payment", {tokenId: token.id, amount: 2000})
-      if (res.data.paid) {
-        navigate("/success", {state: {data: 1}})
+      if (res.data.url) {
+        window.location.href = res.data.url
+        //navigate("/success", {state: {data: 1}})
       }
       
     } catch (error) {
@@ -197,16 +198,16 @@ const Checkout = () => {
             </Summary>
           </Col>
         </Row>
-        <StripeCheckout
+        {/* <StripeCheckout
           name="Simzy"
           description="Your total is 2000 THB"
           email="hi@gmail.com"
           amount={2000}
           token={onToken}
           stripeKey={publishableKey}
-        >
-          <Button className="d-block mx-auto w-25" >CONTINUE</Button>
-        </StripeCheckout>
+        > */}
+          <Button className="d-block mx-auto w-25" onClick={onToken}>CONTINUE</Button>
+        {/* </StripeCheckout> */}
       </Wrapper>
       <Footer />
     </Container>
