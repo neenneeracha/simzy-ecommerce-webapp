@@ -23,7 +23,6 @@
     "formik": "^2.2.9",
     "i": "^0.3.7",
     "js-cookie": "^3.0.1",
-    "lodash": "^4.17.21",
     "material-ui": "^0.20.2",
     "mdb-react-ui-kit": "^5.0.0",
     "mdb-ui-kit": "^5.0.0",
@@ -65,8 +64,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@types/lodash": "^4.14.188"
   }
 }

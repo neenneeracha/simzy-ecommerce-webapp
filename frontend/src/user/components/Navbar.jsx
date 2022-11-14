@@ -157,8 +157,6 @@ const Navbar = () => {
       window.location.reload()
   }
   
-  const {cartTotalQuantity} = useSelector(state => state.cart);
-
   return (
     <Container>
       <Wrapper>
@@ -222,7 +220,7 @@ const Navbar = () => {
           <MenuItem>
             <Link style={{ textDecoration: "none" }} to="/cart">
               <LinkItem>
-                CART <Badge bg="danger">{cartTotalQuantity}</Badge>
+                CART <Badge bg="danger">{quantity}</Badge>
               </LinkItem>
             </Link>
           </MenuItem>
