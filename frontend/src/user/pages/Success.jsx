@@ -1,10 +1,14 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { Col, Image, Row } from "react-bootstrap";
 
-const Container = styled.div``;
+const Container = styled.div`
+  min-height: 100vh;
+  position: relative;
+`;
 const Content = styled.div`
   background-color: #f6f6f6;
 `;
@@ -47,6 +51,8 @@ const Button = styled.h3`
   }
 `;
 const Success = () => {
+  const location = useLocation()
+
   return (
     <Container>
       <Navbar />
@@ -62,7 +68,7 @@ const Success = () => {
               <Text>Successfully ordered!</Text>
               <TextThank>THANK YOU FOR YOUR ORDER</TextThank>
               <OrderReference>
-                <b>YOUR ORDER REFERENCE: 1</b>
+                <b>YOUR ORDER REFERENCE: {location.state.data}</b>
               </OrderReference>
               <Button type="create" className="d-block mx-auto w-50">
                 BACK TO SHOP
