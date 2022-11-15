@@ -8,10 +8,13 @@ import Col from "react-bootstrap/Col";
 import Accordion from "react-bootstrap/Accordion";
 import Shipping from "../components/Shipping";
 import Form from "react-bootstrap/Form";
-import StripeCheckout from 'react-stripe-checkout'
-import axios from 'axios'
-
-const publishableKey = "pk_test_51LchXIApEdj0AcTgW6ZKmx7Kt6z9i7Yz2FePwNv3GDXg4fv8ziF1lMFVJZIffoZUC9N1Zf1BV4orEBzsd9BovjoE00Dm08fmgu"
+import StripeCheckout from "react-stripe-checkout";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import Button from "react-bootstrap/Button";
+import { MDBIcon  } from "mdb-react-ui-kit";
+const publishableKey =
+  "pk_test_51LchXIApEdj0AcTgW6ZKmx7Kt6z9i7Yz2FePwNv3GDXg4fv8ziF1lMFVJZIffoZUC9N1Zf1BV4orEBzsd9BovjoE00Dm08fmgu";
 
 const Container = styled.div`
   min-height: 100vh;
@@ -57,22 +60,18 @@ const CashText = styled.span`
   color: red;
 `;
 
-const Button = styled.h3`
-  text-align: center;
-  color: #eda3b5;
-  font-size: 20px;
-  padding: 10px 60px;
-  border-radius: 5px;
-  border: 2px solid #eda3b5;
-  margin: 10px 0px;
-  cursor: pointer;
-  font-weight: 500;
+const styles = {
+  customButton: {
+    backgroundColor: "#eda3b5",
+    borderColor: "#eda3b5",
+    color: "white",
+    borderRadius: "5px",
+    marginTop: "30px",
+  },
+};
 
-  &:hover {
-    color: white;
-    background-color: #eda3b5;
-    cursor: default;
-  }
+const ButtonGroup = styled.div`
+  display: flex;
 `;
 
 const Checkout = () => {
@@ -80,19 +79,24 @@ const Checkout = () => {
   const navigate = useNavigate();
   //const [stripeToken, setStripeToken] = useState(null)
 
-  const onToken = async token => {
+  const onToken = async (token) => {
     try {
-      const res = await axios.post("http://localhost:8080/api/v1/payment", {tokenId: token.id, amount: 2000})
+      const res = await axios.post("http://localhost:8080/api/v1/payment", {
+        tokenId: token.id,
+        amount: 2000,
+      });
       if (res.data.url) {
-        window.location.href = res.data.url
+        window.location.href = res.data.url;
         //navigate("/success", {state: {data: 1}})
       }
-      
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
-
+  };
+  const handleClick = () => {
+    window.history.back();
+  };
+  const { cartTotalAmount } = useSelector((state) => state.cart);
   return (
     <Container>
       <Navbar />
@@ -103,13 +107,17 @@ const Checkout = () => {
             {" "}
             <Accordion defaultActiveKey="0" style={{ margin: "3%" }}>
               <Accordion.Item eventKey="0">
-                <Accordion.Header><b>SHIPPING DEAIL</b></Accordion.Header>
+                <Accordion.Header>
+                  <b>SHIPPING DEAIL</b>
+                </Accordion.Header>
                 <Accordion.Body>
                   <Shipping />
                 </Accordion.Body>
               </Accordion.Item>
               <Accordion.Item eventKey="1">
-                <Accordion.Header><b>PAYMENT METHOD</b></Accordion.Header>
+                <Accordion.Header>
+                  <b>PAYMENT METHOD</b>
+                </Accordion.Header>
                 <Accordion.Body>
                   <Form.Group>
                     <Form.Label>Please Select a payment method</Form.Label>
@@ -137,7 +145,9 @@ const Checkout = () => {
                     ) : (
                       <Form>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
-                          <Form.Label><b>Card Number:</b> </Form.Label>
+                          <Form.Label>
+                            <b>Card Number:</b>{" "}
+                          </Form.Label>
                           <Form.Control
                             type="CardNum"
                             placeholder="Enter your card number"
@@ -145,38 +155,32 @@ const Checkout = () => {
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="expiredDate">
-                          <Form.Label><b>Expiration Date:</b> </Form.Label>
+                          <Form.Label>
+                            <b>Expiration Date:</b>{" "}
+                          </Form.Label>
                           <Form.Control type="text" placeholder="MM/YY" />
                         </Form.Group>
                         <Form.Group
                           className="mb-3"
                           controlId="formBasicCheckbox"
                         >
-                          <Form.Group
-                            className="mb-3"
-                            controlId="securitycide"
-                          >
-                            <Form.Label><b>Security Code :</b> </Form.Label>
-                            <Form.Control
-                              type="int"
-                              placeholder="3 digit"
-                            />
+                          <Form.Group className="mb-3" controlId="securitycide">
+                            <Form.Label>
+                              <b>Security Code :</b>{" "}
+                            </Form.Label>
+                            <Form.Control type="int" placeholder="3 digit" />
                           </Form.Group>
-                          <Form.Group
-                            className="mb-3"
-                            controlId="name"
-                          >
-                            <Form.Label><b>Full Name:</b> </Form.Label>
-                            <Form.Control
-                              type="text"
-                            />
+                          <Form.Group className="mb-3" controlId="name">
+                            <Form.Label>
+                              <b>Full Name:</b>{" "}
+                            </Form.Label>
+                            <Form.Control type="text" />
                           </Form.Group>
                         </Form.Group>
                       </Form>
                     )}
                   </Form.Group>
                 </Accordion.Body>
-              
               </Accordion.Item>
             </Accordion>
           </Col>
@@ -185,7 +189,7 @@ const Checkout = () => {
               <SummaryTitle>ORDER SUMMARY</SummaryTitle>
               <SummaryItem>
                 <SummaryItemText>Subtotal</SummaryItemText>
-                <SummaryItemPrice>฿3,570</SummaryItemPrice>
+                <SummaryItemPrice>{cartTotalAmount}</SummaryItemPrice>
               </SummaryItem>
               <SummaryItem>
                 <SummaryItemText>Estimated Shipping</SummaryItemText>
@@ -193,7 +197,7 @@ const Checkout = () => {
               </SummaryItem>
               <SummaryItem type="total">
                 <SummaryItemText>Total</SummaryItemText>
-                <SummaryItemPrice>฿3,660</SummaryItemPrice>
+                <SummaryItemPrice>{cartTotalAmount + 90}</SummaryItemPrice>
               </SummaryItem>
             </Summary>
           </Col>
@@ -206,7 +210,26 @@ const Checkout = () => {
           token={onToken}
           stripeKey={publishableKey}
         > */}
-          <Button className="d-block mx-auto w-25" onClick={onToken}>CONTINUE</Button>
+        <ButtonGroup>
+          <Button
+            className="d-block mx-auto w-25"
+            type="submit"
+            style={styles.customButton}
+            onClick={handleClick}
+          >
+            <MDBIcon fas icon="fas fa-backward" style={{ marginRight: "10px" }} />{" "}
+            BACK
+          </Button>
+          
+          <Button  className="d-block mx-auto w-25"
+            type="submit"
+            style={styles.customButton}  
+            onClick={onToken}>
+            CONTINUE
+            {"  "} <MDBIcon fas icon="fas fa-forward" style={{ marginLeft: "10px" }} />
+          </Button>
+        </ButtonGroup>
+
         {/* </StripeCheckout> */}
       </Wrapper>
       <Footer />

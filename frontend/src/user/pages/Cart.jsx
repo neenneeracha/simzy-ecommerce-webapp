@@ -294,7 +294,8 @@ const Cart = () => {
                   ฿ {cart.cartTotalAmount + 90}
                 </SummaryItemPrice>
               </SummaryItem>
-              <ButtonCheck>CHECKOUT NOW</ButtonCheck>
+              <Link to = "/checkout" style = {{textDecoration: "none"}}><ButtonCheck >CHECKOUT NOW</ButtonCheck></Link>
+              
               <ButtonCheck onClick={handleClick}> BACK</ButtonCheck>
             </Summary>
           </Bottom>

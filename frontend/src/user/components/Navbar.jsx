@@ -104,7 +104,8 @@ const Navbar = () => {
   const { removeToken } = useUserUpdate()
   const user = useUser();
 
-  const quantity = useSelector(state => state.cart.quantity)
+  const quantity = useSelector(state => state.cart.quantity);
+
 
   useEffect(() => {
 
@@ -156,7 +157,8 @@ const Navbar = () => {
       navigate("/")
       window.location.reload()
   }
-  const {cartTotalQuantity} = useSelector(state => state.cart);
+  const {cartTotalQuantity} = useSelector(state => state.cart)
+  
   return (
     <Container>
       <Wrapper>
