@@ -1,10 +1,21 @@
 import React from "react";
-import { MDBCarousel, MDBCarouselItem } from "mdb-react-ui-kit";
 import Carousel from "react-bootstrap/Carousel";
+import styled from "styled-components";
+
+const Container = styled.div`
+
+.carousel-control-next-icon:after,
+.carousel-control-prev-icon:after
+  {
+    content: '';
+  }
+
+`;
 
 const Slider = () => {
   return (
-    <Carousel style={{ width: "100%", marginTop: "1%" }}>
+    <Container>
+      <Carousel style={{ width: "100%", marginTop: "1%" }}>
       <Carousel.Item>
         <img
           className="d-block w-100"
@@ -43,6 +54,7 @@ const Slider = () => {
         </Carousel.Caption>
       </Carousel.Item>
     </Carousel>
+    </Container>
   );
 };
 
