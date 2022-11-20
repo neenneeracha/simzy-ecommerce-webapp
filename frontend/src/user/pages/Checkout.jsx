@@ -135,9 +135,9 @@ const Checkout = () => {
   });
   const [address, setAddress] = useState([]);
 
-
   const navigate = useNavigate();
   const user = useUser();
+  const cart = useSelector((state) => state.cart);
 
   useEffect(() => {
 
@@ -169,7 +169,6 @@ const handleAddress = () => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  console.log(inputs)
 
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
@@ -184,6 +183,42 @@ const handleAddress = () => {
   //     console.log(err);
   //   }
   // };
+
+
+
+  const handleSubmit = async () => {
+    console.log(cart.products)
+    
+    if (inputs.payment === "1"){
+      // cash on delivery
+      try {
+        let res = await axios.post("http://localhost:8080/api/v1/payment/new", {payment: inputs.payment});
+        const payment_id = res.data.insertId
+
+        res = await axios.post("http://localhost:8080/api/v1/order/neworder", [inputs, {user_id: user.user_id, payment_id: payment_id}])
+        const order_id = res.data.insertId
+
+        res = await axios.post("http://localhost:8080/api/v1/order/orderhistory", [cart.products, {order_id: order_id}])
+
+        navigate("/success")
+      } catch (error) {
+        console.log(error)
+      }
+
+    } else {
+      // card payment
+      try {
+        const res = await axios.post("http://localhost:8080/api/v1/payment/stripe", { amount: cart.cartTotalAmount + 90, email: address[0].email})
+        if (res.data.url) {
+          window.location.href = res.data.url;
+          //navigate("/success", {state: {data: 1}})
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+  }
 
   const onToken = async (token) => {
     try {
@@ -202,7 +237,8 @@ const handleAddress = () => {
   const handleClick = () => {
     window.history.back();
   };
-  const { cartTotalAmount } = useSelector((state) => state.cart);
+  
+
   return (
     <Container>
       <Navbar />
@@ -425,7 +461,7 @@ const handleAddress = () => {
               <SummaryTitle>ORDER SUMMARY</SummaryTitle>
               <SummaryItem>
                 <SummaryItemText>Subtotal</SummaryItemText>
-                <SummaryItemPrice>{cartTotalAmount}</SummaryItemPrice>
+                <SummaryItemPrice>{cart.cartTotalAmount}</SummaryItemPrice>
               </SummaryItem>
               <SummaryItem>
                 <SummaryItemText>Estimated Shipping</SummaryItemText>
@@ -433,11 +469,11 @@ const handleAddress = () => {
               </SummaryItem>
               <SummaryItem type="total">
                 <SummaryItemText>Total</SummaryItemText>
-                <SummaryItemPrice>{cartTotalAmount + 90}</SummaryItemPrice>
+                <SummaryItemPrice>{cart.cartTotalAmount + 90}</SummaryItemPrice>
               </SummaryItem>
             </Summary>
             <ButtonGroup>
-            <ButtonCheck >CHECKOUT NOW</ButtonCheck>
+            <ButtonCheck onClick={handleSubmit}>CHECKOUT NOW</ButtonCheck>
               
               <ButtonCheck onClick={handleClick}> BACK</ButtonCheck>
             </ButtonGroup>

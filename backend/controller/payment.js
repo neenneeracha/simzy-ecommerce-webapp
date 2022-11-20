@@ -22,23 +22,38 @@ const handlePayment = (req, res) => {
 const stripePayment = async(req, res) => {
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
-        customer_email: "hello@gmail.com",
+        customer_email: req.body.email,
+        shipping_details: [{
+
+        }],
         line_items: [{
             price_data: {
                 product_data: {
                     name: "T-shirt"
                 },
-                unit_amount: 1500,
+                unit_amount: req.body.amount * 100,
                 currency: 'thb',
             },
             quantity: 1,
         }],
         mode: 'payment',
-        success_url: 'http://localhost:3000/success',
+        success_url: 'http://localhost:3000/processing?session_id={CHECKOUT_SESSION_ID}',
         cancel_url: 'http://localhost:3000/checkout',
     });
 
     res.send({ url: session.url })
 }
 
-module.exports = { handlePayment, stripePayment }
+const addNewPayment = (req, res) => {
+    const payment_type = req.body.payment
+
+    const q = "INSERT INTO payment (payment_type, status) VALUES (?, 0)"
+
+    pool.query(q, [payment_type], (err, data) => {
+        if (err) return res.status(500).json(err)
+
+        return res.status(200).json(data)
+    })
+}
+
+module.exports = { handlePayment, stripePayment, addNewPayment }

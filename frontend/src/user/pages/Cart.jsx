@@ -217,7 +217,7 @@ const Cart = () => {
                   color="primary"
                   style={{ fontFamily: "K2D" }}
                 >
-                  Start to shopping
+                  Continue shopping
                 </MDBBtn>
               </Link>
             </Text>

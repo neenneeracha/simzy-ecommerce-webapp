@@ -4,7 +4,6 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import OrderItem from "../components/OrderItem";
 import Shipping from "../components/Shipping";
-import PaymentMetohd from "../components/PaymentMetohd";
 import PriceInfo from "../components/PriceInfo";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -38,7 +37,6 @@ const Summary = () => {
       <Content>
         <OrderItem />
         <Shipping />
-        <PaymentMetohd />
         <PriceInfo />
         <Row>
           <Col></Col>
