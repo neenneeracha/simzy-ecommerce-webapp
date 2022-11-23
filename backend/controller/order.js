@@ -15,11 +15,16 @@ const addNewOrder = (req, res) => {
 }
 
 const addOrderHistory = (req, res) => {
-    const q = "INSERT INTO orderhistory (order_id, stock_id, quantity) VALUES (?,?,?)"
+    const q1 = "UPDATE productstock SET quantity = quantity - ? WHERE stock_id = ?"
+    const q2 = "INSERT INTO orderhistory (order_id, stock_id, quantity) VALUES (?,?,?)"
 
     for (let i = 0; i < req.body[0].length; i++) {
 
-        pool.query(q, [req.body[1].order_id, req.body[0][i].stock, req.body[0][i].quantity], (err, data) => {
+        pool.query(q1, [req.body[0][i].quantity, req.body[0][i].stock], (err, data) => {
+            if (err) res.status(500).json(err)
+        })
+
+        pool.query(q2, [req.body[1].order_id, req.body[0][i].stock, req.body[0][i].quantity], (err, data) => {
             if (err) return res.status(500).json(err)
         })
 

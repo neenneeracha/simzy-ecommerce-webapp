@@ -6,16 +6,12 @@ import Footer from "../components/Footer";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Accordion from "react-bootstrap/Accordion";
-import Shipping from "../components/Shipping";
 import Form from "react-bootstrap/Form";
-import StripeCheckout from "react-stripe-checkout";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 import { MDBIcon  } from "mdb-react-ui-kit";
 import { useUser } from "../../UserContext";
-const publishableKey =
-  "pk_test_51LchXIApEdj0AcTgW6ZKmx7Kt6z9i7Yz2FePwNv3GDXg4fv8ziF1lMFVJZIffoZUC9N1Zf1BV4orEBzsd9BovjoE00Dm08fmgu";
 
 const Container = styled.div`
   min-height: 100vh;
@@ -170,25 +166,7 @@ const handleAddress = () => {
   };
 
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   try {
-  //     const res = await axios.post("http://localhost:8080/api/v1/auth", inputs);
-
-  //     console.log(res.data);
-  //     navigate("/login");
-  //     window.location.reload();
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-
-
-
-  const handleSubmit = async () => {
-    console.log(cart.products)
-    
+  const handleSubmit = async () => {    
     if (inputs.payment === "1"){
       // cash on delivery
       try {
@@ -200,7 +178,7 @@ const handleAddress = () => {
 
         res = await axios.post("http://localhost:8080/api/v1/order/orderhistory", [cart.products, {order_id: order_id}])
 
-        navigate("/success")
+        navigate(`/success?id=${order_id}`)
       } catch (error) {
         console.log(error)
       }
@@ -208,10 +186,9 @@ const handleAddress = () => {
     } else {
       // card payment
       try {
-        const res = await axios.post("http://localhost:8080/api/v1/payment/stripe", { amount: cart.cartTotalAmount + 90, email: address[0].email})
+        const res = await axios.post("http://localhost:8080/api/v1/payment/stripe", { amount: cart.cartTotalAmount + 90, email: address[0].email, inputs})
         if (res.data.url) {
           window.location.href = res.data.url;
-          //navigate("/success", {state: {data: 1}})
         }
       } catch (error) {
         console.log(error);
