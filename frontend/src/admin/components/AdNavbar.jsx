@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import { MDBIcon } from "mdb-react-ui-kit";
+import React from "react";
 import styled from "styled-components";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useUserUpdate } from "../../UserContext"
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { AccountCircle } from "@material-ui/icons";
@@ -21,23 +20,6 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: right;
-`;
-
-const Items = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const Item = styled.div`
-  display: flex;
-  align-items: center;
-  position: relative;
-`;
-const UserName = styled.div`
-  font-size: 20px;
-  margin-bottom: 20px;
-  margin-right: 10px;
 `;
 
 const MenuItem = styled.div`
@@ -92,12 +74,12 @@ const AdNavbar = () => {
         <MenuItem>
         <NavDropdown title={<AccountCircle style={{ fontSize: 32, marginBottom: 6 }}/>} id="basic-nav-dropdown">
             <NavDropdown.Item as="li">
-                  <Link
+                  {/* <Link
                     style={{ textDecoration: "none" }}
                     to="/userinfo"
                   >
                     <LinkCat>Profile</LinkCat>
-                  </Link>
+                  </Link> */}
                 </NavDropdown.Item>
                 <NavDropdown.Item as="li">
                     <LinkCat onClick={handleLogout}>Logout</LinkCat>

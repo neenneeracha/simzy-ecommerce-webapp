@@ -47,7 +47,7 @@ const Topic = styled.h6`
   font-weight: 600;
   color: black;
   margin-left: 10px;
-  text-decoration: none;
+  margin-top: 10px;
 `;
 
 const Title = styled.div`
@@ -63,7 +63,7 @@ const Custom = {
     textDecoration: "none",
   },
 };
-const AdSidebar = () => {
+const Sidebar = () => {
   return (
     <Container>
       <Top>
@@ -77,14 +77,14 @@ const AdSidebar = () => {
           <ul>
             <Title>LISTS</Title>
 
-            <Link to="/admin">
+            <Link to="/viewusers" style = {{textDecoration: "none"}}>
               <li>
                 <MDBIcon fas icon="user-alt" style={{ color: "pink" }} />
                 <Topic>Users</Topic>
               </li>
             </Link>
 
-            <Link to="/viewproducts">
+            <Link to="/viewproducts" style = {{textDecoration: "none"}} >
               {" "}
               <li>
                 <MDBIcon fas icon="shopping-bag" style={{ color: "pink" }} />
@@ -92,32 +92,14 @@ const AdSidebar = () => {
               </li>
             </Link>
 
-            <Link to="/vieworders">
+            <Link to="/vieworders" style = {{textDecoration: "none"}}>
               <li>
                 <MDBIcon
                   fas
                   icon="file-invoice-dollar"
                   style={{ color: "pink" }}
                 />
-
                 <Topic>Orders</Topic>
-              </li>
-            </Link>
-            <Title>USER</Title>
-
-            <Link to="/orders">
-              <li>
-                <MDBIcon far icon="user-circle" style={{ color: "pink" }} />
-
-                <Topic>Profile</Topic>
-              </li>
-            </Link>
-
-            <Link to="/orders">
-              <li>
-                <MDBIcon fas icon="sign-out-alt" style={{ color: "pink" }} />
-
-                <Topic>Logout</Topic>
               </li>
             </Link>
           </ul>
@@ -127,4 +109,4 @@ const AdSidebar = () => {
   );
 };
 
-export default AdSidebar;
+export default Sidebar;

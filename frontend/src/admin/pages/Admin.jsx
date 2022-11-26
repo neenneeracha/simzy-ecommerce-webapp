@@ -1,24 +1,21 @@
 import React from "react";
-import AdSidebar from "../components/AdSidebar";
-import AdNavbar from "../components/AdNavbar";
+import NewNav from "../components/NewNav";
 import styled from "styled-components";
 
 const Container = styled.div`
-  margin-top: 10px;
-  flex: 6;
 `;
 const Home = styled.div`
-  display: flex;
-  margin-top: 10px;
+  max-width: 100%;
+  overflow-x: hidden;
+  background-color: #fff8f9;
 `;
 const Admin = () => {
   return (
     <div>
       <Home>
-        <AdSidebar />
         <Container>
-          <AdNavbar />
-         adHomepage
+          <NewNav />
+          adHomepage
         </Container>
       </Home>
     </div>

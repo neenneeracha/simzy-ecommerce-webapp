@@ -121,3 +121,140 @@ export const popularProducts = [{
         price: "1240",
     }
 ]
+
+export const userInputs = [ {
+    id: 1,
+    label: "First Name",
+    type: "text",
+    placeholder: "john_doe",
+  },
+  {
+    id: 2,
+    label: "Last Name",
+    type: "text",
+    placeholder: "john_doe",
+  },
+  {
+    id: 3,
+    label: "Phone Number",
+    type: "text",
+    placeholder: "09XXXXXXXX",
+  },
+  {
+    id: 4,
+    label: "Email",
+    type: "email",
+    placeholder: "softJai@mail.com",
+  },
+  {
+    id: 5,
+    label: "Password",
+    type: "password",
+    placeholder: ""
+  },
+  {
+    id: 6,
+    label: "Gender",
+    type: "text",
+    placeholder: "Woman"
+  },
+  {
+    id: 7,
+    label: "Isadmin",
+    type: "text",
+    placeholder: "True"
+  },
+  {
+    id: 8,
+    label: "Address",
+    type: "text",
+    placeholder: " "
+  },
+  {
+    id: 9,
+    label: "District",
+    type: "text",
+    placeholder: " "
+  },
+  {
+    id: 10,
+    label: "Province",
+    type: "text",
+    placeholder: " "
+  },
+  {
+    id: 11,
+    label: "Zip Code",
+    type: "text",
+    placeholder: " "
+  }
+]
+
+
+export const productInputs = [ {
+    id: 1,
+    label: "Product Name",
+    type: "text",
+    placeholder: " ",
+  },
+  {
+    id: 2,
+    label: "Category",
+    type: "text",
+    placeholder: " ",
+  },
+  {
+    id: 3,
+    label: "Description",
+    type: "text",
+    placeholder: " ",
+  },
+  {
+    id: 4,
+    label: "Detail",
+    type: "text",
+    placeholder: " ",
+  },
+  {
+    id: 5,
+    label: "Price",
+    type: "text",
+    placeholder: ""
+  },
+  {
+    id: 6,
+    label: "Color",
+    type: "text",
+    placeholder: " "
+  },
+  {
+    id: 7,
+    label: "Quantity ",
+    type: "text",
+    placeholder: " "
+  },
+  {
+    id: 8,
+    label: "Address",
+    type: "text",
+    placeholder: " "
+  },
+  {
+    id: 9,
+    label: "District",
+    type: "text",
+    placeholder: " "
+  },
+  {
+    id: 10,
+    label: "Province",
+    type: "text",
+    placeholder: " "
+  },
+  {
+    id: 11,
+    label: "Zip Code",
+    type: "text",
+    placeholder: " "
+  }
+]
