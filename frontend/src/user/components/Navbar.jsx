@@ -148,8 +148,12 @@ const Navbar = () => {
   }, []);
 
   const handleSearch = () => {
-    navigate(`/products?search_input=${searchInput}`)
+    if (searchInput.toString.length < 1) {
+      alert("Please enter the word you want to search first")
+    } else {
+      navigate(`/products?search_input=${searchInput}`)
     window.location.reload()
+    }
   }
 
   const handleLogout = () => {

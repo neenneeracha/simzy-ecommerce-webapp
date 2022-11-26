@@ -23,6 +23,7 @@ import ViewProducts from "./admin/pages/ViewProducts";
 import PageNotfound from "./user/pages/PageNotfound";
 import NewUser from "./admin/pages/NewUser";
 import NewProduct from "./admin/pages/NewProduct";
+import PaymentProcessing from "./user/pages/PaymentProcessing";
 
 import { userInputs, productInputs, popularProducts } from "./data";
 const guestRouter = createBrowserRouter([
@@ -70,6 +71,10 @@ const guestRouter = createBrowserRouter([
     path: "/*",
     element: <PageNotfound />,
   },
+  {
+    path: "/checkout",
+    element: <Navigate to="/login" />
+  }
 ]);
 
 const userRouter = createBrowserRouter([
@@ -129,6 +134,10 @@ const userRouter = createBrowserRouter([
     path: "/*",
     element: <PageNotfound />,
   },
+  {
+    path: "/processing",
+    element: <PaymentProcessing />
+  }
 ]);
 
 const adminRouter = createBrowserRouter([

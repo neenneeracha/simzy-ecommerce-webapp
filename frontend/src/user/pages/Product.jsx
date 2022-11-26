@@ -302,7 +302,12 @@ const Product = () => {
       const color = colors
         .filter((color) => color.product_color_id === selectedColor)
         .slice(0)[0].color;
-      dispatch(addProduct({ ...product, quantity, url, color, selectedSize }));
+
+      const stock = stocks
+        .filter((stock) => stock.product_color_id === selectedColor && stock.size === selectedSize)
+        .slice(0)[0].stock_id;
+        
+      dispatch(addProduct({ ...product, stock, quantity, url, color, selectedSize }));
     }
   };
 

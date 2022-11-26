@@ -86,7 +86,7 @@ const Login = () => {
     <Container>
       <BackNavBar />
       <Row>
-        <Col xs={6}>
+        <Col xs={12} md={6}>
           <Image
             src={process.env.PUBLIC_URL + "img/login.png"}
             height="80%"
@@ -105,7 +105,7 @@ const Login = () => {
             noValidate
             validated={validated}
             onSubmit={handleSubmit}
-            style={{ margin: "30px" }}
+            style={{ margin: "30px 100px" }}
           >
             <Form.Group
               controlId="validationCustom01"

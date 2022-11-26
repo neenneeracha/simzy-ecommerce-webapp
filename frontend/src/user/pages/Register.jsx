@@ -84,7 +84,7 @@ const Register = () => {
     <Container>
       <BackNavBar />
       <Row>
-        <Col xs={6}>
+        <Col xs={12} md={6}>
           <Image
             src={process.env.PUBLIC_URL + "img/login.png"}
             height="80%"
@@ -103,7 +103,7 @@ const Register = () => {
             noValidate
             validated={validated}
             onSubmit={handleSubmit}
-            style={{ marginRight: "30px" }}
+            style={{ marginRight: "50px" }}
           >
             <Row>
               <Form.Group
