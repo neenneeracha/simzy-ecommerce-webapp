@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 13, 2022 at 10:26 AM
+-- Generation Time: Nov 28, 2022 at 04:07 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -113,6 +113,65 @@ CREATE TABLE `orderhistory` (
   `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `orderhistory`
+--
+
+INSERT INTO `orderhistory` (`order_history_id`, `order_id`, `stock_id`, `quantity`) VALUES
+(1, 2, 222, 2),
+(2, 9, 263, 2),
+(3, 9, 315, 1),
+(4, 9, 263, 2),
+(5, 9, 315, 1),
+(6, 10, 263, 2),
+(7, 10, 315, 1),
+(8, 11, 263, 2),
+(9, 11, 315, 1),
+(10, 12, 263, 2),
+(11, 12, 315, 1),
+(12, 13, 263, 2),
+(13, 13, 315, 1),
+(14, 14, 263, 2),
+(15, 14, 315, 1),
+(16, 15, 330, 3),
+(17, 16, 330, 3),
+(18, 17, 330, 3),
+(19, 18, 330, 3),
+(20, 19, 330, 3),
+(21, 20, 330, 3),
+(22, 21, 330, 3),
+(23, 22, 330, 3),
+(24, 23, 330, 3),
+(25, 24, 330, 3),
+(26, 25, 330, 3),
+(27, 26, 330, 3),
+(28, 27, 330, 3),
+(29, 28, 330, 3),
+(30, 29, 330, 3),
+(31, 30, 330, 3),
+(32, 31, 330, 3),
+(33, 32, 330, 3),
+(34, 33, 330, 3),
+(35, 34, 330, 3),
+(36, 35, 330, 3),
+(37, 36, 330, 3),
+(38, 37, 330, 3),
+(39, 38, 330, 3),
+(40, 39, 330, 3),
+(41, 40, 330, 3),
+(42, 41, 330, 3),
+(43, 42, 330, 3),
+(44, 43, 330, 3),
+(45, 44, 330, 3),
+(46, 45, 330, 3),
+(47, 46, 330, 3),
+(48, 47, 330, 3),
+(49, 48, 330, 3),
+(50, 49, 330, 3),
+(51, 50, 330, 3),
+(52, 51, 324, 2),
+(53, 52, 324, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -121,11 +180,86 @@ CREATE TABLE `orderhistory` (
 
 CREATE TABLE `payment` (
   `payment_id` int(11) NOT NULL,
-  `payment_type` varchar(32) NOT NULL,
+  `payment_type` int(4) NOT NULL,
   `status` tinyint(1) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `payment`
+--
+
+INSERT INTO `payment` (`payment_id`, `payment_type`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 0, '2022-11-20 17:51:07', '2022-11-20 17:51:07'),
+(2, 1, 0, '2022-11-20 18:11:55', '2022-11-20 18:11:55'),
+(3, 1, 0, '2022-11-20 18:17:32', '2022-11-20 18:17:32'),
+(4, 1, 0, '2022-11-20 18:18:42', '2022-11-20 18:18:42'),
+(5, 1, 0, '2022-11-20 18:19:11', '2022-11-20 18:19:11'),
+(6, 1, 0, '2022-11-20 18:33:11', '2022-11-20 18:33:11'),
+(7, 1, 0, '2022-11-20 18:34:14', '2022-11-20 18:34:14'),
+(8, 1, 0, '2022-11-20 18:43:05', '2022-11-20 18:43:05'),
+(9, 1, 0, '2022-11-20 18:43:52', '2022-11-20 18:43:52'),
+(10, 1, 0, '2022-11-20 18:55:35', '2022-11-20 18:55:35'),
+(11, 1, 0, '2022-11-20 19:23:00', '2022-11-20 19:23:00'),
+(12, 1, 0, '2022-11-20 19:24:06', '2022-11-20 19:24:06'),
+(13, 1, 0, '2022-11-20 19:25:33', '2022-11-20 19:25:33'),
+(14, 1, 0, '2022-11-20 19:32:49', '2022-11-20 19:32:49'),
+(15, 1, 0, '2022-11-20 19:36:29', '2022-11-20 19:36:29'),
+(16, 1, 0, '2022-11-20 19:37:21', '2022-11-20 19:37:21'),
+(17, 1, 0, '2022-11-20 19:38:31', '2022-11-20 19:38:31'),
+(18, 1, 0, '2022-11-20 19:39:30', '2022-11-20 19:39:30'),
+(19, 1, 0, '2022-11-20 19:39:40', '2022-11-20 19:39:40'),
+(20, 1, 0, '2022-11-20 19:40:29', '2022-11-20 19:40:29'),
+(21, 1, 0, '2022-11-20 19:43:56', '2022-11-20 19:43:56'),
+(22, 2, 0, '2022-11-23 05:30:17', '2022-11-23 05:30:17'),
+(23, 2, 0, '2022-11-23 05:30:17', '2022-11-23 05:30:17'),
+(24, 2, 0, '2022-11-23 05:36:05', '2022-11-23 05:36:05'),
+(25, 2, 0, '2022-11-23 05:36:05', '2022-11-23 05:36:05'),
+(26, 2, 0, '2022-11-23 05:36:32', '2022-11-23 05:36:32'),
+(27, 2, 0, '2022-11-23 05:36:32', '2022-11-23 05:36:32'),
+(28, 2, 0, '2022-11-23 05:38:58', '2022-11-23 05:38:58'),
+(29, 2, 0, '2022-11-23 05:38:59', '2022-11-23 05:38:59'),
+(30, 2, 0, '2022-11-23 05:45:25', '2022-11-23 05:45:25'),
+(31, 2, 0, '2022-11-23 05:45:25', '2022-11-23 05:45:25'),
+(32, 2, 0, '2022-11-23 05:45:34', '2022-11-23 05:45:34'),
+(33, 2, 0, '2022-11-23 05:45:34', '2022-11-23 05:45:34'),
+(34, 2, 0, '2022-11-23 05:46:16', '2022-11-23 05:46:16'),
+(35, 2, 0, '2022-11-23 05:46:17', '2022-11-23 05:46:17'),
+(36, 2, 0, '2022-11-23 05:46:19', '2022-11-23 05:46:19'),
+(37, 2, 0, '2022-11-23 05:46:19', '2022-11-23 05:46:19'),
+(38, 2, 0, '2022-11-23 05:47:44', '2022-11-23 05:47:44'),
+(39, 2, 0, '2022-11-23 05:47:45', '2022-11-23 05:47:45'),
+(40, 2, 0, '2022-11-23 05:47:48', '2022-11-23 05:47:48'),
+(41, 2, 0, '2022-11-23 05:47:48', '2022-11-23 05:47:48'),
+(42, 2, 0, '2022-11-23 05:47:58', '2022-11-23 05:47:58'),
+(43, 2, 0, '2022-11-23 05:47:58', '2022-11-23 05:47:58'),
+(44, 2, 0, '2022-11-23 05:48:02', '2022-11-23 05:48:02'),
+(45, 2, 0, '2022-11-23 05:48:03', '2022-11-23 05:48:03'),
+(46, 2, 0, '2022-11-23 05:48:15', '2022-11-23 05:48:15'),
+(47, 2, 0, '2022-11-23 05:48:15', '2022-11-23 05:48:15'),
+(48, 2, 0, '2022-11-23 05:48:19', '2022-11-23 05:48:19'),
+(49, 2, 0, '2022-11-23 05:48:19', '2022-11-23 05:48:19'),
+(50, 2, 0, '2022-11-23 05:48:35', '2022-11-23 05:48:35'),
+(51, 2, 0, '2022-11-23 05:48:36', '2022-11-23 05:48:36'),
+(52, 2, 0, '2022-11-23 05:48:39', '2022-11-23 05:48:39'),
+(53, 2, 0, '2022-11-23 05:48:39', '2022-11-23 05:48:39'),
+(54, 2, 0, '2022-11-23 05:51:57', '2022-11-23 05:51:57'),
+(55, 2, 0, '2022-11-23 05:51:57', '2022-11-23 05:51:57'),
+(56, 2, 0, '2022-11-23 05:52:04', '2022-11-23 05:52:04'),
+(57, 2, 0, '2022-11-23 05:52:18', '2022-11-23 05:52:18'),
+(58, 2, 0, '2022-11-23 05:52:18', '2022-11-23 05:52:18'),
+(59, 2, 0, '2022-11-23 05:52:36', '2022-11-23 05:52:36'),
+(60, 2, 0, '2022-11-23 05:52:52', '2022-11-23 05:52:52'),
+(61, 2, 0, '2022-11-23 05:54:41', '2022-11-23 05:54:41'),
+(62, 2, 0, '2022-11-23 05:55:44', '2022-11-23 05:55:44'),
+(63, 2, 0, '2022-11-23 05:56:22', '2022-11-23 05:56:22'),
+(64, 2, 0, '2022-11-23 05:58:26', '2022-11-23 05:58:26'),
+(65, 2, 0, '2022-11-23 05:59:16', '2022-11-23 05:59:16'),
+(66, 2, 0, '2022-11-23 06:01:06', '2022-11-23 06:01:06'),
+(67, 2, 0, '2022-11-23 06:45:25', '2022-11-23 06:45:25'),
+(68, 2, 0, '2022-11-23 06:52:57', '2022-11-23 06:52:57'),
+(69, 2, 0, '2022-11-23 18:27:39', '2022-11-23 18:27:39');
 
 -- --------------------------------------------------------
 
@@ -140,94 +274,94 @@ CREATE TABLE `product` (
   `description` varchar(256) NOT NULL,
   `details` varchar(512) NOT NULL,
   `price` decimal(13,2) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `product`
 --
 
-INSERT INTO `product` (`product_id`, `category_id`, `product_name`, `description`, `details`, `price`, `created_at`) VALUES
-(1, 1, 'Loose Cropped Jeans (Damaged)', 'Ankle-length jeans with a casual loose fit.', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\n100% Cotton\nWASHING INSTRUCTIONS\nMachine wash cold, gentle cycle, Do not Dry Clean', '990.00', '2022-10-12 17:27:25'),
-(2, 1, 'Jegging (Jeans Legging) J BRAND', 'Superb stretch for a flattering fit. Stylish design with subtle stitching.', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\n[01 OFF WHITE] Body: 77% Rayon, 18% Polyester, 5% Spandex/ Pocket Lining: 65% Polyester, 33% Cotton, 2% Spandex [09 BLACK, 69 NAVY] Body: 74% Rayon, 21% Polyester, 5% Spandex/ Pocket Lining: 65% Polyester, 33% Cotton, 2% Spandex\nWASHING INSTRUCTIONS\nMachine wash cold, gentle cycle, Do not Dry Clean', '3993.00', '2022-10-12 17:53:15'),
-(3, 1, 'Baggy Jeans', '\n100% cotton denim and a flattering baggy cut.', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\nBody: 100% Cotton/ Pocket Lining: 65% Polyester, 35% Cotton\nWASHING INSTRUCTIONS\nMachine wash cold, Do not Dry Clean', '1490.00', '2022-10-13 17:03:19'),
-(4, 1, 'Rounded Jeans Uniqlo U', 'Distinctive soft, comfortable feel. Soft and rounded silhouette flatters the legs.', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\nBody: 100% Cotton/ Pocket Lining: 65% Polyester, 35% Cotton\nWASHING INSTRUCTIONS\nMachine wash cold, Dry Clean', '1490.00', '2022-10-13 17:25:18'),
-(5, 1, 'Denim Jersey Shorts', 'Relaxed, easy shorts with a casual design.', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\n96% Cotton, 4% Spandex\nWASHING INSTRUCTIONS\nMachine wash cold, gentle cycle', '590.00', '2022-10-13 18:20:52'),
-(6, 1, 'Slim Flared Jeans', 'Sleek, slim silhouette with a subtly flared hem. Comfortable jeans with a leg-flattering effect.', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\nBody: 98% Cotton, 2% Spandex/ Pocket Lining: 65% Polyester, 35% Cotton\nWASHING INSTRUCTIONS\nMachine wash cold, Do not Dry Clean', '1490.00', '2022-10-13 18:56:35'),
-(7, 1, 'Peg Top High Rise Jeans', 'Loose-fitting, comfortable 100% cotton jeans. The sleek hem makes these jeans easy to put on.', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\nBody: 100% Cotton/ Pocket Lining: 65% Polyester, 35% Cotton\nWASHING INSTRUCTIONS\nMachine wash cold, gentle cycle, Do not Dry Clean', '1490.00', '2022-10-14 12:27:03'),
-(8, 2, 'Crew Neck Short Sleeve T-Shirt Uniqlo U', 'A stylish statement T-shirt. Meticulously designed for outstanding comfort.', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\n100% Cotton\nWASHING INSTRUCTIONS\nMachine wash cold', '390.00', '2022-10-14 12:42:30'),
-(9, 2, 'Dolman Short Sleeve T-Shirt', 'A versatile T-shirt with a relaxed fit.', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\n100% Cotton\nWASHING INSTRUCTIONS\nMachine wash cold, Dry Clean', '290.00', '2022-10-14 13:08:37'),
-(10, 2, 'Ribbed Crew Neck Half Sleeve T-Shirt', 'Ribbed fabric for an exceptional fit. Thick enough to wear on its own.\n', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\n96% Cotton, 4% Spandex\nWASHING INSTRUCTIONS\nMachine wash cold, Dry Clean', '590.00', '2022-10-14 13:31:04'),
-(11, 2, 'MAGIC FOR ALL TIMELESS FAVORITES UT (Short Sleeve Graphic T-Shirt)', 'The iconic Disney collection from the special project “MAGIC FOR ALL” is back!', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\n100% Cotton\nWASHING INSTRUCTIONS\nMachine wash cold, Do not Dry Clean', '590.00', '2022-10-14 13:58:27'),
-(12, 2, 'AIRism Mapping Crew Neck Short Sleeve T-Shirt', 'Stretchy AIRism with mesh panels for increased breathability.', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\n89% Nylon, 11% Spandex\nWASHING INSTRUCTIONS\nMachine wash cold, gentle cycle', '590.00', '2022-10-14 14:03:13'),
-(13, 2, 'AIRism Seamless Boat Neck Short Sleeve Long T-Shirt', 'Breezy and lightweight feel. The matte texture and longer length make them more flattering to wear.', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\n78% Polyester, 17% Lyocell, 5% Spandex\nWASHING INSTRUCTIONS\nMachine wash cold, gentle cycle', '590.00', '2022-10-14 14:19:32'),
-(14, 2, 'Mini Short Sleeve T-Shirt', 'Fitted mini T-shirt with a 90s vibe. Easy to mix and match with any style.', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\n96% Cotton, 4% Spandex\nWASHING INSTRUCTIONS\nMachine wash cold, Do not Dry Clean', '490.00', '2022-10-14 14:27:48'),
-(15, 3, 'Linen Blend Shirring Sleeveless Dress', 'Our lightweight and airy dress. Designed with an attractive fit for breezy style', 'Please note that this product may have different Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\nBody: 47% Rayon, 33% Linen, 20% Cotton/ Shirring Part: 70% Polyester, 30% Spandex/ Petticoat: 100% Polyester\nWASHING INSTRUCTIONS\nMachine wash cold, Do not Dry Clean', '1490.00', '2022-10-14 14:40:16'),
-(16, 3, 'Printed V Neck Short Sleeve Mini Dress', 'A breezy mini dress in smooth fabric and a floral print.', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\n100% Rayon\nWASHING INSTRUCTIONS\nMachine wash cold, gentle cycle, Dry Clean', '1491.00', '2022-10-14 14:55:16'),
-(17, 3, 'Square Neck Short Sleeve Flare Dress', 'A statement dress with a refined silhouette and neckline. Simple, versatile design.', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\n96% Cotton, 4% Spandex\nWASHING INSTRUCTIONS\nMachine wash cold, gentle cycle, Dry Clean', '790.00', '2022-10-14 15:01:19'),
-(18, 3, 'AIRism Cotton Short Sleeve Long Flare Dress Uniqlo U', 'AIRism for lasting comfort. Stunning flared cut.', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\n70% Cotton, 30% Polyester\nWASHING INSTRUCTIONS\nMachine wash cold, gentle cycle', '990.00', '2022-10-14 15:06:39'),
-(19, 3, 'UV Protection Long Sleeve Shirt Dress', 'Protection Long Sleeve Shirt Dress', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\n70% Polyester, 30% Rayon ( 56% Uses Recycled Polyester Fiber )\nWASHING INSTRUCTIONS\nMachine wash cold, gentle cycle, Dry Clean', '1992.00', '2022-10-14 15:17:51'),
-(20, 4, 'Smart Ankle Pants (Checked)', 'A sleek, elegant look and a comfortable fit. Versatile pants for any occasion.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Body: 67% Polyester, 29% Rayon, 4% Spandex ( 60% Uses Recycled Polyester Fiber )/ Pocket Lining: 100% Polyester\nWashing instructions\n    Machine wash cold, gentle cycle, Dry Clean', '1290.00', '2022-10-14 15:34:26'),
-(21, 4, 'Smart Ankle Pants (Brushed Houndstooth)', '2-way stretch fabric for a comfortable fit and a sleek look. Versatile pants for any occasion.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Body: 66% Polyester, 30% Rayon, 4% Spandex ( 61% Uses Recycled Polyester Fiber )/ Pocket Lining: 100% Polyester\nWashing instructions\n    Machine wash cold, gentle cycle, Dry Clean', '1290.00', '2022-10-14 15:38:58'),
-(22, 4, 'Smart Ankle Pants (Brushed Herringbone)', '2-way stretch fabric for a comfortable fit and a sleek look. Versatile pants for any occasion.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Body: 67% Polyester, 29% Rayon, 4% Spandex ( 62% Uses Recycled Polyester Fiber )/ Pocket Lining: 100% Polyester\nWashing instructions\n    Machine wash cold, gentle cycle, Dry Clean', '1290.00', '2022-10-14 15:51:19'),
-(23, 4, 'Smart Ankle Pants (Glen Check)', 'A sleek, elegant look and a comfortable fit. Versatile pants for any occasion', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Body: 67% Polyester, 29% Rayon, 4% Spandex ( 60% Uses Recycled Polyester Fiber )/ Pocket Lining: 100% Polyester\nWashing instructions\n    Machine wash cold, gentle cycle, Dry Clean', '1290.00', '2022-10-14 15:59:31'),
-(24, 5, 'Check Mini Skirt', 'Tweed fabric for a cozy feel. Checked pattern to accent your outfit.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Shell: 75% Polyester, 15% Wool, 10% Nylon/ Lining: Pocket Lining: 100% Polyester\nWashing instructions\n    Do not wash, Dry Clean', '990.00', '2022-10-14 16:07:09'),
-(25, 5, 'Wool Blend Mini Short Skirt (Windowpane)', 'Warm fabric with a premium feel. Windowpane check for a stylish look.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Shell: 67% Polyester, 33% Wool/ Lining: Pocket Lining: 100% Polyester\nWashing instructions\n    Do not wash, Dry Clean', '990.00', '2022-10-14 16:13:53'),
-(26, 5, 'Smart Skort (Solid)', 'The low key-design is suitable for all occasions. Easy on and off stretch fabric and elastic waistband.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    69% Polyester, 29% Rayon, 2% Spandex\nWashing instructions\n    Machine wash cold, gentle cycle, Dry Clean', '990.00', '2022-10-14 16:29:37'),
-(27, 5, 'Ultra Stretch Active Narrow Midi Skirt', 'Long slit skirt in Ultra Stretch fabric for better range of movement.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Polyester\nWashing instructions\n    Machine wash cold, gentle cycle, Do not Dry Clean', '790.00', '2022-10-14 16:32:34'),
-(28, 6, 'Smart Tucked Shorts', 'Stretch fabric for freedom of movement. Stylish design goes with any outfit.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Body: 68% Polyester, 30% Rayon, 2% Spandex/ Pocket Lining: 100% Polyester\nWashing instructions\n    Machine wash cold, Dry Clean', '590.00', '2022-10-14 16:43:04'),
-(29, 6, 'Chino Shorts', 'Loose shorts with a cool look. Meticulously designed details for a comfortable fit.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Cotton\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '590.00', '2022-10-14 17:15:20'),
-(30, 6, 'Linen Cotton Shorts', 'Cool linen-cotton blend material great for warmer months.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    50% Cotton, 50% Linen\nWashing instructions\n    Machine wash cold, gentle cycle', '790.00', '2022-10-14 17:45:14'),
-(31, 7, 'Smooth Stretch Cotton Turtle Neck Long Sleeve T-Shirt', 'Ribbed fabric for a sleek fit. Thick enough to wear on its own.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    96% Cotton, 4% Spandex\nWashing instructions\n    Machine wash cold', '590.00', '2022-10-14 17:53:56'),
-(32, 7, 'Ribbed High Neck Long Sleeve T-Shirt', 'Ribbed fabric for a sleek fit. Thick enough to wear on its own.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    96% Cotton, 4% Spandex\nWashing instructions\n    Machine wash cold, Dry Clean', '590.00', '2022-10-14 18:03:24'),
-(33, 7, 'Striped Long Sleeve T-Shirt', 'Striped T-shirt in 100% cotton with a boxy cut for a casual look.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Cotton\nWashing instructions\n    Machine wash cold, Dry Clean', '790.00', '2022-10-14 18:18:03'),
-(34, 8, 'Ultra Light Jacket', 'A high performance jacket that is surprisingly lightweight and easy to throw on. Great for both casual and business wear.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Shell: 100% Polyester/ Lining: 100% Polyester\nWashing instructions\n    Machine wash cold, gentle cycle, Dry Clean', '1990.00', '2022-10-14 18:32:25'),
-(35, 8, 'Relaxed Tailored Jacket', 'The relaxed styling can be enjoyed with its fall-feeling material and roomier silhouette.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Shell: 67% Polyester, 29% Rayon, 4% Spandex ( 60% Uses Recycled Polyester Fiber )/ Lining: 100% Polyester/ Pocket Lining: 100% Polyester\nWashing instructions\n    Hand wash cold, Dry Clean', '2990.00', '2022-10-14 18:40:00'),
-(36, 8, 'Double Breasted Jacket', 'This jacket unbuttons for a stylish drape. Easily dresses up or down.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Shell: 75% Polyester, 15% Wool, 10% Nylon/ Lining: 100% Polyester/ Pocket Lining: 100% Polyester\nWashing instructions\n    Do not wash, Dry Clean', '2990.00', '2022-10-14 18:43:37'),
-(37, 9, 'Premium Lambswool Ribbed Crew Neck Long Sleeve Sweater Uniqlo U', 'A premium wool sweater with a casual chunky knit. The slightly cropped length and ribbed knit add a style accent.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Wool\nWashing instructions\n    Hand wash cold, Dry Clean', '1490.00', '2022-10-14 18:48:54'),
-(38, 9, 'Light Souffle Yarn Mock Neck Long Sleeve Sweater', 'Smooth, non-itchy souffle yarn. Voluminous body and sleeves for a soft look.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    41% Acrylic, 31% Nylon, 26% Cotton, 2% Spandex\nWashing instructions\n    Hand wash cold, Dry Clean', '990.00', '2022-10-14 18:58:02'),
-(39, 10, 'Oversized Striped Crew Neck Half Sleeve T-Shirt', 'Oversized T-shirt in durable fabric for a laid-back style.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Cotton\nWashing instructions\n    Machine wash cold, gentle cycle', '590.00', '2022-10-14 19:09:59'),
-(40, 10, 'SUPIMA COTTON Crew Neck Short Sleeve T-Shirt', '100% Supima cotton for a high-quality feel. A basic item that goes with any look.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Cotton\nWashing instructions\n    Machine wash cold', '390.00', '2022-10-14 19:34:49'),
-(41, 10, 'AIRism Cotton Crew Neck Oversized Half Sleeve T-Shirt Uniqlo U', 'The look of cotton with \"AIRism\" performance. Narrower neckline for a clean, neat style.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    53% Cotton, 47% Polyester\nWashing instructions\n    Machine wash cold', '590.00', '2022-10-14 20:24:17'),
-(42, 10, 'Oversized Pocket Crew Neck Half Sleeve T-Shirt', 'Oversized T-shirt in durable fabric for a laid-back style.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Cotton\nWashing instructions\n    Machine wash cold', '590.00', '2022-10-14 20:54:36'),
-(43, 10, 'AIRism Cotton Crew Neck Short Sleeve T-Shirt', 'Smooth, comfortable AIRism with cotton looks.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Cotton\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '290.00', '2022-10-15 06:58:02'),
-(44, 11, 'Bloody Bunny Black Flame Shirt', 'A short-sleeve button-up shirt in an all-over graphic Bloody Bunny print.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Cotton\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '2190.00', '2022-10-15 07:37:49'),
-(45, 11, 'Legend Hawaiian Shirt', 'A short-sleeve button-up shirt in an all-over graphic print. Relaxed fit.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Cotton\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '1790.00', '2022-10-15 07:41:37'),
-(46, 11, 'Graphic Long Sleeve Shirt', 'A long-sleeve button-up shirt in an all-over graphic print. Relaxed fit.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Cotton\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '2190.00', '2022-10-15 07:50:01'),
-(47, 12, 'Wide Fit Jeans', 'Based on customer feedback, we updated the design with a sturdy fabric and jeans-like details.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Body: 100% Cotton/ Pocket Lining: 65% Polyester, 35% Cotton\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '1490.00', '2022-10-15 08:01:14'),
-(48, 12, 'Ultra Stretch Skinny Fit Color Jeans', 'Amazing stretch for comfort and a flattering style. Sleek, skinny fit', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    97% Cotton, 3% Spandex\nWashing instructions\n    Machine wash cold, gentle cycle, Dry Clean', '990.00', '2022-10-15 08:08:27'),
-(49, 12, 'Dark Rabbit Joggers', 'Denim-inspired joggers with a smocked drawstring waist, side pockets and a \"Pack Rabbit\" patch on the front.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Body: 100% Cotton/ Pocket Lining: 65% Polyester, 35% Cotton\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '2490.00', '2022-10-15 08:28:17'),
-(50, 13, 'Dry Pique Short Sleeve Polo Shirt', 'A classic that fits into any scene. We have adjusted the details for an even more flattering design.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Body: 72% Cotton, 28% Polyester/ Rib: 73% Polyester, 27% Cotton\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '790.00', '2022-10-15 08:32:16'),
-(51, 13, 'Rugger Polo Shirt', 'A modern take on the classic rugby shirt.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Cotton\nWashing instructions\n    Machine wash cold, Dry Clean', '790.00', '2022-10-15 08:45:24'),
-(52, 13, 'AIRism Pique Short Sleeve Polo Shirt', 'Feels silky and refreshing. Simple, minimal style.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    [00White] 57% Cotton, 43% Nylon [09Black, 69Navy, 61Blue] 51% Cotton, 49% Nylon\nWashing instructions\n    Machine wash cold', '790.00', '2022-10-15 08:58:15'),
-(53, 14, 'Classic Cut Jeans Helmut Lang', 'UNIQLO’s contemporary take on the classic jeans by iconic 90s fashion brand Helmut Lang.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Body: 99% Cotton, 1% Other Fiber ( 23% Uses Recycled Cotton Fiber )/ Pocket Lining: 100% Cotton\nWashing instructions\n    Machine wash cold, gentle cycle, Do not Dry Clean', '3990.00', '2022-10-15 10:19:34'),
-(54, 14, 'HEATTECH Ultra Stretch Jeans', 'A classic denim look and the warmth of HEATTECH. In Ultra Stretch fabric for easy movement.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Body: 61% Cotton, 19% Rayon, 13% Acrylic, 5% Polyester, 2% Spandex/ Pocket Lining: 65% Polyester, 35% Rayon\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '1990.00', '2022-10-15 10:34:59'),
-(55, 14, 'Regular Fit Jeans Uniqlo U', 'Genuine Kaihara denim. In a versatile tapered regular fit.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Body: 100% Cotton/ Pocket Lining: 100% Cotton\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '1990.00', '2022-10-15 10:44:24'),
-(56, 15, 'Washable Milano Ribbed Long Sleeve Sweater', 'An elegant looking, easy-to-wear sweater. Versatile design for business or casual wear.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    66% Cotton, 34% Polyester\nWashing instructions\n    Machine wash cold, gentle cycle', '990.00', '2022-10-15 14:40:15'),
-(57, 15, 'Extra Fine Merino V Neck Long Sleeve Cardigan', 'The exquisite texture of 100% premium wool. Updated for a smoother surface', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Wool\nWashing instructions\n    Machine wash cold, gentle cycle, Dry Clean', '1490.00', '2022-10-15 14:52:24'),
-(58, 15, 'Extra Fine Merino Crew Neck Long Sleeve Sweater', 'The exquisite texture of 100% premium wool. Updated for a smoother surface.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Wool\nWashing instructions\n    Machine wash cold, gentle cycle, Dry Clean', '1490.00', '2022-10-15 14:58:14'),
-(59, 16, 'Ultra Light Jacket (Wool Like)', 'Our incredibly lightweight, stretchy and quick-drying high-performance jacket. Also suitable for business settings.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Shell: 100% Polyester/ Lining: 100% Polyester\nWashing instructions\n    Machine wash cold, gentle cycle, Dry Clean', '1990.00', '2022-10-15 15:08:16'),
-(60, 16, 'Comfort 2 Buttons Jacket (Pattern)', 'Comfortable jacket in soft jersey fabric with improved sleeve lining.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Shell: 56% Polyester, 44% Cotton/ Lining: 100% Polyester/ Pocket Lining: 100% Polyester\nWashing instructions\n    Hand wash cold, Dry Clean', '1990.00', '2022-10-15 15:15:39'),
-(61, 16, 'Recycled Down Jacket', 'Sleek, collarless design. Recommended not only as outerwear, but also as a light jacket for chilly days.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Face: 100% Nylon ( 100% Uses Recycled Nylon Fiber )/ Filling: 85% Down, 15% Feathers ( 100% Uses Recycled Down Feathers )/ Back: 100% Nylon ( 100% Uses Recycled Nylon Fiber )/ Pocket Lining: 100% Nylon\nWashing instructions\n    Hand wash cold, Do not Dry Clean', '3490.00', '2022-10-15 15:23:38'),
-(62, 16, 'Utility Jacket', 'Work wear-style jacket in warm material. Features practical pockets.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    99% Cotton, 1% Spandex\nWashing instructions\n    Machine wash cold, gentle cycle, Dry Clean', '1990.00', '2022-10-15 15:31:40'),
-(63, 17, 'KIDS AIRism Cotton Crew Neck Short Sleeve T-Shirt Uniqlo U', 'The look of cotton with AIRism performance. Our smooth and comfortable T-shirt.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    54% Cotton, 46% Polyester\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '290.00', '2022-10-15 15:56:58'),
-(64, 17, 'KIDS Flannel Checked Long Sleeve Shirt', 'Updated sizing for a comfortable fit. Soft and comfy brushed flannel fabric.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Cotton\nWashing instructions\n    Machine wash cold, Dry Clean', '790.00', '2022-10-15 16:13:22'),
-(65, 17, 'KIDS Warm Padded Washable Parka', 'Lightweight, warm, padded parka. The product has so many user-friendly features, including design specifications that protect against the rain', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Face: 100% Nylon/ Filling: 100% Polyester ( 35% Uses Recycled Polyester Fiber )/ Back: 100% Polyester ( 54% Uses Recycled Polyester Fiber )/ Pocket Lining: 100% Polyester ( 54% Uses Recycled Polyester Fiber )\nWashing instructions\n    Machine wash cold, gentle cycle, Do not Dry Clean', '1290.00', '2022-10-15 16:17:32'),
-(66, 17, 'KIDS Crew Neck Long Sleeve T-Shirt Uniqlo U', 'We developed a fabric with just the right thickness and a quality texture. Designed with superb attention to detail.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Body: 100% Cotton/ Rib: 65% Cotton, 35% Polyester\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '590.00', '2022-10-15 16:31:02'),
-(67, 17, 'KIDS Sweat Blouson', 'Our fashionable varsity jacket. Patches add a distinctive style accent', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Body: 70% Cotton, 30% Polyester/ Rib: 76% Cotton, 21% Polyester, 3% Spandex/ Pocket Lining: 100% Cotton\nWashing instructions\n    Machine wash cold, gentle cycle, Do not Dry Clean', '990.00', '2022-10-15 16:47:35'),
-(68, 17, 'KIDS Striped Easy Shorts', 'Cool, breezy shorts. Elastic waist and stretch fabric for easy movement.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    70% Cotton, 29% Polyester, 1% Spandex\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '390.00', '2022-10-15 16:55:13'),
-(69, 17, 'KIDS Denim Easy Shorts', 'In a loose-fitting cut for easy movement. Chino style is easy to mix and match.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Cotton\nWashing instructions\n    Machine wash cold', '390.00', '2022-10-15 17:05:36'),
-(70, 18, 'GIRLS Rayon Short Flower Printed Tiered Dress', 'Rayon Flower Printed Tiered Dress ', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Rayon\nWashing instructions\n    Machine wash cold, gentle cycle, Dry Clean', '790.00', '2022-10-15 17:12:04'),
-(71, 18, 'GIRLS Printed Tiered Long Sleeve Dress', 'Tiered dress with a lovely airy cut. In a versatile small floral print', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Cotton\nWashing instructions\n    Machine wash cold, gentle cycle, Do not Dry Clean', '790.00', '2022-10-15 17:21:10'),
-(72, 18, 'KIDS Minecraft UT (Short Sleeve Graphic T-Shirt)', 'Minecraft, the globally popular game among a wide range of people, is back for UT!', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Cotton\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '390.00', '2022-10-15 17:32:45'),
-(73, 18, 'KIDS Minecraft Sweat Long Sleeve Hoodie', 'Minecraft, the globally popular game among a wide range of people, is back for UT!', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Body: 100% Cotton/ Rib: 78% Cotton, 22% Polyester\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '790.00', '2022-10-15 17:36:05'),
-(74, 18, 'GIRLS Sanrio Characters UT (Short Sleeve Graphic T-Shirt)', 'A cute collection featuring Sanrio characters and flowers is now available.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Cotton\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '390.00', '2022-10-15 17:40:14'),
-(75, 18, 'GIRLS Tuck Wide Tapered Pants (Solid)', 'Wide cut showcases the drape of the fabric. Wrinkle-resistant for easy care.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Body: 58% Modal, 42% Cotton/ Pocket Lining: Outer Layer: 80% Polyester, 20% Cotton/ Back: 58% Modal, 42% Cotton\nWashing instructions\n    Machine wash cold, gentle cycle, Do not Dry Clean', '790.00', '2022-10-15 17:49:59'),
-(76, 18, 'GIRLS Tuck Wide Tapered Pants (Checked)', 'The silky fabric creates a charming flared silhouette. Wrinkle-resistant for easy care.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Body: 70% Polyester, 30% Rayon ( 64% Uses Recycled Polyester Fiber )/ Pocket Lining: Outer Layer: 65% Polyester, 35% Cotton/ Pocket Lining: Back: 70% Polyester, 30% Rayon ( 64% Uses Recycled Polyester Fiber )\nWashing instructions\n    Machine wash cold, gentle cycle, Do not Dry Clean', '790.00', '2022-10-15 17:57:27'),
-(77, 18, 'GIRLS Mercerized Cotton Sleeveless Dress', 'A camisole dress with a sleek design. Effortlessly styles alone or layered with a T-shirt.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Shell: Lining: 100% Cotton\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '390.00', '2022-10-15 18:01:23'),
-(78, 17, 'KIDS AIRism Short Sleeve Set (Striped)', 'Relax in total comfort with our smooth, stay-fresh lounge set.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Tops: Body: 57% Cotton, 38% Polyester, 5% Spandex/ Rib: 97% Cotton, 3% Spandex/ Bottoms: 57% Cotton, 38% Polyester, 5% Spandex\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '590.00', '2022-10-15 18:11:04'),
-(79, 18, 'GIRLS AIRism Ultra Stretch Long Sleeve Set (Flower)', 'Lasting comfort and freshness. Incredibly stretchy for total relaxation.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Tops: Body: 49% Polyester, 44% Cotton, 7% Spandex/ Rib: 95% Cotton, 5% Spandex/ Bottoms: 49% Polyester, 44% Cotton, 7% Spandex\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '790.00', '2022-10-15 18:15:59'),
-(80, 18, 'GIRLS Drape Pants (Flower)', 'Loose-fitting easy pants. Elegant drape goes great with casual styles.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Rayon\nWashing instructions\n    Machine wash cold, gentle cycle', '390.00', '2022-10-15 18:26:55');
+INSERT INTO `product` (`product_id`, `category_id`, `product_name`, `description`, `details`, `price`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Loose Cropped Jeans (Damaged)', 'Ankle-length jeans with a casual loose fit.', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\n100% Cotton\nWASHING INSTRUCTIONS\nMachine wash cold, gentle cycle, Do not Dry Clean', '990.00', '2022-10-12 17:27:25', '2022-11-25 10:57:27'),
+(2, 1, 'Jegging (Jeans Legging) J BRAND', 'Superb stretch for a flattering fit. Stylish design with subtle stitching.', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\n[01 OFF WHITE] Body: 77% Rayon, 18% Polyester, 5% Spandex/ Pocket Lining: 65% Polyester, 33% Cotton, 2% Spandex [09 BLACK, 69 NAVY] Body: 74% Rayon, 21% Polyester, 5% Spandex/ Pocket Lining: 65% Polyester, 33% Cotton, 2% Spandex\nWASHING INSTRUCTIONS\nMachine wash cold, gentle cycle, Do not Dry Clean', '3993.00', '2022-10-12 17:53:15', '2022-11-25 10:57:27'),
+(3, 1, 'Baggy Jeans', '\n100% cotton denim and a flattering baggy cut.', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\nBody: 100% Cotton/ Pocket Lining: 65% Polyester, 35% Cotton\nWASHING INSTRUCTIONS\nMachine wash cold, Do not Dry Clean', '1490.00', '2022-10-13 17:03:19', '2022-11-25 10:57:27'),
+(4, 1, 'Rounded Jeans Uniqlo U', 'Distinctive soft, comfortable feel. Soft and rounded silhouette flatters the legs.', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\nBody: 100% Cotton/ Pocket Lining: 65% Polyester, 35% Cotton\nWASHING INSTRUCTIONS\nMachine wash cold, Dry Clean', '1490.00', '2022-10-13 17:25:18', '2022-11-25 10:57:27'),
+(5, 1, 'Denim Jersey Shorts', 'Relaxed, easy shorts with a casual design.', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\n96% Cotton, 4% Spandex\nWASHING INSTRUCTIONS\nMachine wash cold, gentle cycle', '590.00', '2022-10-13 18:20:52', '2022-11-25 10:57:27'),
+(6, 1, 'Slim Flared Jeans', 'Sleek, slim silhouette with a subtly flared hem. Comfortable jeans with a leg-flattering effect.', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\nBody: 98% Cotton, 2% Spandex/ Pocket Lining: 65% Polyester, 35% Cotton\nWASHING INSTRUCTIONS\nMachine wash cold, Do not Dry Clean', '1490.00', '2022-10-13 18:56:35', '2022-11-25 10:57:27'),
+(7, 1, 'Peg Top High Rise Jeans', 'Loose-fitting, comfortable 100% cotton jeans. The sleek hem makes these jeans easy to put on.', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\nBody: 100% Cotton/ Pocket Lining: 65% Polyester, 35% Cotton\nWASHING INSTRUCTIONS\nMachine wash cold, gentle cycle, Do not Dry Clean', '1490.00', '2022-10-14 12:27:03', '2022-11-25 10:57:27'),
+(8, 2, 'Crew Neck Short Sleeve T-Shirt Uniqlo U', 'A stylish statement T-shirt. Meticulously designed for outstanding comfort.', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\n100% Cotton\nWASHING INSTRUCTIONS\nMachine wash cold', '390.00', '2022-10-14 12:42:30', '2022-11-25 10:57:27'),
+(9, 2, 'Dolman Short Sleeve T-Shirt', 'A versatile T-shirt with a relaxed fit.', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\n100% Cotton\nWASHING INSTRUCTIONS\nMachine wash cold, Dry Clean', '290.00', '2022-10-14 13:08:37', '2022-11-25 10:57:27'),
+(10, 2, 'Ribbed Crew Neck Half Sleeve T-Shirt', 'Ribbed fabric for an exceptional fit. Thick enough to wear on its own.\n', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\n96% Cotton, 4% Spandex\nWASHING INSTRUCTIONS\nMachine wash cold, Dry Clean', '590.00', '2022-10-14 13:31:04', '2022-11-25 10:57:27'),
+(11, 2, 'MAGIC FOR ALL TIMELESS FAVORITES UT (Short Sleeve Graphic T-Shirt)', 'The iconic Disney collection from the special project “MAGIC FOR ALL” is back!', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\n100% Cotton\nWASHING INSTRUCTIONS\nMachine wash cold, Do not Dry Clean', '590.00', '2022-10-14 13:58:27', '2022-11-25 10:57:27'),
+(12, 2, 'AIRism Mapping Crew Neck Short Sleeve T-Shirt', 'Stretchy AIRism with mesh panels for increased breathability.', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\n89% Nylon, 11% Spandex\nWASHING INSTRUCTIONS\nMachine wash cold, gentle cycle', '590.00', '2022-10-14 14:03:13', '2022-11-25 10:57:27'),
+(13, 2, 'AIRism Seamless Boat Neck Short Sleeve Long T-Shirt', 'Breezy and lightweight feel. The matte texture and longer length make them more flattering to wear.', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\n78% Polyester, 17% Lyocell, 5% Spandex\nWASHING INSTRUCTIONS\nMachine wash cold, gentle cycle', '590.00', '2022-10-14 14:19:32', '2022-11-25 10:57:27'),
+(14, 2, 'Mini Short Sleeve T-Shirt', 'Fitted mini T-shirt with a 90s vibe. Easy to mix and match with any style.', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\n96% Cotton, 4% Spandex\nWASHING INSTRUCTIONS\nMachine wash cold, Do not Dry Clean', '490.00', '2022-10-14 14:27:48', '2022-11-25 10:57:27'),
+(15, 3, 'Linen Blend Shirring Sleeveless Dress', 'Our lightweight and airy dress. Designed with an attractive fit for breezy style', 'Please note that this product may have different Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\nBody: 47% Rayon, 33% Linen, 20% Cotton/ Shirring Part: 70% Polyester, 30% Spandex/ Petticoat: 100% Polyester\nWASHING INSTRUCTIONS\nMachine wash cold, Do not Dry Clean', '1490.00', '2022-10-14 14:40:16', '2022-11-25 10:57:27'),
+(16, 3, 'Printed V Neck Short Sleeve Mini Dress', 'A breezy mini dress in smooth fabric and a floral print.', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\n100% Rayon\nWASHING INSTRUCTIONS\nMachine wash cold, gentle cycle, Dry Clean', '1491.00', '2022-10-14 14:55:16', '2022-11-25 10:57:27'),
+(17, 3, 'Square Neck Short Sleeve Flare Dress', 'A statement dress with a refined silhouette and neckline. Simple, versatile design.', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\n96% Cotton, 4% Spandex\nWASHING INSTRUCTIONS\nMachine wash cold, gentle cycle, Dry Clean', '790.00', '2022-10-14 15:01:19', '2022-11-25 10:57:27'),
+(18, 3, 'AIRism Cotton Short Sleeve Long Flare Dress Uniqlo U', 'AIRism for lasting comfort. Stunning flared cut.', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\n70% Cotton, 30% Polyester\nWASHING INSTRUCTIONS\nMachine wash cold, gentle cycle', '990.00', '2022-10-14 15:06:39', '2022-11-25 10:57:27'),
+(19, 3, 'UV Protection Long Sleeve Shirt Dress', 'Protection Long Sleeve Shirt Dress', 'Please note that this product may have different product ID, even if it is the same item.\nFABRIC DETAILS\n70% Polyester, 30% Rayon ( 56% Uses Recycled Polyester Fiber )\nWASHING INSTRUCTIONS\nMachine wash cold, gentle cycle, Dry Clean', '1992.00', '2022-10-14 15:17:51', '2022-11-25 10:57:27'),
+(20, 4, 'Smart Ankle Pants (Checked)', 'A sleek, elegant look and a comfortable fit. Versatile pants for any occasion.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Body: 67% Polyester, 29% Rayon, 4% Spandex ( 60% Uses Recycled Polyester Fiber )/ Pocket Lining: 100% Polyester\nWashing instructions\n    Machine wash cold, gentle cycle, Dry Clean', '1290.00', '2022-10-14 15:34:26', '2022-11-25 10:57:27'),
+(21, 4, 'Smart Ankle Pants (Brushed Houndstooth)', '2-way stretch fabric for a comfortable fit and a sleek look. Versatile pants for any occasion.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Body: 66% Polyester, 30% Rayon, 4% Spandex ( 61% Uses Recycled Polyester Fiber )/ Pocket Lining: 100% Polyester\nWashing instructions\n    Machine wash cold, gentle cycle, Dry Clean', '1290.00', '2022-10-14 15:38:58', '2022-11-25 10:57:27'),
+(22, 4, 'Smart Ankle Pants (Brushed Herringbone)', '2-way stretch fabric for a comfortable fit and a sleek look. Versatile pants for any occasion.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Body: 67% Polyester, 29% Rayon, 4% Spandex ( 62% Uses Recycled Polyester Fiber )/ Pocket Lining: 100% Polyester\nWashing instructions\n    Machine wash cold, gentle cycle, Dry Clean', '1290.00', '2022-10-14 15:51:19', '2022-11-25 10:57:27'),
+(23, 4, 'Smart Ankle Pants (Glen Check)', 'A sleek, elegant look and a comfortable fit. Versatile pants for any occasion', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Body: 67% Polyester, 29% Rayon, 4% Spandex ( 60% Uses Recycled Polyester Fiber )/ Pocket Lining: 100% Polyester\nWashing instructions\n    Machine wash cold, gentle cycle, Dry Clean', '1290.00', '2022-10-14 15:59:31', '2022-11-25 10:57:27'),
+(24, 5, 'Check Mini Skirt', 'Tweed fabric for a cozy feel. Checked pattern to accent your outfit.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Shell: 75% Polyester, 15% Wool, 10% Nylon/ Lining: Pocket Lining: 100% Polyester\nWashing instructions\n    Do not wash, Dry Clean', '990.00', '2022-10-14 16:07:09', '2022-11-25 10:57:27'),
+(26, 5, 'Smart Skort (Solid)', 'The low key-design is suitable for all occasions. Easy on and off stretch fabric and elastic waistband.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    69% Polyester, 29% Rayon, 2% Spandex\nWashing instructions\n    Machine wash cold, gentle cycle, Dry Clean', '990.00', '2022-10-14 16:29:37', '2022-11-25 10:57:27'),
+(27, 5, 'Ultra Stretch Active Narrow Midi Skirt', 'Long slit skirt in Ultra Stretch fabric for better range of movement.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Polyester\nWashing instructions\n    Machine wash cold, gentle cycle, Do not Dry Clean', '790.00', '2022-10-14 16:32:34', '2022-11-25 10:57:27'),
+(28, 6, 'Smart Tucked Shorts', 'Stretch fabric for freedom of movement. Stylish design goes with any outfit.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Body: 68% Polyester, 30% Rayon, 2% Spandex/ Pocket Lining: 100% Polyester\nWashing instructions\n    Machine wash cold, Dry Clean', '590.00', '2022-10-14 16:43:04', '2022-11-25 10:57:27'),
+(29, 6, 'Chino Shorts', 'Loose shorts with a cool look. Meticulously designed details for a comfortable fit.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Cotton\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '590.00', '2022-10-14 17:15:20', '2022-11-25 10:57:27'),
+(30, 6, 'Linen Cotton Shorts', 'Cool linen-cotton blend material great for warmer months.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    50% Cotton, 50% Linen\nWashing instructions\n    Machine wash cold, gentle cycle', '790.00', '2022-10-14 17:45:14', '2022-11-25 10:57:27'),
+(31, 7, 'Smooth Stretch Cotton Turtle Neck Long Sleeve T-Shirt', 'Ribbed fabric for a sleek fit. Thick enough to wear on its own.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    96% Cotton, 4% Spandex\nWashing instructions\n    Machine wash cold', '590.00', '2022-10-14 17:53:56', '2022-11-25 10:57:27'),
+(32, 7, 'Ribbed High Neck Long Sleeve T-Shirt', 'Ribbed fabric for a sleek fit. Thick enough to wear on its own.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    96% Cotton, 4% Spandex\nWashing instructions\n    Machine wash cold, Dry Clean', '590.00', '2022-10-14 18:03:24', '2022-11-25 10:57:27'),
+(33, 7, 'Striped Long Sleeve T-Shirt', 'Striped T-shirt in 100% cotton with a boxy cut for a casual look.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Cotton\nWashing instructions\n    Machine wash cold, Dry Clean', '790.00', '2022-10-14 18:18:03', '2022-11-25 10:57:27'),
+(34, 8, 'Ultra Light Jacket', 'A high performance jacket that is surprisingly lightweight and easy to throw on. Great for both casual and business wear.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Shell: 100% Polyester/ Lining: 100% Polyester\nWashing instructions\n    Machine wash cold, gentle cycle, Dry Clean', '1990.00', '2022-10-14 18:32:25', '2022-11-25 10:57:27'),
+(35, 8, 'Relaxed Tailored Jacket', 'The relaxed styling can be enjoyed with its fall-feeling material and roomier silhouette.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Shell: 67% Polyester, 29% Rayon, 4% Spandex ( 60% Uses Recycled Polyester Fiber )/ Lining: 100% Polyester/ Pocket Lining: 100% Polyester\nWashing instructions\n    Hand wash cold, Dry Clean', '2990.00', '2022-10-14 18:40:00', '2022-11-25 10:57:27'),
+(36, 8, 'Double Breasted Jacket', 'This jacket unbuttons for a stylish drape. Easily dresses up or down.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Shell: 75% Polyester, 15% Wool, 10% Nylon/ Lining: 100% Polyester/ Pocket Lining: 100% Polyester\nWashing instructions\n    Do not wash, Dry Clean', '2990.00', '2022-10-14 18:43:37', '2022-11-25 10:57:27'),
+(37, 9, 'Premium Lambswool Ribbed Crew Neck Long Sleeve Sweater Uniqlo U', 'A premium wool sweater with a casual chunky knit. The slightly cropped length and ribbed knit add a style accent.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Wool\nWashing instructions\n    Hand wash cold, Dry Clean', '1490.00', '2022-10-14 18:48:54', '2022-11-25 10:57:27'),
+(38, 9, 'Light Souffle Yarn Mock Neck Long Sleeve Sweater', 'Smooth, non-itchy souffle yarn. Voluminous body and sleeves for a soft look.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    41% Acrylic, 31% Nylon, 26% Cotton, 2% Spandex\nWashing instructions\n    Hand wash cold, Dry Clean', '990.00', '2022-10-14 18:58:02', '2022-11-25 10:57:27'),
+(39, 10, 'Oversized Striped Crew Neck Half Sleeve T-Shirt', 'Oversized T-shirt in durable fabric for a laid-back style.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Cotton\nWashing instructions\n    Machine wash cold, gentle cycle', '590.00', '2022-10-14 19:09:59', '2022-11-25 10:57:27'),
+(40, 10, 'SUPIMA COTTON Crew Neck Short Sleeve T-Shirt', '100% Supima cotton for a high-quality feel. A basic item that goes with any look.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Cotton\nWashing instructions\n    Machine wash cold', '390.00', '2022-10-14 19:34:49', '2022-11-25 10:57:27'),
+(41, 10, 'AIRism Cotton Crew Neck Oversized Half Sleeve T-Shirt Uniqlo U', 'The look of cotton with \"AIRism\" performance. Narrower neckline for a clean, neat style.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    53% Cotton, 47% Polyester\nWashing instructions\n    Machine wash cold', '590.00', '2022-10-14 20:24:17', '2022-11-25 10:57:27'),
+(42, 10, 'Oversized Pocket Crew Neck Half Sleeve T-Shirt', 'Oversized T-shirt in durable fabric for a laid-back style.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Cotton\nWashing instructions\n    Machine wash cold', '590.00', '2022-10-14 20:54:36', '2022-11-25 10:57:27'),
+(43, 10, 'AIRism Cotton Crew Neck Short Sleeve T-Shirt', 'Smooth, comfortable AIRism with cotton looks.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Cotton\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '290.00', '2022-10-15 06:58:02', '2022-11-25 10:57:27'),
+(44, 11, 'Bloody Bunny Black Flame Shirt', 'A short-sleeve button-up shirt in an all-over graphic Bloody Bunny print.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Cotton\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '2190.00', '2022-10-15 07:37:49', '2022-11-25 10:57:27'),
+(45, 11, 'Legend Hawaiian Shirt', 'A short-sleeve button-up shirt in an all-over graphic print. Relaxed fit.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Cotton\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '1790.00', '2022-10-15 07:41:37', '2022-11-25 10:57:27'),
+(46, 11, 'Graphic Long Sleeve Shirt', 'A long-sleeve button-up shirt in an all-over graphic print. Relaxed fit.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Cotton\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '2190.00', '2022-10-15 07:50:01', '2022-11-25 10:57:27'),
+(47, 12, 'Wide Fit Jeans', 'Based on customer feedback, we updated the design with a sturdy fabric and jeans-like details.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Body: 100% Cotton/ Pocket Lining: 65% Polyester, 35% Cotton\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '1490.00', '2022-10-15 08:01:14', '2022-11-25 10:57:27'),
+(48, 12, 'Ultra Stretch Skinny Fit Color Jeans', 'Amazing stretch for comfort and a flattering style. Sleek, skinny fit', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    97% Cotton, 3% Spandex\nWashing instructions\n    Machine wash cold, gentle cycle, Dry Clean', '990.00', '2022-10-15 08:08:27', '2022-11-25 10:57:27'),
+(49, 12, 'Dark Rabbit Joggers', 'Denim-inspired joggers with a smocked drawstring waist, side pockets and a \"Pack Rabbit\" patch on the front.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Body: 100% Cotton/ Pocket Lining: 65% Polyester, 35% Cotton\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '2490.00', '2022-10-15 08:28:17', '2022-11-25 10:57:27'),
+(50, 13, 'Dry Pique Short Sleeve Polo Shirt', 'A classic that fits into any scene. We have adjusted the details for an even more flattering design.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Body: 72% Cotton, 28% Polyester/ Rib: 73% Polyester, 27% Cotton\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '790.00', '2022-10-15 08:32:16', '2022-11-25 10:57:27'),
+(51, 13, 'Rugger Polo Shirt', 'A modern take on the classic rugby shirt.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Cotton\nWashing instructions\n    Machine wash cold, Dry Clean', '790.00', '2022-10-15 08:45:24', '2022-11-25 10:57:27'),
+(52, 13, 'AIRism Pique Short Sleeve Polo Shirt', 'Feels silky and refreshing. Simple, minimal style.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    [00White] 57% Cotton, 43% Nylon [09Black, 69Navy, 61Blue] 51% Cotton, 49% Nylon\nWashing instructions\n    Machine wash cold', '790.00', '2022-10-15 08:58:15', '2022-11-25 10:57:27'),
+(53, 14, 'Classic Cut Jeans Helmut Lang', 'UNIQLO’s contemporary take on the classic jeans by iconic 90s fashion brand Helmut Lang.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Body: 99% Cotton, 1% Other Fiber ( 23% Uses Recycled Cotton Fiber )/ Pocket Lining: 100% Cotton\nWashing instructions\n    Machine wash cold, gentle cycle, Do not Dry Clean', '3990.00', '2022-10-15 10:19:34', '2022-11-25 10:57:27'),
+(54, 14, 'HEATTECH Ultra Stretch Jeans', 'A classic denim look and the warmth of HEATTECH. In Ultra Stretch fabric for easy movement.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Body: 61% Cotton, 19% Rayon, 13% Acrylic, 5% Polyester, 2% Spandex/ Pocket Lining: 65% Polyester, 35% Rayon\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '1990.00', '2022-10-15 10:34:59', '2022-11-25 10:57:27'),
+(55, 14, 'Regular Fit Jeans Uniqlo U', 'Genuine Kaihara denim. In a versatile tapered regular fit.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Body: 100% Cotton/ Pocket Lining: 100% Cotton\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '1990.00', '2022-10-15 10:44:24', '2022-11-25 10:57:27'),
+(56, 15, 'Washable Milano Ribbed Long Sleeve Sweater', 'An elegant looking, easy-to-wear sweater. Versatile design for business or casual wear.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    66% Cotton, 34% Polyester\nWashing instructions\n    Machine wash cold, gentle cycle', '990.00', '2022-10-15 14:40:15', '2022-11-25 10:57:27'),
+(57, 15, 'Extra Fine Merino V Neck Long Sleeve Cardigan', 'The exquisite texture of 100% premium wool. Updated for a smoother surface', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Wool\nWashing instructions\n    Machine wash cold, gentle cycle, Dry Clean', '1490.00', '2022-10-15 14:52:24', '2022-11-25 10:57:27'),
+(58, 15, 'Extra Fine Merino Crew Neck Long Sleeve Sweater', 'The exquisite texture of 100% premium wool. Updated for a smoother surface.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Wool\nWashing instructions\n    Machine wash cold, gentle cycle, Dry Clean', '1490.00', '2022-10-15 14:58:14', '2022-11-25 10:57:27'),
+(59, 16, 'Ultra Light Jacket (Wool Like)', 'Our incredibly lightweight, stretchy and quick-drying high-performance jacket. Also suitable for business settings.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Shell: 100% Polyester/ Lining: 100% Polyester\nWashing instructions\n    Machine wash cold, gentle cycle, Dry Clean', '1990.00', '2022-10-15 15:08:16', '2022-11-25 10:57:27'),
+(60, 16, 'Comfort 2 Buttons Jacket (Pattern)', 'Comfortable jacket in soft jersey fabric with improved sleeve lining.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Shell: 56% Polyester, 44% Cotton/ Lining: 100% Polyester/ Pocket Lining: 100% Polyester\nWashing instructions\n    Hand wash cold, Dry Clean', '1990.00', '2022-10-15 15:15:39', '2022-11-25 10:57:27'),
+(61, 16, 'Recycled Down Jacket', 'Sleek, collarless design. Recommended not only as outerwear, but also as a light jacket for chilly days.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Face: 100% Nylon ( 100% Uses Recycled Nylon Fiber )/ Filling: 85% Down, 15% Feathers ( 100% Uses Recycled Down Feathers )/ Back: 100% Nylon ( 100% Uses Recycled Nylon Fiber )/ Pocket Lining: 100% Nylon\nWashing instructions\n    Hand wash cold, Do not Dry Clean', '3490.00', '2022-10-15 15:23:38', '2022-11-25 10:57:27'),
+(62, 16, 'Utility Jacket', 'Work wear-style jacket in warm material. Features practical pockets.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    99% Cotton, 1% Spandex\nWashing instructions\n    Machine wash cold, gentle cycle, Dry Clean', '1990.00', '2022-10-15 15:31:40', '2022-11-25 10:57:27'),
+(63, 17, 'KIDS AIRism Cotton Crew Neck Short Sleeve T-Shirt Uniqlo U', 'The look of cotton with AIRism performance. Our smooth and comfortable T-shirt.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    54% Cotton, 46% Polyester\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '290.00', '2022-10-15 15:56:58', '2022-11-25 10:57:27'),
+(64, 17, 'KIDS Flannel Checked Long Sleeve Shirt', 'Updated sizing for a comfortable fit. Soft and comfy brushed flannel fabric.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Cotton\nWashing instructions\n    Machine wash cold, Dry Clean', '790.00', '2022-10-15 16:13:22', '2022-11-25 10:57:27'),
+(65, 17, 'KIDS Warm Padded Washable Parka', 'Lightweight, warm, padded parka. The product has so many user-friendly features, including design specifications that protect against the rain', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Face: 100% Nylon/ Filling: 100% Polyester ( 35% Uses Recycled Polyester Fiber )/ Back: 100% Polyester ( 54% Uses Recycled Polyester Fiber )/ Pocket Lining: 100% Polyester ( 54% Uses Recycled Polyester Fiber )\nWashing instructions\n    Machine wash cold, gentle cycle, Do not Dry Clean', '1290.00', '2022-10-15 16:17:32', '2022-11-25 10:57:27'),
+(66, 17, 'KIDS Crew Neck Long Sleeve T-Shirt Uniqlo U', 'We developed a fabric with just the right thickness and a quality texture. Designed with superb attention to detail.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Body: 100% Cotton/ Rib: 65% Cotton, 35% Polyester\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '590.00', '2022-10-15 16:31:02', '2022-11-25 10:57:27'),
+(67, 17, 'KIDS Sweat Blouson', 'Our fashionable varsity jacket. Patches add a distinctive style accent', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Body: 70% Cotton, 30% Polyester/ Rib: 76% Cotton, 21% Polyester, 3% Spandex/ Pocket Lining: 100% Cotton\nWashing instructions\n    Machine wash cold, gentle cycle, Do not Dry Clean', '990.00', '2022-10-15 16:47:35', '2022-11-25 10:57:27'),
+(68, 17, 'KIDS Striped Easy Shorts', 'Cool, breezy shorts. Elastic waist and stretch fabric for easy movement.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    70% Cotton, 29% Polyester, 1% Spandex\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '390.00', '2022-10-15 16:55:13', '2022-11-25 10:57:27'),
+(69, 17, 'KIDS Denim Easy Shorts', 'In a loose-fitting cut for easy movement. Chino style is easy to mix and match.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Cotton\nWashing instructions\n    Machine wash cold', '390.00', '2022-10-15 17:05:36', '2022-11-25 10:57:27'),
+(70, 18, 'GIRLS Rayon Short Flower Printed Tiered Dress', 'Rayon Flower Printed Tiered Dress ', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Rayon\nWashing instructions\n    Machine wash cold, gentle cycle, Dry Clean', '790.00', '2022-10-15 17:12:04', '2022-11-25 10:57:27'),
+(71, 18, 'GIRLS Printed Tiered Long Sleeve Dress', 'Tiered dress with a lovely airy cut. In a versatile small floral print', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Cotton\nWashing instructions\n    Machine wash cold, gentle cycle, Do not Dry Clean', '790.00', '2022-10-15 17:21:10', '2022-11-25 10:57:27'),
+(72, 18, 'KIDS Minecraft UT (Short Sleeve Graphic T-Shirt)', 'Minecraft, the globally popular game among a wide range of people, is back for UT!', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Cotton\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '390.00', '2022-10-15 17:32:45', '2022-11-25 10:57:27'),
+(73, 18, 'KIDS Minecraft Sweat Long Sleeve Hoodie', 'Minecraft, the globally popular game among a wide range of people, is back for UT!', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Body: 100% Cotton/ Rib: 78% Cotton, 22% Polyester\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '790.00', '2022-10-15 17:36:05', '2022-11-25 10:57:27'),
+(74, 18, 'GIRLS Sanrio Characters UT (Short Sleeve Graphic T-Shirt)', 'A cute collection featuring Sanrio characters and flowers is now available.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Cotton\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '390.00', '2022-10-15 17:40:14', '2022-11-25 10:57:27'),
+(75, 18, 'GIRLS Tuck Wide Tapered Pants (Solid)', 'Wide cut showcases the drape of the fabric. Wrinkle-resistant for easy care.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Body: 58% Modal, 42% Cotton/ Pocket Lining: Outer Layer: 80% Polyester, 20% Cotton/ Back: 58% Modal, 42% Cotton\nWashing instructions\n    Machine wash cold, gentle cycle, Do not Dry Clean', '790.00', '2022-10-15 17:49:59', '2022-11-25 10:57:27'),
+(76, 18, 'GIRLS Tuck Wide Tapered Pants (Checked)', 'The silky fabric creates a charming flared silhouette. Wrinkle-resistant for easy care.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Body: 70% Polyester, 30% Rayon ( 64% Uses Recycled Polyester Fiber )/ Pocket Lining: Outer Layer: 65% Polyester, 35% Cotton/ Pocket Lining: Back: 70% Polyester, 30% Rayon ( 64% Uses Recycled Polyester Fiber )\nWashing instructions\n    Machine wash cold, gentle cycle, Do not Dry Clean', '790.00', '2022-10-15 17:57:27', '2022-11-25 10:57:27'),
+(77, 18, 'GIRLS Mercerized Cotton Sleeveless Dress', 'A camisole dress with a sleek design. Effortlessly styles alone or layered with a T-shirt.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Shell: Lining: 100% Cotton\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '390.00', '2022-10-15 18:01:23', '2022-11-25 10:57:27'),
+(78, 17, 'KIDS AIRism Short Sleeve Set (Striped)', 'Relax in total comfort with our smooth, stay-fresh lounge set.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Tops: Body: 57% Cotton, 38% Polyester, 5% Spandex/ Rib: 97% Cotton, 3% Spandex/ Bottoms: 57% Cotton, 38% Polyester, 5% Spandex\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '590.00', '2022-10-15 18:11:04', '2022-11-25 10:57:27'),
+(79, 18, 'GIRLS AIRism Ultra Stretch Long Sleeve Set (Flower)', 'Lasting comfort and freshness. Incredibly stretchy for total relaxation.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    Tops: Body: 49% Polyester, 44% Cotton, 7% Spandex/ Rib: 95% Cotton, 5% Spandex/ Bottoms: 49% Polyester, 44% Cotton, 7% Spandex\nWashing instructions\n    Machine wash cold, Do not Dry Clean', '790.00', '2022-10-15 18:15:59', '2022-11-25 10:57:27'),
+(80, 18, 'GIRLS Drape Pants (Flower)', 'Loose-fitting easy pants. Elegant drape goes great with casual styles.', 'Please note that this product may have different product ID, even if it is the same item.\n\nFabric details\n    100% Rayon\nWashing instructions\n    Machine wash cold, gentle cycle', '390.00', '2022-10-15 18:26:55', '2022-11-25 10:57:27');
 
 -- --------------------------------------------------------
 
@@ -324,8 +458,6 @@ INSERT INTO `productcolor` (`product_color_id`, `product_id`, `color_group_id`, 
 (75, 23, 10, 1),
 (76, 24, 17, 1),
 (77, 24, 11, 0),
-(78, 25, 3, 1),
-(79, 25, 10, 0),
 (80, 26, 20, 1),
 (81, 27, 10, 1),
 (82, 27, 20, 0),
@@ -659,12 +791,6 @@ INSERT INTO `productimage` (`product_color_id`, `img_link`) VALUES
 (76, 'https://firebasestorage.googleapis.com/v0/b/simzy-b3068.appspot.com/o/1665763772052product24-1-4.webp?alt=media&token=e4a1e022-0'),
 (76, 'https://firebasestorage.googleapis.com/v0/b/simzy-b3068.appspot.com/o/1665763772052product24-1-5.webp?alt=media&token=a1b4ebeb-d'),
 (77, 'https://firebasestorage.googleapis.com/v0/b/simzy-b3068.appspot.com/o/1665763802088product24-2-1.webp?alt=media&token=ab3eb117-e'),
-(78, 'https://firebasestorage.googleapis.com/v0/b/simzy-b3068.appspot.com/o/1665764805024product25-1-1.webp?alt=media&token=18e8de27-8'),
-(78, 'https://firebasestorage.googleapis.com/v0/b/simzy-b3068.appspot.com/o/1665764805024product25-1-2.webp?alt=media&token=22927287-6'),
-(78, 'https://firebasestorage.googleapis.com/v0/b/simzy-b3068.appspot.com/o/1665764805024product25-1-3.webp?alt=media&token=2ba9dbf7-8'),
-(78, 'https://firebasestorage.googleapis.com/v0/b/simzy-b3068.appspot.com/o/1665764805024product25-1-4.webp?alt=media&token=cc7b1aeb-9'),
-(78, 'https://firebasestorage.googleapis.com/v0/b/simzy-b3068.appspot.com/o/1665764805024product25-1-6.webp?alt=media&token=320e6b00-5'),
-(79, 'https://firebasestorage.googleapis.com/v0/b/simzy-b3068.appspot.com/o/1665764873563product25-2-1.webp?alt=media&token=fcd2ceca-c'),
 (80, 'https://firebasestorage.googleapis.com/v0/b/simzy-b3068.appspot.com/o/1665765079335product26-1-1.webp?alt=media&token=ff1fe5fa-2'),
 (80, 'https://firebasestorage.googleapis.com/v0/b/simzy-b3068.appspot.com/o/1665765079335product26-1-2.webp?alt=media&token=7d44ced0-a'),
 (80, 'https://firebasestorage.googleapis.com/v0/b/simzy-b3068.appspot.com/o/1665765079336product26-1-3.webp?alt=media&token=42ab1013-b'),
@@ -851,14 +977,14 @@ INSERT INTO `productimage` (`product_color_id`, `img_link`) VALUES
 (154, 'https://firebasestorage.googleapis.com/v0/b/simzy-b3068.appspot.com/o/1665829360771product53-1-3.webp?alt=media&token=93c51600-9'),
 (154, 'https://firebasestorage.googleapis.com/v0/b/simzy-b3068.appspot.com/o/1665829360771product53-1-4.webp?alt=media&token=27ca2149-e'),
 (154, 'https://firebasestorage.googleapis.com/v0/b/simzy-b3068.appspot.com/o/1665829360771product53-1-5.webp?alt=media&token=6aeffa58-4'),
-(155, 'https://firebasestorage.googleapis.com/v0/b/simzy-b3068.appspot.com/o/1665829393014product53-2-1.webp?alt=media&token=7ea76471-a');
-INSERT INTO `productimage` (`product_color_id`, `img_link`) VALUES
+(155, 'https://firebasestorage.googleapis.com/v0/b/simzy-b3068.appspot.com/o/1665829393014product53-2-1.webp?alt=media&token=7ea76471-a'),
 (156, 'https://firebasestorage.googleapis.com/v0/b/simzy-b3068.appspot.com/o/1665829401846product53-3-1.webp?alt=media&token=fe135d08-a'),
 (157, 'https://firebasestorage.googleapis.com/v0/b/simzy-b3068.appspot.com/o/1665830288554product54-1-1.webp?alt=media&token=c804d2b5-d'),
 (157, 'https://firebasestorage.googleapis.com/v0/b/simzy-b3068.appspot.com/o/1665830288554product54-1-2.webp?alt=media&token=64f9c659-0'),
 (157, 'https://firebasestorage.googleapis.com/v0/b/simzy-b3068.appspot.com/o/1665830288554product54-1-3.webp?alt=media&token=6228d8b8-2'),
 (157, 'https://firebasestorage.googleapis.com/v0/b/simzy-b3068.appspot.com/o/1665830288554product54-1-4.webp?alt=media&token=d3c4780f-8'),
-(157, 'https://firebasestorage.googleapis.com/v0/b/simzy-b3068.appspot.com/o/1665830288554product54-1-5.webp?alt=media&token=1c17e72b-9'),
+(157, 'https://firebasestorage.googleapis.com/v0/b/simzy-b3068.appspot.com/o/1665830288554product54-1-5.webp?alt=media&token=1c17e72b-9');
+INSERT INTO `productimage` (`product_color_id`, `img_link`) VALUES
 (158, 'https://firebasestorage.googleapis.com/v0/b/simzy-b3068.appspot.com/o/1665830329597product54-2-1.webp?alt=media&token=08d70d66-0'),
 (159, 'https://firebasestorage.googleapis.com/v0/b/simzy-b3068.appspot.com/o/1665844211483product55-1-1.webp?alt=media&token=1dcbc4ba-3'),
 (159, 'https://firebasestorage.googleapis.com/v0/b/simzy-b3068.appspot.com/o/1665844211483product55-1-2.webp?alt=media&token=336ea39a-a'),
@@ -1040,7 +1166,10 @@ CREATE TABLE `productorder` (
   `order_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `payment_id` int(11) NOT NULL,
-  `status` varchar(64) NOT NULL,
+  `status` int(4) NOT NULL,
+  `name` varchar(32) NOT NULL,
+  `surname` varchar(32) NOT NULL,
+  `phone_number` varchar(16) NOT NULL,
   `address` varchar(256) NOT NULL,
   `district` varchar(64) NOT NULL,
   `province` varchar(64) NOT NULL,
@@ -1048,6 +1177,64 @@ CREATE TABLE `productorder` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `productorder`
+--
+
+INSERT INTO `productorder` (`order_id`, `user_id`, `payment_id`, `status`, `name`, `surname`, `phone_number`, `address`, `district`, `province`, `zip_code`, `created_at`, `updated_at`) VALUES
+(1, 2, 4, 0, '', '', '', 'Hi', 'My name\'s dochii', 'Withtwoeyes', '54321', '2022-11-20 18:29:00', '2022-11-20 18:29:00'),
+(2, 2, 9, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-20 18:43:52', '2022-11-20 18:43:52'),
+(3, 2, 10, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-20 18:55:35', '2022-11-20 18:55:35'),
+(4, 2, 11, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-20 19:23:00', '2022-11-20 19:23:00'),
+(5, 2, 12, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-20 19:24:06', '2022-11-20 19:24:06'),
+(6, 2, 13, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-20 19:25:33', '2022-11-20 19:25:33'),
+(7, 2, 14, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-20 19:32:49', '2022-11-20 19:32:49'),
+(8, 2, 15, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-20 19:36:29', '2022-11-20 19:36:29'),
+(9, 2, 16, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-20 19:37:21', '2022-11-20 19:37:21'),
+(10, 2, 17, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-20 19:38:31', '2022-11-20 19:38:31'),
+(11, 2, 18, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-20 19:39:30', '2022-11-20 19:39:30'),
+(12, 2, 19, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-20 19:39:40', '2022-11-20 19:39:40'),
+(13, 2, 20, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-20 19:40:29', '2022-11-20 19:40:29'),
+(14, 2, 21, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-20 19:43:56', '2022-11-20 19:43:56'),
+(15, 2, 23, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:30:17', '2022-11-23 05:30:17'),
+(16, 2, 25, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:36:05', '2022-11-23 05:36:05'),
+(17, 2, 27, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:36:32', '2022-11-23 05:36:32'),
+(18, 2, 29, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:38:59', '2022-11-23 05:38:59'),
+(19, 2, 30, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:45:25', '2022-11-23 05:45:25'),
+(20, 2, 31, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:45:25', '2022-11-23 05:45:25'),
+(21, 2, 33, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:45:34', '2022-11-23 05:45:34'),
+(22, 2, 34, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:46:16', '2022-11-23 05:46:16'),
+(23, 2, 35, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:46:17', '2022-11-23 05:46:17'),
+(24, 2, 37, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:46:19', '2022-11-23 05:46:19'),
+(25, 2, 38, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:47:44', '2022-11-23 05:47:44'),
+(26, 2, 39, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:47:45', '2022-11-23 05:47:45'),
+(27, 2, 41, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:47:48', '2022-11-23 05:47:48'),
+(28, 2, 42, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:47:58', '2022-11-23 05:47:58'),
+(29, 2, 43, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:47:58', '2022-11-23 05:47:58'),
+(30, 2, 45, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:48:03', '2022-11-23 05:48:03'),
+(31, 2, 46, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:48:15', '2022-11-23 05:48:15'),
+(32, 2, 47, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:48:15', '2022-11-23 05:48:15'),
+(33, 2, 49, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:48:19', '2022-11-23 05:48:19'),
+(34, 2, 50, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:48:35', '2022-11-23 05:48:35'),
+(35, 2, 51, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:48:36', '2022-11-23 05:48:36'),
+(36, 2, 53, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:48:39', '2022-11-23 05:48:39'),
+(37, 2, 54, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:51:57', '2022-11-23 05:51:57'),
+(38, 2, 55, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:51:57', '2022-11-23 05:51:57'),
+(39, 2, 56, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:52:04', '2022-11-23 05:52:04'),
+(40, 2, 57, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:52:18', '2022-11-23 05:52:18'),
+(41, 2, 58, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:52:18', '2022-11-23 05:52:18'),
+(42, 2, 59, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:52:36', '2022-11-23 05:52:36'),
+(43, 2, 60, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:52:52', '2022-11-23 05:52:52'),
+(44, 2, 61, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:54:41', '2022-11-23 05:54:41'),
+(45, 2, 62, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:55:44', '2022-11-23 05:55:44'),
+(46, 2, 63, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:56:22', '2022-11-23 05:56:22'),
+(47, 2, 64, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:58:26', '2022-11-23 05:58:26'),
+(48, 2, 65, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:59:16', '2022-11-23 05:59:16'),
+(49, 2, 66, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 06:01:06', '2022-11-23 06:01:06'),
+(50, 2, 67, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 06:45:25', '2022-11-23 06:45:25'),
+(51, 2, 68, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 06:52:57', '2022-11-23 06:52:57'),
+(52, 2, 69, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 18:27:39', '2022-11-23 18:27:39');
 
 -- --------------------------------------------------------
 
@@ -1071,7 +1258,7 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (3, 1, 'S', 0),
 (5, 1, 'L', 0),
 (7, 1, 'XS', 0),
-(9, 4, 'XS', 30),
+(9, 4, 'XS', 29),
 (11, 4, 'M', 40),
 (12, 3, 'M', 40),
 (13, 3, 'L', 40),
@@ -1360,13 +1547,13 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (321, 70, 'L', 25),
 (322, 70, 'XL', 34),
 (323, 71, 'XS', 30),
-(324, 71, 'S', 34),
+(324, 71, 'S', 30),
 (325, 71, 'M', 23),
 (326, 71, 'L', 19),
 (327, 71, 'XL', 30),
 (328, 72, 'XS', 30),
 (329, 72, 'S', 24),
-(330, 72, 'M', 30),
+(330, 72, 'M', 27),
 (331, 72, 'L', 34),
 (332, 72, 'XL', 30),
 (333, 73, 'XL', 30),
@@ -1388,14 +1575,6 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (349, 77, 'S', 10),
 (350, 77, 'M', 14),
 (351, 77, 'L', 36),
-(352, 78, 'XS', 24),
-(353, 78, 'S', 32),
-(354, 78, 'M', 14),
-(355, 78, 'L', 25),
-(356, 79, 'XS', 12),
-(357, 79, 'S', 34),
-(358, 79, 'M', 30),
-(359, 79, 'L', 30),
 (360, 80, 'XS', 12),
 (361, 80, 'S', 30),
 (362, 80, 'M', 24),
@@ -1973,16 +2152,19 @@ CREATE TABLE `userinfo` (
   `district` varchar(64) NOT NULL,
   `province` varchar(64) NOT NULL,
   `zip_code` varchar(16) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `userinfo`
 --
 
-INSERT INTO `userinfo` (`user_id`, `is_admin`, `email`, `password`, `name`, `surname`, `gender`, `phone_number`, `address`, `district`, `province`, `zip_code`, `created_at`) VALUES
-(1, 1, 'admin@simzy.net', '$2b$10$iN7yQ9ZmRM7GuHlEVDU2S.zoNEpGhKadHWl7/vZWADKD131i203da', 'Admin', 'Simzy', 'O', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-10-29 19:57:40'),
-(2, 0, 'notadmin@simzy.net', '$2b$10$p8kVPH7YjTDTHWGeqA61sOXKo/gAmQNLBSP.ALep.WVzaR4k2Zq8W', 'Admin', 'Simzy', 'O', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-06 18:43:23');
+INSERT INTO `userinfo` (`user_id`, `is_admin`, `email`, `password`, `name`, `surname`, `gender`, `phone_number`, `address`, `district`, `province`, `zip_code`, `created_at`, `updated_at`) VALUES
+(1, 1, 'admin@simzy.net', '$2b$10$iN7yQ9ZmRM7GuHlEVDU2S.zoNEpGhKadHWl7/vZWADKD131i203da', 'Admin', 'Simzy', 'O', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-10-29 19:57:40', '2022-11-25 10:58:52'),
+(2, 0, 'notadmin@simzy.net', '$2b$10$p8kVPH7YjTDTHWGeqA61sOXKo/gAmQNLBSP.ALep.WVzaR4k2Zq8W', 'Admin', 'Simzy', 'O', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-06 18:43:23', '2022-11-25 10:58:52'),
+(3, 0, 'sonia@gmail.com', '$2b$10$.q/4.DEHhtILImbSHL7uY.VCs/gdju4Pr617Y3ozAFh6oQ/0EQcVa', 'Sonia', 'Gautam', 'W', '0850850855', '78/2 Soi suayngam', 'Koh Samui', 'Suratthani', '84456', '2022-11-13 17:19:12', '2022-11-25 10:58:52'),
+(5, 0, 'imnotadmin@simzy.net', '$2b$10$meSQgAg4Pj2J9RdGES/6ret8QZBSGJKzNYte8pQst5xkRwDlpTIsa', 'Admin', 'Simzy', 'O', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-28 02:58:27', '2022-11-28 02:58:27');
 
 --
 -- Indexes for dumped tables
@@ -2079,13 +2261,13 @@ ALTER TABLE `colorgroup`
 -- AUTO_INCREMENT for table `orderhistory`
 --
 ALTER TABLE `orderhistory`
-  MODIFY `order_history_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_history_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT for table `product`
@@ -2103,7 +2285,7 @@ ALTER TABLE `productcolor`
 -- AUTO_INCREMENT for table `productorder`
 --
 ALTER TABLE `productorder`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `productstock`
@@ -2115,7 +2297,7 @@ ALTER TABLE `productstock`
 -- AUTO_INCREMENT for table `userinfo`
 --
 ALTER TABLE `userinfo`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables

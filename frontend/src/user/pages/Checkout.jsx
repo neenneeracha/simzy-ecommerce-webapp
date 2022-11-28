@@ -9,9 +9,8 @@ import Accordion from "react-bootstrap/Accordion";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import Button from "react-bootstrap/Button";
-import { MDBIcon  } from "mdb-react-ui-kit";
 import { useUser } from "../../UserContext";
+import Cookie from 'js-cookie'
 
 const Container = styled.div`
   min-height: 100vh;
@@ -67,21 +66,6 @@ const SummaryItem = styled.div`
 const SummaryItemText = styled.span``;
 
 const SummaryItemPrice = styled.span``;
-
-const CashText = styled.span`
-  font-size: 16px;
-  color: red;
-`;
-
-const styles = {
-  customButton: {
-    backgroundColor: "#eda3b5",
-    borderColor: "#eda3b5",
-    color: "white",
-    borderRadius: "5px",
-    marginTop: "30px",
-  },
-};
 
 const ButtonGroup = styled.div`
   margin-top: 40px;
@@ -178,12 +162,13 @@ const handleAddress = () => {
 
         res = await axios.post("http://localhost:8080/api/v1/order/orderhistory", [cart.products, {order_id: order_id}])
 
-        navigate(`/success?id=${order_id}`)
+        Cookie.set('orderID', order_id, { path: '/', expires: 2/(24 * 60)})
+        navigate("/success")
       } catch (error) {
         console.log(error)
       }
 
-    } else {
+    } else if (inputs.payment === "2") {
       // card payment
       try {
         const res = await axios.post("http://localhost:8080/api/v1/payment/stripe", { amount: cart.cartTotalAmount + 90, email: address[0].email, inputs})
@@ -193,24 +178,13 @@ const handleAddress = () => {
       } catch (error) {
         console.log(error);
       }
+    } else {
+      alert("Please select payment type first!")
     }
 
   }
 
-  const onToken = async (token) => {
-    try {
-      const res = await axios.post("http://localhost:8080/api/v1/payment", {
-        tokenId: token.id,
-        amount: 2000,
-      });
-      if (res.data.url) {
-        window.location.href = res.data.url;
-        //navigate("/success", {state: {data: 1}})
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
   const handleClick = () => {
     window.history.back();
   };
@@ -423,10 +397,7 @@ const handleAddress = () => {
                       onChange={handleChange}
                     />
                   
-                    </Col>
-                    
-
-                    
+                    </Col>                    
                   </Form.Group>
                   </Form>
                 </Accordion.Body>
@@ -456,35 +427,6 @@ const handleAddress = () => {
             </ButtonGroup>
           </Col>
         </Row>
-        {/* <StripeCheckout
-          name="Simzy"
-          description="Your total is 2000 THB"
-          email="hi@gmail.com"
-          amount={2000}
-          token={onToken}
-          stripeKey={publishableKey}
-        > */}
-        {/* <ButtonGroup>
-          <Button
-            className="d-block mx-auto w-25"
-            type="submit"
-            style={styles.customButton}
-            onClick={handleClick}
-          >
-            <MDBIcon fas icon="fas fa-backward" style={{ marginRight: "10px" }} />{" "}
-            BACK
-          </Button>
-          
-          <Button  className="d-block mx-auto w-25"
-            type="submit"
-            style={styles.customButton}  
-            onClick={onToken}>
-            CONTINUE
-            {"  "} <MDBIcon fas icon="fas fa-forward" style={{ marginLeft: "10px" }} />
-          </Button>
-        </ButtonGroup> */}
-
-        {/* </StripeCheckout> */}
       </Wrapper>
       <Footer />
     </Container>

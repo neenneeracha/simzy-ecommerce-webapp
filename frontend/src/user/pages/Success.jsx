@@ -1,25 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { Col, Image, Row } from "react-bootstrap";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Cookie from 'js-cookie'
 
 const Container = styled.div`
   min-height: 100vh;
   position: relative;
 `;
 const Content = styled.div`
-  background-color: #f6f6f6;
+  margin-top: 2%;
 `;
 const SuccessAlert = styled.div`
   padding: 50px;
-  background-color: white;
   margin: 3% 0;
 `;
 const Text = styled.h3`
   text-align: center;
-  margin-top: 30px;
+  margin-top: 50px;
   color: #299f00;
 `;
 
@@ -47,12 +47,26 @@ const Button = styled.h3`
     color: white;
     background-color: #eda3b5;
     opacity: 0.7;
-    cursor: default;
   }
 `;
 const Success = () => {
-  const [searchParams] = useSearchParams()
-  const order_id = searchParams.get('id')
+  const order_id = Cookie.get("orderID")
+  const navigate = useNavigate()
+  
+
+  useEffect(() => {
+
+    const checkOrderID = async () => {
+      if (isNaN(order_id)) {
+        console.log(order_id)
+        navigate("/")
+      }
+    }
+
+    checkOrderID()
+
+  }, [order_id, navigate])
+
 
   return (
     <Container>
@@ -71,7 +85,7 @@ const Success = () => {
               <OrderReference>
                 <b>YOUR ORDER REFERENCE: {order_id}</b>
               </OrderReference>
-              <Button type="create" className="d-block mx-auto w-50">
+              <Button type="create" className="d-block mx-auto w-50" onClick={() => navigate("/")}>
                 BACK TO SHOP
               </Button>
             </SuccessAlert>

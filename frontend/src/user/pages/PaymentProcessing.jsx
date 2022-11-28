@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react'
 import styled from "styled-components";
 import Navbar from '../components/Navbar';
 import LoadingOverlay from 'react-loading-overlay';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useUser } from "../../UserContext";
+import Cookie from 'js-cookie'
 
 const Container = styled.div`
   min-height: 100vh;
@@ -14,11 +15,11 @@ const Container = styled.div`
 
 const PaymentProcessing = () => {
   const [searchParams] = useSearchParams()
-  
   const session_id = searchParams.get('session_id')
   const [loading, setLoading] = useState(true)
   const [inputs, setInputs] = useState([])
   LoadingOverlay.propTypes = undefined
+  const navigate = useNavigate()
 
   const user = useUser();
   const cart = useSelector((state) => state.cart);
@@ -49,8 +50,10 @@ const PaymentProcessing = () => {
            res = await axios.post("http://localhost:8080/api/v1/order/orderhistory", [cart.products, {order_id: order_id}])
           
            setTimeout(function() {
-            window.location.href = `/success?id=${order_id}`
-         }, 2000);
+            Cookie.set('orderID', order_id, { path: '/', expires: 2/(24 * 60)})
+            setLoading(false)
+            navigate("/success")
+         }, 1500);
           
         } catch (error) {
           console.log(error)
@@ -59,9 +62,9 @@ const PaymentProcessing = () => {
       
     }
 
-    
     handleSubmit()
-  }, [inputs, user.user_id, cart.products])
+
+  }, [inputs, user.user_id, cart.products, navigate])
   
   
   return (

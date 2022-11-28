@@ -43,6 +43,7 @@ export const UserProvider = ({children}) => {
 
     const removeToken = () => {
         Cookie.remove('accessToken', { path: '',})
+        Cookie.remove('orderID', { path: '',})
         setUser(null)
     }
     

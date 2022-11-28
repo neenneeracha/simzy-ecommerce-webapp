@@ -301,7 +301,7 @@ const Cart = () => {
           </Bottom>
         )}
       </Wrapper>
-      {/* <Footer /> */}
+      <Footer />
     </Container>
   );
 };
