@@ -6,10 +6,7 @@ import { Link } from "react-router-dom";
 import DeleteIcon from "@material-ui/icons/Delete";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  removeFromCart,
-  getTotals,
-} from "../redux/cartRedux";
+import { removeFromCart, getTotals } from "../redux/cartRedux";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import { MDBBtn } from "mdb-react-ui-kit";

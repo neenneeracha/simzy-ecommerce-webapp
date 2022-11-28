@@ -10,7 +10,7 @@ import Form from "react-bootstrap/Form";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useUser } from "../../UserContext";
-import Cookie from 'js-cookie'
+import Cookie from "js-cookie";
 
 const Container = styled.div`
   min-height: 100vh;
@@ -165,12 +165,11 @@ const Checkout = () => {
           [cart.products, { order_id: order_id }]
         );
 
-        Cookie.set('orderID', order_id, { path: '/', expires: 2/(24 * 60)})
-        navigate("/success")
+        Cookie.set("orderID", order_id, { path: "/", expires: 2 / (24 * 60) });
+        navigate("/success");
       } catch (error) {
         console.log(error);
       }
-
     } else if (inputs.payment === "2") {
       // card payment
       try {
@@ -185,10 +184,9 @@ const Checkout = () => {
         console.log(error);
       }
     } else {
-      alert("Please select payment type first!")
+      alert("Please select payment type first!");
     }
   };
-
 
   const handleClick = () => {
     window.history.back();
@@ -385,30 +383,31 @@ const Checkout = () => {
                   <b>PAYMENT METHOD</b>
                 </Accordion.Header>
                 <Accordion.Body>
-                 <Form>
-                  <Form.Group style={{ margin: "20px 50px" }}>
-                    <Form.Label style={{ marginBottom: "20px" }}>Please Select a payment method</Form.Label>
-                    <Col>
-                    <Form.Check
-                      name="payment"
-                      label="Cash On Delivery"
-                      value="1"
-                      inline
-                      type="radio"
-                      onChange={handleChange}
-                      style={{ marginRight: "5%" }}
-                    />
-                    <Form.Check
-                      name="payment"
-                      label="Credit/Debit Card"
-                      value="2"
-                      inline
-                      type="radio"
-                      onChange={handleChange}
-                    />
-                  
-                    </Col>                    
-                  </Form.Group>
+                  <Form>
+                    <Form.Group style={{ margin: "20px 50px" }}>
+                      <Form.Label style={{ marginBottom: "20px" }}>
+                        Please Select a payment method
+                      </Form.Label>
+                      <Col>
+                        <Form.Check
+                          name="payment"
+                          label="Cash On Delivery"
+                          value="1"
+                          inline
+                          type="radio"
+                          onChange={handleChange}
+                          style={{ marginRight: "5%" }}
+                        />
+                        <Form.Check
+                          name="payment"
+                          label="Credit/Debit Card"
+                          value="2"
+                          inline
+                          type="radio"
+                          onChange={handleChange}
+                        />
+                      </Col>
+                    </Form.Group>
                   </Form>
                 </Accordion.Body>
               </Accordion.Item>

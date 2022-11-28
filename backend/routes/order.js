@@ -1,8 +1,8 @@
-const router = require('express').Router()
+const router = require("express").Router();
 
-const { addNewOrder, addOrderHistory } = require('../controller/order')
+const { addNewOrder, addOrderHistory } = require("../controller/order");
 
-router.route("/neworder").post(addNewOrder)
-router.route("/orderhistory").post(addOrderHistory)
+router.route("/neworder").post(addNewOrder);
+router.route("/orderhistory").post(addOrderHistory);
 
-module.exports = router
+module.exports = router;

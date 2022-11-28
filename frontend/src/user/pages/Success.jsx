@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { Col, Image, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import Cookie from 'js-cookie'
+import Cookie from "js-cookie";
 
 const Container = styled.div`
   min-height: 100vh;
@@ -50,23 +50,19 @@ const Button = styled.h3`
   }
 `;
 const Success = () => {
-  const order_id = Cookie.get("orderID")
-  const navigate = useNavigate()
-  
+  const order_id = Cookie.get("orderID");
+  const navigate = useNavigate();
 
   useEffect(() => {
-
     const checkOrderID = async () => {
       if (isNaN(order_id)) {
-        console.log(order_id)
-        navigate("/")
+        console.log(order_id);
+        navigate("/");
       }
-    }
+    };
 
-    checkOrderID()
-
-  }, [order_id, navigate])
-
+    checkOrderID();
+  }, [order_id, navigate]);
 
   return (
     <Container>
@@ -85,7 +81,11 @@ const Success = () => {
               <OrderReference>
                 <b>YOUR ORDER REFERENCE: {order_id}</b>
               </OrderReference>
-              <Button type="create" className="d-block mx-auto w-50" onClick={() => navigate("/")}>
+              <Button
+                type="create"
+                className="d-block mx-auto w-50"
+                onClick={() => navigate("/")}
+              >
                 BACK TO SHOP
               </Button>
             </SuccessAlert>

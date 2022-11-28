@@ -68,7 +68,7 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setValidated(true)
+    setValidated(true);
 
     try {
       const res = await axios.post("http://localhost:8080/api/v1/auth", inputs);
@@ -196,7 +196,6 @@ const Register = () => {
             <Form.Group
               className="d-block mx-auto"
               controlId="validationCustom01"
-              
             >
               <Form.Label>
                 <b>Phone Number:</b>
