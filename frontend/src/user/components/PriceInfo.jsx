@@ -46,7 +46,9 @@ const PriceInfo = () => {
               {" "}
               <Col>
                 {" "}
-                <h4><b>Order Total: </b></h4>
+                <h4>
+                  <b>Order Total: </b>
+                </h4>
               </Col>
               THB 4,470.00{" "}
             </Row>

@@ -84,10 +84,7 @@ const Shipping = () => {
     <Container>
       <Row>
         <Col>
-          <Form
-            onSubmit={handleSubmit}
-            style={{ margin: "0px 50px" }}
-          >
+          <Form onSubmit={handleSubmit} style={{ margin: "0px 50px" }}>
             <Row>
               <Form.Group
                 className="d-block mx-auto w-50"
@@ -132,11 +129,9 @@ const Shipping = () => {
               </Form.Group>
             </Row>
 
-            
             <Form.Group
               className="d-block mx-auto"
               controlId="validationCustom01"
-              
             >
               <Form.Label style={{ marginTop: "30px" }}>
                 <b>Phone Number:</b>
@@ -234,9 +229,7 @@ const Shipping = () => {
                 </Form.Control.Feedback>
               </Form.Group>
             </Row>
-            <Text style={{ margin: "2%" }}>
-              Use address from my profile
-            </Text>
+            <Text style={{ margin: "2%" }}>Use address from my profile</Text>
           </Form>
         </Col>
       </Row>

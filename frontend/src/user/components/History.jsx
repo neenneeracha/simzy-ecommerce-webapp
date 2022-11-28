@@ -15,7 +15,7 @@ const styles = {
 
 const History = () => {
   return (
-    <Table striped bordered hover style={{ width: "80%", margin: "auto"}}>
+    <Table striped bordered hover style={{ width: "80%", margin: "auto" }}>
       <thead>
         <tr>
           <th>ORDER REFERENCE</th>

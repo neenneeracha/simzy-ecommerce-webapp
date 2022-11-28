@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 import styled from "styled-components";
-import Categories from '../components/Categories';
-import Footer from '../components/Footer';
-import Navbar from '../components/Navbar';
-import Products from '../components/Products';
-import Slider from '../components/Slider';
+import Categories from "../components/Categories";
+import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
+import Products from "../components/Products";
+import Slider from "../components/Slider";
 import { popularProducts } from "../../data";
 
 const Container = styled.div`
@@ -13,15 +13,15 @@ const Container = styled.div`
 `;
 
 const Home = () => {
-    return (
-        <Container>
-            <Navbar/> 
-            <Slider/>
-            <Categories/>
-            <Products products={popularProducts}/>
-            <Footer/>
-        </Container>
-    )
-}
+  return (
+    <Container>
+      <Navbar />
+      <Slider />
+      <Categories />
+      <Products products={popularProducts} />
+      <Footer />
+    </Container>
+  );
+};
 
-export default Home
+export default Home;

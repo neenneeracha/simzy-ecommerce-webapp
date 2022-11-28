@@ -15,6 +15,7 @@ const Button = (props) => {
   const classes = useStyles();
 
   return (
+    //default button
     <MuiButton
       variant={variant || "contained"}
       size={size || "large"}

@@ -19,7 +19,7 @@ import Summary from "./user/pages/Summary";
 import Success from "./user/pages/Success";
 import UserInfo from "./user/pages/UserInfo";
 import Admin from "./admin/pages/Admin";
-import ViewProducts from "./admin/pages/ViewProducts";
+import View from "./admin/pages/View";
 import PageNotfound from "./user/pages/PageNotfound";
 import NewUser from "./admin/pages/NewUser";
 import NewProduct from "./admin/pages/NewProduct";
@@ -73,8 +73,8 @@ const guestRouter = createBrowserRouter([
   },
   {
     path: "/checkout",
-    element: <Navigate to="/login" />
-  }
+    element: <Navigate to="/login" />,
+  },
 ]);
 
 const userRouter = createBrowserRouter([
@@ -136,8 +136,8 @@ const userRouter = createBrowserRouter([
   },
   {
     path: "/processing",
-    element: <PaymentProcessing />
-  }
+    element: <PaymentProcessing />,
+  },
 ]);
 
 const adminRouter = createBrowserRouter([
@@ -151,29 +151,28 @@ const adminRouter = createBrowserRouter([
   },
   {
     path: "/viewproducts",
-    element: <ViewProducts inputs = { popularProducts } title = "Product" />,
+    element: <View inputs={popularProducts} title="Product" />,
   },
   {
     path: "/vieworders",
-    element: <ViewProducts inputs = { popularProducts } title = "Order" />,
+    element: <View inputs={popularProducts} title="Order" />,
   },
   {
     path: "/viewusers",
-    element: <ViewProducts inputs = { popularProducts } title = "User" />,
+    element: <View inputs={popularProducts} title="User" />,
   },
   {
     path: "/newuser",
-    element: <NewUser inputs = { userInputs }  />,
+    element: <NewUser inputs={userInputs} />,
   },
   {
     path: "/newproduct",
-    element: <NewProduct inputs = { productInputs } />,
+    element: <NewProduct inputs={productInputs} />,
   },
   {
     path: "/*",
     element: <PageNotfound />,
   },
-
 ]);
 
 const RouteApp = () => {

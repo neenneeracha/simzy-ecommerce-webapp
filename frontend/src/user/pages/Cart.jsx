@@ -243,9 +243,9 @@ const Cart = () => {
                   </ProductDetail>
                   <PriceDetail>
                     <ProductAmountContainer>
-                      <Remove />
-                      <ProductAmount>{product.quantity}</ProductAmount>
-                      <Add />
+                      {/* <Remove /> */}
+                      <ProductAmount> X {product.quantity}</ProductAmount>
+                      {/* <Add /> */}
                     </ProductAmountContainer>
                     <ProductPrice>
                       ฿ {product.price * product.quantity}
@@ -294,8 +294,10 @@ const Cart = () => {
                   ฿ {cart.cartTotalAmount + 90}
                 </SummaryItemPrice>
               </SummaryItem>
-              <Link to = "/checkout" style = {{textDecoration: "none"}}><ButtonCheck >CHECKOUT NOW</ButtonCheck></Link>
-              
+              <Link to="/checkout" style={{ textDecoration: "none" }}>
+                <ButtonCheck>CHECKOUT NOW</ButtonCheck>
+              </Link>
+
               <ButtonCheck onClick={handleClick}> BACK</ButtonCheck>
             </Summary>
           </Bottom>

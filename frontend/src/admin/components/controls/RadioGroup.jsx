@@ -25,7 +25,7 @@ const RadioGroup = (props) => {
             value={item.id}
             control={<Radio />}
             label={item.title}
-            key = {index}
+            key={index}
           />
         ))}
       </MuiRadioGroup>

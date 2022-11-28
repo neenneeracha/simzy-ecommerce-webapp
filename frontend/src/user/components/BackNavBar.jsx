@@ -1,7 +1,7 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { ArrowBack } from '@material-ui/icons';
+import { ArrowBack } from "@material-ui/icons";
 
 const Container = styled.div`
   height: 60px;
@@ -52,43 +52,44 @@ const MenuItem = styled.div`
 `;
 
 const LinkItem = styled.div`
-color: black;
-text-decoration: none;
+  color: black;
+  text-decoration: none;
 
-&:hover {
-  color: #EDA3B5;
-  text-decoration: underline;
-}
+  &:hover {
+    color: #eda3b5;
+    text-decoration: underline;
+  }
 `;
 
 const handleClick = () => {
-  window.history.back()
-} 
+  window.history.back();
+};
 
 const BackNavBar = () => {
   return (
     <Container>
       <Wrapper>
         <Left>
-        <MenuItem onClick={handleClick}>
-            <ArrowBack style={{fontSize: 18, marginBottom: 3, marginRight: 4}}/>  BACK
+          <MenuItem onClick={handleClick}>
+            <ArrowBack
+              style={{ fontSize: 18, marginBottom: 3, marginRight: 4 }}
+            />{" "}
+            BACK
           </MenuItem>
         </Left>
         <Center>
           <Logo>SIMZY</Logo>
         </Center>
         <Right>
-        <MenuItem>
+          <MenuItem>
             <Link style={{ textDecoration: "none" }} to="/">
-              <LinkItem>
-                HOME
-              </LinkItem>
+              <LinkItem>HOME</LinkItem>
             </Link>
           </MenuItem>
         </Right>
       </Wrapper>
     </Container>
   );
-}
+};
 
-export default BackNavBar
+export default BackNavBar;

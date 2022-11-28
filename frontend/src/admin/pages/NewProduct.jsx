@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Button from "react-bootstrap/Button";
-import Sidebar from "../components/Sidebar";
-import AdNavbar from "../components/AdNavbar";
-import NewNav from "../components/NewNav";
+import NavbarAd from "../components/NavbarAd";
 import Backbtn from "../components/Backbtn";
 import Form from "react-bootstrap/Form";
 import { Col, Row } from "react-bootstrap";
@@ -83,7 +81,7 @@ const NewProduct = ({ inputs }) => {
   };
   return (
     <Home>
-      <NewNav />
+      <NavbarAd />
       <Container>
         <Top>
           <Backbtn />

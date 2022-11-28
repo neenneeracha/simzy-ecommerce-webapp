@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Navbar from '../components/Navbar';
 import LoadingOverlay from 'react-loading-overlay';
@@ -15,27 +15,25 @@ const Container = styled.div`
 
 const PaymentProcessing = () => {
   const [searchParams] = useSearchParams()
+  
   const session_id = searchParams.get('session_id')
   const [loading, setLoading] = useState(true)
   const [inputs, setInputs] = useState([])
   LoadingOverlay.propTypes = undefined
-  const navigate = useNavigate()
 
   const user = useUser();
   const cart = useSelector((state) => state.cart);
 
   useEffect(() => {
-
     const getPaymentDetails = async () => {
-      const res = await axios.get(`http://localhost:8080/api/v1/payment/stripe?session_id=${session_id}`)
-      setInputs(res.data)
-    }
+      const res = await axios.get(
+        `http://localhost:8080/api/v1/payment/stripe?session_id=${session_id}`
+      );
+      setInputs(res.data);
+    };
 
-    getPaymentDetails()
-
-  }, [session_id])
-
-
+    getPaymentDetails();
+  }, [session_id]);
 
   useEffect(() => {
     const handleSubmit = async () => {
@@ -50,35 +48,32 @@ const PaymentProcessing = () => {
            res = await axios.post("http://localhost:8080/api/v1/order/orderhistory", [cart.products, {order_id: order_id}])
           
            setTimeout(function() {
-            Cookie.set('orderID', order_id, { path: '/', expires: 2/(24 * 60)})
-            setLoading(false)
-            navigate("/success")
-         }, 1500);
+            window.location.href = `/success?id=${order_id}`
+         }, 2000);
           
         } catch (error) {
-          console.log(error)
+          console.log(error);
         }
       }
       
     }
 
+    
     handleSubmit()
-
-  }, [inputs, user.user_id, cart.products, navigate])
+  }, [inputs, user.user_id, cart.products])
   
   
   return (
+    <LoadingOverlay
+      active={loading}
+      spinner
+      text="Processing with the payment..."
+    >
+      <Container>
+        <Navbar />
+      </Container>
+    </LoadingOverlay>
+  );
+};
 
-  <LoadingOverlay
-  active={loading}
-  spinner
-  text='Processing with the payment...'
-  >
-    <Container>
-      <Navbar/>
-    </Container>
-</LoadingOverlay>
-  )
-}
-
-export default PaymentProcessing
+export default PaymentProcessing;

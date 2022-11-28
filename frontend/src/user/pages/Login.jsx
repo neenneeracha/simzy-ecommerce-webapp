@@ -6,7 +6,7 @@ import Button from "react-bootstrap/Button";
 import BackNavBar from "../components/BackNavBar";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserUpdate } from "../../UserContext";
-import axios from 'axios'
+import axios from "axios";
 
 const Container = styled.div`
   position: fixed;
@@ -47,40 +47,38 @@ const styles = {
 };
 
 const Login = () => {
-  const { setToken } = useUserUpdate()
-  const navigate = useNavigate()
-  const [validated, setValidated] = useState(false)
+  const { setToken } = useUserUpdate();
+  const navigate = useNavigate();
+  const [validated, setValidated] = useState(false);
   const [inputs, setInputs] = useState({
     email: "",
     password: "",
-  })
+  });
 
-
-  const handleChange = e => {
+  const handleChange = (e) => {
     // if (e.currentTarget.checkValidity() === false) {
     //   e.stopPropagation();
-    // } 
+    // }
     // setValidated(true)
-    setInputs(prev => ({...prev, [e.target.name]: e.target.value}))
-  }
+    setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
-  const handleSubmit = async e => {
-
-    e.preventDefault()
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:8080/api/v1/auth/login", inputs)
-      
-      setToken(res.data)
-      navigate("/")
-      window.location.reload()
-      
-    } catch (err) {
-      console.log(err)
-    }
-  }
-  
+      const res = await axios.post(
+        "http://localhost:8080/api/v1/auth/login",
+        inputs
+      );
 
+      setToken(res.data);
+      navigate("/");
+      window.location.reload();
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <Container>
@@ -91,7 +89,7 @@ const Login = () => {
             src={process.env.PUBLIC_URL + "img/login.png"}
             height="80%"
             width="80%"
-            style={{marginLeft: "10%", marginTop: "10%" }}
+            style={{ marginLeft: "10%", marginTop: "10%" }}
           />
         </Col>
         <Col>

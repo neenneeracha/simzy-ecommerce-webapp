@@ -41,7 +41,7 @@ const Summary = () => {
         <Row>
           <Col></Col>
           <Col xs={7}>
-            <Row >
+            <Row>
               <Col>
                 <Button type="create">BACK</Button>
               </Col>

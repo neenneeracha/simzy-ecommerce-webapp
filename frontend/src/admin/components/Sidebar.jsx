@@ -77,14 +77,14 @@ const Sidebar = () => {
           <ul>
             <Title>LISTS</Title>
 
-            <Link to="/viewusers" style = {{textDecoration: "none"}}>
+            <Link to="/viewusers" style={{ textDecoration: "none" }}>
               <li>
                 <MDBIcon fas icon="user-alt" style={{ color: "pink" }} />
                 <Topic>Users</Topic>
               </li>
             </Link>
 
-            <Link to="/viewproducts" style = {{textDecoration: "none"}} >
+            <Link to="/viewproducts" style={{ textDecoration: "none" }}>
               {" "}
               <li>
                 <MDBIcon fas icon="shopping-bag" style={{ color: "pink" }} />
@@ -92,7 +92,7 @@ const Sidebar = () => {
               </li>
             </Link>
 
-            <Link to="/vieworders" style = {{textDecoration: "none"}}>
+            <Link to="/vieworders" style={{ textDecoration: "none" }}>
               <li>
                 <MDBIcon
                   fas
