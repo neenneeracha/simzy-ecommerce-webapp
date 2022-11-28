@@ -33,7 +33,7 @@ const PageNotfound = () => {
           <br /> We’re sorry, the page you requested could not be found <br />{" "}
           Please go back to homepage
           <br />
-          <Link to = "/">
+          <Link to="/">
             <MDBBtn className="mx-2" color="primary" style={{ margin: "10%" }}>
               Go Home
             </MDBBtn>

@@ -304,10 +304,16 @@ const Product = () => {
         .slice(0)[0].color;
 
       const stock = stocks
-        .filter((stock) => stock.product_color_id === selectedColor && stock.size === selectedSize)
+        .filter(
+          (stock) =>
+            stock.product_color_id === selectedColor &&
+            stock.size === selectedSize
+        )
         .slice(0)[0].stock_id;
-        
-      dispatch(addProduct({ ...product, stock, quantity, url, color, selectedSize }));
+
+      dispatch(
+        addProduct({ ...product, stock, quantity, url, color, selectedSize })
+      );
     }
   };
 

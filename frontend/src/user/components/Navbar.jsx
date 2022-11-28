@@ -1,12 +1,12 @@
 import { Search, AccountCircle } from "@material-ui/icons";
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Badge from "react-bootstrap/Badge";
 import { useSelector } from "react-redux";
-import { useUser, useUserUpdate } from "../../UserContext"
+import { useUser, useUserUpdate } from "../../UserContext";
 
 const Container = styled.div`
   height: 60px;
@@ -101,14 +101,12 @@ const Navbar = () => {
   const [menCats, setMenCats] = useState([]);
   const [kidsCats, setKidsCats] = useState([]);
   const navigate = useNavigate();
-  const { removeToken } = useUserUpdate()
+  const { removeToken } = useUserUpdate();
   const user = useUser();
 
-  const quantity = useSelector(state => state.cart.quantity);
-
+  const quantity = useSelector((state) => state.cart.quantity);
 
   useEffect(() => {
-
     const getWomenCat = async () => {
       try {
         const res = await axios.get(
@@ -149,20 +147,20 @@ const Navbar = () => {
 
   const handleSearch = () => {
     if (searchInput.toString.length < 1) {
-      alert("Please enter the word you want to search first")
+      alert("Please enter the word you want to search first");
     } else {
-      navigate(`/products?search_input=${searchInput}`)
-    window.location.reload()
+      navigate(`/products?search_input=${searchInput}`);
+      window.location.reload();
     }
-  }
+  };
 
   const handleLogout = () => {
-      removeToken()
-      navigate("/")
-      window.location.reload()
-  }
-  const {cartTotalQuantity} = useSelector(state => state.cart)
-  
+    removeToken();
+    navigate("/");
+    window.location.reload();
+  };
+  const { cartTotalQuantity } = useSelector((state) => state.cart);
+
   return (
     <Container>
       <Wrapper>
@@ -220,52 +218,52 @@ const Navbar = () => {
         </Center>
         <Right>
           <SearchContainer style={{ textDecoration: "none" }}>
-            <Input placeholder="search product" onChange={(e) => setSearchInput(e.target.value)} />
-            <Search style={{ color: "gray", fontsize: 16, cursor: "pointer" }} onClick={handleSearch}/>
+            <Input
+              placeholder="search product"
+              onChange={(e) => setSearchInput(e.target.value)}
+            />
+            <Search
+              style={{ color: "gray", fontsize: 16, cursor: "pointer" }}
+              onClick={handleSearch}
+            />
           </SearchContainer>
           <MenuItem>
             <Link style={{ textDecoration: "none" }} to="/cart">
               <LinkItem>
-                CART <Badge bg="danger">{ cartTotalQuantity }</Badge>
+                CART <Badge bg="danger">{cartTotalQuantity}</Badge>
               </LinkItem>
             </Link>
           </MenuItem>
           <MenuItem>
-            <NavDropdown title={<AccountCircle style={{ fontSize: 32 }}/>} id="basic-nav-dropdown">
-              { user == null?
-              <>
-                <NavDropdown.Item as="li">
-                  <Link
-                    style={{ textDecoration: "none" }}
-                    to="/login"
-                  >
-                    <LinkCat>Login</LinkCat>
-                  </Link>
-                </NavDropdown.Item>
-                <NavDropdown.Item as="li">
-                  <Link
-                    style={{ textDecoration: "none" }}
-                    to="/register"
-                  >
-                    <LinkCat>Register</LinkCat>
-                  </Link>
-                </NavDropdown.Item>
-              </>
-              : <>
-              <NavDropdown.Item as="li">
-                  <Link
-                    style={{ textDecoration: "none" }}
-                    to="/userinfo"
-                  >
-                    <LinkCat>Profile</LinkCat>
-                  </Link>
-                </NavDropdown.Item>
-                <NavDropdown.Item as="li">
+            <NavDropdown
+              title={<AccountCircle style={{ fontSize: 32 }} />}
+              id="basic-nav-dropdown"
+            >
+              {user == null ? (
+                <>
+                  <NavDropdown.Item as="li">
+                    <Link style={{ textDecoration: "none" }} to="/login">
+                      <LinkCat>Login</LinkCat>
+                    </Link>
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as="li">
+                    <Link style={{ textDecoration: "none" }} to="/register">
+                      <LinkCat>Register</LinkCat>
+                    </Link>
+                  </NavDropdown.Item>
+                </>
+              ) : (
+                <>
+                  <NavDropdown.Item as="li">
+                    <Link style={{ textDecoration: "none" }} to="/userinfo">
+                      <LinkCat>Profile</LinkCat>
+                    </Link>
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as="li">
                     <LinkCat onClick={handleLogout}>Logout</LinkCat>
-                </NavDropdown.Item>
-              </>
-              }
-                
+                  </NavDropdown.Item>
+                </>
+              )}
             </NavDropdown>
           </MenuItem>
         </Right>

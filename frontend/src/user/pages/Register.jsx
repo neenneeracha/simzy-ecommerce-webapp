@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import BackNavBar from "../components/BackNavBar";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import NewUser from "../../admin/pages/NewUser";
 
 const Container = styled.div`
   max-width: 100%;
@@ -343,6 +344,7 @@ const Register = () => {
               </Link>
             </Text>
           </Form>
+          {/* <NewUser/> */}
         </Col>
       </Row>
     </Container>

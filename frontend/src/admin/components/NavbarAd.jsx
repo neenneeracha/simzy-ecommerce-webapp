@@ -74,7 +74,7 @@ const LinkCat = styled.div`
   text-decoration: none;
 `;
 
-const NewNav = () => {
+const NavbarAd = () => {
   const navigate = useNavigate();
   const { removeToken } = useUserUpdate();
 
@@ -129,4 +129,4 @@ const NewNav = () => {
   );
 };
 
-export default NewNav;
+export default NavbarAd;

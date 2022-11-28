@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 const Container = styled.div`
@@ -27,42 +27,39 @@ const Info = styled.div`
 `;
 
 const Title = styled.h1`
-    color:white;
-    margin-bottom: 20px;
-    font-weight: bold;
+  color: white;
+  margin-bottom: 20px;
+  font-weight: bold;
 `;
 
 const Button = styled.button`
-    border:none;
-    padding: 10px;
-    background-color: white;
-    color: black;
-    cursor: pointer;
-    font-weight: 600;
-    border-radius: 7px;
-    &:hover {
-      background-color: #EDA3B5;
-      transform: scale(1.1);
-      color: white;
-      border-radius: 0px;
-    }
+  border: none;
+  padding: 10px;
+  background-color: white;
+  color: black;
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 7px;
+  &:hover {
+    background-color: #eda3b5;
+    transform: scale(1.1);
+    color: white;
+    border-radius: 0px;
+  }
 `;
 
+const CategoryItem = ({ item }) => {
+  return (
+    <Container>
+      <Link to={item.url}>
+        <Image src={item.img} />
+        <Info>
+          <Title>{item.title}</Title>
+          <Button>SHOP NOW</Button>
+        </Info>
+      </Link>
+    </Container>
+  );
+};
 
-
-const CategoryItem = ({item}) => {
-    return (
-        <Container>
-          <Link to={item.url}>
-           <Image src={item.img}/>
-            <Info>
-                <Title>{item.title}</Title>
-                <Button>SHOP NOW</Button>
-            </Info>
-          </Link>
-           
-        </Container>
-  )
-}
-
-export default CategoryItem
+export default CategoryItem;

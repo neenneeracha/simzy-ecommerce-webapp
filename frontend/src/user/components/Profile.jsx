@@ -22,7 +22,7 @@ const styles = {
 
 const Profile = () => {
   return (
-    <section >
+    <section>
       <MDBContainer className="py-5 h-100">
         <MDBRow className="justify-content-center align-items-center h-100">
           <MDBCol lg="6" className="mb-4 mb-lg-0">
@@ -36,67 +36,83 @@ const Profile = () => {
                   <MDBIcon
                     icon="user fa-3x"
                     className="my-5"
-                    style = {{color: "black"}}
+                    style={{ color: "black" }}
                   />
-                  <MDBTypography  style={{ color: "black"}}tag="h5"><b>Name: JiaJia</b></MDBTypography>
-                  <Link style={{ textDecoration: "none", color: "black"}}>
-                  <MDBIcon far icon="edit mb-5" />{" "}Edit
+                  <MDBTypography style={{ color: "black" }} tag="h5">
+                    <b>Name: JiaJia</b>
+                  </MDBTypography>
+                  <Link style={{ textDecoration: "none", color: "black" }}>
+                    <MDBIcon far icon="edit mb-5" /> Edit
                   </Link>
-                  
                 </MDBCol>
                 <MDBCol md="8">
                   <MDBCardBody className="p-4">
-                    <MDBTypography tag="h6"><b>Information</b></MDBTypography>
+                    <MDBTypography tag="h6">
+                      <b>Information</b>
+                    </MDBTypography>
                     <hr className="mt-0 mb-4" />
                     <MDBRow className="pt-1">
                       <MDBCol size="6" className="mb-3">
-                        <MDBTypography tag="h6"><b>Email</b></MDBTypography>
+                        <MDBTypography tag="h6">
+                          <b>Email</b>
+                        </MDBTypography>
                         <MDBCardText className="text-muted">
                           info@example.com
                         </MDBCardText>
                       </MDBCol>
                       <MDBCol size="6" className="mb-3">
-                        <MDBTypography tag="h6"><b>Phone</b></MDBTypography>
+                        <MDBTypography tag="h6">
+                          <b>Phone</b>
+                        </MDBTypography>
                         <MDBCardText className="text-muted">
                           0934567894
                         </MDBCardText>
                       </MDBCol>
                       <MDBCol size="6" className="mb-3">
-                        <MDBTypography tag="h6"><b>Gender</b></MDBTypography>
-                        <MDBCardText className="text-muted">
-                          Women
-                        </MDBCardText>
+                        <MDBTypography tag="h6">
+                          <b>Gender</b>
+                        </MDBTypography>
+                        <MDBCardText className="text-muted">Women</MDBCardText>
                       </MDBCol>
                       <MDBCol size="6" className="mb-3">
-                        <MDBTypography tag="h6"><b>Birthday</b></MDBTypography>
+                        <MDBTypography tag="h6">
+                          <b>Birthday</b>
+                        </MDBTypography>
                         <MDBCardText className="text-muted">
                           29 April 2022
                         </MDBCardText>
                       </MDBCol>
                     </MDBRow>
 
-                    <MDBTypography tag="h6"><b>Default Address</b></MDBTypography>
+                    <MDBTypography tag="h6">
+                      <b>Default Address</b>
+                    </MDBTypography>
                     <hr className="mt-0 mb-4" />
                     <MDBRow className="pt-1">
                       <MDBCol size="6" className="mb-3">
-                        <MDBTypography tag="h6"><b>Name: </b></MDBTypography>
+                        <MDBTypography tag="h6">
+                          <b>Name: </b>
+                        </MDBTypography>
                         <MDBCardText className="text-muted">
-                        SoftJai
+                          SoftJai
                         </MDBCardText>
                       </MDBCol>
                       <MDBCol size="6" className="mb-3">
-                        <MDBTypography tag="h6"><b>Phone: </b></MDBTypography>
+                        <MDBTypography tag="h6">
+                          <b>Phone: </b>
+                        </MDBTypography>
                         <MDBCardText className="text-muted">
                           0934567894
                         </MDBCardText>
                       </MDBCol>
                       <MDBCol size="6" className="mb-3">
-                        <MDBTypography tag="h6"><b>Address: </b></MDBTypography>
+                        <MDBTypography tag="h6">
+                          <b>Address: </b>
+                        </MDBTypography>
                         <MDBCardText className="text-muted">
-                        Thailand, Bangkok, Bang Rak 10120
+                          Thailand, Bangkok, Bang Rak 10120
                         </MDBCardText>
                       </MDBCol>
-                     
                     </MDBRow>
                   </MDBCardBody>
                 </MDBCol>

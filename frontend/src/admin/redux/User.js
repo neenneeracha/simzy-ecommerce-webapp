@@ -1,13 +1,13 @@
 //store data into constant value
 const KEYS = {
   users: "users",
-  usersId: "usersId",
+  userId: "userId",
 };
 
 // save new user data into local storage
 export function insertNewUser(data) {
   let users = getAllUsers();
-  data['id'] = generateUserId();
+  data["id"] = generateUserId();
   users.push(data);
   localStorage.setItem(KEYS.users, JSON.stringify(users));
 }
@@ -27,4 +27,19 @@ export function getAllUsers() {
   if (localStorage.getItem(KEYS.users) == null)
     localStorage.setItem(KEYS.users, JSON.stringify([]));
   return JSON.parse(localStorage.getItem(KEYS.users));
+}
+
+//update user information
+export function updateUser(data) {
+  let users = getAllUsers();
+  let recordIndex = users.findIndex((x) => x.id === data.id);
+  users[recordIndex] = { ...data };
+  localStorage.setItem(KEYS.users, JSON.stringify(users));
+}
+
+//delete user
+export function deleteUser(id) {
+  let users = getAllUsers();
+  users = users.filter((x) => x.id !== id);
+  localStorage.setItem(KEYS.users, JSON.stringify(users));
 }

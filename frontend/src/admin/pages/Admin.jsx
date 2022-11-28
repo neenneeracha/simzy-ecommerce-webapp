@@ -1,9 +1,8 @@
 import React from "react";
-import NewNav from "../components/NewNav";
+import NavbarAd from "../components/NavbarAd";
 import styled from "styled-components";
 
-const Container = styled.div`
-`;
+const Container = styled.div``;
 const Home = styled.div`
   max-width: 100%;
   overflow-x: hidden;
@@ -14,7 +13,7 @@ const Admin = () => {
     <div>
       <Home>
         <Container>
-          <NewNav />
+          <NavbarAd />
           adHomepage
         </Container>
       </Home>

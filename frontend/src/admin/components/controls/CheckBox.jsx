@@ -8,7 +8,7 @@ import {
 const CheckBox = (props) => {
   const { name, label, value, onChange } = props;
 
-  // Convert check box property into the format container name and  value 
+  // Convert check box property into the format container name and  value
   const convertToDefEventPara = (name, value) => ({
     target: {
       name,

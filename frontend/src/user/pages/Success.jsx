@@ -51,8 +51,8 @@ const Button = styled.h3`
   }
 `;
 const Success = () => {
-  const [searchParams] = useSearchParams()
-  const order_id = searchParams.get('id')
+  const [searchParams] = useSearchParams();
+  const order_id = searchParams.get("id");
 
   return (
     <Container>
@@ -69,7 +69,7 @@ const Success = () => {
               <Text>Successfully ordered!</Text>
               <TextThank>THANK YOU FOR YOUR ORDER</TextThank>
               <OrderReference>
-                <b>YOUR ORDER REFERENCE: {order_id}</b>
+                <b>YOUR ORDER REFERENCE: 1 {order_id}</b>
               </OrderReference>
               <Button type="create" className="d-block mx-auto w-50">
                 BACK TO SHOP

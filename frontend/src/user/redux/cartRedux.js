@@ -57,7 +57,6 @@ const cartSlice = createSlice({
       localStorage.setItem("products", JSON.stringify(state.products));
     },
     removeFromCart(state, action) {
-      
       /* return undeleted item */
       const nextCartItems = state.products.filter(
         (product) =>
@@ -65,7 +64,7 @@ const cartSlice = createSlice({
           product.selectedSize !== action.payload.selectedSize ||
           product.color !== action.payload.color
       );
-        
+
       state.products = nextCartItems;
       /* update in localstorage */
       localStorage.setItem("products", JSON.stringify(state.products));
