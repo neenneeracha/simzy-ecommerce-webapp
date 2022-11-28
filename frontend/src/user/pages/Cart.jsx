@@ -128,7 +128,6 @@ const ButtonCheck = styled.h3`
   &:hover {
     color: white;
     background-color: #eda3b5;
-    cursor: default;
   }
 `;
 

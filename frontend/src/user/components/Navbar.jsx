@@ -5,7 +5,8 @@ import axios from "axios";
 import styled from "styled-components";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Badge from "react-bootstrap/Badge";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { getTotals } from "../redux/cartRedux";
 import { useUser, useUserUpdate } from "../../UserContext";
 
 const Container = styled.div`
@@ -104,7 +105,13 @@ const Navbar = () => {
   const { removeToken } = useUserUpdate();
   const user = useUser();
 
-  const quantity = useSelector((state) => state.cart.quantity);
+
+  const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getTotals());
+  }, [cart, dispatch]);
 
   useEffect(() => {
     const getWomenCat = async () => {
@@ -159,7 +166,6 @@ const Navbar = () => {
     navigate("/");
     window.location.reload();
   };
-  const { cartTotalQuantity } = useSelector((state) => state.cart);
 
   return (
     <Container>
@@ -230,7 +236,7 @@ const Navbar = () => {
           <MenuItem>
             <Link style={{ textDecoration: "none" }} to="/cart">
               <LinkItem>
-                CART <Badge bg="danger">{cartTotalQuantity}</Badge>
+                CART <Badge bg="danger">{cart.cartTotalQuantity}</Badge>
               </LinkItem>
             </Link>
           </MenuItem>

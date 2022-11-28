@@ -41,7 +41,7 @@ const PaymentProcessing = () => {
         try {
           let res = await axios.post(
             "http://localhost:8080/api/v1/payment/new",
-            { payment: "2" }
+            { payment: "2", status: "1" }
           );
           const payment_id = res.data.insertId;
 

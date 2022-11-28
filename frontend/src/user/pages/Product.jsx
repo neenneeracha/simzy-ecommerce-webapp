@@ -7,7 +7,7 @@ import Button from "react-bootstrap/Button";
 import { Col, Row } from "react-bootstrap";
 import { MDBIcon, MDBRadio } from "mdb-react-ui-kit";
 import { addProduct } from "../redux/cartRedux";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -167,6 +167,7 @@ const Product = () => {
 
   const sizeOptions = ["XS", "S", "M", "L", "XL"];
   const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
 
   useEffect(() => {
     const getProduct = async () => {
@@ -274,7 +275,23 @@ const Product = () => {
               stock.size === selectedSize
           )
           .slice(0)[0].quantity;
-        if (stock < quantity) {
+
+          const stock_id = stocks
+        .filter(
+          (stock) =>
+            stock.product_color_id === selectedColor &&
+            stock.size === selectedSize
+        )
+        .slice(0)[0].stock_id;
+
+          let inCartQuantity = 0
+          const inCart = cart.products.filter((product) => product.stock === stock_id)
+
+          if (inCart.length !== 0) {
+            inCartQuantity = inCart.slice(0)[0].quantity
+          }
+
+        if (stock - inCartQuantity < quantity) {
           // quantity exceed
           const color = colors
             .filter((color) => color.product_color_id === selectedColor)
@@ -285,13 +302,13 @@ const Product = () => {
               position: "top-center",
             }
           );
-          setQuantity(stock);
+          setQuantity(stock - inCartQuantity);
         }
       }
     };
 
     checkQuantity();
-  }, [selectedSize, selectedColor, quantity, stocks, colors]);
+  }, [selectedSize, selectedColor, quantity, stocks, colors, cart.products]);
 
   const addToCartHandler = () => {
     if (!selectedColor || !selectedSize) {
@@ -314,6 +331,7 @@ const Product = () => {
       dispatch(
         addProduct({ ...product, stock, quantity, url, color, selectedSize })
       );
+      setQuantity(1)
     }
   };
 

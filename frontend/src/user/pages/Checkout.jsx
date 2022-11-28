@@ -151,6 +151,7 @@ const Checkout = () => {
       try {
         let res = await axios.post("http://localhost:8080/api/v1/payment/new", {
           payment: inputs.payment,
+          status: "0"
         });
         const payment_id = res.data.insertId;
 
