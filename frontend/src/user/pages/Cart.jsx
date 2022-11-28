@@ -1,4 +1,3 @@
-import { Add, Remove } from "@material-ui/icons";
 import styled from "styled-components";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
@@ -9,8 +8,6 @@ import VisibilityIcon from "@material-ui/icons/Visibility";
 import { useDispatch, useSelector } from "react-redux";
 import {
   removeFromCart,
-  decreaseCart,
-  addProduct,
   getTotals,
 } from "../redux/cartRedux";
 import Button from "@material-ui/core/Button";

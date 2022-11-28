@@ -15,7 +15,7 @@ const Container = styled.div`
 
 const PaymentProcessing = () => {
   const [searchParams] = useSearchParams()
-  
+  const navigate = useNavigate()
   const session_id = searchParams.get('session_id')
   const [loading, setLoading] = useState(true)
   const [inputs, setInputs] = useState([])
@@ -48,7 +48,9 @@ const PaymentProcessing = () => {
            res = await axios.post("http://localhost:8080/api/v1/order/orderhistory", [cart.products, {order_id: order_id}])
           
            setTimeout(function() {
-            window.location.href = `/success?id=${order_id}`
+            setLoading(false)
+            Cookie.set('orderID', order_id, { path: '/', expires: 2/(24 * 60)})
+            navigate("/success")
          }, 2000);
           
         } catch (error) {
@@ -60,7 +62,7 @@ const PaymentProcessing = () => {
 
     
     handleSubmit()
-  }, [inputs, user.user_id, cart.products])
+  }, [inputs, user.user_id, cart.products, navigate])
   
   
   return (

@@ -6,7 +6,6 @@ import Button from "react-bootstrap/Button";
 import BackNavBar from "../components/BackNavBar";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import NewUser from "../../admin/pages/NewUser";
 
 const Container = styled.div`
   max-width: 100%;
@@ -69,6 +68,7 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setValidated(true)
 
     try {
       const res = await axios.post("http://localhost:8080/api/v1/auth", inputs);

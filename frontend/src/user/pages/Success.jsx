@@ -6,34 +6,34 @@ import { Col, Image, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Cookie from 'js-cookie'
 
-const Container = styled.div `
+const Container = styled.div`
   min-height: 100vh;
   position: relative;
 `;
-const Content = styled.div `
+const Content = styled.div`
   margin-top: 2%;
 `;
-const SuccessAlert = styled.div `
+const SuccessAlert = styled.div`
   padding: 50px;
   margin: 3% 0;
 `;
-const Text = styled.h3 `
+const Text = styled.h3`
   text-align: center;
   margin-top: 50px;
   color: #299f00;
 `;
 
-const TextThank = styled.h6 `
+const TextThank = styled.h6`
   text-align: center;
   color: #938e8e;
 `;
 
-const OrderReference = styled.h6 `
+const OrderReference = styled.h6`
   text-align: center;
   margin: 30px;
 `;
 
-const Button = styled.h3 `
+const Button = styled.h3`
   text-align: center;
   color: #eda3b5;
   font-size: 20px;
@@ -50,65 +50,53 @@ const Button = styled.h3 `
   }
 `;
 const Success = () => {
-    const order_id = Cookie.get("orderID")
-    const navigate = useNavigate()
+  const order_id = Cookie.get("orderID")
+  const navigate = useNavigate()
+  
+
+  useEffect(() => {
+
+    const checkOrderID = async () => {
+      if (isNaN(order_id)) {
+        console.log(order_id)
+        navigate("/")
+      }
+    }
+
+    checkOrderID()
+
+  }, [order_id, navigate])
 
 
-    useEffect(() => {
+  return (
+    <Container>
+      <Navbar />
+      <Content>
+        <Row>
+          <Col></Col>
+          <Col xs={7} className="m-auto">
+            <SuccessAlert>
+              <Image
+                className="d-block mx-auto img-fluid w-25"
+                src={process.env.PUBLIC_URL + "img/success.png"}
+              />
+              <Text>Successfully ordered!</Text>
+              <TextThank>THANK YOU FOR YOUR ORDER</TextThank>
+              <OrderReference>
+                <b>YOUR ORDER REFERENCE: {order_id}</b>
+              </OrderReference>
+              <Button type="create" className="d-block mx-auto w-50" onClick={() => navigate("/")}>
+                BACK TO SHOP
+              </Button>
+            </SuccessAlert>
+          </Col>
 
-        const checkOrderID = async() => {
-            if (isNaN(order_id)) {
-                console.log(order_id)
-                navigate("/")
-            }
-        }
-
-        checkOrderID()
-
-    }, [order_id, navigate])
-
-
-    return ( <
-        Container >
-        <
-        Navbar / >
-        <
-        Content >
-        <
-        Row >
-        <
-        Col > < /Col> <
-        Col xs = { 7 }
-        className = "m-auto" >
-        <
-        SuccessAlert >
-        <
-        Image className = "d-block mx-auto img-fluid w-25"
-        src = { process.env.PUBLIC_URL + "img/success.png" }
-        /> <
-        Text > Successfully ordered! < /Text> <
-        TextThank > THANK YOU FOR YOUR ORDER < /TextThank> <
-        OrderReference >
-        <
-        b > YOUR ORDER REFERENCE: 1 { order_id } < /b> <
-        /OrderReference> <
-        Button type = "create"
-        className = "d-block mx-auto w-50"
-        onClick = {
-            () => navigate("/") } >
-        BACK TO SHOP <
-        /Button> <
-        /SuccessAlert> <
-        /Col>
-
-        <
-        Col > < /Col> <
-        /Row> <
-        /Content> <
-        Footer / >
-        <
-        /Container>
-    );
+          <Col></Col>
+        </Row>
+      </Content>
+      <Footer />
+    </Container>
+  );
 };
 
 export default Success;
