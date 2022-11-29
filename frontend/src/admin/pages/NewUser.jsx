@@ -10,7 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 const initialFValues = {
   is_admin: "",
   email: "",
-  firstname: "",
+  name: "",
   surname: "",
   password: "",
   gender: "O",
@@ -18,7 +18,7 @@ const initialFValues = {
   address: "",
   district: "",
   province: "",
-  zipCode: "",
+  zip_code: "",
 };
 
 // Array contain gender item
@@ -40,8 +40,8 @@ const NewUser = (props) => {
   // form validation
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
-    if ("firstname" in fieldValues)
-      temp.firstname = fieldValues.firstname ? "" : "First name is reauired";
+    if ("name" in fieldValues)
+      temp.name = fieldValues.name ? "" : "First name is reauired";
     if ("surname" in fieldValues)
       temp.surname = fieldValues.surname ? "" : "Surname is reauired";
     if ("email" in fieldValues)
@@ -57,7 +57,7 @@ const NewUser = (props) => {
     if ("phone_number" in fieldValues)
       temp.phone_number = !fieldValues.phone_number
         ? "Phone Number is reauired"
-        : fieldValues.phone_number.length !== 10
+        : fieldValues.phone_number.length < 9 ||  fieldValues.phone_number.length > 10
         ? "Phone Number is invalid"
         : "";
     if ("address" in fieldValues)
@@ -66,8 +66,8 @@ const NewUser = (props) => {
       temp.district = fieldValues.district ? "" : "District is reauired";
     if ("province" in fieldValues)
       temp.province = fieldValues.province ? "" : "Province is reauired";
-    if ("zipCode" in fieldValues)
-      temp.zipCode = fieldValues.zipCode ? "" : "Zip Code is reauired";
+    if ("zip_code" in fieldValues)
+      temp.zip_code = fieldValues.zip_code ? "" : "Zip Code is reauired";
 
     // save error value into "errors"
     setErrors({
@@ -112,11 +112,11 @@ const NewUser = (props) => {
           <Grid container>
             <Grid item xs={6}>
               <Controls.Input
-                name="firstname"
+                name="name"
                 label="First Name"
-                value={values.firstname}
+                value={values.name}
                 onChange={handleChange}
-                error={errors.firstname}
+                error={errors.name}
               />
               <Controls.Input
                 name="email"
@@ -140,11 +140,11 @@ const NewUser = (props) => {
                 error={errors.district}
               />
               <Controls.Input
-                name="zipCode"
+                name="zip_code"
                 label="Zip Code"
-                value={values.zipCode}
+                value={values.zip_code}
                 onChange={handleChange}
-                error={errors.zipCode}
+                error={errors.zip_code}
               />
               <Controls.RadioGroup
                 name="gender"
