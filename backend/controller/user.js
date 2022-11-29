@@ -13,4 +13,14 @@ const getShippingInfo = (req, res) => {
   });
 };
 
-module.exports = { getShippingInfo };
+//get all user information
+const getAllUserInfo = (req, res) => {
+  const q = "SELECT * FROM `userinfo`";
+  pool.query(q, (err, data) => {
+    if (err) return res.status(500).json(err);
+
+    return res.status(200).json(data);
+  });
+};
+
+module.exports = { getShippingInfo, getAllUserInfo };

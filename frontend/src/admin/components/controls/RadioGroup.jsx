@@ -15,7 +15,6 @@ const RadioGroup = (props) => {
       <FormLabel>{label}</FormLabel>
       <MuiRadioGroup
         row={true}
-        aria-label="gender"
         name={name}
         value={value}
         onChange={onChange}

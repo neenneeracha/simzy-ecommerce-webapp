@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import NavbarAd from "../components/NavbarAd";
-import { Link } from "react-router-dom";
 import Controls from "./../components/controls/Controls";
 import UseTable from "../components/UseTable";
 import * as userService from "../redux/User";
@@ -13,7 +14,6 @@ import {
   TableRow,
   TableCell,
 } from "@material-ui/core";
-import * as users from "../redux/User";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DeleteIcon from "@material-ui/icons/Delete";
 import PopUp from "../components/PopUp";
@@ -49,29 +49,34 @@ const Title = styled.h2`
 
 // array object for head cell
 const headCells = [
-  { id: "firstname", label: "User name" },
+  { id: "name", label: "User name" },
   { id: "email", label: "Email Addres" },
-  { id: "phoneNumber", label: "Phone Number" },
+  { id: "phone_number", label: "Phone Number" },
   { id: "actions", label: "Actions" },
 ];
 
 const View = ({ inputs, title }) => {
   const paperClasses = useStylesPaper();
   const [recordForEdit, setRecordForEdit] = useState(null);
-  const [records, setRecords] = useState(users.getAllUsers());
+  const [records, setRecords] = useState(userService.getAllUsers());
   const [openPopup, setOpenPopup] = useState(false);
-
+  const [users, setUsers] = useState([]);
+  const [error, setError] = useState(false);
+  
+  const navigate = useNavigate();
   //get return value from UseTable.jsx
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
-    UseTable(records, headCells);
+    UseTable(users, headCells);
 
   // update new user or edit user
-  const addOrEdit = (user, resetForm) => {
+  const addOrEdit = (user, resetForm, insertData) => {
     if (recordForEdit === null) {
-      userService.insertNewUser(user);
+      console.log(user);
+      insertData(user);
     } else {
       userService.updateUser(user);
     }
+    // "http://localhost:8080/api/v1/auth/login",
 
     resetForm();
     setRecordForEdit(null);
@@ -89,15 +94,39 @@ const View = ({ inputs, title }) => {
   };
 
   //delete user
-  const onDelete = (id) => {
+  // const onDelete = (id) => {
+  //   if (window.confirm("Are you sure to delete this record? ")) {
+  //     userService.deleteUser(id);
+  //     setRecords(userService.getAllUsers());
+  //     toast.success("Successfully deleted user information.", {
+  //       position: "top-center",
+  //     });
+  //   }
+  // };
+
+  const onDelete = async (id) => {
     if (window.confirm("Are you sure to delete this record? ")) {
-      userService.deleteUser(id);
-      setRecords(userService.getAllUsers());
-      toast.success("Successfully deleted user information.", {
-        position: "top-center",
-      });
+      try {
+        await axios.delete(`http://localhost:8080/api/v1/user/${id}`);
+        window.location.reload();
+        window.alert("Deleting");
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
+
+  useEffect(() => {
+    const getAllUserInfo = async () => {
+      try {
+        const res = await axios.get("http://localhost:8080/api/v1/user/");
+        setUsers(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getAllUserInfo();
+  }, []);
 
   return (
     <Container>
@@ -130,23 +159,23 @@ const View = ({ inputs, title }) => {
           <TblContainer>
             <TblHead />
             <TableBody>
-              {recordsAfterPagingAndSorting().map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell>{item.firstname}</TableCell>
-                  <TableCell>{item.email}</TableCell>
-                  <TableCell>{item.phoneNumber}</TableCell>
+              {recordsAfterPagingAndSorting().map((user) => (
+                <TableRow key={user.user_id}>
+                  <TableCell>{user.name}</TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell>{user.phone_number}</TableCell>
                   <TableCell>
                     <Controls.ActionButton
                       color="primary"
                       onClick={() => {
-                        openInPopup(item);
+                        openInPopup(user);
                       }}
                     >
                       <EditOutlinedIcon fontSize="small" />
                     </Controls.ActionButton>
                     <Controls.ActionButton
                       color="secondary"
-                      onClick={() => onDelete(item.id)}
+                      onClick={() => onDelete(user.user_id)}
                     >
                       <DeleteIcon fontSize="small" />
                     </Controls.ActionButton>

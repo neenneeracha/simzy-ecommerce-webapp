@@ -5,16 +5,16 @@ import { UseForm, Form } from "../components/UseForm";
 import { Grid } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SaveIcon from "@material-ui/icons/Save";
-
+import { Link, useNavigate } from "react-router-dom";
 /* innital default value */
 const initialFValues = {
-  isAdmin: false,
+  is_admin: "",
   email: "",
   firstname: "",
   surname: "",
   password: "",
-  gender: "o",
-  phoneNumber: "",
+  gender: "O",
+  phone_number: "",
   address: "",
   district: "",
   province: "",
@@ -23,10 +23,11 @@ const initialFValues = {
 
 // Array contain gender item
 const genderItems = [
-  { id: "m", title: "Male" },
-  { id: "f", title: "Female" },
-  { id: "o", title: "Other" },
+  { id: "M", title: "Male" },
+  { id: "W", title: "Female" },
+  { id: "O", title: "Other" },
 ];
+
 const Container = styled.div`
   max-width: 100%;
   overflow-x: hidden;
@@ -35,7 +36,7 @@ const Wrapper = styled.div``;
 
 const NewUser = (props) => {
   const { addOrEdit, recordForEdit } = props;
-
+  const navigate = useNavigate();
   // form validation
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
@@ -53,10 +54,10 @@ const NewUser = (props) => {
     if ("password" in fieldValues)
       temp.password = fieldValues.password ? "" : "Password is reauired";
 
-    if ("phoneNumber" in fieldValues)
-      temp.phoneNumber = !fieldValues.phoneNumber
+    if ("phone_number" in fieldValues)
+      temp.phone_number = !fieldValues.phone_number
         ? "Phone Number is reauired"
-        : fieldValues.phoneNumber.length !== 10
+        : fieldValues.phone_number.length !== 10
         ? "Phone Number is invalid"
         : "";
     if ("address" in fieldValues)
@@ -125,11 +126,11 @@ const NewUser = (props) => {
                 error={errors.email}
               />
               <Controls.Input
-                name="phoneNumber"
+                name="phone_number"
                 label="Phone Number"
-                value={values.phoneNumber}
+                value={values.phone_number}
                 onChange={handleChange}
-                error={errors.phoneNumber}
+                error={errors.phone_number}
               />
               <Controls.Input
                 name="district"
@@ -145,6 +146,13 @@ const NewUser = (props) => {
                 onChange={handleChange}
                 error={errors.zipCode}
               />
+              <Controls.RadioGroup
+                name="gender"
+                label="Gender"
+                value={values.gender}
+                onChange={handleChange}
+                items={genderItems}
+              />{" "}
             </Grid>
             <Grid item xs={6}>
               <Controls.Input
@@ -160,6 +168,7 @@ const NewUser = (props) => {
                 value={values.password}
                 onChange={handleChange}
                 error={errors.password}
+                type = "password"
               />
               <Controls.Input
                 name="address"
@@ -175,17 +184,10 @@ const NewUser = (props) => {
                 onChange={handleChange}
                 error={errors.province}
               />
-              <Controls.RadioGroup
-                name="gender"
-                label="Gender"
-                value={values.gender}
-                onChange={handleChange}
-                items={genderItems}
-              />{" "}
               <Controls.CheckBox
-                name="isAdmin"
+                name="is_admin"
                 label="Admin"
-                value={values.isAdmin}
+                value={values.is_admin}
                 onChange={handleChange}
               />
               <div>
@@ -204,7 +206,6 @@ const NewUser = (props) => {
             </Grid>
           </Grid>
         </Form>
-        {/* </Paper> */}
       </Wrapper>
     </Container>
   );
