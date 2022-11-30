@@ -131,13 +131,18 @@ const userRouter = createBrowserRouter([
     element: <Success />,
   },
   {
-    path: "/*",
-    element: <PageNotfound />,
-  },
-  {
     path: "/processing",
     element: <PaymentProcessing />,
   },
+  {
+    path: "/profile",
+    element: <UserInfo />,
+  },
+  {
+    path: "/*",
+    element: <PageNotfound />,
+  },
+  
 ]);
 
 const adminRouter = createBrowserRouter([

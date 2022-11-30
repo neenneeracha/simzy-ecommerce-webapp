@@ -2,6 +2,7 @@ import React from "react";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 const styles = {
   customButton: {
@@ -13,9 +14,15 @@ const styles = {
   },
 };
 
-const History = () => {
+const Container = styled.div`
+  min-height: 68vh;
+  padding: 3%;
+`;
+
+const OrderHistory = () => {
   return (
-    <Table striped bordered hover style={{ width: "80%", margin: "auto" }}>
+    <Container>
+      <Table striped bordered hover style={{ width: "80%", margin: "auto" }}>
       <thead>
         <tr>
           <th>ORDER REFERENCE</th>
@@ -60,7 +67,9 @@ const History = () => {
         </tr>
       </tbody>
     </Table>
+    </Container>
+    
   );
 };
 
-export default History;
+export default OrderHistory;

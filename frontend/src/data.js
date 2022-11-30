@@ -66,7 +66,7 @@ export const popularProducts = [
     name: "Shirts",
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     img_link:
-      "https://image.uniqlo.com/UQ/ST3/th/imagesgoods/449874/item/thgoods_01_449874.jpg?width=1600&impolicy=quality_75",
+      "https://image.uniqlo.com/UQ/ST3/th/imagesgoods/453230/item/thgoods_35_453230.jpg?width=1600&impolicy=quality_75",
     price: "500",
   },
   {
