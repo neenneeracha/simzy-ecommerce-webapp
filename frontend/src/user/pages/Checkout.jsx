@@ -313,7 +313,7 @@ const Checkout = () => {
                               <b>District:</b>{" "}
                             </Form.Label>
                             <Form.Control
-                              type="district"
+                              type="text"
                               placeholder="Enter your district"
                               name="district"
                               value={inputs.district}
@@ -358,7 +358,7 @@ const Checkout = () => {
                               <b>Zipcode:</b>{" "}
                             </Form.Label>
                             <Form.Control
-                              type="Zipcode"
+                              type="text"
                               placeholder="Enter your Zipcode"
                               name="zipCode"
                               value={inputs.zipCode}

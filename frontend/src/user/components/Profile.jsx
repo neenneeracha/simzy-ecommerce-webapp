@@ -3,6 +3,8 @@ import Button from "react-bootstrap/Button";
 import styled from "styled-components";
 import { useUser } from "../../UserContext";
 import PasswordModal from "./PasswordModal";
+import UserInfo from "./UserInfo";
+import EditUserInfo from "./EditUserInfo";
 import axios from "axios";
 
 import {
@@ -48,6 +50,7 @@ margin-top: -14px;
 
 const Profile = () => {
   const [userInfo, setUserInfo] = useState([]);
+  const [editProfile, setEditProfile] = useState(false);
   const [show, setShow] = useState(false);
   const user = useUser();
 
@@ -57,10 +60,11 @@ const Profile = () => {
         const res = await axios.get(
           "http://localhost:8080/api/v1/user/" + user.user_id
         );
+        
         if (res.data.length > 0) {
-          var date = new window.Date(res.data[0].created_at).toLocaleDateString('en-GB', {
-            day: 'numeric', month: 'short', year: 'numeric'
-          })
+          var date = new window.Date(res.data[0].created_at)
+              .toISOString().replace(/T.*/,'')
+              .split('-').reverse().join('/')
           res.data[0].created_at = date
         }
         setUserInfo(res.data[0]);
@@ -83,12 +87,16 @@ const Profile = () => {
             <MDBCard className="mb-4">
               <MDBCardBody className="text-center">
                 <MDBCardImage
-                  src={process.env.PUBLIC_URL + "img/man-profile.jpg"}
+                  src={process.env.PUBLIC_URL + 
+                    userInfo.gender === "M"? "img/man-profile.jpg" : 
+                    userInfo.gender === "W"? "img/woman-profile.jpg" :
+                    "img/other-profile.jpg"
+                  }
                   alt="avatar"
                   className="rounded-circle"
                   style={{ width: '225px',  height: '225px', objectFit: 'cover' }}
                   fluid />
-                <Text>Personal Information : User #2</Text>
+                <Text>Personal Information : User #{user.user_id}</Text>
                 <Date>Created on {userInfo.created_at}</Date>
                 <div className="d-flex justify-content-center mb-2">
                 </div>
@@ -100,8 +108,15 @@ const Profile = () => {
               <Button
                 className="d-block mx-auto w-75"
                 style={styles.customButton}
+                onClick={() => setEditProfile(!editProfile)}
               >
-                EDIT INFORMATION
+                {editProfile === true? 
+            "VIEW MY INFORMATION"
+            :
+            "EDIT INFORMATION"
+           
+          }
+                
               </Button>
               <Button
                 className="d-block mx-auto w-75"
@@ -115,93 +130,13 @@ const Profile = () => {
           </MDBCol>
 
           <MDBCol lg="8">
-            <MDBCard className="p-4">
-              <MDBCardBody>
-                <MDBRow>
-                  <MDBCol sm="3">
-                    <MDBCardText>Name</MDBCardText>
-                  </MDBCol>
-                  <MDBCol sm="9">
-                    <MDBCardText className="text-muted">{userInfo.name}</MDBCardText>
-                  </MDBCol>
-                </MDBRow>
-                <hr />
-                <MDBRow>
-                  <MDBCol sm="3">
-                    <MDBCardText>Surname</MDBCardText>
-                  </MDBCol>
-                  <MDBCol sm="9">
-                    <MDBCardText className="text-muted">{userInfo.surname}</MDBCardText>
-                  </MDBCol>
-                </MDBRow>
-                <hr />
-                <MDBRow>
-                  <MDBCol sm="3">
-                    <MDBCardText>Gender</MDBCardText>
-                  </MDBCol>
-                  <MDBCol sm="9">
-                    <MDBCardText className="text-muted">{userInfo.gender}</MDBCardText>
-                  </MDBCol>
-                </MDBRow>
-                <hr />
-                <MDBRow>
-                  <MDBCol sm="3">
-                    <MDBCardText>Email</MDBCardText>
-                  </MDBCol>
-                  <MDBCol sm="9">
-                    <MDBCardText className="text-muted">{userInfo.email}</MDBCardText>
-                  </MDBCol>
-                </MDBRow>
-                <hr />
-                <MDBRow>
-                  <MDBCol sm="3">
-                    <MDBCardText>Phone Number</MDBCardText>
-                  </MDBCol>
-                  <MDBCol sm="9">
-                    <MDBCardText className="text-muted">{userInfo.phone_number}</MDBCardText>
-                  </MDBCol>
-                </MDBRow>
-                <hr />
-                <MDBRow>
-                  <MDBCol sm="3">
-                    <MDBCardText>Address</MDBCardText>
-                  </MDBCol>
-                  <MDBCol sm="9">
-                    <MDBCardText className="text-muted">{userInfo.address}</MDBCardText>
-                  </MDBCol>
-                </MDBRow>
-                <hr />
-                <MDBRow>
-                  <MDBCol sm="3">
-                    <MDBCardText>District</MDBCardText>
-                  </MDBCol>
-                  <MDBCol sm="9">
-                    <MDBCardText className="text-muted">{userInfo.district}</MDBCardText>
-                  </MDBCol>
-                </MDBRow>
-                <hr />
-                <MDBRow>
-                  <MDBCol sm="3">
-                    <MDBCardText>Province</MDBCardText>
-                  </MDBCol>
-                  <MDBCol sm="9">
-                    <MDBCardText className="text-muted">{userInfo.province}</MDBCardText>
-                  </MDBCol>
-                </MDBRow>
-                <hr />
-                <MDBRow>
-                  <MDBCol sm="3">
-                    <MDBCardText>Zipcode</MDBCardText>
-                  </MDBCol>
-                  <MDBCol sm="9">
-                    <MDBCardText className="text-muted">{userInfo.zip_code}</MDBCardText>
-                  </MDBCol>
-                </MDBRow>
-                <hr />
-              </MDBCardBody>
-            </MDBCard>
-
+            {editProfile === true? 
+            <EditUserInfo userInfo={userInfo} />
+            :
+            <UserInfo userInfo={userInfo} />
            
+          }
+          
           </MDBCol>
         </MDBRow>
           

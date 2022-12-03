@@ -1,6 +1,7 @@
 const pool = require("../database/connector");
 const bcrypt = require("bcrypt");
 
+// get user shipping info
 const getShippingInfo = (req, res) => {
     const user_id = req.params.id;
 
@@ -13,7 +14,7 @@ const getShippingInfo = (req, res) => {
     });
 };
 
-//get all user information
+// get all user information
 const getAllUserInfo = (req, res) => {
     const q = "SELECT * FROM `userinfo`";
     pool.query(q, (err, data) => {
@@ -23,7 +24,7 @@ const getAllUserInfo = (req, res) => {
     });
 };
 
-//get user information
+// get user information
 const getUserInfo = (req, res) => {
     const user_id = req.params.id;
 
@@ -36,4 +37,36 @@ const getUserInfo = (req, res) => {
     });
 };
 
-module.exports = { getShippingInfo, getAllUserInfo, getUserInfo };
+// update password
+const updatePassword = (req, res) => {
+    const user_id = req.params.id;
+    const currentPW = req.body.currentPW;
+    const newPW = req.body.newPW;
+
+    let q = "SELECT password FROM userinfo WHERE user_id = ?";
+
+    pool.query(q, [user_id], (err, data) => {
+        if (err) return res.status(500).json(err);
+
+        const isEqual = bcrypt.compareSync(currentPW, data[0].password);
+
+        if (!isEqual)
+            return res
+                .status(403)
+                .json({ msg: "you entered incorrect password, please try again" });
+    });
+
+    const saltRounds = 10;
+    const password = bcrypt.hashSync(newPW, saltRounds);
+
+    q = "UPDATE userinfo SET password = ?, updated_at = CURRENT_TIMESTAMP WHERE user_id = ?";
+
+    pool.query(q, [password, user_id], (err, data) => {
+        if (err) return res.status(500).json(err);
+
+        return res.status(200).json({ msg: "password updated!" });
+    });
+
+}
+
+module.exports = { getShippingInfo, getAllUserInfo, getUserInfo, updatePassword };
