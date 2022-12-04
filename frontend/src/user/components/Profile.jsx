@@ -11,7 +11,6 @@ import {
   MDBCol,
   MDBRow,
   MDBCard,
-  MDBCardText,
   MDBCardBody,
   MDBCardImage
 } from "mdb-react-ui-kit";
@@ -27,6 +26,14 @@ const styles = {
     margin: "30px",
     height: "45px"
   },
+  secondaryButton: {
+    backgroundColor: "#9e9e9e",
+    borderColor: "#9e9e9e",
+    color: "white",
+    borderRadius: "5px",
+    margin: "30px",
+    height: "45px"
+  }
 };
 
 const Container = styled.div`
@@ -52,6 +59,9 @@ const Profile = () => {
   const [userInfo, setUserInfo] = useState([]);
   const [editProfile, setEditProfile] = useState(false);
   const [show, setShow] = useState(false);
+  const [reset, setReset] = useState(false);
+  const [changed, setChanged] = useState(false);
+  const [submit, setSubmit] = useState(false);
   const user = useUser();
 
   useEffect(() => {
@@ -77,6 +87,20 @@ const Profile = () => {
 
   const handleChange = (show) => {
     setShow(show)
+  }
+
+  const handleReset = () => {
+    setReset(true)
+    setChanged(false)
+  }
+
+  const handleBack = () => {
+    setChanged(false)
+    setEditProfile(false)
+  }
+
+  const handleSubmit = () => {
+    setSubmit(true)
   }
 
   return (
@@ -105,18 +129,40 @@ const Profile = () => {
 
             <MDBCard className="mb-4 mb-lg-0">
               <MDBCardBody className="p-3">
-              <Button
+                {editProfile === true? 
+                <>
+                <Button
+                className="d-block mx-auto w-75 mt-5"
+                style={styles.customButton}
+                onClick={handleSubmit}
+                disabled={!changed}
+              >
+                SAVE CHANGES
+              </Button>
+                <Button
+                className="d-block mx-auto w-75 h-45"
+                style={styles.secondaryButton}
+                onClick={handleReset}
+                disabled={!changed}
+              >
+                RESET MY INFORMATION
+              </Button>
+                <Button
+                className="d-block mx-auto w-75 mb-6"
+                style={styles.secondaryButton}
+                onClick={handleBack}
+              >
+                BACK TO MY INFORMATION
+              </Button>
+                </>
+                :
+                <>
+                <Button
                 className="d-block mx-auto w-75"
                 style={styles.customButton}
-                onClick={() => setEditProfile(!editProfile)}
+                onClick={() => setEditProfile(true)}
               >
-                {editProfile === true? 
-            "VIEW MY INFORMATION"
-            :
-            "EDIT INFORMATION"
-           
-          }
-                
+                EDIT INFORMATION
               </Button>
               <Button
                 className="d-block mx-auto w-75"
@@ -125,13 +171,16 @@ const Profile = () => {
               >
                 CHANGE PASSWORD
               </Button>
+                </>
+                }
+              
              </MDBCardBody>
             </MDBCard>
           </MDBCol>
 
           <MDBCol lg="8">
             {editProfile === true? 
-            <EditUserInfo userInfo={userInfo} />
+            <EditUserInfo userInfo={userInfo} reset={reset} submit={submit} setReset={setReset} setSubmit={setSubmit} setChanged={setChanged} />
             :
             <UserInfo userInfo={userInfo} />
            

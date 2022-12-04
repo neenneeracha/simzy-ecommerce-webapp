@@ -40,7 +40,7 @@ const PasswordModal = ({show, handleChange}) => {
           handleChange(false)
         }
     }
-  }
+  };
 
     return (
         <Container>    

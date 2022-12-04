@@ -1,6 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from "styled-components";
 import Form from "react-bootstrap/Form";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "../../UserContext";
+import axios from "axios";
 
 import {
     MDBCol,
@@ -13,7 +16,7 @@ import {
   const Line = styled.hr`
 `;
 
-const EditUserInfo = ({ userInfo }) => {
+const EditUserInfo = ({ userInfo, reset, submit, setReset, setSubmit, setChanged }) => {
     const [inputs, setInputs] = useState({
         firstname: userInfo.name,
         lastname: userInfo.surname,
@@ -25,10 +28,60 @@ const EditUserInfo = ({ userInfo }) => {
         zipCode: userInfo.zip_code,
         phoneNumber: userInfo.phone_number,
       });
+      const navigate = useNavigate();
+      const user = useUser();
 
       const handleChange = (e) => {
         setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+        setChanged(true)
       };
+
+      useEffect(() => {
+        const resetInfo = () => {
+          if (reset) {
+            setInputs((prev) => ({ ...prev, firstname: userInfo.name }));
+            setInputs((prev) => ({ ...prev, lastname: userInfo.surname }));
+            setInputs((prev) => ({ ...prev, email: userInfo.email }));
+            setInputs((prev) => ({ ...prev, gender: userInfo.gender }));
+            setInputs((prev) => ({ ...prev, address: userInfo.address }));
+            setInputs((prev) => ({ ...prev, district: userInfo.district }));
+            setInputs((prev) => ({ ...prev, province: userInfo.province }));
+            setInputs((prev) => ({ ...prev, zipCode: userInfo.zip_code }));
+            setInputs((prev) => ({ ...prev, phoneNumber: userInfo.phone_number }));
+            setReset(false)
+          }
+          
+        };
+        resetInfo()
+        
+      }, [reset, setReset, setInputs, userInfo]);
+
+      useEffect(() => {
+        const updateProfile = async () => {
+          if (submit) {
+            setSubmit(false)
+            try {
+              const res = await axios.patch("http://localhost:8080/api/v1/user/update-info/" + user.user_id, inputs);
+        
+              if (res.status === 200) {
+                alert(res.data.msg)
+                window.location.reload();
+              }
+            } catch (err) {
+              if (err.request.status === 409) {
+                alert(err.response.data.msg)
+              }
+              console.log(err);
+            }
+          }
+          
+        };
+
+        updateProfile()
+        
+      }, [submit, inputs, user, navigate, setSubmit, setChanged]);
+
+      
 
   return (
     <MDBCard className="p-4">
@@ -83,7 +136,7 @@ const EditUserInfo = ({ userInfo }) => {
                   type={type}
                   id={`inline-${type}-1`}
                   onChange={handleChange}
-                  defaultChecked={inputs.gender === "W"}
+                  checked={inputs.gender === "W"}
                 />
                 <Form.Check
 
@@ -94,7 +147,7 @@ const EditUserInfo = ({ userInfo }) => {
                   type={type}
                   id={`inline-${type}-2`}
                   onChange={handleChange}
-                  defaultChecked={inputs.gender === "M"}
+                  checked={inputs.gender === "M"}
                 />
                 <Form.Check
                   inline
@@ -104,7 +157,7 @@ const EditUserInfo = ({ userInfo }) => {
                   type={type}
                   id={`inline-${type}-3`}
                   onChange={handleChange}
-                  defaultChecked={inputs.gender === "O"}
+                  checked={inputs.gender === "O"}
                 />
               </div>
             ))}
