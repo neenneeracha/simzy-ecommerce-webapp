@@ -7,7 +7,7 @@ import {
   MDBTabsPane,
 } from "mdb-react-ui-kit";
 import OrderHistory from "../components/OrderHistory";
-import Profile from "../components/Profile";
+import ProfileSection from "../components/ProfileSection";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import styled from "styled-components";
@@ -40,7 +40,7 @@ margin: auto;
   }
 `;
 
-const Test = () => {
+const Profile = () => {
   const [justifyActive, setJustifyActive] = useState("tab1");
 
   const handleJustifyClick = (value) => {
@@ -86,7 +86,7 @@ const Test = () => {
 
       <MDBTabsContent>
         <MDBTabsPane className="border border-top-0 " show={justifyActive === "tab1"}>
-          <Profile />
+          <ProfileSection />
         </MDBTabsPane>
         <MDBTabsPane className="border border-top-0" show={justifyActive === "tab2"}>
           <OrderHistory />
@@ -99,4 +99,4 @@ const Test = () => {
   );
 };
 
-export default Test;
+export default Profile;

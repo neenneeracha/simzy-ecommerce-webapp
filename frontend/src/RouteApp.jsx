@@ -17,7 +17,7 @@ import Cart from "./user/pages/Cart";
 import Checkout from "./user/pages/Checkout";
 import Summary from "./user/pages/Summary";
 import Success from "./user/pages/Success";
-import UserInfo from "./user/pages/UserInfo";
+import Profile from "./user/pages/Profile";
 import Admin from "./admin/pages/Admin";
 import View from "./admin/pages/View";
 import PageNotfound from "./user/pages/PageNotfound";
@@ -136,7 +136,7 @@ const userRouter = createBrowserRouter([
   },
   {
     path: "/profile",
-    element: <UserInfo />,
+    element: <Profile />,
   },
   {
     path: "/*",

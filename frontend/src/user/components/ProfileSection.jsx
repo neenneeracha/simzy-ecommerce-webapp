@@ -55,7 +55,7 @@ font-family: garamond;
 margin-top: -14px;
 `;
 
-const Profile = () => {
+const ProfileSection = () => {
   const [userInfo, setUserInfo] = useState([]);
   const [editProfile, setEditProfile] = useState(false);
   const [show, setShow] = useState(false);
@@ -195,4 +195,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default ProfileSection;
