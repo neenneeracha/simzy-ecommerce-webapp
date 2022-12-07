@@ -2,6 +2,7 @@ const router = require("express").Router();
 
 const {
   getAllProducts,
+  getAllProductInfo,
   getAllFilteredProducts,
   getOneProduct,
   getProductImg,
@@ -10,6 +11,7 @@ const {
 } = require("../controller/product");
 
 router.route("/").get(getAllProducts);
+router.route("/info").get(getAllProductInfo);
 router.route("/filtered").get(getAllFilteredProducts);
 router.route("/:id").get(getOneProduct);
 router.route("/img/:id").get(getProductImg);

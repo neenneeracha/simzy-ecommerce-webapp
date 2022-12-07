@@ -4,6 +4,20 @@ require("dotenv").config();
 const KEY = process.env.STRIPE_SECRET_KEY;
 const stripe = require("stripe")(KEY);
 
+
+//get all user information
+const getPaymentInfo = (req, res) => {
+    const payment_id = req.params.id;
+
+    const q = "SELECT * FROM `userinfo`";
+    pool.query(q, [payment_id], (err, data) => {
+        if (err) return res.status(500).json(err);
+    
+        return res.status(200).json(data);
+      });
+  };
+  
+
 const stripePayment = async(req, res) => {
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],

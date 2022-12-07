@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import NavbarAd from "../components/NavbarAd";
 import Controls from "./../components/controls/Controls";
@@ -17,7 +16,8 @@ import {
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DeleteIcon from "@material-ui/icons/Delete";
 import PopUp from "../components/PopUp";
-import NewUser from "./NewUser";
+import UserForm from "../components/UserForm";
+import Confirmation from "../components/Confirmation";
 
 // style the input form container
 const useStylesPaper = makeStyles((theme) => ({
@@ -55,15 +55,18 @@ const headCells = [
   { id: "actions", label: "Actions" },
 ];
 
-const View = ({ inputs, title }) => {
+const ViewUsers = () => {
   const paperClasses = useStylesPaper();
   const [recordForEdit, setRecordForEdit] = useState(null);
   const [records, setRecords] = useState(userService.getAllUsers());
   const [openPopup, setOpenPopup] = useState(false);
   const [users, setUsers] = useState([]);
-  const [error, setError] = useState(false);
-  
-  const navigate = useNavigate();
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: "",
+    subTitle: "",
+  });
+
   //get return value from UseTable.jsx
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     UseTable(users, headCells);
@@ -76,7 +79,6 @@ const View = ({ inputs, title }) => {
     } else {
       userService.updateUser(user);
     }
-    // "http://localhost:8080/api/v1/auth/login",
 
     resetForm();
     setRecordForEdit(null);
@@ -104,15 +106,19 @@ const View = ({ inputs, title }) => {
   //   }
   // };
 
+  //deleted selected
   const onDelete = async (id) => {
-    if (window.confirm("Are you sure to delete this record? ")) {
-      try {
-        await axios.delete(`http://localhost:8080/api/v1/user/${id}`);
-        window.location.reload();
-        window.alert("Deleting");
-      } catch (err) {
-        console.log(err);
-      }
+    setConfirmDialog({
+      ...confirmDialog,
+      isOpen: false,
+    });
+
+    try {
+      await axios.delete(`http://localhost:8080/api/v1/user/${id}`);
+      window.location.reload();
+      window.alert("Deleting");
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -133,27 +139,22 @@ const View = ({ inputs, title }) => {
       <NavbarAd />
       <Wrapper>
         <Top>
-          <Title>{title}s List</Title>
-          {title !== "Order" ? (
-            // <Link to={title === "User" ? "/newuser" : "/newproduct"}>
-            <Controls.Button
-              style={{
-                marginRight: "30px",
-                width: "200px",
-                textDecoration: "none",
-                backgroundColor: "#FFD0DC",
-                color: "black",
-              }}
-              text="+ Add New "
-              onClick={() => {
-                setOpenPopup(true);
-                setRecordForEdit(null);
-              }}
-            />
-          ) : (
-            // </Link>
-            <></>
-          )}
+          <Title>Users List</Title>
+
+          <Controls.Button
+            style={{
+              marginRight: "30px",
+              width: "200px",
+              textDecoration: "none",
+              backgroundColor: "#FFD0DC",
+              color: "black",
+            }}
+            text="+ Add New "
+            onClick={() => {
+              setOpenPopup(true);
+              setRecordForEdit(null);
+            }}
+          />
         </Top>
         <Paper className={paperClasses.pageContent}>
           <TblContainer>
@@ -175,7 +176,16 @@ const View = ({ inputs, title }) => {
                     </Controls.ActionButton>
                     <Controls.ActionButton
                       color="secondary"
-                      onClick={() => onDelete(user.user_id)}
+                      onClick={() => {
+                        setConfirmDialog({
+                          isOpen: true,
+                          title: "Are you sure to delete this record?",
+                          subTitle: "You can't undo this operation",
+                          onConfirm: () => {
+                            onDelete(user.user_id);
+                          },
+                        });
+                      }}
                     >
                       <DeleteIcon fontSize="small" />
                     </Controls.ActionButton>
@@ -191,11 +201,19 @@ const View = ({ inputs, title }) => {
           openPopup={openPopup}
           setOpenPopup={setOpenPopup}
         >
-          <NewUser recordForEdit={recordForEdit} addOrEdit={addOrEdit} />
+          <UserForm
+            recordForEdit={recordForEdit}
+            addOrEdit={addOrEdit}
+            isUserRegister={false}
+          />
         </PopUp>
+        <Confirmation
+          confirmDialog={confirmDialog}
+          setConfirmDialog={setConfirmDialog}
+        />
       </Wrapper>
     </Container>
   );
 };
 
-export default View;
+export default ViewUsers;

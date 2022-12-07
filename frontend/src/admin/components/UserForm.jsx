@@ -5,7 +5,7 @@ import { UseForm, Form } from "../components/UseForm";
 import { Grid } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SaveIcon from "@material-ui/icons/Save";
-import { Link, useNavigate } from "react-router-dom";
+import { Link} from "react-router-dom";
 /* innital default value */
 const initialFValues = {
   is_admin: "",
@@ -21,6 +21,20 @@ const initialFValues = {
   zip_code: "",
 };
 
+const LinkItem = styled.span`
+  color: #eda3b5;
+  text-decoration: underline;
+
+  &:hover {
+    font-weight: bold;
+    color: black;
+  }
+`;
+
+const Text = styled.div`
+  text-align: center;
+`;
+
 // Array contain gender item
 const genderItems = [
   { id: "M", title: "Male" },
@@ -33,10 +47,18 @@ const Container = styled.div`
   overflow-x: hidden;
 `;
 const Wrapper = styled.div``;
+const styles = {
+  customButton: {
+    backgroundColor: "#eda3b5",
+    borderColor: "#eda3b5",
+    color: "white",
+    borderRadius: "5px",
+  },
+};
 
-const NewUser = (props) => {
-  const { addOrEdit, recordForEdit } = props;
-  const navigate = useNavigate();
+const UserForm = (props) => {
+  const { addOrEdit, recordForEdit, isUserRegister } = props;
+
   // form validation
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
@@ -57,7 +79,8 @@ const NewUser = (props) => {
     if ("phone_number" in fieldValues)
       temp.phone_number = !fieldValues.phone_number
         ? "Phone Number is reauired"
-        : fieldValues.phone_number.length < 9 ||  fieldValues.phone_number.length > 10
+        : fieldValues.phone_number.length < 9 ||
+          fieldValues.phone_number.length > 10
         ? "Phone Number is invalid"
         : "";
     if ("address" in fieldValues)
@@ -101,13 +124,7 @@ const NewUser = (props) => {
 
   return (
     <Container>
-      {/* <NavbarAd /> */}
       <Wrapper>
-        {/* <Top>
-          <Backbtn />
-          <Title>Add New User</Title>
-        </Top> */}
-        {/* <Paper className={paperClasses.pageContent}> */}
         <Form onSubmit={handleSubmit}>
           <Grid container>
             <Grid item xs={6}>
@@ -146,13 +163,16 @@ const NewUser = (props) => {
                 onChange={handleChange}
                 error={errors.zip_code}
               />
-              <Controls.RadioGroup
-                name="gender"
-                label="Gender"
-                value={values.gender}
-                onChange={handleChange}
-                items={genderItems}
-              />{" "}
+              {isUserRegister === false ? (
+                <Controls.CheckBox
+                  name="is_admin"
+                  label="Admin"
+                  value={values.is_admin}
+                  onChange={handleChange}
+                />
+              ) : (
+                <></>
+              )}
             </Grid>
             <Grid item xs={6}>
               <Controls.Input
@@ -168,7 +188,7 @@ const NewUser = (props) => {
                 value={values.password}
                 onChange={handleChange}
                 error={errors.password}
-                type = "password"
+                type="password"
               />
               <Controls.Input
                 name="address"
@@ -184,25 +204,44 @@ const NewUser = (props) => {
                 onChange={handleChange}
                 error={errors.province}
               />
-              <Controls.CheckBox
-                name="is_admin"
-                label="Admin"
-                value={values.is_admin}
+              <Controls.RadioGroup
+                name="gender"
+                label="Gender"
+                value={values.gender}
                 onChange={handleChange}
-              />
-              <div>
-                <Controls.Button
-                  type="submit"
-                  text="Submit"
-                  startIcon={<SaveIcon />}
-                />
-                <Controls.Button
-                  text="Reset"
-                  color="default"
-                  startIcon={<DeleteIcon />}
-                  onClick={resetForm}
-                />
-              </div>
+                items={genderItems}
+              />{" "}
+              {isUserRegister === false ? (
+                <div>
+                  <Controls.Button
+                    type="submit"
+                    text="Submit"
+                    startIcon={<SaveIcon />}
+                    style={styles.customButton}
+                  />
+                  <Controls.Button
+                    text="Reset"
+                    color="default"
+                    startIcon={<DeleteIcon />}
+                    onClick={resetForm}
+                  />
+                </div>
+              ) : (
+                <div>
+                  <Controls.Button
+                    className="d-block mx-auto w-75"
+                    type="submit"
+                    text="Submit"
+                    style={styles.customButton}
+                  />
+                  <Text style={{ marginTop: "2%" }} type="submit">
+                    Already have an account? &nbsp;
+                    <Link style={{ textDecoration: "none" }} to="/login">
+                      <LinkItem>SIGN IN</LinkItem>
+                    </Link>
+                  </Text>
+                </div>
+              )}
             </Grid>
           </Grid>
         </Form>
@@ -211,4 +250,4 @@ const NewUser = (props) => {
   );
 };
 
-export default NewUser;
+export default UserForm;

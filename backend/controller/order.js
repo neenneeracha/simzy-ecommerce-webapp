@@ -1,5 +1,15 @@
 const pool = require("../database/connector");
 
+//get all order information
+const getAllOrderInfo = (req, res) => {
+  const q = "SELECT * FROM `productorder`";
+  pool.query(q, (err, data) => {
+    if (err) return res.status(500).json(err);
+
+    return res.status(200).json(data);
+  });
+};
+
 const addNewOrder = (req, res) => {
   const values = [
     req.body[1].user_id,
@@ -51,4 +61,4 @@ const addOrderHistory = (req, res) => {
   return res.status(200).json({ msg: "ok" });
 };
 
-module.exports = { addNewOrder, addOrderHistory };
+module.exports = { addNewOrder, addOrderHistory, getAllOrderInfo };

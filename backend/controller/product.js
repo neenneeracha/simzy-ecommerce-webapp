@@ -1,5 +1,17 @@
 const pool = require("../database/connector");
 
+//get all product information
+const getAllProductInfo = (req, res) => {
+  // const q = "SELECT product_id, product_name, price, created_at, main_category FROM product, category WHERE product.category_id = category.category_id";
+  const q =
+    "SELECT * FROM product INNER JOIN category ON product.category_id = category.category_id ";
+  pool.query(q, (err, data) => {
+    if (err) return res.status(500).json(err);
+
+    return res.status(200).json(data);
+  });
+};
+
 // get all product
 const getAllProducts = (req, res) => {
   // not from search
@@ -347,6 +359,7 @@ const getProductStock = (req, res) => {
 
 module.exports = {
   getAllProducts,
+  getAllProductInfo,
   getOneProduct,
   getProductImg,
   getProductColor,

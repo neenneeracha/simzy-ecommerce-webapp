@@ -1,9 +1,8 @@
 # Simzy Clothing Web Application
 
 #### Created By SoftEn SoftJai Group
-
 ```
-63070503404  Ms. JiaJia    Bai
+63070503404  Ms. JiaJia    Bai 
 
 63070503410  Ms. Sonia     Gautam
 
