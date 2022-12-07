@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
+import OrderDetails from "./OrderDetails";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useUser } from "../../UserContext";
 import axios from "axios";
@@ -14,6 +14,13 @@ const styles = {
     borderRadius: "5px",
     margin: "30px",
   },
+  blueButton: {
+    backgroundColor: "#0275d8",
+    borderColor: "#0275d8",
+    color: "white",
+    borderRadius: "5px",
+    marginTop: "30px"
+  }
 };
 
 const Container = styled.div`
@@ -37,9 +44,30 @@ const TableData = styled.td`
 vertical-align: middle;
 `;
 
+const Image = styled.img`
+  height: 35%;
+  width: 35%;
+  display: block;
+  margin: 0px auto 20px;
+`;
+
+const Text = styled.p`
+  color: gray;
+  font-size: 18px;
+  text-align: center;
+`;
+
+const Title = styled.h2`
+  color: black;
+  font-size: 28px;
+  text-align: center;
+`;
+
 const OrderHistory = () => {
   const headers = ["ORDER REFERENCE", "ORDER DATE", "STATUS", "TOTAL", "DETAILS"];
   const [orders, setOrders] = useState([]);
+  const [viewOrder, setViewOrder] = useState(null);
+  const [totalPrice, setTotalPrice] = useState(null);
   const user = useUser()
 
   useEffect(() => {
@@ -50,14 +78,13 @@ const OrderHistory = () => {
         );
         if (res.data.length > 0) {
           for (let i = 0; i < res.data.length; i++) {
-            if (res.data.length > 0) {
               var date = new window.Date(res.data[i].created_at)
                   .toISOString().replace(/T.*/,'')
                   .split('-').reverse().join('/')
               var time = new window.Date(res.data[i].created_at)
               .toISOString().slice(11,19)
               res.data[i].created_at = date.concat(" " + time)
-            }
+            
           }          
         }
         setOrders(res.data)
@@ -72,9 +99,18 @@ const OrderHistory = () => {
     <Container>
       { orders.length === 0 ?
         <>
-        You have no order history
+        <Image src={process.env.PUBLIC_URL + "img/no-order.png"} />
+        <Title>No order history available</Title>
+        <Text>you haven't placed any orders yet</Text>
+        <Button
+                className="d-block mx-auto w-25 p-2"
+                style={styles.blueButton}
+              >
+                CONTINUE SHOPPING
+              </Button>
         </>
         :
+        viewOrder === null ?
         <>
         <Table striped bordered hover>
       <Thread>
@@ -90,22 +126,26 @@ const OrderHistory = () => {
           <TableData style={{ padding: "20px", fontSize: "16px" }}>{order.order_id}</TableData>
           <TableData style={{ padding: "20px", fontSize: "16px" }}>{order.created_at}</TableData>
           <TableData style={{ padding: "20px", fontSize: "16px" }}>{order.description}</TableData>
-          <TableData style={{ padding: "20px", fontSize: "16px" }}>THB {order.total_price}</TableData>
+          <TableData style={{ padding: "20px", fontSize: "16px" }}>THB {order.total_price + 90}</TableData>
           <TableData>
-            <Link style={{ textDecoration: "none" }} to="/Summary">
               <Button
                 className="d-block mx-auto w-75"
                 style={styles.customButton}
+                onClick={() => {
+                  setViewOrder(order.order_id);
+                  setTotalPrice(order.total_price);
+                }}
               >
                 VIEW DETAILS
               </Button>
-            </Link>
           </TableData>
         </TableRow>
         ))}
       </TableBody>
     </Table>
         </>
+        :
+          <OrderDetails order_id={viewOrder} setViewOrder={setViewOrder} totalPrice={totalPrice} setTotalPrice={setTotalPrice} />
       }
       
     </Container>

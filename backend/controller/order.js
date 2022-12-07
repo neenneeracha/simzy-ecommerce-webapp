@@ -63,4 +63,28 @@ const getUserOrder = (req, res) => {
     });
 };
 
-module.exports = { addNewOrder, addOrderHistory, getUserOrder };
+// get order details
+const getOrderDetails = (req, res) => {
+    const order_id = req.params.id;
+
+    const q = "SELECT order_id, po.created_at, po.updated_at, po.payment_id, p.payment_type, p.status, os.description, po.name, po.surname, po.address, po.district, po.province, po.zip_code, po.phone_number FROM productorder po LEFT JOIN payment p ON po.payment_id = p.payment_id LEFT JOIN orderstatus os ON po.status_id = os.status_id WHERE order_id = ?";
+    pool.query(q, [order_id], (err, data) => {
+        if (err) return res.status(500).json(err);
+
+        return res.status(200).json(data);
+    });
+};
+
+// get ordered products
+const getOrderedProducts = (req, res) => {
+    const order_id = req.params.id;
+
+    const q = "SELECT oh.quantity, ps.size, p.product_id, p.product_name, p.price, pi.img_link, cg.color, c.main_category, c.sub_category FROM orderhistory oh LEFT JOIN productstock ps ON oh.stock_id = ps.stock_id LEFT JOIN productcolor pc ON ps.product_color_id = pc.product_color_id LEFT JOIN product p ON pc.product_id = p.product_id LEFT JOIN productimage pi ON pc.product_color_id = pi.product_color_id AND pi.img_link = (SELECT img_link FROM productimage WHERE product_color_id = pi.product_color_id LIMIT 1) LEFT JOIN colorgroup cg ON pc.color_group_id = cg.color_group_id LEFT JOIN category c ON p.category_id = c.category_id WHERE order_id = ?";
+    pool.query(q, [order_id], (err, data) => {
+        if (err) return res.status(500).json(err);
+
+        return res.status(200).json(data);
+    });
+};
+
+module.exports = { addNewOrder, addOrderHistory, getUserOrder, getOrderDetails, getOrderedProducts };

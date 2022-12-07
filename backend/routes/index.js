@@ -1,6 +1,6 @@
 const router = require("express").Router();
 
-const productRoutes = require("./products");
+const productRoutes = require("./product");
 const authRoutes = require("./auth");
 const categoryRoutes = require("./category");
 const paymentRoutes = require("./payment");

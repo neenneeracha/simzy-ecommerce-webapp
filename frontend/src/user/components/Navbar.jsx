@@ -1,9 +1,10 @@
-import { Search, AccountCircle } from "@material-ui/icons";
+import { Search, AccountCircle, ShoppingCartOutlined } from "@material-ui/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import NavDropdown from "react-bootstrap/NavDropdown";
+//import { Badge } from '@material-ui/core'
 import Badge from "react-bootstrap/Badge";
 import { useSelector, useDispatch } from "react-redux";
 import { getTotals } from "../redux/cartRedux";
@@ -237,6 +238,9 @@ const Navbar = () => {
             <Link style={{ textDecoration: "none" }} to="/cart">
               <LinkItem>
                 CART <Badge bg="danger">{cart.cartTotalQuantity}</Badge>
+                {/* <Badge overlap="rectangular" badgeContent={cart.cartTotalQuantity} color="secondary" style={{ marginTop: 5 }}>
+                    <ShoppingCartOutlined/>
+                </Badge> */}
               </LinkItem>
             </Link>
           </MenuItem>
