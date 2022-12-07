@@ -7,10 +7,12 @@ import BackNavBar from "../components/BackNavBar";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserUpdate } from "../../UserContext";
 import axios from "axios";
-import Alert from "../components/Alert";
+import ErrorAlert from "../components/ErrorAlert";
 
 const Container = styled.div`
   position: fixed;
+  padding: 0px 15px;
+margin: 0px auto;
 `;
 
 const Title = styled.h3`
@@ -60,8 +62,7 @@ const Login = () => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     const checkEmail = inputs.email.split(' ').join('').length < 1
     const checkPassword = inputs.password.split(' ').join('').length < 1
     
@@ -96,7 +97,7 @@ const Login = () => {
     <Container>
       <BackNavBar />
       {
-        show ? <Alert show={show} setShow={setShow} error={error} setError={setError} />
+        show ? <ErrorAlert show={show} setShow={setShow} error={error} setError={setError} />
         : undefined
       }
       <Row>
