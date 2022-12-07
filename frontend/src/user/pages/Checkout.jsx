@@ -8,7 +8,8 @@ import Col from "react-bootstrap/Col";
 import Accordion from "react-bootstrap/Accordion";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { clearCart } from "../redux/cartRedux";
 import { useUser } from "../../UserContext";
 import Cookie from "js-cookie";
 
@@ -116,6 +117,7 @@ const Checkout = () => {
   const navigate = useNavigate();
   const user = useUser();
   const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getAddress = async () => {
@@ -165,7 +167,7 @@ const Checkout = () => {
           "http://localhost:8080/api/v1/order/orderhistory",
           [cart.products, { order_id: order_id }]
         );
-
+        dispatch(clearCart());
         Cookie.set("orderID", order_id, { path: "/", expires: 2 / (24 * 60) });
         navigate("/success");
       } catch (error) {
@@ -313,7 +315,7 @@ const Checkout = () => {
                               <b>District:</b>{" "}
                             </Form.Label>
                             <Form.Control
-                              type="district"
+                              type="text"
                               placeholder="Enter your district"
                               name="district"
                               value={inputs.district}
@@ -358,7 +360,7 @@ const Checkout = () => {
                               <b>Zipcode:</b>{" "}
                             </Form.Label>
                             <Form.Control
-                              type="Zipcode"
+                              type="text"
                               placeholder="Enter your Zipcode"
                               name="zipCode"
                               value={inputs.zipCode}

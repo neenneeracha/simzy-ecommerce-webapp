@@ -17,7 +17,7 @@ import Cart from "./user/pages/Cart";
 import Checkout from "./user/pages/Checkout";
 import Summary from "./user/pages/Summary";
 import Success from "./user/pages/Success";
-import UserInfo from "./user/pages/UserInfo";
+import Profile from "./user/pages/Profile";
 import Admin from "./admin/pages/Admin";
 import ViewUsers from "./admin/pages/ViewUsers";
 import ViewOrders from "./admin/pages/ViewOrders";
@@ -132,13 +132,18 @@ const userRouter = createBrowserRouter([
     element: <Success />,
   },
   {
-    path: "/*",
-    element: <PageNotfound />,
-  },
-  {
     path: "/processing",
     element: <PaymentProcessing />,
   },
+  {
+    path: "/profile",
+    element: <Profile />,
+  },
+  {
+    path: "/*",
+    element: <PageNotfound />,
+  },
+  
 ]);
 
 const adminRouter = createBrowserRouter([

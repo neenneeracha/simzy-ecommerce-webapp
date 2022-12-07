@@ -165,10 +165,10 @@ const Footer = () => {
           Mot, Thung Khru, Bangkok 10140
         </ContactItem>
         <ContactItem>
-          <Phone style={{ marginRight: "10px" }} /> T: +66 (0) 2315 6666
+          <Phone style={{ marginRight: "10px" }} /> Tel: +66 (0) 2315 6666
         </ContactItem>
         <ContactItem>
-          <MailOutline style={{ marginRight: "10px" }} /> E: Simzy@gmail.com
+          <MailOutline style={{ marginRight: "10px" }} /> Email: Simzy@gmail.com
         </ContactItem>
       </Right>
     </Container>

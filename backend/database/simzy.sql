@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 28, 2022 at 04:07 AM
+-- Generation Time: Dec 06, 2022 at 03:04 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 7.4.29
 
@@ -118,59 +118,48 @@ CREATE TABLE `orderhistory` (
 --
 
 INSERT INTO `orderhistory` (`order_history_id`, `order_id`, `stock_id`, `quantity`) VALUES
-(1, 2, 222, 2),
-(2, 9, 263, 2),
-(3, 9, 315, 1),
-(4, 9, 263, 2),
-(5, 9, 315, 1),
-(6, 10, 263, 2),
-(7, 10, 315, 1),
-(8, 11, 263, 2),
-(9, 11, 315, 1),
-(10, 12, 263, 2),
-(11, 12, 315, 1),
-(12, 13, 263, 2),
-(13, 13, 315, 1),
-(14, 14, 263, 2),
-(15, 14, 315, 1),
-(16, 15, 330, 3),
-(17, 16, 330, 3),
-(18, 17, 330, 3),
-(19, 18, 330, 3),
-(20, 19, 330, 3),
-(21, 20, 330, 3),
-(22, 21, 330, 3),
-(23, 22, 330, 3),
-(24, 23, 330, 3),
-(25, 24, 330, 3),
-(26, 25, 330, 3),
-(27, 26, 330, 3),
-(28, 27, 330, 3),
-(29, 28, 330, 3),
-(30, 29, 330, 3),
-(31, 30, 330, 3),
-(32, 31, 330, 3),
-(33, 32, 330, 3),
-(34, 33, 330, 3),
-(35, 34, 330, 3),
-(36, 35, 330, 3),
-(37, 36, 330, 3),
-(38, 37, 330, 3),
-(39, 38, 330, 3),
-(40, 39, 330, 3),
-(41, 40, 330, 3),
-(42, 41, 330, 3),
-(43, 42, 330, 3),
-(44, 43, 330, 3),
-(45, 44, 330, 3),
-(46, 45, 330, 3),
-(47, 46, 330, 3),
-(48, 47, 330, 3),
-(49, 48, 330, 3),
-(50, 49, 330, 3),
-(51, 50, 330, 3),
 (52, 51, 324, 2),
-(53, 52, 324, 2);
+(53, 52, 324, 2),
+(54, 53, 324, 2),
+(55, 53, 31, 1),
+(56, 54, 324, 2),
+(57, 54, 31, 1),
+(60, 56, 324, 2),
+(61, 56, 31, 1),
+(62, 57, 324, 2),
+(63, 57, 31, 1),
+(64, 58, 324, 2),
+(65, 58, 31, 1),
+(66, 59, 258, 2),
+(67, 60, 258, 2),
+(68, 61, 848, 8),
+(69, 62, 848, 8),
+(70, 63, 52, 2),
+(71, 64, 52, 2),
+(72, 65, 12, 5),
+(73, 66, 881, 16);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orderstatus`
+--
+
+CREATE TABLE `orderstatus` (
+  `status_id` int(11) NOT NULL,
+  `description` varchar(128) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `orderstatus`
+--
+
+INSERT INTO `orderstatus` (`status_id`, `description`) VALUES
+(1, 'Processing order'),
+(2, 'Delivery in progress'),
+(3, 'Delivered'),
+(4, 'Cancelled due to wrong shipping info'),
+(5, 'Rejected by customer');
 
 -- --------------------------------------------------------
 
@@ -259,7 +248,21 @@ INSERT INTO `payment` (`payment_id`, `payment_type`, `status`, `created_at`, `up
 (66, 2, 0, '2022-11-23 06:01:06', '2022-11-23 06:01:06'),
 (67, 2, 0, '2022-11-23 06:45:25', '2022-11-23 06:45:25'),
 (68, 2, 0, '2022-11-23 06:52:57', '2022-11-23 06:52:57'),
-(69, 2, 0, '2022-11-23 18:27:39', '2022-11-23 18:27:39');
+(69, 2, 0, '2022-11-23 18:27:39', '2022-11-23 18:27:39'),
+(70, 2, 0, '2022-11-28 08:32:55', '2022-11-28 08:32:55'),
+(71, 2, 0, '2022-11-28 08:53:44', '2022-11-28 08:53:44'),
+(72, 2, 0, '2022-11-28 08:59:13', '2022-11-28 08:59:13'),
+(73, 1, 0, '2022-11-28 09:05:14', '2022-11-28 09:05:14'),
+(74, 2, 0, '2022-11-28 09:06:24', '2022-11-28 09:06:24'),
+(75, 1, 0, '2022-11-28 09:09:12', '2022-11-28 09:09:12'),
+(76, 1, 0, '2022-11-28 09:28:24', '2022-11-28 09:28:24'),
+(77, 2, 0, '2022-11-28 09:58:30', '2022-11-28 09:58:30'),
+(78, 1, 0, '2022-11-28 17:32:12', '2022-11-28 17:32:12'),
+(79, 2, 1, '2022-11-28 17:33:45', '2022-11-28 17:33:45'),
+(80, 1, 0, '2022-12-05 18:19:16', '2022-12-05 18:19:16'),
+(81, 2, 1, '2022-12-05 18:24:42', '2022-12-05 18:24:42'),
+(82, 2, 1, '2022-12-05 18:31:57', '2022-12-05 18:31:57'),
+(83, 1, 0, '2022-12-05 18:34:51', '2022-12-05 18:34:51');
 
 -- --------------------------------------------------------
 
@@ -1166,7 +1169,7 @@ CREATE TABLE `productorder` (
   `order_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `payment_id` int(11) NOT NULL,
-  `status` int(4) NOT NULL,
+  `status_id` int(11) NOT NULL,
   `name` varchar(32) NOT NULL,
   `surname` varchar(32) NOT NULL,
   `phone_number` varchar(16) NOT NULL,
@@ -1182,59 +1185,22 @@ CREATE TABLE `productorder` (
 -- Dumping data for table `productorder`
 --
 
-INSERT INTO `productorder` (`order_id`, `user_id`, `payment_id`, `status`, `name`, `surname`, `phone_number`, `address`, `district`, `province`, `zip_code`, `created_at`, `updated_at`) VALUES
-(1, 2, 4, 0, '', '', '', 'Hi', 'My name\'s dochii', 'Withtwoeyes', '54321', '2022-11-20 18:29:00', '2022-11-20 18:29:00'),
-(2, 2, 9, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-20 18:43:52', '2022-11-20 18:43:52'),
-(3, 2, 10, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-20 18:55:35', '2022-11-20 18:55:35'),
-(4, 2, 11, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-20 19:23:00', '2022-11-20 19:23:00'),
-(5, 2, 12, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-20 19:24:06', '2022-11-20 19:24:06'),
-(6, 2, 13, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-20 19:25:33', '2022-11-20 19:25:33'),
-(7, 2, 14, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-20 19:32:49', '2022-11-20 19:32:49'),
-(8, 2, 15, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-20 19:36:29', '2022-11-20 19:36:29'),
-(9, 2, 16, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-20 19:37:21', '2022-11-20 19:37:21'),
-(10, 2, 17, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-20 19:38:31', '2022-11-20 19:38:31'),
-(11, 2, 18, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-20 19:39:30', '2022-11-20 19:39:30'),
-(12, 2, 19, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-20 19:39:40', '2022-11-20 19:39:40'),
-(13, 2, 20, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-20 19:40:29', '2022-11-20 19:40:29'),
-(14, 2, 21, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-20 19:43:56', '2022-11-20 19:43:56'),
-(15, 2, 23, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:30:17', '2022-11-23 05:30:17'),
-(16, 2, 25, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:36:05', '2022-11-23 05:36:05'),
-(17, 2, 27, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:36:32', '2022-11-23 05:36:32'),
-(18, 2, 29, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:38:59', '2022-11-23 05:38:59'),
-(19, 2, 30, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:45:25', '2022-11-23 05:45:25'),
-(20, 2, 31, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:45:25', '2022-11-23 05:45:25'),
-(21, 2, 33, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:45:34', '2022-11-23 05:45:34'),
-(22, 2, 34, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:46:16', '2022-11-23 05:46:16'),
-(23, 2, 35, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:46:17', '2022-11-23 05:46:17'),
-(24, 2, 37, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:46:19', '2022-11-23 05:46:19'),
-(25, 2, 38, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:47:44', '2022-11-23 05:47:44'),
-(26, 2, 39, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:47:45', '2022-11-23 05:47:45'),
-(27, 2, 41, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:47:48', '2022-11-23 05:47:48'),
-(28, 2, 42, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:47:58', '2022-11-23 05:47:58'),
-(29, 2, 43, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:47:58', '2022-11-23 05:47:58'),
-(30, 2, 45, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:48:03', '2022-11-23 05:48:03'),
-(31, 2, 46, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:48:15', '2022-11-23 05:48:15'),
-(32, 2, 47, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:48:15', '2022-11-23 05:48:15'),
-(33, 2, 49, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:48:19', '2022-11-23 05:48:19'),
-(34, 2, 50, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:48:35', '2022-11-23 05:48:35'),
-(35, 2, 51, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:48:36', '2022-11-23 05:48:36'),
-(36, 2, 53, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:48:39', '2022-11-23 05:48:39'),
-(37, 2, 54, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:51:57', '2022-11-23 05:51:57'),
-(38, 2, 55, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:51:57', '2022-11-23 05:51:57'),
-(39, 2, 56, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:52:04', '2022-11-23 05:52:04'),
-(40, 2, 57, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:52:18', '2022-11-23 05:52:18'),
-(41, 2, 58, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:52:18', '2022-11-23 05:52:18'),
-(42, 2, 59, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:52:36', '2022-11-23 05:52:36'),
-(43, 2, 60, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:52:52', '2022-11-23 05:52:52'),
-(44, 2, 61, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:54:41', '2022-11-23 05:54:41'),
-(45, 2, 62, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:55:44', '2022-11-23 05:55:44'),
-(46, 2, 63, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:56:22', '2022-11-23 05:56:22'),
-(47, 2, 64, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:58:26', '2022-11-23 05:58:26'),
-(48, 2, 65, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 05:59:16', '2022-11-23 05:59:16'),
-(49, 2, 66, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 06:01:06', '2022-11-23 06:01:06'),
-(50, 2, 67, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 06:45:25', '2022-11-23 06:45:25'),
-(51, 2, 68, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 06:52:57', '2022-11-23 06:52:57'),
-(52, 2, 69, 0, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 18:27:39', '2022-11-23 18:27:39');
+INSERT INTO `productorder` (`order_id`, `user_id`, `payment_id`, `status_id`, `name`, `surname`, `phone_number`, `address`, `district`, `province`, `zip_code`, `created_at`, `updated_at`) VALUES
+(51, 2, 68, 1, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 06:52:57', '2022-11-23 06:52:57'),
+(52, 2, 69, 1, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-23 18:27:39', '2022-11-23 18:27:39'),
+(53, 2, 70, 1, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-28 08:32:55', '2022-11-28 08:32:55'),
+(54, 2, 71, 1, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-28 08:53:44', '2022-11-28 08:53:44'),
+(56, 2, 73, 1, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-28 09:05:14', '2022-11-28 09:05:14'),
+(57, 2, 74, 1, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-28 09:06:24', '2022-11-28 09:06:24'),
+(58, 2, 75, 1, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-28 09:09:12', '2022-11-28 09:09:12'),
+(59, 2, 76, 1, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-28 09:28:24', '2022-11-28 09:28:24'),
+(60, 2, 77, 1, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-28 09:58:30', '2022-11-28 09:58:30'),
+(61, 2, 78, 1, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-28 17:32:12', '2022-11-28 17:32:12'),
+(62, 2, 79, 1, 'Admin', 'Simzy', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-28 17:33:45', '2022-11-28 17:33:45'),
+(63, 2, 80, 1, 'Admin', 'Simzy', '023156677', '127 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10145', '2022-12-05 18:19:16', '2022-12-05 18:19:16'),
+(64, 2, 81, 1, 'Admin', 'Simzy', '023156677', '127 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10145', '2022-12-05 18:24:42', '2022-12-05 18:24:42'),
+(65, 2, 82, 1, 'Admin', 'Simzy', '023156677', '127 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10145', '2022-12-05 18:31:57', '2022-12-05 18:31:57'),
+(66, 2, 83, 1, 'Admin', 'Simzy', '023156677', '127 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10145', '2022-12-05 18:34:51', '2022-12-05 18:34:51');
 
 -- --------------------------------------------------------
 
@@ -1260,7 +1226,7 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (7, 1, 'XS', 0),
 (9, 4, 'XS', 29),
 (11, 4, 'M', 40),
-(12, 3, 'M', 40),
+(12, 3, 'M', 35),
 (13, 3, 'L', 40),
 (14, 3, 'XS', 17),
 (15, 2, 'XS', 0),
@@ -1271,7 +1237,7 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (26, 6, 'M', 39),
 (27, 6, 'L', 40),
 (30, 7, 'S', 35),
-(31, 7, 'M', 15),
+(31, 7, 'M', 9),
 (32, 7, 'L', 30),
 (33, 8, 'XS', 34),
 (34, 8, 'S', 36),
@@ -1286,7 +1252,7 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (48, 11, 'M', 18),
 (49, 12, 'XS', 21),
 (50, 12, 'S', 45),
-(52, 12, 'M', 42),
+(52, 12, 'M', 38),
 (53, 13, 'S', 25),
 (56, 13, 'L', 30),
 (57, 14, 'S', 30),
@@ -1481,7 +1447,7 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (255, 55, 'XL', 34),
 (256, 56, 'XS', 14),
 (257, 56, 'S', 30),
-(258, 56, 'M', 24),
+(258, 56, 'M', 20),
 (259, 56, 'L', 25),
 (260, 56, 'XL', 5),
 (261, 57, 'XS', 30),
@@ -1547,7 +1513,7 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (321, 70, 'L', 25),
 (322, 70, 'XL', 34),
 (323, 71, 'XS', 30),
-(324, 71, 'S', 30),
+(324, 71, 'S', 18),
 (325, 71, 'M', 23),
 (326, 71, 'L', 19),
 (327, 71, 'XL', 30),
@@ -2021,7 +1987,7 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (845, 195, 'L', 17),
 (846, 196, 'XS', 11),
 (847, 196, 'S', 18),
-(848, 196, 'M', 11),
+(848, 196, 'M', -5),
 (849, 196, 'L', 6),
 (850, 197, 'S', 0),
 (851, 197, 'M', 0),
@@ -2054,7 +2020,7 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (878, 203, 'L', 13),
 (879, 204, 'XS', 20),
 (880, 204, 'S', 15),
-(881, 204, 'M', 16),
+(881, 204, 'M', 0),
 (882, 204, 'L', 22),
 (883, 205, 'XS', 21),
 (884, 205, 'S', 11),
@@ -2162,9 +2128,11 @@ CREATE TABLE `userinfo` (
 
 INSERT INTO `userinfo` (`user_id`, `is_admin`, `email`, `password`, `name`, `surname`, `gender`, `phone_number`, `address`, `district`, `province`, `zip_code`, `created_at`, `updated_at`) VALUES
 (1, 1, 'admin@simzy.net', '$2b$10$iN7yQ9ZmRM7GuHlEVDU2S.zoNEpGhKadHWl7/vZWADKD131i203da', 'Admin', 'Simzy', 'O', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-10-29 19:57:40', '2022-11-25 10:58:52'),
-(2, 0, 'notadmin@simzy.net', '$2b$10$p8kVPH7YjTDTHWGeqA61sOXKo/gAmQNLBSP.ALep.WVzaR4k2Zq8W', 'Admin', 'Simzy', 'O', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-06 18:43:23', '2022-11-25 10:58:52'),
-(3, 0, 'sonia@gmail.com', '$2b$10$.q/4.DEHhtILImbSHL7uY.VCs/gdju4Pr617Y3ozAFh6oQ/0EQcVa', 'Sonia', 'Gautam', 'W', '0850850855', '78/2 Soi suayngam', 'Koh Samui', 'Suratthani', '84456', '2022-11-13 17:19:12', '2022-11-25 10:58:52'),
-(5, 0, 'imnotadmin@simzy.net', '$2b$10$meSQgAg4Pj2J9RdGES/6ret8QZBSGJKzNYte8pQst5xkRwDlpTIsa', 'Admin', 'Simzy', 'O', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-28 02:58:27', '2022-11-28 02:58:27');
+(2, 0, 'notadmin@simzy.net', '$2b$10$9MykBDfee6E8nnxnjW.w1uppjK/6K5ePWZgKUoG7SFfuxrfDiRYFm', 'Admin', 'Simzy', 'O', '023156677', '127 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10145', '2022-11-06 18:43:23', '2022-12-04 20:29:28'),
+(3, 0, 'sonia@gmail.com', '$2b$10$.q/4.DEHhtILImbSHL7uY.VCs/gdju4Pr617Y3ozAFh6oQ/0EQcVa', 'Sonia', 'Gautam', 'W', '0850850856', '78/2 Soi suayngam', 'Koh Samui', 'Suratthani', '84456', '2022-11-13 17:19:12', '2022-12-04 10:58:52'),
+(5, 0, 'imnotadmin@simzy.net', '$2b$10$meSQgAg4Pj2J9RdGES/6ret8QZBSGJKzNYte8pQst5xkRwDlpTIsa', 'Admin', 'Simzy', 'O', '023156666', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-11-28 02:58:27', '2022-11-28 02:58:27'),
+(6, 0, 'konsuay@gmail.co.th', '$2b$10$an7uUxRZirte2OaWx3wRte8OamW66SULKr7eeNOOnoMgedLhL6wOO', '0987456322', 'suaymak', 'F', '0987456321', 'Bo Phut', 'Koh Phangan', 'Wowza', '87654', '2022-11-28 09:33:55', '2022-12-05 09:33:55'),
+(7, 0, 'soniagautam2703@gmail.com', '$2b$10$8y7WAGGvpuOz5UTpWHocRe71oMgrVAt07eELisNxLIcL9UKzYk7dq', 'Sonia', 'Gautam', 'W', '0998887777', '111', 'Bangrak', 'Bangkok', '10100', '2022-12-02 10:32:38', '2022-12-03 18:55:34');
 
 --
 -- Indexes for dumped tables
@@ -2190,6 +2158,12 @@ ALTER TABLE `orderhistory`
   ADD PRIMARY KEY (`order_history_id`),
   ADD KEY `order_id` (`order_id`),
   ADD KEY `stock_id` (`stock_id`);
+
+--
+-- Indexes for table `orderstatus`
+--
+ALTER TABLE `orderstatus`
+  ADD PRIMARY KEY (`status_id`);
 
 --
 -- Indexes for table `payment`
@@ -2225,7 +2199,8 @@ ALTER TABLE `productimage`
 ALTER TABLE `productorder`
   ADD PRIMARY KEY (`order_id`),
   ADD KEY `payment_id` (`payment_id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `status_id` (`status_id`);
 
 --
 -- Indexes for table `productstock`
@@ -2261,13 +2236,19 @@ ALTER TABLE `colorgroup`
 -- AUTO_INCREMENT for table `orderhistory`
 --
 ALTER TABLE `orderhistory`
-  MODIFY `order_history_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `order_history_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+
+--
+-- AUTO_INCREMENT for table `orderstatus`
+--
+ALTER TABLE `orderstatus`
+  MODIFY `status_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT for table `product`
@@ -2285,7 +2266,7 @@ ALTER TABLE `productcolor`
 -- AUTO_INCREMENT for table `productorder`
 --
 ALTER TABLE `productorder`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT for table `productstock`
@@ -2297,7 +2278,7 @@ ALTER TABLE `productstock`
 -- AUTO_INCREMENT for table `userinfo`
 --
 ALTER TABLE `userinfo`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables
@@ -2334,7 +2315,8 @@ ALTER TABLE `productimage`
 --
 ALTER TABLE `productorder`
   ADD CONSTRAINT `productorder_ibfk_1` FOREIGN KEY (`payment_id`) REFERENCES `payment` (`payment_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `productorder_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `userinfo` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `productorder_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `userinfo` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `productorder_ibfk_3` FOREIGN KEY (`status_id`) REFERENCES `orderstatus` (`status_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `productstock`

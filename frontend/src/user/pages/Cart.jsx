@@ -11,7 +11,10 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import { MDBBtn } from "mdb-react-ui-kit";
 
-const Container = styled.div``;
+const Container = styled.div`
+  min-height: 100vh;
+  position: relative;
+`;
 
 const Wrapper = styled.div`
   padding: 20px;

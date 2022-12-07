@@ -3,8 +3,9 @@ import styled from "styled-components";
 import Navbar from "../components/Navbar";
 import LoadingOverlay from "react-loading-overlay";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { clearCart } from "../redux/cartRedux";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useUser } from "../../UserContext";
 import Cookie from "js-cookie";
 
@@ -23,6 +24,7 @@ const PaymentProcessing = () => {
 
   const user = useUser();
   const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getPaymentDetails = async () => {
@@ -58,6 +60,7 @@ const PaymentProcessing = () => {
 
           setTimeout(function () {
             setLoading(false);
+            dispatch(clearCart());
             Cookie.set("orderID", order_id, {
               path: "/",
               expires: 2 / (24 * 60),
@@ -71,7 +74,7 @@ const PaymentProcessing = () => {
     };
 
     handleSubmit();
-  }, [inputs, user.user_id, cart.products, navigate]);
+  }, [inputs, user.user_id, cart.products, navigate, dispatch]);
 
   return (
     <LoadingOverlay
