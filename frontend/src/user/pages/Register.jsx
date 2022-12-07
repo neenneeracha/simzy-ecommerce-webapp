@@ -4,8 +4,10 @@ import Form from "react-bootstrap/Form";
 import styled from "styled-components";
 import Button from "react-bootstrap/Button";
 import BackNavBar from "../components/BackNavBar";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import Alert from "../components/Alert";
 import axios from "axios";
+import OptionAlert from "../components/OptionAlert";
 
 const Container = styled.div`
 padding: 0px 15px;
@@ -35,6 +37,16 @@ const Radio = styled.div`
 color: ${(props) => props.color};
 `;
 
+const ErrorMessage = styled.span`
+color: #dc3545;
+font-size: 14px;
+`
+const FieldName = styled.b`
+  
+`
+const Description = styled.span`
+font-size: 14px;
+`
 const styles = {
   customButton: {
     backgroundColor: "#eda3b5",
@@ -46,18 +58,15 @@ const styles = {
 };
 
 const Register = () => {
-  const [errors, setErrors] = useState({
-    firstname: "",
-    lastname: "",
-    email: "",
-    password: "",
-    gender: "",
-    address: "",
-    district: "",
-    province: "",
-    zipCode: "",
-    phoneNumber: "",
+  const [show, setShow] = useState(false);
+  const [text, setText] = useState({
+    title: "",
+    message: "",
+    type: "",
+    link: ""
   });
+  const [errors, setErrors] = useState({});
+  const [showOption, setShowOption] = useState({});
   const [inputs, setInputs] = useState({
     firstname: "",
     lastname: "",
@@ -70,8 +79,6 @@ const Register = () => {
     zipCode: "",
     phoneNumber: "",
   });
-
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -145,34 +152,51 @@ const Register = () => {
       setErrors(formErrors)
     } else {
       try {
-        const res = await axios.post("http://localhost:8080/api/v1/auth", inputs);
-        alert(res.data);
-        // navigate("/login");
-        // window.location.reload();
+        await axios.post("http://localhost:8080/api/v1/auth", inputs);
+        setText((prev) => ({ ...prev, title: "Success", message: "Your account has been created, please login", type: "success", link: "/login" }));
+        setShow(true);
       } catch (err) {
         console.log(err);
+        if (err.response.status !== 409) {
+          setText((prev) => ({ ...prev, title: "Something went wrong", message: err.response.data.msg, type: "error"}));
+          setShow(true);
+        } else {
+          const newText = {}
+          newText.title = "Invalid Email"
+          newText.message = err.response.data.msg
+          newText.backBtn = "Continue registering"
+          newText.proceedBtn = "Login now"
+          newText.proceedLink = "/login"
+          setShowOption(newText);
+          setShow(true);
+        }
       }
     }
-
-  
-
   };
+
 
   return (
     <Container>
       <BackNavBar />
+      {
+        show ? 
+        (showOption.title === undefined || showOption.title === "") ? 
+        <Alert show={show} setShow={setShow} text={text} setText={setText} />
+        : <OptionAlert show={show} setShow={setShow} text={showOption} setText={setShowOption} />
+        : undefined
+      }
       <Row >
         <Col xs={12} md={6}>
           <Image
-            src={process.env.PUBLIC_URL + "img/login.png"}
+            src={process.env.PUBLIC_URL + "img/register.png"}
             height="80%"
             width="80%"
             style={{ marginLeft: "10%", marginTop: "10%", objectFit: "cover" }}
           />
         </Col>
-        <Col>
+        <Col style={{ marginRight: "5%" }}>
           <Title
-            style={{ width: "80%", marginLeft: "10%", marginTop: "10%" }}
+            style={{ width: "80%", margin: "8% 10% 5%" }}
             className="center"
           >
             WELCOME TO SIMZY
@@ -183,11 +207,11 @@ const Register = () => {
             <Row>
               <Form.Group
                 className="d-block mx-auto w-50"
-                controlId="validationCustom01"
-                style={{ marginTop: "30px" }}
+                controlId="firstname"
+                style={{ marginBottom: "30px" }}
               >
                 <Form.Label>
-                  <b>First Name:</b>
+                  <FieldName>First Name:</FieldName> <Description>(only characters are allowed)</Description>
                 </Form.Label>
                 <Form.Control
                   type="text"
@@ -207,11 +231,11 @@ const Register = () => {
 
               <Form.Group
                 className="d-block mx-auto w-50"
-                controlId="validationCustom02"
-                style={{ marginTop: "30px" }}
+                controlId="lastname"
+                style={{ marginBottom: "30px" }}
               >
                 <Form.Label>
-                  <b>Last Name:</b>{" "}
+                  <FieldName>Last Name:</FieldName> <Description>(only characters are allowed)</Description>
                 </Form.Label>
                 <Form.Control
                   type="text"
@@ -234,10 +258,10 @@ const Register = () => {
               <Form.Group
                 className="d-block mx-auto w-50"
                 controlId="email"
-                style={{ marginTop: "30px", marginBottom: "30px" }}
+                style={{ marginBottom: "30px" }}
               >
                 <Form.Label>
-                  <b>Email: </b>
+                  <FieldName>Email: </FieldName>
                 </Form.Label>
                 <Form.Control
                   type="email"
@@ -257,11 +281,11 @@ const Register = () => {
 
               <Form.Group
                 className="d-block mx-auto w-50"
-                controlId="validationCustom03"
-                style={{ marginTop: "30px" }}
+                controlId="password"
+                style={{ marginBottom: "30px" }}
               >
                 <Form.Label>
-                  <b>Password:</b>{" "}
+                  <FieldName>Password:</FieldName> <Description>(at least 6 characters long)</Description>
                 </Form.Label>
                 <Form.Control
                   type="password"
@@ -279,12 +303,14 @@ const Register = () => {
                 </Form.Control.Feedback>
               </Form.Group>
             </Row>
+            <Row>
             <Form.Group
-              className="d-block mx-auto"
-              controlId="validationCustom01"
+              className="d-block mx-auto w-50"
+              controlId="phoneNumber"
+              style={{ marginBottom: "30px" }}
             >
               <Form.Label>
-                <b>Phone Number:</b>
+                <FieldName>Phone Number:</FieldName>
               </Form.Label>
               <Form.Control
                 type="text"
@@ -301,14 +327,13 @@ const Register = () => {
                 {errors.phoneNumber}
               </Form.Control.Feedback>
             </Form.Group>
-            {
-              !!errors.phoneNumber ? 
-              <Row style={{marginTop: "50px"}}></Row>
-              :
-              <Row style={{marginTop: "20px"}}></Row>
-            }
-            <Form.Label>
-              <b>Gender: </b>
+            <Form.Group
+              className="d-block mx-auto w-50"
+              controlId="gender"
+              style={{ marginBottom: "20px" }}
+            >
+            <Form.Label style={{ paddingBottom: "10px" }}>
+              <FieldName>Gender: </FieldName>
             </Form.Label>
             {["radio"].map((type) => (
               <Radio color={!!errors.gender? "#d9534f": "black"} key={`inline-${type}`} className="mb-3">
@@ -339,13 +364,26 @@ const Register = () => {
                   id={`inline-${type}-3`}
                   onChange={handleChange}
                 />
-              </Radio>
+              </Radio>    
             ))}
+            {
+              errors.gender ? 
+              <ErrorMessage>{errors.gender}</ErrorMessage>
+              :
+              undefined
+            }
+            
+            </Form.Group>
+            </Row>
+            
 
             <Row>
-              <Form.Group className="d-block mx-auto w-50" controlId="address">
+              <Form.Group 
+              className="d-block mx-auto w-50" 
+              controlId="address"
+              style={{ marginBottom: "30px" }}>
                 <Form.Label>
-                  <b>Address: </b>
+                  <FieldName>Address: </FieldName> <Description>(e.g., 126 Pracha Uthit Rd, Bang Mot)</Description>
                 </Form.Label>
                 <Form.Control
                   type="text"
@@ -365,11 +403,11 @@ const Register = () => {
 
               <Form.Group
                 className="d-block mx-auto w-50"
-                controlId="validationCustom03"
+                controlId="district"
                 style={{ marginBottom: "30px" }}
               >
                 <Form.Label>
-                  <b>District:</b>{" "}
+                  <FieldName>District:</FieldName>
                 </Form.Label>
                 <Form.Control
                   type="district"
@@ -389,9 +427,13 @@ const Register = () => {
             </Row>
 
             <Row>
-              <Form.Group className="d-block mx-auto w-50" controlId="address">
+              <Form.Group 
+              className="d-block mx-auto w-50" 
+              controlId="province"
+              style={{ marginBottom: "30px" }}
+              >
                 <Form.Label>
-                  <b>Province: </b>
+                  <FieldName>Province: </FieldName>
                 </Form.Label>
                 <Form.Control
                   type="text"
@@ -411,11 +453,11 @@ const Register = () => {
 
               <Form.Group
                 className="d-block mx-auto w-50"
-                controlId="validationCustom03"
+                controlId="zipCode"
                 style={{ marginBottom: "30px" }}
               >
                 <Form.Label>
-                  <b>Zipcode:</b>{" "}
+                  <FieldName>Zipcode:</FieldName>
                 </Form.Label>
                 <Form.Control
                   type="Zipcode"
@@ -440,7 +482,7 @@ const Register = () => {
             >
               Submit
             </Button>
-            <Text style={{ marginTop: "2%", marginBottom: "5%" }} type="submit">
+            <Text style={{ marginTop: "2%", marginBottom: "5%" }}>
               Already have an account? &nbsp;
               <Link style={{ textDecoration: "none" }} to="/login">
                 <LinkItem>SIGN IN</LinkItem>

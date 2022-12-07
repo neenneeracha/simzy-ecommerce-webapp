@@ -9,6 +9,7 @@ import Badge from "react-bootstrap/Badge";
 import { useSelector, useDispatch } from "react-redux";
 import { getTotals } from "../redux/cartRedux";
 import { useUser, useUserUpdate } from "../../UserContext";
+import Alert from "./Alert";
 
 const Container = styled.div`
   height: 60px;
@@ -102,6 +103,13 @@ const Navbar = () => {
   const [womenCats, setWomenCats] = useState([]);
   const [menCats, setMenCats] = useState([]);
   const [kidsCats, setKidsCats] = useState([]);
+  const [show, setShow] = useState(false);
+  const [error, setError] = useState({
+    title: "",
+    message: "",
+    type: "",
+    link: ""
+  });
   const navigate = useNavigate();
   const { removeToken } = useUserUpdate();
   const user = useUser();
@@ -155,7 +163,8 @@ const Navbar = () => {
 
   const handleSearch = () => {
     if (searchInput.split(' ').join('').length < 1) {
-      alert("Please enter the word you want to search first");
+      setError((prev) => ({ ...prev, title: "Invalid Input", message: "Please enter the word that you want to search", type: ""}));
+      setShow(true);
     } else {
       navigate(`/products?search_input=${searchInput}`);
       window.location.reload();
@@ -171,6 +180,10 @@ const Navbar = () => {
   return (
     <Container>
       <Wrapper>
+      {
+        show ? <Alert show={show} setShow={setShow} text={error} setText={setError}/>
+        : undefined
+      }
         <Left>
           <MenuItem>
             <Link style={{ textDecoration: "none" }} to="/">

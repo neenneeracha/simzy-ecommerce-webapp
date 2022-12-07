@@ -13,7 +13,7 @@ const addNewUser = (req, res) => {
         if (data[0].userExist === 1)
             return res
                 .status(409)
-                .json({ msg: `User with email: ${req.body.email} already exist` });
+                .json({ msg: `User with email: ${req.body.email} already exist !!` });
 
         const saltRounds = 10;
         const password = bcrypt.hashSync(req.body.password, saltRounds);
@@ -66,11 +66,11 @@ const login = (req, res) => {
                         is_admin: data[0].is_admin,
                         accessToken: token,
                     });
-            } else return res.status(403).json({ msg: `Incorrect password for user with email: ${email}` });
+            } else return res.status(403).json({ msg: `Incorrect password for user with email: ${email} !!` });
         } else
             return res
                 .status(404)
-                .json({ msg: `User with email: ${email} doesn't exist in our web` });
+                .json({ msg: `User with email: ${email} doesn't exist in our web !!` });
     });
 };
 
@@ -78,13 +78,13 @@ const verifyUser = (req, res) => {
     const token = req.body.token;
 
     if (!token) {
-        return res.status(401).json({ msg: "Token not found" });
+        return res.status(401).json({ msg: "Token not found !!" });
     }
 
     const user = jwt.verify(token, process.env.TOKEN_KEY);
 
     if (!user) {
-        return res.status(403).json({ msg: "Invalid token" });
+        return res.status(403).json({ msg: "Invalid token !!" });
     }
 
     return res.status(200).json(user);

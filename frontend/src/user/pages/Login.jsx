@@ -7,7 +7,7 @@ import BackNavBar from "../components/BackNavBar";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserUpdate } from "../../UserContext";
 import axios from "axios";
-import ErrorAlert from "../components/ErrorAlert";
+import Alert from "../components/Alert";
 
 const Container = styled.div`
   position: fixed;
@@ -35,20 +35,24 @@ const LinkItem = styled.span`
   }
 `;
 
+const FieldName = styled.b`
+  
+`
+
 const styles = {
   customButton: {
     backgroundColor: "#eda3b5",
     borderColor: "#eda3b5",
     color: "white",
     borderRadius: "5px",
-    marginTop: "30px",
+    marginTop: "6%",
   },
 };
 
 const Login = () => {
   const { setToken } = useUserUpdate();
-  const [show, setShow] = useState(false);
   const navigate = useNavigate();
+  const [show, setShow] = useState(false);
   const [inputs, setInputs] = useState({
     email: "",
     password: "",
@@ -56,6 +60,8 @@ const Login = () => {
   const [error, setError] = useState({
     title: "",
     message: "",
+    type: "",
+    link: ""
   });
 
   const handleChange = (e) => {
@@ -67,13 +73,13 @@ const Login = () => {
     const checkPassword = inputs.password.split(' ').join('').length < 1
     
     if (checkEmail && checkPassword) {
-      setError((prev) => ({ ...prev, title: "Invalid Input", message: "Email and Password cannot be blank, please try again!"}));
+      setError((prev) => ({ ...prev, title: "Invalid Input", message: "Email and Password cannot be blank, please try again!", type: "error"}));
       setShow(true);
     } else if (checkEmail) {
-      setError((prev) => ({ ...prev, title: "Invalid Input", message: "Email cannot be blank, please try again!"}));
+      setError((prev) => ({ ...prev, title: "Invalid Input", message: "Email cannot be blank, please try again!", type: "error"}));
       setShow(true);
     } else if (checkPassword) {
-      setError((prev) => ({ ...prev, title: "Invalid Input", message: "Password cannot be blank, please try again!"}));
+      setError((prev) => ({ ...prev, title: "Invalid Input", message: "Password cannot be blank, please try again!", type: "error"}));
       setShow(true);
     } else {
       try {
@@ -86,8 +92,13 @@ const Login = () => {
         window.location.reload();
       } catch (err) {
         console.log(err);
-        setError((prev) => ({ ...prev, title: "Wrong Credentials", message: err.response.data.msg}));
-        setShow(true);
+        if (err.response.status === 500) {
+          setError((prev) => ({ ...prev, title: "Something went wrong", message: err.response.data.msg, type: "error"}));
+          setShow(true);
+        } else {
+          setError((prev) => ({ ...prev, title: "Invalid Credentials", message: err.response.data.msg, type: "error"}));
+          setShow(true);
+        }
       }
     }
     
@@ -97,7 +108,7 @@ const Login = () => {
     <Container>
       <BackNavBar />
       {
-        show ? <ErrorAlert show={show} setShow={setShow} error={error} setError={setError} />
+        show ? <Alert show={show} setShow={setShow} text={error} setText={setError}/>
         : undefined
       }
       <Row>
@@ -109,7 +120,7 @@ const Login = () => {
             style={{ marginLeft: "10%", marginTop: "10%", objectFit: "cover" }}
           />
         </Col>
-        <Col>
+        <Col style={{ marginRight: "5%", marginTop: "5%" }}>
           <Title
             style={{ width: "80%", marginLeft: "10%", marginTop: "10%" }}
             className="center"
@@ -124,7 +135,7 @@ const Login = () => {
               style={{ marginTop: "30px" }}
             >
               <Form.Label>
-                <b>Email:</b>
+                <FieldName>Email:</FieldName>
               </Form.Label>
               <Form.Control
                 type="text"
@@ -140,7 +151,7 @@ const Login = () => {
               style={{ marginTop: "30px" }}
             >
               <Form.Label>
-                <b>Password:</b>{" "}
+                <FieldName>Password:</FieldName>
               </Form.Label>
               <Form.Control
                 type="password"
@@ -157,7 +168,7 @@ const Login = () => {
             >
               Submit
             </Button>
-            <Text style={{ marginTop: "2%" }}>
+            <Text style={{ marginTop: "2%", marginBottom: "5%" }}>
               Need an account? &nbsp;
               <Link style={{ textDecoration: "none" }} to="/register">
                 <LinkItem>CREATE NOW</LinkItem>

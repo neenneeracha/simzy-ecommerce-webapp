@@ -54,6 +54,7 @@ const MenuItem = styled.div`
 const LinkItem = styled.div`
   color: black;
   text-decoration: none;
+  margin-right: 12px;
 
   &:hover {
     color: #eda3b5;

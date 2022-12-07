@@ -12,6 +12,7 @@ import { useLocation, useParams, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import ClearIcon from "@material-ui/icons/Clear";
+import Alert from "../components/Alert";
 
 const Container = styled.div`
   min-height: 100vh;
@@ -150,9 +151,9 @@ const styles = {
 };
 
 const Product = () => {
-  const location = useLocation();
   const { id } = useParams();
   const [url, setUrl] = useState("");
+  const [info, setInfo] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState({});
   const [colors, setColors] = useState([]);
@@ -163,6 +164,13 @@ const Product = () => {
   const [sizes, setSizes] = useState([]);
   const [selectedSize, setSelectedSize] = useState(null);
   const [filteredColors, setFilteredColors] = useState([]);
+  const [show, setShow] = useState(false);
+  const [error, setError] = useState({
+    title: "",
+    message: "",
+    type: "",
+    link: ""
+  });
   const navigate = useNavigate();
 
   const sizeOptions = ["XS", "S", "M", "L", "XL"];
@@ -296,13 +304,18 @@ const Product = () => {
           const color = colors
             .filter((color) => color.product_color_id === selectedColor)
             .slice(0)[0].color;
-          toast.info(
+            toast.info(
             `Sorry, we only have ${stock} items for ${color} - ${selectedSize} in the stock`,
             {
               position: "top-center",
             }
           );
-          setQuantity(stock - inCartQuantity);
+          if (stock - inCartQuantity === 0) {
+            setSelectedSize(null)
+          } else {
+            setQuantity(stock - inCartQuantity);
+          }
+          
         }
       }
     };
@@ -311,12 +324,19 @@ const Product = () => {
   }, [selectedSize, selectedColor, quantity, stocks, colors, cart.products]);
 
   const addToCartHandler = () => {
-    if (!selectedColor || !selectedSize) {
-      alert("Please select both color and size");
+    if (!selectedColor && !selectedSize) {
+      setError((prev) => ({ ...prev, title: "Invalid Selection", message: "Please select both color and size !!", type: "error"}));
+      setShow(true);
+    } else if (!selectedColor) {
+      setError((prev) => ({ ...prev, title: "Invalid Selection", message: "Please select the color that you want !!", type: "error"}));
+      setShow(true);
+    } else if (!selectedSize) {
+      setError((prev) => ({ ...prev, title: "Invalid Selection", message: "Please select the size that you want !!", type: "error"}));
+      setShow(true);
     } else {
       /* update cart */
-
-      const color = colors
+      if (quantity !== 0) {
+        const color = colors
         .filter((color) => color.product_color_id === selectedColor)
         .slice(0)[0].color;
 
@@ -331,6 +351,7 @@ const Product = () => {
       dispatch(
         addProduct({ ...product, stock, quantity, url, color, selectedSize })
       );
+      }
       setQuantity(1)
     }
   };
@@ -347,6 +368,10 @@ const Product = () => {
     <Container>
       <Navbar />
       <Wrapper>
+      {
+        show ? <Alert show={show} setShow={setShow} text={error} setText={setError}/>
+        : undefined
+      }
         <Row>
           <Col>
             <ImgContainer>
@@ -398,6 +423,7 @@ const Product = () => {
                                 value={color.product_color_id}
                                 label={color.color}
                                 inline
+                                checked={color.product_color_id === selectedColor}
                                 onChange={(e) =>
                                   setSelectedColor(parseInt(e.target.value))
                                 }
@@ -414,6 +440,7 @@ const Product = () => {
                                 value={color.product_color_id}
                                 label={color.color}
                                 inline
+                                checked={color.product_color_id === selectedColor}
                                 disabled={
                                   filteredColors.filter(
                                     (filter) =>
@@ -445,6 +472,7 @@ const Product = () => {
                                 value={size}
                                 label={size}
                                 inline
+                                checked={size === selectedSize}
                                 onChange={(e) =>
                                   setSelectedSize(e.target.value)
                                 }
@@ -461,6 +489,7 @@ const Product = () => {
                                 value={size}
                                 label={size}
                                 inline
+                                checked={size === selectedSize}
                                 disabled={
                                   sizes.filter((stock) => stock.size === size)
                                     .length > 0
