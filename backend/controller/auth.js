@@ -13,7 +13,7 @@ const addNewUser = (req, res) => {
         if (data[0].userExist === 1)
             return res
                 .status(409)
-                .json({ msg: `user with email: ${req.body.email} already exist` });
+                .json({ msg: `User with email: ${req.body.email} already exist` });
 
         const saltRounds = 10;
         const password = bcrypt.hashSync(req.body.password, saltRounds);
@@ -66,11 +66,11 @@ const login = (req, res) => {
                         is_admin: data[0].is_admin,
                         accessToken: token,
                     });
-            } else return res.status(403).json({ msg: "incorrect password" });
+            } else return res.status(403).json({ msg: `Incorrect password for user with email: ${email}` });
         } else
             return res
                 .status(404)
-                .json({ msg: `user with email: ${email} not found` });
+                .json({ msg: `User with email: ${email} doesn't exist in our web` });
     });
 };
 

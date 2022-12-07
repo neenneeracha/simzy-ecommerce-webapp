@@ -7,10 +7,12 @@ import BackNavBar from "../components/BackNavBar";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserUpdate } from "../../UserContext";
 import axios from "axios";
+import Alert from "../components/Alert";
 
 const Container = styled.div`
   position: fixed;
 `;
+
 const Title = styled.h3`
   color: #eda3b5;
   text-align: center;
@@ -19,11 +21,6 @@ const Title = styled.h3`
 
 const Text = styled.div`
   text-align: center;
-
-  // &:hover {
-  //   color: #eda3b5;
-  //   text-decoration: underline;
-  // }
 `;
 
 const LinkItem = styled.span`
@@ -48,48 +45,67 @@ const styles = {
 
 const Login = () => {
   const { setToken } = useUserUpdate();
+  const [show, setShow] = useState(false);
   const navigate = useNavigate();
-  const [validated, setValidated] = useState(false);
   const [inputs, setInputs] = useState({
     email: "",
     password: "",
   });
+  const [error, setError] = useState({
+    title: "",
+    message: "",
+  });
 
   const handleChange = (e) => {
-    // if (e.currentTarget.checkValidity() === false) {
-    //   e.stopPropagation();
-    // }
-    // setValidated(true)
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    try {
-      const res = await axios.post(
-        "http://localhost:8080/api/v1/auth/login",
-        inputs
-      );
-
-      setToken(res.data);
-      navigate("/");
-      window.location.reload();
-    } catch (err) {
-      console.log(err);
+    const checkEmail = inputs.email.split(' ').join('').length < 1
+    const checkPassword = inputs.password.split(' ').join('').length < 1
+    
+    if (checkEmail && checkPassword) {
+      setError((prev) => ({ ...prev, title: "Invalid Input", message: "Email and Password cannot be blank, please try again!"}));
+      setShow(true);
+    } else if (checkEmail) {
+      setError((prev) => ({ ...prev, title: "Invalid Input", message: "Email cannot be blank, please try again!"}));
+      setShow(true);
+    } else if (checkPassword) {
+      setError((prev) => ({ ...prev, title: "Invalid Input", message: "Password cannot be blank, please try again!"}));
+      setShow(true);
+    } else {
+      try {
+        const res = await axios.post(
+          "http://localhost:8080/api/v1/auth/login",
+          inputs
+        );
+        setToken(res.data);
+        navigate("/");
+        window.location.reload();
+      } catch (err) {
+        console.log(err);
+        setError((prev) => ({ ...prev, title: "Wrong Credentials", message: err.response.data.msg}));
+        setShow(true);
+      }
     }
+    
   };
 
   return (
     <Container>
       <BackNavBar />
+      {
+        show ? <Alert show={show} setShow={setShow} error={error} setError={setError} />
+        : undefined
+      }
       <Row>
         <Col xs={12} md={6}>
           <Image
             src={process.env.PUBLIC_URL + "img/login.png"}
             height="80%"
             width="80%"
-            style={{ marginLeft: "10%", marginTop: "10%" }}
+            style={{ marginLeft: "10%", marginTop: "10%", objectFit: "cover" }}
           />
         </Col>
         <Col>
@@ -100,13 +116,10 @@ const Login = () => {
             WELCOME TO SIMZY
           </Title>
           <Form
-            noValidate
-            validated={validated}
-            onSubmit={handleSubmit}
             style={{ margin: "30px 100px" }}
           >
             <Form.Group
-              controlId="validationCustom01"
+              controlId="emailInput"
               style={{ marginTop: "30px" }}
             >
               <Form.Label>
@@ -119,14 +132,10 @@ const Login = () => {
                 required
                 onChange={handleChange}
               />
-              <Form.Control.Feedback type="invalid">
-                {" "}
-                Email is required
-              </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group
-              controlId="validationCustom02"
+              controlId="passwordInput"
               style={{ marginTop: "30px" }}
             >
               <Form.Label>
@@ -139,15 +148,11 @@ const Login = () => {
                 required
                 onChange={handleChange}
               />
-              <Form.Control.Feedback type="invalid">
-                {" "}
-                Password is required{" "}
-              </Form.Control.Feedback>
             </Form.Group>
             <Button
               className="d-block mx-auto w-75"
-              type="submit"
               style={styles.customButton}
+              onClick={handleSubmit}
             >
               Submit
             </Button>

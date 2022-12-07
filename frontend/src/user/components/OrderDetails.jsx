@@ -318,7 +318,7 @@ const OrderDetails = ({ order_id, setViewOrder, totalPrice, setTotalPrice }) => 
                 <SummaryItemPrice>THB {totalPrice}</SummaryItemPrice>
               </SummaryItem>
               <SummaryItem>
-                <SummaryItemText>Estimated Shipping</SummaryItemText>
+                <SummaryItemText>Shipping Fee</SummaryItemText>
                 <SummaryItemPrice>THB 90</SummaryItemPrice>
               </SummaryItem>
               <SummaryItem type="total">
