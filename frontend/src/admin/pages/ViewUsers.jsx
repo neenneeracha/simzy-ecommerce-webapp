@@ -4,7 +4,6 @@ import styled from "styled-components";
 import NavbarAd from "../components/NavbarAd";
 import Controls from "./../components/controls/Controls";
 import UseTable from "../components/UseTable";
-import * as userService from "../redux/User";
 import { toast } from "react-toastify";
 import {
   makeStyles,
@@ -15,6 +14,7 @@ import {
 } from "@material-ui/core";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DeleteIcon from "@material-ui/icons/Delete";
+import SearchIcon from '@material-ui/icons/Search';
 import PopUp from "../components/PopUp";
 import UserForm from "../components/UserForm";
 import Confirmation from "../components/Confirmation";
@@ -49,16 +49,19 @@ const Title = styled.h2`
 
 // array object for head cell
 const headCells = [
-  { id: "name", label: "User name" },
-  { id: "email", label: "Email Addres" },
-  { id: "phone_number", label: "Phone Number" },
+  { id: "user_id", label: "User ID" },
+  { id: "name", label: "User Full Name" },
+  { id: "email", label: "Email Address" },
+  { id: "phone_number", label: "Account Created Date" },
   { id: "actions", label: "Actions" },
 ];
 
 const ViewUsers = () => {
   const paperClasses = useStylesPaper();
+  const [formType, setFormType] = useState("view");
+  const [changed, setChanged] = useState(false);
+  const [selectedID, setSelectedID] = useState(0);
   const [recordForEdit, setRecordForEdit] = useState(null);
-  const [records, setRecords] = useState(userService.getAllUsers());
   const [openPopup, setOpenPopup] = useState(false);
   const [users, setUsers] = useState([]);
   const [confirmDialog, setConfirmDialog] = useState({
@@ -72,21 +75,53 @@ const ViewUsers = () => {
     UseTable(users, headCells);
 
   // update new user or edit user
-  const addOrEdit = (user, resetForm, insertData) => {
+  const addOrEdit = async (user, resetForm) => {
     if (recordForEdit === null) {
+      alert("add")
       console.log(user);
-      insertData(user);
     } else {
-      userService.updateUser(user);
+      if (changed) {
+        try {
+          let res
+          if (user.password !== undefined) {
+            res = await axios.patch("http://localhost:8080/api/v1/user/update-password-admin/" + user.user_id, { password: user.password})
+          }
+          console.log(user.is_admin === 1)
+          res = await axios.patch("http://localhost:8080/api/v1/user/update-info-admin/" + user.user_id, {user: user});
+          
+          if (res.status === 200) {
+            toast.success(res.data.msg, {
+              position: "top-center",
+            })
+            setTimeout(function () {
+              window.location.reload();
+            }, 3000);
+          }
+        } catch (err) {
+            if (err.request.status === 409) {
+              toast.error(err.response.data.msg, {
+                position: "top-center",
+              })
+            } else {
+              toast.error("Something went wrong, please try again !!", {
+                position: "top-center",
+              })
+            }
+            console.log(err);
+          }
+      } else {
+        toast.error("No new changes made, submission ignored!", {
+          position: "top-center",
+        });
+      }
     }
-
+    setChanged(false);
     resetForm();
     setRecordForEdit(null);
     setOpenPopup(false);
-    setRecords(userService.getAllUsers());
-    toast.success("Successfully submitted user information.", {
-      position: "top-center",
-    });
+    // toast.success("Successfully submitted user information.", {
+    //   position: "top-center",
+    // });
   };
 
   // open popup with selected record
@@ -126,6 +161,24 @@ const ViewUsers = () => {
     const getAllUserInfo = async () => {
       try {
         const res = await axios.get("http://localhost:8080/api/v1/user/");
+        if (res.data.length > 0) {
+          for (let i = 0; i < res.data.length; i++) {
+              var createdDate = new window.Date(res.data[i].created_at)
+                  .toISOString().replace(/T.*/,'')
+                  .split('-').reverse().join('/')
+              var createdTime = new window.Date(res.data[i].created_at)
+              .toISOString().slice(11,19)
+              res.data[i].created_at = createdDate.concat(" " + createdTime)
+
+              var updatedDate = new window.Date(res.data[i].updated_at)
+                  .toISOString().replace(/T.*/,'')
+                  .split('-').reverse().join('/')
+              var updatedTime = new window.Date(res.data[i].updated_at)
+              .toISOString().slice(11,19)
+              res.data[i].updated_at = updatedDate.concat(" " + updatedTime) 
+            
+          }          
+        }
         setUsers(res.data);
       } catch (err) {
         console.log(err);
@@ -149,8 +202,9 @@ const ViewUsers = () => {
               backgroundColor: "#FFD0DC",
               color: "black",
             }}
-            text="+ Add New "
+            text="+ Add New User"
             onClick={() => {
+              setFormType("add");
               setOpenPopup(true);
               setRecordForEdit(null);
             }}
@@ -162,13 +216,26 @@ const ViewUsers = () => {
             <TableBody>
               {recordsAfterPagingAndSorting().map((user) => (
                 <TableRow key={user.user_id}>
-                  <TableCell>{user.name}</TableCell>
+                  <TableCell>{user.user_id}</TableCell>
+                  <TableCell>{user.name} {user.surname}</TableCell>
                   <TableCell>{user.email}</TableCell>
-                  <TableCell>{user.phone_number}</TableCell>
+                  <TableCell>{user.created_at}</TableCell>
                   <TableCell>
+                  <Controls.ActionButton
+                      color="success"
+                      onClick={() => {
+                        setFormType("view");
+                        setSelectedID(user.user_id)
+                        openInPopup(user);
+                      }}
+                    >
+                      <SearchIcon fontSize="small" />
+                    </Controls.ActionButton>
                     <Controls.ActionButton
                       color="primary"
                       onClick={() => {
+                        setFormType("edit");
+                        setSelectedID(user.user_id)
                         openInPopup(user);
                       }}
                     >
@@ -197,14 +264,18 @@ const ViewUsers = () => {
           <TblPagination />
         </Paper>
         <PopUp
-          title="User Form"
+          title={formType === "view"? `View Details of User ID #${selectedID}` : 
+          formType === "edit"? `Edit Details of User ID #${selectedID}` 
+          : `Add New User`
+        }
           openPopup={openPopup}
           setOpenPopup={setOpenPopup}
         >
           <UserForm
             recordForEdit={recordForEdit}
             addOrEdit={addOrEdit}
-            isUserRegister={false}
+            formType={formType}
+            setChanged={setChanged}
           />
         </PopUp>
         <Confirmation

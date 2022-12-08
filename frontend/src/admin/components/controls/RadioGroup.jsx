@@ -12,7 +12,7 @@ const RadioGroup = (props) => {
 
   return (
     <FormControl>
-      <FormLabel>{label}</FormLabel>
+      <FormLabel style ={{ fontSize: 14 }}>{label}</FormLabel>
       <MuiRadioGroup
         row={true}
         name={name}

@@ -3,12 +3,12 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useUserUpdate } from "../../UserContext";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { AccountCircle } from "@material-ui/icons";
+import { ExitToApp } from "@material-ui/icons";
 import { MDBIcon } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
 
 const Navbar = styled.div`
-  height: 60px;
+  height: 70px;
   border-bottom: 0.5px solid rgb(231, 228, 228);
   display: flex;
   align-items: center;
@@ -111,17 +111,9 @@ const NavbarAd = () => {
         </Center>
         <Right>
           <MenuItem>
-            <NavDropdown
-              title={
-                <AccountCircle style={{ fontSize: 32, marginBottom: 6 }} />
-              }
-              id="basic-nav-dropdown"
-            >
-              <NavDropdown.Item as="li"></NavDropdown.Item>
-              <NavDropdown.Item as="li">
-                <LinkCat onClick={handleLogout}>Logout</LinkCat>
-              </NavDropdown.Item>
-            </NavDropdown>
+            <LinkCat onClick={handleLogout}>
+            <ExitToApp style={{ fontSize: 32 }} />
+            </LinkCat> 
           </MenuItem>
         </Right>
       </Wrapper>

@@ -22,7 +22,7 @@ const CheckBox = (props) => {
         control={
           <MuiCheckbox
             name={name}
-            color="primary"
+            color="secondary"
             checked={value}
             onChange={(e) =>
               onChange(convertToDefEventPara(name, e.target.checked))
