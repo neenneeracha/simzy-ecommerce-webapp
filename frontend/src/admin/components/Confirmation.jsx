@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   dialog: {
     padding: theme.spacing(2),
     position: "absolute",
-    top: theme.spacing(5),
+    top: theme.spacing(20),
   },
   dialogTitle: {
     textAlign: "center",
@@ -30,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#FFD0DC",
     color: theme.palette.secondary.main,
     "&:hover": {
-      backgroundColor: theme.palette.secondary.light,
       cursor: "default",
     },
     "& .MuiSvgIcon-root": {

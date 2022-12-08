@@ -157,29 +157,33 @@ const ViewUsers = () => {
     setOpenPopup(true);
   };
 
-  //delete user
-  // const onDelete = (id) => {
-  //   if (window.confirm("Are you sure to delete this record? ")) {
-  //     userService.deleteUser(id);
-  //     setRecords(userService.getAllUsers());
-  //     toast.success("Successfully deleted user information.", {
-  //       position: "top-center",
-  //     });
-  //   }
-  // };
-
-  //deleted selected
-  const onDelete = async (id) => {
+  // deleted selected user
+  const handleDelete = async (user_id) => {
     setConfirmDialog({
       ...confirmDialog,
       isOpen: false,
     });
 
     try {
-      await axios.delete(`http://localhost:8080/api/v1/user/${id}`);
-      window.location.reload();
-      window.alert("Deleting");
+      const res = await axios.delete("http://localhost:8080/api/v1/user/" + user_id);
+      if (res.status === 202) {
+        toast.success(res.data.msg, {
+          position: "top-center",
+        })
+        setTimeout(function () {
+          window.location.reload();
+        }, 3000);
+      }
     } catch (err) {
+      if (err.request.status === 409) {
+        toast.error(err.response.data.msg, {
+          position: "top-center",
+        })
+      } else {
+        toast.error("Something went wrong, please try again !!", {
+          position: "top-center",
+        })
+      }
       console.log(err);
     }
   };
@@ -273,10 +277,10 @@ const ViewUsers = () => {
                       onClick={() => {
                         setConfirmDialog({
                           isOpen: true,
-                          title: "Are you sure to delete this record?",
-                          subTitle: "You can't undo this operation",
+                          title: `Are you sure that you want to delete user #${user.user_id}?`,
+                          subTitle: "You won't be able to undo this operation",
                           onConfirm: () => {
-                            onDelete(user.user_id);
+                            handleDelete(user.user_id);
                           },
                         });
                       }}

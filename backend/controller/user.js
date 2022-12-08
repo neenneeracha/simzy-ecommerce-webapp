@@ -204,4 +204,35 @@ const addNewUser = (req, res) => {
     });
 };
 
-module.exports = { getShippingInfo, getAllUserInfo, getUserInfo, addNewUser, updatePassword, updatePasswordByAdmin, updateUserInfo, updateInfoByAdmin };
+// remove user by admin
+const removeUser = (req, res) => {
+    const user_id = req.params.id;
+    let q = "SELECT EXISTS (SELECT * FROM productorder WHERE user_id = ? AND (status_id = 1 OR status_id = 2)) AS orderExist";
+
+    pool.query(q, [user_id], (err, data) => {
+        if (err) return res.status(500).json(err);
+
+        if (data[0].orderExist === 1)
+            return res
+                .status(409)
+                .json({ msg: `User #${user_id} has pending orders, can't be deleted now !!` });
+
+
+        if (user_id === "1")
+            return res
+                .status(409)
+                .json({ msg: `Master admin can't be deleted !!` });
+
+        q = "DELETE FROM userinfo WHERE user_id = ?";
+
+        pool.query(q, [user_id], (err, data) => {
+            if (err) return res.status(500).json(err);
+
+            return res.status(202).json({ msg: `User #${user_id} has been deleted !!` });
+        });
+    });
+};
+
+
+
+module.exports = { getShippingInfo, getAllUserInfo, getUserInfo, addNewUser, updatePassword, updatePasswordByAdmin, updateUserInfo, updateInfoByAdmin, removeUser };
