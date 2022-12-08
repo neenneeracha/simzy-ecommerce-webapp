@@ -120,6 +120,8 @@ const Register = () => {
       newErrors.phoneNumber = "Phone number should contain only numbers"
     } else  if (inputs.phoneNumber.split(' ').join('').length > 10) {
       newErrors.phoneNumber = "Phone number should not exceed 10 digits"
+    } else if (inputs.phoneNumber.split(' ').join('').length < 10) {
+      newErrors.phoneNumber = "Phone number should be 10 digits"
     }
     if (inputs.gender.split(' ').join('').length < 1) {
       newErrors.gender = "Please provide gender"
