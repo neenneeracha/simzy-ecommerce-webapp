@@ -45,9 +45,7 @@ const styles = {
   },
 };
 
-
 const UserForm = ({ addOrEdit, recordForEdit, formType, setChanged }) => {
-
   // form validation
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
@@ -62,20 +60,19 @@ const UserForm = ({ addOrEdit, recordForEdit, formType, setChanged }) => {
         ? "Email is not valid"
         : "";
 
-    
-      if ("password" in fieldValues) {
-        if (formType !== "edit") {
-          temp.password = fieldValues.password ? "" : "Password is required";
-        }
-        if (temp.password === "" || formType === "edit") {
-          const checkPassword = fieldValues.password.split(' ').join('').length 
+    if ("password" in fieldValues) {
+      if (formType !== "edit") {
+        temp.password = fieldValues.password ? "" : "Password is required";
+      }
+      if (temp.password === "" || formType === "edit") {
+        const checkPassword = fieldValues.password.split(" ").join("").length;
         if (checkPassword > 0 && checkPassword < 6) {
           temp.password = "Password should be at least 6 characters long";
         } else {
-          temp.password = ""
+          temp.password = "";
         }
-        }
-        }
+      }
+    }
 
     if ("phone_number" in fieldValues)
       temp.phone_number = !fieldValues.phone_number
@@ -116,12 +113,12 @@ const UserForm = ({ addOrEdit, recordForEdit, formType, setChanged }) => {
   };
 
   const handleInput = (e) => {
-    setChanged(true)
+    setChanged(true);
     if (e.target.name === "is_admin") {
-      e.target.value = !values.is_admin
+      e.target.value = !values.is_admin;
     }
-    handleChange(e)
-  }
+    handleChange(e);
+  };
 
   // update edit information
   useEffect(() => {
@@ -129,7 +126,7 @@ const UserForm = ({ addOrEdit, recordForEdit, formType, setChanged }) => {
       setValues({
         ...recordForEdit,
       });
-      setChanged(false)
+    setChanged(false);
   }, [recordForEdit, setValues, setChanged]);
 
   return (
@@ -137,8 +134,7 @@ const UserForm = ({ addOrEdit, recordForEdit, formType, setChanged }) => {
       <Wrapper>
         <Form onSubmit={handleSubmit}>
           <Grid container>
-            {
-              formType === "view"? 
+            {formType === "view" ? (
               <>
               <Grid item xs={6}>
               <Controls.Input
@@ -213,7 +209,7 @@ const UserForm = ({ addOrEdit, recordForEdit, formType, setChanged }) => {
               />
             </Grid>
               </>
-              :
+            ) : (
               <>
               <Grid item xs={6}>
               <Controls.Input
@@ -343,8 +339,7 @@ const UserForm = ({ addOrEdit, recordForEdit, formType, setChanged }) => {
             }
             </Grid>
               </>
-            }
-            
+            )}
           </Grid>
         </Form>
       </Wrapper>

@@ -2,7 +2,9 @@ const pool = require("../database/connector");
 
 //get all order information
 const getAllOrderInfo = (req, res) => {
-  const q =  "SELECT * FROM productOrder INNER JOIN payment ON productOrder.payment_id = payment.payment_id";
+  const q =
+    "SELECT p.payment_type, p.status ,po.user_id,po.order_id, po.status, po.name, po.surname, po.phone_number, po.address, po.district, po.province, po.zip_code, po.created_at, po.updated_at, oh.quantity, pd.product_name, pd.price FROM payment p LEFT JOIN productorder po ON p.payment_id = po.payment_id LEFT JOIN orderhistory oh ON po.order_id = oh.order_id LEFT JOIN productstock ps ON oh.stock_id = ps.stock_id LEFT JOIN productcolor pc ON ps.product_color_id = pc.product_color_id LEFT JOIN product pd ON pc.product_id = pd.product_id WHERE po.order_id IS NOT NULL GROUP BY order_id";
+
   pool.query(q, (err, data) => {
     if (err) return res.status(500).json(err);
 

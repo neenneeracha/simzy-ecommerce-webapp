@@ -1,28 +1,32 @@
-import React, { useEffect } from "react";
 import styled from "styled-components";
 import Controls from "../components/controls/Controls";
 import { UseForm, Form } from "../components/UseForm";
 import { Grid } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
 import SaveIcon from "@material-ui/icons/Save";
-import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
+import React, { useState, useEffect } from "react";
 
 /* innital default value */
 const initialFValues = {
-  is_admin: "",
-  email: "",
+  order_id: "",
+  payment_type: "",
+  status: "",
+  user_id: "",
+  po_status: "",
   name: "",
   surname: "",
-  password: "",
-  gender: "O",
   phone_number: "",
   address: "",
   district: "",
   province: "",
   zip_code: "",
+  created_at: "",
+  updated_at: "",
+  quantity: "",
+  product_name: "",
+  price: "",
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -50,22 +54,25 @@ const styles = {
     borderColor: "#eda3b5",
     color: "white",
     borderRadius: "5px",
+    marginLeft: "50%",
+    marginTop: "80px",
   },
 };
 
 const Header = styled.h5`
   margin-top: 20px;
 `;
-const ButtonGroup = styled.div`
-  margin-top: 80px;
+const Index = styled.h6`
+  margin-left: 20px;
+  margin-top: 20px;
 `;
-const Product = styled.div``;
 
 const OrderForm = (props) => {
-  const { addOrEdit, recordForEdit } = props;
-  const { values, setValues, errors, setErrors, handleChange, resetForm } =
+  const { recordForEdit, formType } = props;
+  const classes = useStyles();
+  const { values, setValues, errors, setErrors, handleChange } =
     UseForm(initialFValues);
-  //
+  const [orderedItems, setOrderedItems] = useState([]);
 
   //update edit information
   useEffect(() => {
@@ -75,7 +82,21 @@ const OrderForm = (props) => {
       });
   }, [recordForEdit]);
 
-  const classes = useStyles();
+  useEffect(() => {
+    const getOrderedItems = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:8080/api/v1/order/products/" + values.order_id
+        );
+        setOrderedItems(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getOrderedItems();
+  }, [values.order_id]);
+
   return (
     <Container>
       <Wrapper>
@@ -170,44 +191,54 @@ const OrderForm = (props) => {
           </Paper>
           <Paper className={classes.root} elevation={0}>
             <Header> Product information </Header>
-            <Grid container>
-              <Grid item xs={6}>
-                <Controls.Input
-                  name="product_id"
-                  label="Product ID"
-                  onChange={handleChange}
-                />
-                <Controls.Input
-                  name="quantity"
-                  label="Quantity"
-                  onChange={handleChange}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                {values.map((value) => (
-                  <Product>
-                    <Controls.Input
-                      name="product_name"
-                      label="Product Name"
-                      value={values.payment_id}
-                      onChange={handleChange}
-                    />
-                  </Product>
-                ))}
+            {orderedItems.map((orderedItem, index) => (
+              <Grid container>
+                <Grid item xs={6}>
+                  {" "}
+                  <Index>Product: {index + 1}</Index>
+                  <Controls.Input
+                    name="product_id"
+                    label="Product ID"
+                    value={orderedItem.product_id}
+                    onChange={handleChange}
+                  />
+                  <Controls.Input
+                    name="quantity"
+                    label="Ordered Quantity"
+                    value={orderedItem.quantity}
+                    onChange={handleChange}
+                  />
+                  <br />
+                  <br />
+                </Grid>
 
-                <Controls.Input
-                  name="price"
-                  label="Price"
-                  onChange={handleChange}
-                />
-                <Controls.Input
-                  name="total"
-                  label="Total Amount"
-                  onChange={handleChange}
-                />
+                <Grid item xs={6} style={{ marginTop: "50px" }}>
+                  <Controls.Input
+                    name="product_name"
+                    label="Product Name"
+                    value={orderedItem.product_name}
+                    onChange={handleChange}
+                  />
+
+                  <Controls.Input
+                    name="price"
+                    label="Price/Piece"
+                    value={orderedItem.price}
+                    onChange={handleChange}
+                  />
+                </Grid>
               </Grid>
-            </Grid>
+            ))}
+            <Controls.Input
+              name="total"
+              label="Total Amount ( Thai Baht )"
+              value={orderedItems
+                .reduce((acc, item) => acc + item.quantity * item.price, 0)
+                .toFixed(2)}
+              onChange={handleChange}
+            />
           </Paper>
+
           <Paper className={classes.root} elevation={0}>
             <Header> Payment information </Header>
             <Grid container>
@@ -233,26 +264,18 @@ const OrderForm = (props) => {
                   value={values.payment_type}
                   onChange={handleChange}
                 />
-                {/* <Controls.Input
-                  name="created_at"
-                  label="Created At"
-                  value={values.created_at}
-                  onChange={handleChange}
-                />{" "} */}
-                <ButtonGroup>
-                  <Controls.Button
-                    type="submit"
-                    text="Submit"
-                    startIcon={<SaveIcon />}
-                    style={styles.customButton}
-                  />
-                  <Controls.Button
-                    text="Reset"
-                    color="default"
-                    startIcon={<DeleteIcon />}
-                    onClick={resetForm}
-                  />
-                </ButtonGroup>
+                {formType === "edit" ? (
+                  <>
+                    <Controls.Button
+                      type="submit"
+                      text="Submit"
+                      startIcon={<SaveIcon />}
+                      style={styles.customButton}
+                    />
+                  </>
+                ) : (
+                  <></>
+                )}
               </Grid>
             </Grid>
           </Paper>
