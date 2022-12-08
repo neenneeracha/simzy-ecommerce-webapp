@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import NavbarAd from "../components/NavbarAd";
 import OrderForm from "../components/OrderForm";
 import Controls from "./../components/controls/Controls";
 import UseTable from "../components/UseTable";
-import * as userService from "../redux/User";
-import { toast } from "react-toastify";
 import {
   makeStyles,
   Paper,
@@ -48,7 +45,9 @@ const Title = styled.h2`
 
 // array object for head cell
 const headCells = [
+  { id: "order_id", label: "Order ID" },
   { id: "name", label: "User name" },
+  { id: "user_id", label: "User ID" },
   { id: "status", label: "status" },
   { id: "phone_number", label: "Phone Number" },
   { id: "zip_code", label: "Zip Code" },
@@ -62,7 +61,7 @@ const ViewOrders = () => {
   const [recordForEdit, setRecordForEdit] = useState(null);
   const [openPopup, setOpenPopup] = useState(false);
   const [orders, setOrders] = useState([]);
-  const [orderedProducts, setorderedProducts] = useState([]);
+
   //get return value from UseTable.jsx
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     UseTable(orders, headCells);
@@ -99,7 +98,9 @@ const ViewOrders = () => {
             <TableBody>
               {recordsAfterPagingAndSorting().map((order) => (
                 <TableRow key={order.order_id}>
+                  <TableCell>{order.order_id}</TableCell>
                   <TableCell>{order.name}</TableCell>
+                  <TableCell>{order.user_id}</TableCell>
                   <TableCell>{order.status}</TableCell>
                   <TableCell>{order.phone_number}</TableCell>
                   <TableCell>{order.zip_code}</TableCell>
