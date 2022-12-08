@@ -68,7 +68,7 @@ const Index = styled.h6`
 `;
 
 const OrderForm = (props) => {
-  const { addOrEdit, recordForEdit } = props;
+  const { recordForEdit, formType } = props;
   const classes = useStyles();
   const { values, setValues, errors, setErrors, handleChange } =
     UseForm(initialFValues);
@@ -264,13 +264,18 @@ const OrderForm = (props) => {
                   value={values.payment_type}
                   onChange={handleChange}
                 />
-
-                <Controls.Button
-                  type="submit"
-                  text="Submit"
-                  startIcon={<SaveIcon />}
-                  style={styles.customButton}
-                />
+                {formType === "edit" ? (
+                  <>
+                    <Controls.Button
+                      type="submit"
+                      text="Submit"
+                      startIcon={<SaveIcon />}
+                      style={styles.customButton}
+                    />
+                  </>
+                ) : (
+                  <></>
+                )}
               </Grid>
             </Grid>
           </Paper>

@@ -14,6 +14,7 @@ import {
 } from "@material-ui/core";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import PopUp from "../components/PopUp";
+import SearchIcon from "@material-ui/icons/Search";
 
 // style the input form container
 const useStylesPaper = makeStyles((theme) => ({
@@ -61,6 +62,8 @@ const ViewOrders = () => {
   const [recordForEdit, setRecordForEdit] = useState(null);
   const [openPopup, setOpenPopup] = useState(false);
   const [orders, setOrders] = useState([]);
+  const [selectedID, setSelectedID] = useState(0);
+  const [formType, setFormType] = useState("view");
 
   //get return value from UseTable.jsx
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
@@ -109,8 +112,20 @@ const ViewOrders = () => {
 
                   <TableCell>
                     <Controls.ActionButton
+                      color="success"
+                      onClick={() => {
+                        setFormType("view");
+                        setSelectedID(order.order_id);
+                        openInPopup(order);
+                      }}
+                    >
+                      <SearchIcon fontSize="small" />
+                    </Controls.ActionButton>
+                    <Controls.ActionButton
                       color="primary"
                       onClick={() => {
+                        setFormType("edit");
+                        setSelectedID(order.order_id);
                         openInPopup(order);
                       }}
                     >
@@ -124,11 +139,17 @@ const ViewOrders = () => {
           <TblPagination />
         </Paper>
         <PopUp
-          title="Order Form"
+          title={
+            formType === "view"
+              ? `View Details of Order ID #${selectedID}`
+              : formType === "edit"
+              ? `Edit Details of Order ID #${selectedID}`
+              : ""
+          }
           openPopup={openPopup}
           setOpenPopup={setOpenPopup}
         >
-          <OrderForm recordForEdit={recordForEdit} />
+          <OrderForm recordForEdit={recordForEdit} formType={formType} />
         </PopUp>
       </Wrapper>
     </Container>
