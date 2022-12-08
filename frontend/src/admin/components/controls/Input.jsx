@@ -10,7 +10,7 @@ const Input = (props) => {
       name={name}
       value={value}
       onChange={onChange}
-      type = {type || "text"}
+      type={type || "text"}
       {...(error && { error: true, helperText: error })}
     />
   );

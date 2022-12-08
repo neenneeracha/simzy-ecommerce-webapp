@@ -19,10 +19,11 @@ import Summary from "./user/pages/Summary";
 import Success from "./user/pages/Success";
 import Profile from "./user/pages/Profile";
 import Admin from "./admin/pages/Admin";
-import View from "./admin/pages/View";
+import ViewUsers from "./admin/pages/ViewUsers";
+import ViewOrders from "./admin/pages/ViewOrders";
 import PageNotfound from "./user/pages/PageNotfound";
-import NewUser from "./admin/pages/NewUser";
-import NewProduct from "./admin/pages/NewProduct";
+import ViewProducts from "./admin/pages/ViewProducts";
+import SuccessProduct from "./admin/pages/SuccessProduct";
 import PaymentProcessing from "./user/pages/PaymentProcessing";
 
 import { userInputs, productInputs, popularProducts } from "./data";
@@ -156,23 +157,19 @@ const adminRouter = createBrowserRouter([
   },
   {
     path: "/viewproducts",
-    element: <View inputs={popularProducts} title="Product" />,
+    element: <ViewProducts />,
   },
   {
     path: "/vieworders",
-    element: <View inputs={popularProducts} title="Order" />,
+    element: <ViewOrders />,
   },
   {
     path: "/viewusers",
-    element: <View inputs={popularProducts} title="User" />,
+    element: <ViewUsers />,
   },
   {
-    path: "/newuser",
-    element: <NewUser inputs={userInputs} />,
-  },
-  {
-    path: "/newproduct",
-    element: <NewProduct inputs={productInputs} />,
+    path: "/successadded",
+    element: <SuccessProduct />,
   },
   {
     path: "/*",
