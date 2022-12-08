@@ -16,7 +16,7 @@ const getShippingInfo = (req, res) => {
 
 // get all user information
 const getAllUserInfo = (req, res) => {
-    const q = "SELECT user_id, name, surname, gender, email, phone_number, address, district, province, zip_code, created_at, updated_at FROM userinfo";
+    const q = "SELECT user_id, is_admin, name, surname, gender, email, phone_number, address, district, province, zip_code, created_at, updated_at FROM userinfo";
     pool.query(q, (err, data) => {
         if (err) return res.status(500).json(err);
 
@@ -36,6 +36,7 @@ const getUserInfo = (req, res) => {
         return res.status(200).json(data);
     });
 };
+
 
 // update password
 const updatePassword = (req, res) => {
@@ -68,9 +69,25 @@ const updatePassword = (req, res) => {
         });
     });
 
+}
 
+// update password by admin
+const updatePasswordByAdmin = (req, res) => {
+    const user_id = req.params.id;
+
+    const saltRounds = 10;
+    const password = bcrypt.hashSync(req.body.password, saltRounds);
+
+    const q = "UPDATE userinfo SET password = ?, updated_at = CURRENT_TIMESTAMP WHERE user_id = ?";
+
+    pool.query(q, [password, user_id], (err, data) => {
+        if (err) return res.status(500).json(err);
+
+        return res.status(200).json({ msg: "password updated!" });
+    });
 
 }
+
 
 // update user information
 const updateUserInfo = (req, res) => {
@@ -108,4 +125,44 @@ const updateUserInfo = (req, res) => {
 
 };
 
-module.exports = { getShippingInfo, getAllUserInfo, getUserInfo, updatePassword, updateUserInfo };
+
+
+// update user information by admin
+const updateInfoByAdmin = (req, res) => {
+    const user_id = req.params.id;
+    const values = [
+        req.body.user.email,
+        req.body.user.name,
+        req.body.user.surname,
+        req.body.user.gender,
+        req.body.user.phone_number,
+        req.body.user.address,
+        req.body.user.district,
+        req.body.user.province,
+        req.body.user.zip_code,
+        req.body.user.is_admin,
+        user_id
+    ];
+
+    let q = "SELECT EXISTS (SELECT * FROM userinfo WHERE email = ? AND user_id != ?) AS userExist";
+
+    pool.query(q, [req.body.user.email, user_id], (err, data) => {
+        if (err) return res.status(500).json(err);
+
+        if (data[0].userExist === 1) {
+            return res.status(409).json({ msg: `user with email: ${req.body.email} already exist` });
+        }
+
+        q = "UPDATE userinfo SET email = ?, name = ?, surname = ?, gender = ?, phone_number = ?, address = ?, district = ?, province = ?, zip_code = ?, is_admin = ?, updated_at = CURRENT_TIMESTAMP WHERE user_id = ?";
+
+        pool.query(q, values, (err, data) => {
+            if (err) return res.status(500).json(err);
+
+            return res.status(200).json({ msg: "Information updated !!" });
+        });
+
+    });
+
+};
+
+module.exports = { getShippingInfo, getAllUserInfo, getUserInfo, updatePassword, updatePasswordByAdmin, updateUserInfo, updateInfoByAdmin };

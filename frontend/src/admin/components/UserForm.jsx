@@ -58,7 +58,8 @@ const styles = {
   },
 };
 
-const UserForm = ({ addOrEdit, recordForEdit, formType }) => {
+
+const UserForm = ({ addOrEdit, recordForEdit, formType, setChanged }) => {
 
   // form validation
   const validate = (fieldValues = values) => {
@@ -74,10 +75,20 @@ const UserForm = ({ addOrEdit, recordForEdit, formType }) => {
         ? "Email is not valid"
         : "";
 
-    if (formType !== "edit") {
-      if ("password" in fieldValues)
-      temp.password = fieldValues.password ? "" : "Password is required";
-    }
+    
+      if ("password" in fieldValues) {
+        if (formType !== "edit") {
+          temp.password = fieldValues.password ? "" : "Password is required";
+        }
+        if (temp.password === "" || formType === "edit") {
+          const checkPassword = fieldValues.password.split(' ').join('').length 
+        if (checkPassword > 0 && checkPassword < 6) {
+          temp.password = "Password should be at least 6 characters long";
+        } else {
+          temp.password = ""
+        }
+        }
+        }
 
     if ("phone_number" in fieldValues)
       temp.phone_number = !fieldValues.phone_number
@@ -101,7 +112,7 @@ const UserForm = ({ addOrEdit, recordForEdit, formType }) => {
     });
 
     if (fieldValues === values)
-      // retrun boolean value if the validation is valite or not
+      // return boolean value if the validation is valid or not
       return Object.values(temp).every((x) => x === "");
   };
 
@@ -116,13 +127,22 @@ const UserForm = ({ addOrEdit, recordForEdit, formType }) => {
     }
   };
 
+  const handleInput = (e) => {
+    setChanged(true)
+    if (e.target.name === "is_admin") {
+      e.target.value = !values.is_admin
+    }
+    handleChange(e)
+  }
+
   // update edit information
   useEffect(() => {
     if (recordForEdit != null)
       setValues({
         ...recordForEdit,
       });
-  }, [recordForEdit, setValues]);
+      setChanged(false)
+  }, [recordForEdit, setValues, setChanged]);
 
   return (
     <Container>
@@ -212,42 +232,43 @@ const UserForm = ({ addOrEdit, recordForEdit, formType }) => {
                 name="name"
                 label="First Name"
                 value={values.name}
-                onChange={handleChange}
+                onChange={handleInput}
                 error={errors.name}
               />
               <Controls.Input
                 name="email"
                 label="Email"
                 value={values.email}
-                onChange={handleChange}
+                onChange={handleInput}
                 error={errors.email}
               />
               <Controls.Input
                 name="phone_number"
                 label="Phone Number"
                 value={values.phone_number}
-                onChange={handleChange}
+                onChange={handleInput}
                 error={errors.phone_number}
               />
               <Controls.Input
                 name="district"
                 label="District"
                 value={values.district}
-                onChange={handleChange}
+                onChange={handleInput}
                 error={errors.district}
               />
               <Controls.Input
                 name="zip_code"
                 label="Zip Code"
                 value={values.zip_code}
-                onChange={handleChange}
+                onChange={handleInput}
                 error={errors.zip_code}
               />
               <Controls.CheckBox
                   name="is_admin"
                   label="Admin"
                   value={values.is_admin}
-                  onChange={handleChange}
+                  onChange={handleInput}
+                  checked={values.is_admin === 1}
               />
              
             </Grid>
@@ -256,7 +277,7 @@ const UserForm = ({ addOrEdit, recordForEdit, formType }) => {
                 name="surname"
                 label="Last Name"
                 value={values.surname}
-                onChange={handleChange}
+                onChange={handleInput}
                 error={errors.surname}
               />
               {
@@ -265,7 +286,7 @@ const UserForm = ({ addOrEdit, recordForEdit, formType }) => {
                 name="password"
                 label="New Password (optional)"
                 value={values.password}
-                onChange={handleChange}
+                onChange={handleInput}
                 error={errors.password}
                 type="password"
               />
@@ -274,7 +295,7 @@ const UserForm = ({ addOrEdit, recordForEdit, formType }) => {
                 name="password"
                 label="Password"
                 value={values.password}
-                onChange={handleChange}
+                onChange={handleInput}
                 error={errors.password}
                 type="password"
               />
@@ -284,21 +305,21 @@ const UserForm = ({ addOrEdit, recordForEdit, formType }) => {
                 name="address"
                 label="Address"
                 value={values.address}
-                onChange={handleChange}
+                onChange={handleInput}
                 error={errors.address}
               />
               <Controls.Input
                 name="province"
                 label="province"
                 value={values.province}
-                onChange={handleChange}
+                onChange={handleInput}
                 error={errors.province}
               />
               <Controls.RadioGroup
                 name="gender"
                 label="Gender"
                 value={values.gender}
-                onChange={handleChange}
+                onChange={handleInput}
                 items={genderItems}
               />
               {formType === "edit" ? (
@@ -313,7 +334,10 @@ const UserForm = ({ addOrEdit, recordForEdit, formType }) => {
                     text="Clear From"
                     color="default"
                     startIcon={<DeleteIcon />}
-                    onClick={resetForm}
+                    onClick={() => {
+                      resetForm();
+                      setChanged(false)
+                    }}
                   />
                 </>
               ) :
