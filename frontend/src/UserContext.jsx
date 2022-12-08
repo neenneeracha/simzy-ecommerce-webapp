@@ -1,6 +1,8 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import Cookie from "js-cookie";
+import styled from "styled-components";
+import Loading from "./user/components/Loading";
 
 const UserContext = createContext();
 const UserUpdateContext = createContext();
@@ -8,11 +10,15 @@ const UserUpdateContext = createContext();
 export const useUser = () => useContext(UserContext);
 export const useUserUpdate = () => useContext(UserUpdateContext);
 
+const Container = styled.div``;
+
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const verifyUser = async () => {
+      setLoading(true)
       const token = Cookie.get("accessToken");
       if (!token) setUser(null);
 
@@ -21,12 +27,12 @@ export const UserProvider = ({ children }) => {
           "http://localhost:8080/api/v1/auth/verifyUser",
           { token: token }
         );
-
         setUser(res.data);
       } catch (error) {
         Cookie.remove("accessToken", { path: "" });
         setUser(null);
       }
+      setLoading(false)
     };
     verifyUser();
   }, []);
@@ -48,11 +54,15 @@ export const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={user}>
+    <Container>
+      {
+        loading ? <Loading loading={loading}/> :
+        <UserContext.Provider value={user}>
       <UserUpdateContext.Provider value={{ setToken, removeToken }}>
-        {" "}
-        {children}{" "}
-      </UserUpdateContext.Provider>{" "}
+        {children}
+      </UserUpdateContext.Provider>
     </UserContext.Provider>
+      }
+    </Container>
   );
 };
