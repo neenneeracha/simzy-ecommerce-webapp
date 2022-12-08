@@ -96,12 +96,12 @@ const ViewProducts = () => {
           <Controls.Button
             style={{
               marginRight: "30px",
-              width: "200px",
+              width: "225px",
               textDecoration: "none",
               backgroundColor: "#FFD0DC",
               color: "black",
             }}
-            text="+ Add New "
+            text="+ Add New Product"
             onClick={() => {
               setOpenPopup(true);
               setRecordForEdit(null);

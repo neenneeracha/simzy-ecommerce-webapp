@@ -6,19 +6,21 @@ import { Grid } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SaveIcon from "@material-ui/icons/Save";
 import { Link} from "react-router-dom";
-/* innital default value */
+
+/* initial default form values */
 const initialFValues = {
   is_admin: "",
   email: "",
   name: "",
   surname: "",
   password: "",
-  gender: "O",
+  gender: "",
   phone_number: "",
   address: "",
   district: "",
   province: "",
   zip_code: "",
+  updated_at: "",
 };
 
 const LinkItem = styled.span`
@@ -56,16 +58,15 @@ const styles = {
   },
 };
 
-const UserForm = (props) => {
-  const { addOrEdit, recordForEdit, isUserRegister } = props;
+const UserForm = ({ addOrEdit, recordForEdit, formType }) => {
 
   // form validation
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
     if ("name" in fieldValues)
-      temp.name = fieldValues.name ? "" : "First name is reauired";
+      temp.name = fieldValues.name ? "" : "First name is required";
     if ("surname" in fieldValues)
-      temp.surname = fieldValues.surname ? "" : "Surname is reauired";
+      temp.surname = fieldValues.surname ? "" : "Surname is required";
     if ("email" in fieldValues)
       temp.email = !fieldValues.email
         ? "Email is required"
@@ -73,24 +74,26 @@ const UserForm = (props) => {
         ? "Email is not valid"
         : "";
 
-    if ("password" in fieldValues)
-      temp.password = fieldValues.password ? "" : "Password is reauired";
+    if (formType !== "edit") {
+      if ("password" in fieldValues)
+      temp.password = fieldValues.password ? "" : "Password is required";
+    }
 
     if ("phone_number" in fieldValues)
       temp.phone_number = !fieldValues.phone_number
-        ? "Phone Number is reauired"
+        ? "Phone Number is required"
         : fieldValues.phone_number.length < 9 ||
           fieldValues.phone_number.length > 10
         ? "Phone Number is invalid"
         : "";
     if ("address" in fieldValues)
-      temp.address = fieldValues.address ? "" : "Address is reauired";
+      temp.address = fieldValues.address ? "" : "Address is required";
     if ("district" in fieldValues)
-      temp.district = fieldValues.district ? "" : "District is reauired";
+      temp.district = fieldValues.district ? "" : "District is required";
     if ("province" in fieldValues)
-      temp.province = fieldValues.province ? "" : "Province is reauired";
+      temp.province = fieldValues.province ? "" : "Province is required";
     if ("zip_code" in fieldValues)
-      temp.zip_code = fieldValues.zip_code ? "" : "Zip Code is reauired";
+      temp.zip_code = fieldValues.zip_code ? "" : "Zip Code is required";
 
     // save error value into "errors"
     setErrors({
@@ -104,7 +107,6 @@ const UserForm = (props) => {
 
   const { values, setValues, errors, setErrors, handleChange, resetForm } =
     UseForm(initialFValues, true, validate);
-  //
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -114,20 +116,98 @@ const UserForm = (props) => {
     }
   };
 
-  //update edit information
+  // update edit information
   useEffect(() => {
     if (recordForEdit != null)
       setValues({
         ...recordForEdit,
       });
-  }, [recordForEdit]);
+  }, [recordForEdit, setValues]);
 
   return (
     <Container>
       <Wrapper>
         <Form onSubmit={handleSubmit}>
           <Grid container>
+            {
+              formType === "view"? 
+              <>
+              <Grid item xs={6}>
+              <Controls.Input
+                name="name"
+                label="First Name"
+                value={values.name}
+                readOnly
+              />
+              <Controls.Input
+                name="email"
+                label="Email"
+                value={values.email}
+                readOnly
+              />
+              <Controls.Input
+                name="address"
+                label="Address"
+                value={values.address}
+                readOnly
+              />
+              <Controls.Input
+                name="province"
+                label="province"
+                value={values.province}
+                readOnly
+              />
+              <Controls.Input
+                name="update"
+                label="Latest Update"
+                value={values.updated_at}
+                readOnly
+              />
+              <Controls.CheckBox
+                  name="is_admin"
+                  label="Admin"
+                  value={values.is_admin}
+                  readOnly
+              />
+             
+            </Grid>
             <Grid item xs={6}>
+              <Controls.Input
+                name="surname"
+                label="Last Name"
+                value={values.surname}
+                readOnly
+              />
+              <Controls.Input
+                name="phone_number"
+                label="Phone Number"
+                value={values.phone_number}
+                readOnly
+              />
+              <Controls.Input
+                name="district"
+                label="District"
+                value={values.district}
+                readOnly
+              />
+              <Controls.Input
+                name="zip_code"
+                label="Zip Code"
+                value={values.zip_code}
+                readOnly
+              />
+              <Controls.RadioGroup
+                name="gender"
+                label="Gender"
+                value={values.gender}
+                items={genderItems}
+                readOnly
+              />
+            </Grid>
+              </>
+              :
+              <>
+              <Grid item xs={6}>
               <Controls.Input
                 name="name"
                 label="First Name"
@@ -163,16 +243,13 @@ const UserForm = (props) => {
                 onChange={handleChange}
                 error={errors.zip_code}
               />
-              {isUserRegister === false ? (
-                <Controls.CheckBox
+              <Controls.CheckBox
                   name="is_admin"
                   label="Admin"
                   value={values.is_admin}
                   onChange={handleChange}
-                />
-              ) : (
-                <></>
-              )}
+              />
+             
             </Grid>
             <Grid item xs={6}>
               <Controls.Input
@@ -182,7 +259,18 @@ const UserForm = (props) => {
                 onChange={handleChange}
                 error={errors.surname}
               />
-              <Controls.Input
+              {
+                formType === "edit" ? 
+                 <Controls.Input
+                name="password"
+                label="New Password (optional)"
+                value={values.password}
+                onChange={handleChange}
+                error={errors.password}
+                type="password"
+              />
+              :
+               <Controls.Input
                 name="password"
                 label="Password"
                 value={values.password}
@@ -190,6 +278,8 @@ const UserForm = (props) => {
                 error={errors.password}
                 type="password"
               />
+              }
+               
               <Controls.Input
                 name="address"
                 label="Address"
@@ -210,9 +300,9 @@ const UserForm = (props) => {
                 value={values.gender}
                 onChange={handleChange}
                 items={genderItems}
-              />{" "}
-              {isUserRegister === false ? (
-                <div>
+              />
+              {formType === "edit" ? (
+                <>
                   <Controls.Button
                     type="submit"
                     text="Submit"
@@ -220,29 +310,28 @@ const UserForm = (props) => {
                     style={styles.customButton}
                   />
                   <Controls.Button
-                    text="Reset"
+                    text="Clear From"
                     color="default"
                     startIcon={<DeleteIcon />}
                     onClick={resetForm}
                   />
-                </div>
-              ) : (
-                <div>
+                </>
+              ) :
+              (
+                <>
                   <Controls.Button
                     className="d-block mx-auto w-75"
                     type="submit"
                     text="Submit"
                     style={styles.customButton}
                   />
-                  <Text style={{ marginTop: "2%" }} type="submit">
-                    Already have an account? &nbsp;
-                    <Link style={{ textDecoration: "none" }} to="/login">
-                      <LinkItem>SIGN IN</LinkItem>
-                    </Link>
-                  </Text>
-                </div>
-              )}
+                </>
+              ) 
+            }
             </Grid>
+              </>
+            }
+            
           </Grid>
         </Form>
       </Wrapper>

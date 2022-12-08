@@ -16,7 +16,7 @@ const getShippingInfo = (req, res) => {
 
 // get all user information
 const getAllUserInfo = (req, res) => {
-    const q = "SELECT * FROM userinfo";
+    const q = "SELECT user_id, name, surname, gender, email, phone_number, address, district, province, zip_code, created_at, updated_at FROM userinfo";
     pool.query(q, (err, data) => {
         if (err) return res.status(500).json(err);
 

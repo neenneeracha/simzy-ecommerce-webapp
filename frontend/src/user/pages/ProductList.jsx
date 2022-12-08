@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Products from "../components/Products";
 import ProductNotFound from "../components/ProductNotFound";
+import Loading from "../components/Loading";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
@@ -51,6 +52,7 @@ const Button = styled.button`
 `;
 
 const ProductList = () => {
+  const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [searchParams] = useSearchParams();
   const [color, setColor] = useState(null);
@@ -63,6 +65,7 @@ const ProductList = () => {
 
   useEffect(() => {
     const getProducts = async () => {
+      setLoading(true)
       try {
         const res = await axios.get(
           sub_category
@@ -81,6 +84,7 @@ const ProductList = () => {
       } catch (error) {
         console.log(error);
       }
+      setLoading(false)
     };
 
     getProducts();
@@ -116,82 +120,86 @@ const ProductList = () => {
           ? main_category
           : `Search results for "${search_input}"`}
       </Title>
-      {!color && !size && !price && products.length === 0 ? (
-        <ProductNotFound filtered={false} />
-      ) : (
-        <>
-          <FilterContainer>
-            <Filter>
-              <FilterText>Filter By:</FilterText>
+      {
+        loading ? <Loading loading={loading}/> 
+        :
+      !color && !size && !price && products.length === 0 ? (
+          <ProductNotFound filtered={false} />
+        ) : (
+          <>
+            <FilterContainer>
+              <Filter>
+                <FilterText>Filter By:</FilterText>
+  
+                <Select onChange={(e) => setColor(e.target.value)}>
+                  {color ? (
+                    <Option disabled>Color</Option>
+                  ) : (
+                    <Option disabled selected>
+                      Color
+                    </Option>
+                  )}
+                  <Option>White</Option>
+                  <Option>Black</Option>
+                  <Option>Pink</Option>
+                  <Option>Blue</Option>
+                  <Option>Yellow</Option>
+                  <Option>Green</Option>
+                </Select>
+                <Select onChange={(e) => setSize(e.target.value)}>
+                  {size ? (
+                    <Option disabled>Size</Option>
+                  ) : (
+                    <Option disabled selected>
+                      Size
+                    </Option>
+                  )}
+                  <Option>XS</Option>
+                  <Option>S</Option>
+                  <Option>M</Option>
+                  <Option>L</Option>
+                  <Option>XL</Option>
+                </Select>
+                <Select onChange={(e) => setPrice(e.target.value)}>
+                  {price ? (
+                    <Option disabled>Price Range</Option>
+                  ) : (
+                    <Option disabled selected>
+                      Price Range
+                    </Option>
+                  )}
+                  <Option value="999">0THB - 999THB</Option>
+                  <Option value="1999">1000THB - 1999THB</Option>
+                  <Option value="2999">2000THB - 2999THB</Option>
+                  <Option value="3999">3000THB - 3999THB</Option>
+                  <Option value="4999">4000THB - 4999THB</Option>
+                </Select>
+                {color || size || price ? (
+                  <Button onClick={resetFilter}>Reset</Button>
+                ) : undefined}
+              </Filter>
+  
+              <Filter>
+                <FilterText>Sort By:</FilterText>
+                <Select
+                  onChange={(e) => {
+                    setSort(e.target.value);
+                  }}
+                >
+                  <Option value="newest">Newest</Option>
+                  <Option value="asc">Price low to high</Option>
+                  <Option value="desc">Price high to low</Option>
+                </Select>
+              </Filter>
+            </FilterContainer>
+            {products.length === 0 ? (
+              <ProductNotFound filtered={true} />
+            ) : (
+              <Products products={products} />
+            )}
+          </>
+        )}
 
-              <Select onChange={(e) => setColor(e.target.value)}>
-                {color ? (
-                  <Option disabled>Color</Option>
-                ) : (
-                  <Option disabled selected>
-                    Color
-                  </Option>
-                )}
-                <Option>White</Option>
-                <Option>Black</Option>
-                <Option>Pink</Option>
-                <Option>Blue</Option>
-                <Option>Yellow</Option>
-                <Option>Green</Option>
-              </Select>
-              <Select onChange={(e) => setSize(e.target.value)}>
-                {size ? (
-                  <Option disabled>Size</Option>
-                ) : (
-                  <Option disabled selected>
-                    Size
-                  </Option>
-                )}
-                <Option>XS</Option>
-                <Option>S</Option>
-                <Option>M</Option>
-                <Option>L</Option>
-                <Option>XL</Option>
-              </Select>
-              <Select onChange={(e) => setPrice(e.target.value)}>
-                {price ? (
-                  <Option disabled>Price Range</Option>
-                ) : (
-                  <Option disabled selected>
-                    Price Range
-                  </Option>
-                )}
-                <Option value="999">0THB - 999THB</Option>
-                <Option value="1999">1000THB - 1999THB</Option>
-                <Option value="2999">2000THB - 2999THB</Option>
-                <Option value="3999">3000THB - 3999THB</Option>
-                <Option value="4999">4000THB - 4999THB</Option>
-              </Select>
-              {color || size || price ? (
-                <Button onClick={resetFilter}>Reset</Button>
-              ) : undefined}
-            </Filter>
-
-            <Filter>
-              <FilterText>Sort By:</FilterText>
-              <Select
-                onChange={(e) => {
-                  setSort(e.target.value);
-                }}
-              >
-                <Option value="newest">Newest</Option>
-                <Option value="asc">Price low to high</Option>
-                <Option value="desc">Price high to low</Option>
-              </Select>
-            </Filter>
-          </FilterContainer>
-          {products.length === 0 ? (
-            <ProductNotFound filtered={true} />
-          ) : (
-            <Products products={products} />
-          )}
-        </>
-      )}
       <Footer />
     </Container>
   );
