@@ -74,25 +74,58 @@ const ViewUsers = () => {
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     UseTable(users, headCells);
 
+  // reset popup variables
+  const resetPopup = (resetForm) => {
+    setChanged(false);
+    resetForm();
+    setRecordForEdit(null);
+    setOpenPopup(false);
+    setSelectedID(0)
+  }
+
   // update new user or edit user
   const addOrEdit = async (user, resetForm) => {
     if (recordForEdit === null) {
-      alert("add")
-      console.log(user);
+      user.is_admin = user.is_admin === "" ? "0" : user.is_admin;
+      try {       
+        const res = await axios.post("http://localhost:8080/api/v1/user", {user: user})
+        
+        if (res.status === 201) {
+          toast.success(res.data.msg, {
+            position: "top-center",
+          })
+          resetPopup(resetForm);
+          setTimeout(function () {
+            window.location.reload();
+          }, 3000);
+        }
+
+      } catch (err) {
+          if (err.request.status === 409) {
+            toast.error(err.response.data.msg, {
+              position: "top-center",
+            })
+          } else {
+            toast.error("Something went wrong, please try again !!", {
+              position: "top-center",
+            })
+          }
+          console.log(err);
+        }
     } else {
-      if (changed) {
-        try {
+      if (changed) {     
+        try {       
           let res
           if (user.password !== undefined) {
-            res = await axios.patch("http://localhost:8080/api/v1/user/update-password-admin/" + user.user_id, { password: user.password})
+            res = await axios.patch("http://localhost:8080/api/v1/user/update-password-admin/" + selectedID, { password: user.password})
           }
-          console.log(user.is_admin === 1)
-          res = await axios.patch("http://localhost:8080/api/v1/user/update-info-admin/" + user.user_id, {user: user});
+          res = await axios.patch("http://localhost:8080/api/v1/user/update-info-admin/" + selectedID, {user: user});
           
           if (res.status === 200) {
             toast.success(res.data.msg, {
               position: "top-center",
             })
+            resetPopup(resetForm);
             setTimeout(function () {
               window.location.reload();
             }, 3000);
@@ -113,15 +146,9 @@ const ViewUsers = () => {
         toast.error("No new changes made, submission ignored!", {
           position: "top-center",
         });
+        resetPopup(resetForm);
       }
-    }
-    setChanged(false);
-    resetForm();
-    setRecordForEdit(null);
-    setOpenPopup(false);
-    // toast.success("Successfully submitted user information.", {
-    //   position: "top-center",
-    // });
+    }    
   };
 
   // open popup with selected record

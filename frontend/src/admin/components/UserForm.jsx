@@ -5,7 +5,6 @@ import { UseForm, Form } from "../components/UseForm";
 import { Grid } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SaveIcon from "@material-ui/icons/Save";
-import { Link} from "react-router-dom";
 
 /* initial default form values */
 const initialFValues = {
@@ -23,20 +22,6 @@ const initialFValues = {
   updated_at: "",
 };
 
-const LinkItem = styled.span`
-  color: #eda3b5;
-  text-decoration: underline;
-
-  &:hover {
-    font-weight: bold;
-    color: black;
-  }
-`;
-
-const Text = styled.div`
-  text-align: center;
-`;
-
 // Array contain gender item
 const genderItems = [
   { id: "M", title: "Male" },
@@ -48,7 +33,9 @@ const Container = styled.div`
   max-width: 100%;
   overflow-x: hidden;
 `;
+
 const Wrapper = styled.div``;
+
 const styles = {
   customButton: {
     backgroundColor: "#eda3b5",
@@ -93,10 +80,11 @@ const UserForm = ({ addOrEdit, recordForEdit, formType, setChanged }) => {
     if ("phone_number" in fieldValues)
       temp.phone_number = !fieldValues.phone_number
         ? "Phone Number is required"
-        : fieldValues.phone_number.length < 9 ||
-          fieldValues.phone_number.length > 10
+        : fieldValues.phone_number.length !== 10
         ? "Phone Number is invalid"
         : "";
+    if ("gender" in fieldValues)
+      temp.gender = fieldValues.gender ? "" : "Gender is required";
     if ("address" in fieldValues)
       temp.address = fieldValues.address ? "" : "Address is required";
     if ("district" in fieldValues)
@@ -173,7 +161,7 @@ const UserForm = ({ addOrEdit, recordForEdit, formType, setChanged }) => {
               />
               <Controls.Input
                 name="province"
-                label="province"
+                label="Province"
                 value={values.province}
                 readOnly
               />
@@ -268,7 +256,7 @@ const UserForm = ({ addOrEdit, recordForEdit, formType, setChanged }) => {
                   label="Admin"
                   value={values.is_admin}
                   onChange={handleInput}
-                  checked={values.is_admin === 1}
+                  checked={values.is_admin === 1 || values.is_admin === true}
               />
              
             </Grid>
@@ -310,7 +298,7 @@ const UserForm = ({ addOrEdit, recordForEdit, formType, setChanged }) => {
               />
               <Controls.Input
                 name="province"
-                label="province"
+                label="Province"
                 value={values.province}
                 onChange={handleInput}
                 error={errors.province}
@@ -321,6 +309,7 @@ const UserForm = ({ addOrEdit, recordForEdit, formType, setChanged }) => {
                 value={values.gender}
                 onChange={handleInput}
                 items={genderItems}
+                error={errors.gender}
               />
               {formType === "edit" ? (
                 <>
@@ -344,7 +333,7 @@ const UserForm = ({ addOrEdit, recordForEdit, formType, setChanged }) => {
               (
                 <>
                   <Controls.Button
-                    className="d-block mx-auto w-75"
+                    className="w-75"
                     type="submit"
                     text="Submit"
                     style={styles.customButton}

@@ -36,7 +36,7 @@ const addNewUser = (req, res) => {
         pool.query(q, [values], (err, data) => {
             if (err) return res.status(500).json(err);
 
-            return res.status(200).json(data.insertId);
+            return res.status(201).json(data.insertId);
         });
     });
 };

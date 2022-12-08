@@ -165,4 +165,43 @@ const updateInfoByAdmin = (req, res) => {
 
 };
 
-module.exports = { getShippingInfo, getAllUserInfo, getUserInfo, updatePassword, updatePasswordByAdmin, updateUserInfo, updateInfoByAdmin };
+// add new user by admin
+const addNewUser = (req, res) => {
+    let q = "SELECT EXISTS (SELECT * FROM userinfo WHERE email = ?) AS userExist";
+
+    pool.query(q, req.body.user.email, (err, data) => {
+        if (err) return res.status(500).json(err);
+
+        if (data[0].userExist === 1)
+            return res
+                .status(409)
+                .json({ msg: `User with email: ${req.body.user.email} already exist !!` });
+
+        const saltRounds = 10;
+        const password = bcrypt.hashSync(req.body.user.password, saltRounds);
+        const values = [
+            req.body.user.email,
+            password,
+            req.body.user.name,
+            req.body.user.surname,
+            req.body.user.is_admin,
+            req.body.user.gender,
+            req.body.user.phone_number,
+            req.body.user.address,
+            req.body.user.district,
+            req.body.user.province,
+            req.body.user.zip_code,
+        ];
+
+        q =
+            "INSERT INTO userinfo (`email`,`password`,`name`,`surname`,`is_admin`,`gender`,`phone_number`,`address`,`district`,`province`,`zip_code`) VALUES (?)";
+
+        pool.query(q, [values], (err, data) => {
+            if (err) return res.status(500).json(err);
+
+            return res.status(201).json({ msg: `User created with User ID: ${data.insertId} !!` });
+        });
+    });
+};
+
+module.exports = { getShippingInfo, getAllUserInfo, getUserInfo, addNewUser, updatePassword, updatePasswordByAdmin, updateUserInfo, updateInfoByAdmin };

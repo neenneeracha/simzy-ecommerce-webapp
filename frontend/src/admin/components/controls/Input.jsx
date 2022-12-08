@@ -5,7 +5,7 @@ const Input = (props) => {
   const { name, label, value, error = null, onChange, type } = props;
   return (
     <TextField
-      id="standard-basic"
+      id={name}
       label={label}
       name={name}
       value={value}

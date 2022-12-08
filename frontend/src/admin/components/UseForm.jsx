@@ -8,6 +8,7 @@ export function UseForm(initialFValues, validateOnchange = false, validate) {
   /* Update input value when triggered */
   const handleChange = (e) => {
     const { name, value } = e.target;
+
     setValues({
       ...values,
       [name]: value,
