@@ -56,6 +56,11 @@ const styles = {
 const Header = styled.h5`
   margin-top: 20px;
 `;
+const ButtonGroup = styled.div`
+  margin-top: 80px;
+`;
+const Product = styled.div``;
+
 const OrderForm = (props) => {
   const { addOrEdit, recordForEdit } = props;
   const { values, setValues, errors, setErrors, handleChange, resetForm } =
@@ -173,15 +178,31 @@ const OrderForm = (props) => {
                   onChange={handleChange}
                 />
                 <Controls.Input
-                  name="total"
-                  label="Total Amount"
+                  name="quantity"
+                  label="Quantity"
                   onChange={handleChange}
                 />
               </Grid>
               <Grid item xs={6}>
+                {values.map((value) => (
+                  <Product>
+                    <Controls.Input
+                      name="product_name"
+                      label="Product Name"
+                      value={values.payment_id}
+                      onChange={handleChange}
+                    />
+                  </Product>
+                ))}
+
                 <Controls.Input
-                  name="quality"
-                  label="Quality"
+                  name="price"
+                  label="Price"
+                  onChange={handleChange}
+                />
+                <Controls.Input
+                  name="total"
+                  label="Total Amount"
                   onChange={handleChange}
                 />
               </Grid>
@@ -194,12 +215,14 @@ const OrderForm = (props) => {
                 <Controls.Input
                   name="payment_id"
                   label="Payment ID"
+                  value={values.payment_id}
                   onChange={handleChange}
                 />
 
                 <Controls.Input
                   name="status"
                   label="Status"
+                  value={values.status}
                   onChange={handleChange}
                 />
               </Grid>
@@ -207,14 +230,16 @@ const OrderForm = (props) => {
                 <Controls.Input
                   name="payment_type"
                   label="Payment Type"
+                  value={values.payment_type}
                   onChange={handleChange}
                 />
-                <Controls.Input
+                {/* <Controls.Input
                   name="created_at"
                   label="Created At"
+                  value={values.created_at}
                   onChange={handleChange}
-                />{" "}
-                <div>
+                />{" "} */}
+                <ButtonGroup>
                   <Controls.Button
                     type="submit"
                     text="Submit"
@@ -227,7 +252,7 @@ const OrderForm = (props) => {
                     startIcon={<DeleteIcon />}
                     onClick={resetForm}
                   />
-                </div>
+                </ButtonGroup>
               </Grid>
             </Grid>
           </Paper>

@@ -62,7 +62,7 @@ const ViewOrders = () => {
   const [recordForEdit, setRecordForEdit] = useState(null);
   const [openPopup, setOpenPopup] = useState(false);
   const [orders, setOrders] = useState([]);
-
+  const [orderedProducts, setorderedProducts] = useState([]);
   //get return value from UseTable.jsx
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     UseTable(orders, headCells);
@@ -82,6 +82,7 @@ const ViewOrders = () => {
         console.log(err);
       }
     };
+
     getAllOrderInfo();
   }, []);
 

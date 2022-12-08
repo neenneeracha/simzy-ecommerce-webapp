@@ -77,7 +77,7 @@ const ViewProducts = () => {
     const getProduct = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:8080/api/v1/products/info"
+          "http://localhost:8080/api/v1/products/allproducts"
         );
         setProducts(res.data);
       } catch (error) {
