@@ -1,6 +1,6 @@
-# Simzy Clothing Web Application
+# ![Simzy](frontend/public/img/readme-simzy.png)  
 
-#### Created By SoftEn SoftJai Group
+### Created By SoftEn SoftJai Group
 ```
 63070503404  Ms. JiaJia    Bai 
 
