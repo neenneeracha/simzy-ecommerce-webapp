@@ -1,7 +1,16 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
+import app from "../firebase/firebase"
 import Controls from "../components/controls/Controls";
 import DeleteIcon from "@material-ui/icons/Delete";
+import { colors } from "@material-ui/core";
+import { useEffect } from "react";
 
 const Container = styled.div`
   margin-top: 30px;
@@ -56,6 +65,33 @@ const LebelText = styled.h6`
   margin-top: 30px;
 `;
 
+const InputWrapper = styled.div`
+[type="file"] {
+  height: 0;
+  overflow: hidden;
+  width: 0;
+}
+
+[type="file"] + label {
+  color: black;
+  cursor: pointer;
+  padding: 0.5rem 50px;
+  font-size: 22px;  
+`
+
+const Detail = styled.h6`
+  font-weight: lighter;
+  color: black;
+  cursor: pointer;
+  padding-left: 68px;
+`;
+
+const Input = styled.input`
+`;
+
+const Label = styled.label`
+`;
+
 const styles = {
   customButton: {
     backgroundColor: "#eda3b5",
@@ -64,8 +100,11 @@ const styles = {
     borderRadius: "5px",
   },
 };
-const AddImage = () => {
+const AddImage = ({color, editedImages, setEditedImages, formType}) => {
+
   const [selectedImages, setSelectedImages] = useState([]);
+  const [file, setFile] = useState(null)
+  const [id, setId] = useState(null)
 
   const onSelectFile = (event) => {
     const selectedFiles = event.target.files;
@@ -86,9 +125,79 @@ const AddImage = () => {
     URL.revokeObjectURL(image);
   }
 
+  
+
+useEffect(() => {
+  const storeImgLink = (link) => {
+  
+    let newArr = [...editedImages]
+    for (let i = 0; i < newArr.length; i++) {
+      if (newArr[i].product_color_id === parseInt(id)) {
+        newArr[i] = {...newArr[i], new_link: link}
+        console.log(newArr[i])
+      }
+    setEditedImages(newArr)
+    setId(null)
+    }
+    // setInputs(prev => ({...prev, image: link}))
+    // console.log("ok")
+}
+
+  const handleChange = () => {
+    
+    console.log(file)
+    if (file != null)
+    {
+    const fileName = new Date().getTime() + file.name
+    
+    const storage = getStorage(app)
+
+      let storageRef = ref(storage, fileName);
+      let uploadTask = uploadBytesResumable(storageRef, file);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+      },
+      (error) => {
+        console.log(error.toString)
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          console.log(downloadURL)
+          setFile(null)
+          storeImgLink(downloadURL)
+        });
+      }
+    );
+  }
+}
+  if (file !== null && id !== null) {
+    handleChange();
+  }
+}, [file, editedImages, setEditedImages, id])
+
   return (
     <Container>
       <Wrapper>
+        {
+          formType === "edit" ? 
+          <>
+          <InputWrapper>
+          <Input type="file"
+          name={color.product_color_id}
+          id={color.product_color_id}
+          onChange={(e) => {
+            setFile(e.target.files[0]);
+            setId(e.target.name)
+            console.log(e.target.name)
+          }}
+          accept="image/png , image/jpeg, image/webp"/>
+          <Label htmlFor={color.product_color_id}>+ Click Here to Update Image</Label>
+          <Detail>replace this image with a new image</Detail>
+          </InputWrapper>
+          </>
+          : 
+          <>
         <Text>+ Add Images</Text>
         <TextDetail>up to 5 images</TextDetail>
         <input
@@ -98,6 +207,8 @@ const AddImage = () => {
           multiple
           accept="image/png , image/jpeg, image/webp"
         />
+          </>
+        }
       </Wrapper>
       <br />
 

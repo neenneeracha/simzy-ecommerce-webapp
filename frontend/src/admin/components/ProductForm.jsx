@@ -11,17 +11,18 @@ import SaveIcon from "@material-ui/icons/Save";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-/* innital default value */
+/* initial default value */
 const initialFValues = {
-  id: 0,
-  productName: "",
-  category: "",
+  product_name: "",
+  price: "",
+  category_id: "",
+  main_category: "",
+  sub_category: "",
   description: "",
   details: "",
-  price: "",
-  mainColor: "",
-  image: "",
-  size: "",
+  // mainColor: "",
+  // image: "",
+  // size: "",
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -62,12 +63,22 @@ const ImgContainer = styled.div`
 `;
 
 const Imagethumbnail = styled.img`
-  width: 30%;
-  height: 30%;
+  width: 265px;
+  height: 265px;
   object-fit: cover;
   border-radius: 1rem;
   cursor: pointer;
   margin: 30px 70px;
+`;
+
+const EditedImagethumbnail = styled.img`
+  width: 260px;
+  height: 260px;
+  object-fit: cover;
+  border-radius: 1rem;
+  cursor: pointer;
+  margin: 30px 70px;
+  border: 5px solid #eda3b5;
 `;
 
 const Article = styled.article``;
@@ -86,26 +97,108 @@ const styles = {
   },
 };
 
-const ProductForm = ({ recordForEdit, isMainColor, formType, setChanged }) => {
+const ProductForm = ({ recordForEdit, formType, setChanged }) => {
 
-  const [validated, setValidated] = useState(false);
   const [colors, setColors] = useState([]);
   const [stocks, setStocks] = useState([]);
   const [images, setImages] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [colorGroups, setColorGroups] = useState([]);
+  const [editedColors, setEditedColors] = useState([]);
+  const [editedStocks, setEditedStocks] = useState([]);
+  const [editedImages, setEditedImages] = useState([]);
+  
+
+  // form validation
+  const validate = (fieldValues = values) => {
+
+    let temp = { ...errors };
+    if ("product_name" in fieldValues)
+      temp.product_name = fieldValues.product_name ? "" : "Product name is required";
+    if ("price" in fieldValues)
+      temp.price = fieldValues.price ? "" : "Price is required";
+    if ("category_id" in fieldValues)
+      temp.category_id = fieldValues.category_id ? "" : "Category is required";
+   if ("description" in fieldValues)
+      temp.description = fieldValues.description ? "" : "Description is required";
+    if ("details" in fieldValues)
+      temp.details = fieldValues.details ? "" : "Details is required";
+  
+    // save error value into "errors"
+    setErrors({
+      ...temp,
+    });
+
+    if (fieldValues === values)
+      // return boolean value if the validation is valid or not
+      return Object.values(temp).every((x) => x === "");
+  };
+
 
   const { values, setValues, errors, setErrors, handleChange, resetForm } =
-    UseForm(initialFValues, true);
+    UseForm(initialFValues, true, validate);
   const classes = useStyles();
 
-  const handleSubmit = (event) => {
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
+  const handleSubmit = (e) => {
+     e.preventDefault();
 
-    setValidated(true);
+    if (validate()) {
+      alert("hi")
+    }
   };
+
+  const handleInput = (e) => {
+    setChanged(true);
+    console.log(e.target)
+    // if (e.target.name === "is_admin") {
+    //   e.target.value = !values.is_admin;
+    // }
+    handleChange(e);
+  };
+
+  const handleStock = (e, field) => {
+     if (field === "Color Group") {
+      let newArr = [...editedColors]
+     for (let i = 0; i < editedColors.length; i++) {
+      const product_color_id = (e.target.name).split('-')[1]
+      if (editedColors[i].product_color_id === parseInt(product_color_id)) {
+        newArr[i].color_group_id = e.target.value;
+        break;
+      }
+     }
+     setEditedColors(newArr)
+     } else if (field === "Stock"){
+      let newArr = [...editedStocks]
+      let i
+      let found = false;
+      for (i = 0; i < editedStocks.length; i++) {
+        if (editedStocks[i].stock_id == e.target.name) {
+          if (isNaN(e.target.value)) {
+            newArr[i].quantity = "";
+          } else {
+            newArr[i].quantity = parseInt(e.target.value);
+          }
+          found = true;
+          break;
+        }
+       }
+       if (!found) {
+        const product_color_id = parseInt((e.target.name).split('-')[1])
+        const size = (e.target.name).split('-')[2]
+        
+        let newStock = {stock_id: e.target.name, product_color_id: product_color_id, size: size}
+        if (e.target.value === "") {
+          newStock.quantity = "";
+        } else {
+          newStock.quantity = parseInt(e.target.value);
+        }
+        newArr.push(newStock)
+       }
+       setEditedStocks(newArr)
+      
+     }
+    
+  }
 
   const checkQuantity = (color, size) => {
     const value = stocks
@@ -114,6 +207,32 @@ const ProductForm = ({ recordForEdit, isMainColor, formType, setChanged }) => {
     .filter((stock) => stock.product_color_id === color.product_color_id && stock.size === size).slice(0)[0].quantity
       : 0
     return value;
+  }
+
+  const checkEditedQuantity = (color, size) => {
+    let value = 0;
+    for (let i = 0; i < editedStocks.length; i++) {
+      if (editedStocks[i].product_color_id === color.product_color_id && editedStocks[i].size === size) {
+        if (isNaN(editedStocks[i].quantity)) {
+          value = ""
+        } else {
+          value = editedStocks[i].quantity
+        }
+      break;
+      }
+    }
+
+    return value;
+  }
+
+  const getStockID = (color, size) => {
+    const stock_id = stocks
+    .filter((stock) => stock.product_color_id === color.product_color_id && stock.size === size).length > 0? 
+    stocks
+    .filter((stock) => stock.product_color_id === color.product_color_id && stock.size === size).slice(0)[0].stock_id
+      : `color-${color.product_color_id}-${size}`
+
+    return stock_id
   }
 
     // update edit information
@@ -158,6 +277,28 @@ const ProductForm = ({ recordForEdit, isMainColor, formType, setChanged }) => {
           console.log(error);
         }
       };
+
+      const getAllCats = async () => {
+        try {
+          const res = await axios.get(
+            "http://localhost:8080/api/v1/category/all"
+          );
+          setCategories(res.data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      const getAllColorGroups = async () => {
+        try {
+          const res = await axios.get(
+            "http://localhost:8080/api/v1/color"
+          );
+          setColorGroups(res.data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
   
       if (recordForEdit != null) {
         setValues({
@@ -167,9 +308,21 @@ const ProductForm = ({ recordForEdit, isMainColor, formType, setChanged }) => {
       getColors();
       getImages();
       getStocks();
+      getAllCats();
+      getAllColorGroups();
       }
         
     }, [recordForEdit, setValues, setChanged]);
+
+    useEffect(() => {
+      if (formType === "edit") {
+        setEditedColors(colors)
+        setEditedImages(images)
+        setEditedStocks(stocks)
+      }
+    }, [formType, colors, images, stocks])
+
+    console.log(editedImages)
 
   return (
     <Container>
@@ -249,20 +402,33 @@ const ProductForm = ({ recordForEdit, isMainColor, formType, setChanged }) => {
                   value={color.color}
                   readOnly
               />
-                    <Controls.Input name="XS" label="Size XS" value={checkQuantity(color,"XS")}/>
-                    <Controls.Input name="M" label="Size M" value={checkQuantity(color,"M")}/>
-                    <Controls.Input name="XL" label="Size XL" value={checkQuantity(color,"XL")}/>
+                    <Controls.Input 
+                    name="XS" label="Size XS" 
+                    value={checkQuantity(color,"XS")}/>
+
+                    <Controls.Input 
+                    name="M" label="Size M" 
+                    value={checkQuantity(color,"M")}/>
+
+                    <Controls.Input name="XL" label="Size XL" 
+                    value={checkQuantity(color,"XL")}/>
+
                     <Line/>
+
                   </Grid>
                   <Grid item xs={6}>
+
                   <Controls.Input
                   name="color_group"
                   label="Color Group"
                   value={color.color_group}
                   readOnly
               />
-                    <Controls.Input name="S" label="Size S" value={checkQuantity(color,"S")}/>
-                    <Controls.Input name="L" label="Size L" value={checkQuantity(color,"L")}/>
+                    <Controls.Input name="S" label="Size S" 
+                    value={checkQuantity(color,"S")}/>
+
+                    <Controls.Input name="L" label="Size L" 
+                    value={checkQuantity(color,"L")}/>
                     
                   </Grid>
                 <ImgContainer>
@@ -279,113 +445,183 @@ const ProductForm = ({ recordForEdit, isMainColor, formType, setChanged }) => {
                       </ListItem>
                     ))}
                 </List>
-
               </Article>
             </ImgContainer>
-                  </Fragment>
+            </Fragment>
                   
-                ))
+            ))
                 
-              }
+            }
               
             </Grid>
           </Paper>
           </>
            : 
-          <>
-          </>
-          }
-        
-          {/* {isMainColor === true ? (
-            <Paper className={classes.root} elevation={0}>
-              <Header> Basic Infomation</Header>
-              <Grid container>
-                <Grid item xs={6}>
-                  <Controls.Input
-                    name="product_name"
-                    label="Product Name"
-                    value={values.product_name}
-                  />
-                  <Controls.Input
-                    name="price"
-                    label="Price"
-                    value={values.price}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  
-                  <Controls.Input
-                    name="price"
-                    label="Price"
-                    value={values.price}
-                  />
-                  <Controls.Input
-                    name="sub_category"
-                    label="Sub Category"
-                    value={values.sub_category}
-                  />
-                </Grid>
-                <Controls.Input
-                  name="description"
-                  label="Description"
-                  value={values.description}
+           <>
+           <Paper className={classes.root} elevation={0}>
+         <Header>Product Details</Header>
+         <Grid container>
+           <Grid item xs={6}>
+                   <Controls.Input
+                     name="product_name"
+                     label="Product Name"
+                     value={values.product_name}
+                     onChange={handleInput}
+                     error={errors.product_name}
+                   />
+                   <Controls.Input
+                     name="price"
+                     label="Price"
+                     value={values.price}
+                     onChange={handleInput}
+                     error={errors.price}
+                   />
+                 </Grid>
+                 <Grid item xs={6}>
+                 <Controls.Select
+                  name="category_id"
+                  label="Category"
+                  value={values.category_id}
+                  onChange={handleInput}
+                  options={categories}
+                  error={errors.category_id}
                 />
-                <Controls.Input
-                  name="detail"
-                  label="Detail"
-                  fullWidth
-                  value={values.detail}
+                 </Grid>
+                 <Controls.Input
+                   name="description"
+                   label="Description"
+                   value={values.description}
+                   onChange={handleInput}
+                   error={errors.description}
+                 />
+                 <Controls.Input
+                   name="details"
+                   label="Details"
+                   multiline={true}
+                   value={values.details}
+                   onChange={handleInput}
+                   error={errors.details}
+                 />
+             </Grid>
+           </Paper>
+           <Paper className={classes.root} elevation={0}>
+             <Header>Stock Details</Header>
+             <Grid container>
+               {
+                 editedColors.map((color) => (
+                   <Fragment key={color.product_color_id}>
+                   <Grid item xs={6}>
+                   <Controls.Select
+                  name={`colorgroup-${color.product_color_id}-${color.color_group_id}`}
+                  label="Color group - Color"
+                  value={color.color_group_id}
+                  onChange={(e) => handleStock(e, "Color Group")}
+                  options={colorGroups}
+                  //error={errors.category_id}
                 />
-              </Grid>
-            </Paper>
-          ) : (
-            <></>
-          )} */}
-          {/* <Paper className={classes.root} elevation={0}>
-            <Header>Color Detail</Header>
-            <Grid container>
-              
-              <Controls.Input
-                name="color"
-                label="Color"
-                value={values.color}
-              />
-              <AddImage />
-            </Grid>
-          </Paper>
+                     
+                     <Controls.Input name={getStockID(color,"S")} label="Size S" 
+                     value={checkEditedQuantity(color,"S")}
+                     onChange={(e) => handleStock(e,"Stock")}
+                     />
 
-          <Paper className={classes.root} elevation={0}>
-            <Header>Size Detail</Header>
-            <Grid container>
-              <Grid item xs={6}>
-                <Controls.Input name="xs" label="Size XS" fullWidth />
-                <Controls.Input name="M" label="Size M" fullWidth />
-                <Controls.Input name="XL" label="Size XL" fullWidth />
-              </Grid>
-              <Grid item xs={6}>
-                <Controls.Input name="S" label="Size S" fullWidth />
-                <Controls.Input name="L" label="Size L" fullWidth />
+                     <Controls.Input name={getStockID(color,"L")} label="Size L" 
+                     value={checkEditedQuantity(color,"L")}
+                     onChange={(e) => handleStock(e,"Stock")}
+                     />
+                     
 
-                <div style={{ marginTop: "80px" }}>
-                  <Link to="/successadded" style={{ textDecoration: "none" }}>
-                    <Controls.Button
-                      // type="submit"
-                      text="Submit"
-                      startIcon={<SaveIcon />}
-                      style={styles.customButton}
-                    />
-                  </Link>
+                     <Line/>
+                   </Grid>
+                   <Grid item xs={6}>
+                   <Controls.Input name={getStockID(color,"XS")} label="Size XS" 
+                     value={checkEditedQuantity(color,"XS")}
+                     onChange={(e) => handleStock(e,"Stock")}
+                     />
 
+                     <Controls.Input name={getStockID(color,"M")} label="Size M" 
+                     value={checkEditedQuantity(color,"M")}
+                     onChange={(e) => handleStock(e,"Stock")}
+                     />
+
+                     <Controls.Input name={getStockID(color,"XL")} label="Size XL" 
+                     value={checkEditedQuantity(color,"XL")}
+                     onChange={(e) => handleStock(e,"Stock")}
+                     />
+                   </Grid>
+                 <ImgContainer>
+               <Article>
+ 
+                 <List>
+                   {editedImages
+                     .filter((img) => img.product_color_id === color.product_color_id)
+                     .map((img) => (
+                       <ListItem
+                         key={img.img_link}
+                       >
+                         <Imagethumbnail src={img.img_link} />
+                       </ListItem>
+                       
+                     ))}
+                     {editedImages
+                     .filter((img) => img.product_color_id === color.product_color_id && img.new_link !== undefined)
+                     .map((img) => (
+                       <ListItem
+                         key={img.new_link}
+                       >
+                         <EditedImagethumbnail src={img.new_link} />
+                       </ListItem>
+                       
+                     ))}
+                 </List>
+               </Article>
+             </ImgContainer>
+            {
+              color.is_main_color === 0 ?
+              <AddImage color={color} editedImages={editedImages} setEditedImages={setEditedImages} formType={formType}/>
+              : undefined
+            }
+            
+             </Fragment>
+                   
+             ))
+                 
+             }
+               
+             </Grid>
+           </Paper>
+           {formType === "edit" ? (
+                <>
                   <Controls.Button
-                    text="Reset"
+                    type="submit"
+                    text="Submit"
+                    startIcon={<SaveIcon />}
+                    style={styles.customButton}
+                  />
+                  <Controls.Button
+                    text="Clear From"
                     color="default"
                     startIcon={<DeleteIcon />}
-                    onClick={resetForm}
+                    onClick={() => {
+                      resetForm();
+                      setChanged(false)
+                    }}
                   />
-                </div>
-              </Grid>
-            </Grid>
-          </Paper> */}
+                </>
+              ) :
+              (
+                <>
+                  <Controls.Button
+                    className="w-75"
+                    type="submit"
+                    text="Submit"
+                    style={styles.customButton}
+                  />
+                </>
+              ) 
+            }
+           </>
+          }
         </Form>
       </Wrapper>
     </Container>

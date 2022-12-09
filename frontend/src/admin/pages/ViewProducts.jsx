@@ -235,8 +235,7 @@ const ViewProducts = () => {
           setOpenPopup={setOpenPopup}
         >
           <ProductForm 
-          recordForEdit={recordForEdit} 
-          isMainColor={true}
+          recordForEdit={recordForEdit}
           formType={formType}
           setChanged={setChanged}
            />

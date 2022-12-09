@@ -335,7 +335,7 @@ const getProductColor = (req, res) => {
     const product_id = req.params.id;
 
     const q =
-        "SELECT pc.product_color_id, pc.is_main_color, cg.color_group, cg.color FROM productcolor pc JOIN colorgroup cg ON pc.color_group_id = cg.color_group_id WHERE product_id = ?";
+        "SELECT pc.product_color_id, pc.is_main_color, cg.color_group_id, cg.color_group, cg.color FROM productcolor pc JOIN colorgroup cg ON pc.color_group_id = cg.color_group_id WHERE product_id = ?";
     pool.query(q, [product_id], (err, data) => {
         if (err) return res.status(500).json(err);
 
