@@ -100,7 +100,7 @@ const styles = {
     borderRadius: "5px",
   },
 };
-const AddImage = ({color, editedImages, setEditedImages, formType}) => {
+const AddImage = ({color, editedImages, setEditedImages, setImgChanged, formType}) => {
 
   const [selectedImages, setSelectedImages] = useState([]);
   const [file, setFile] = useState(null)
@@ -173,8 +173,9 @@ useEffect(() => {
 }
   if (file !== null && id !== null) {
     handleChange();
+    setImgChanged(true)
   }
-}, [file, editedImages, setEditedImages, id])
+}, [file, editedImages, setEditedImages, setImgChanged, id])
 
   return (
     <Container>
@@ -184,12 +185,12 @@ useEffect(() => {
           <>
           <InputWrapper>
           <Input type="file"
-          name={color.product_color_id}
+          name={`img-${color.product_color_id}`}
           id={color.product_color_id}
           onChange={(e) => {
             setFile(e.target.files[0]);
-            setId(e.target.name)
-            console.log(e.target.name)
+            setId(e.target.id)
+            console.log(e.target.id)
           }}
           accept="image/png , image/jpeg, image/webp"/>
           <Label htmlFor={color.product_color_id}>+ Click Here to Update Image</Label>

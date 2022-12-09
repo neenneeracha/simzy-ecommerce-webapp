@@ -63,8 +63,8 @@ const ImgContainer = styled.div`
 `;
 
 const Imagethumbnail = styled.img`
-  width: 265px;
-  height: 265px;
+  width: 30%;
+  height: 30%;
   object-fit: cover;
   border-radius: 1rem;
   cursor: pointer;
@@ -93,11 +93,12 @@ const styles = {
     borderColor: "#eda3b5",
     color: "white",
     borderRadius: "5px",
-    marginRight: "50px",
+    marginLeft: "38%",
+    width: "200px"
   },
 };
 
-const ProductForm = ({ recordForEdit, formType, setChanged }) => {
+const ProductForm = ({ recordForEdit, formType, setChanged, setStockChanged, setImgChanged, addOrEdit }) => {
 
   const [colors, setColors] = useState([]);
   const [stocks, setStocks] = useState([]);
@@ -123,6 +124,12 @@ const ProductForm = ({ recordForEdit, formType, setChanged }) => {
       temp.description = fieldValues.description ? "" : "Description is required";
     if ("details" in fieldValues)
       temp.details = fieldValues.details ? "" : "Details is required";
+    
+    for (let i =0; i < editedStocks.length; i++) {
+      if (isNaN(editedStocks[i].quantity) || editedStocks[i].quantity === "") {
+        temp.stocks = "Quantity is required";
+      }
+    }
   
     // save error value into "errors"
     setErrors({
@@ -134,7 +141,6 @@ const ProductForm = ({ recordForEdit, formType, setChanged }) => {
       return Object.values(temp).every((x) => x === "");
   };
 
-
   const { values, setValues, errors, setErrors, handleChange, resetForm } =
     UseForm(initialFValues, true, validate);
   const classes = useStyles();
@@ -143,20 +149,17 @@ const ProductForm = ({ recordForEdit, formType, setChanged }) => {
      e.preventDefault();
 
     if (validate()) {
-      alert("hi")
+      addOrEdit(values, editedColors, editedStocks, editedImages, resetForm)
     }
   };
 
   const handleInput = (e) => {
     setChanged(true);
-    console.log(e.target)
-    // if (e.target.name === "is_admin") {
-    //   e.target.value = !values.is_admin;
-    // }
     handleChange(e);
   };
 
   const handleStock = (e, field) => {
+    setStockChanged(true)
      if (field === "Color Group") {
       let newArr = [...editedColors]
      for (let i = 0; i < editedColors.length; i++) {
@@ -171,6 +174,11 @@ const ProductForm = ({ recordForEdit, formType, setChanged }) => {
       let newArr = [...editedStocks]
       let i
       let found = false;
+      
+      e.target.name = e.target.id.split('-')[1] === "color"? 
+        e.target.id.split('-').slice(1).join('-') :
+        e.target.id.split('-')[1]
+      
       for (i = 0; i < editedStocks.length; i++) {
         if (editedStocks[i].stock_id == e.target.name) {
           if (isNaN(e.target.value)) {
@@ -305,6 +313,8 @@ const ProductForm = ({ recordForEdit, formType, setChanged }) => {
           ...recordForEdit,
         });
       setChanged(false);
+      setStockChanged(false);
+      setImgChanged(false);
       getColors();
       getImages();
       getStocks();
@@ -312,7 +322,7 @@ const ProductForm = ({ recordForEdit, formType, setChanged }) => {
       getAllColorGroups();
       }
         
-    }, [recordForEdit, setValues, setChanged]);
+    }, [recordForEdit, setValues, setChanged, setStockChanged, setImgChanged]);
 
     useEffect(() => {
       if (formType === "edit") {
@@ -321,8 +331,6 @@ const ProductForm = ({ recordForEdit, formType, setChanged }) => {
         setEditedStocks(stocks)
       }
     }, [formType, colors, images, stocks])
-
-    console.log(editedImages)
 
   return (
     <Container>
@@ -517,36 +525,40 @@ const ProductForm = ({ recordForEdit, formType, setChanged }) => {
                   value={color.color_group_id}
                   onChange={(e) => handleStock(e, "Color Group")}
                   options={colorGroups}
-                  //error={errors.category_id}
                 />
                      
-                     <Controls.Input name={getStockID(color,"S")} label="Size S" 
+                     <Controls.Input name={`stock-${getStockID(color,"S")}`} label="Size S" 
                      value={checkEditedQuantity(color,"S")}
                      onChange={(e) => handleStock(e,"Stock")}
+                     error={checkEditedQuantity(color,"S") === ""? errors.stocks : undefined}
                      />
 
-                     <Controls.Input name={getStockID(color,"L")} label="Size L" 
+                     <Controls.Input name={`stock-${getStockID(color,"L")}`} label="Size L" 
                      value={checkEditedQuantity(color,"L")}
                      onChange={(e) => handleStock(e,"Stock")}
+                     error={checkEditedQuantity(color,"L") === ""? errors.stocks : undefined}
                      />
                      
 
                      <Line/>
                    </Grid>
                    <Grid item xs={6}>
-                   <Controls.Input name={getStockID(color,"XS")} label="Size XS" 
+                   <Controls.Input name={`stock-${getStockID(color,"XS")}`} label="Size XS" 
                      value={checkEditedQuantity(color,"XS")}
                      onChange={(e) => handleStock(e,"Stock")}
+                     error={checkEditedQuantity(color,"XS") === ""? errors.stocks : undefined}
                      />
 
-                     <Controls.Input name={getStockID(color,"M")} label="Size M" 
+                     <Controls.Input name={`stock-${getStockID(color,"M")}`} label="Size M" 
                      value={checkEditedQuantity(color,"M")}
                      onChange={(e) => handleStock(e,"Stock")}
+                     error={checkEditedQuantity(color,"M") === ""? errors.stocks : undefined}
                      />
 
-                     <Controls.Input name={getStockID(color,"XL")} label="Size XL" 
+                     <Controls.Input name={`stock-${getStockID(color,"XL")}`} label="Size XL" 
                      value={checkEditedQuantity(color,"XL")}
                      onChange={(e) => handleStock(e,"Stock")}
+                     error={checkEditedQuantity(color,"XL") === ""? errors.stocks : undefined}
                      />
                    </Grid>
                  <ImgContainer>
@@ -564,21 +576,21 @@ const ProductForm = ({ recordForEdit, formType, setChanged }) => {
                        
                      ))}
                      {editedImages
-                     .filter((img) => img.product_color_id === color.product_color_id && img.new_link !== undefined)
-                     .map((img) => (
+                     .filter((img) => img.product_color_id === color.product_color_id && img.new_link !== undefined).map((img) => (
                        <ListItem
                          key={img.new_link}
                        >
                          <EditedImagethumbnail src={img.new_link} />
                        </ListItem>
                        
-                     ))}
+                     ))
+                    }
                  </List>
                </Article>
              </ImgContainer>
             {
               color.is_main_color === 0 ?
-              <AddImage color={color} editedImages={editedImages} setEditedImages={setEditedImages} formType={formType}/>
+              <AddImage color={color} editedImages={editedImages} setEditedImages={setEditedImages} setImgChanged={setImgChanged} formType={formType}/>
               : undefined
             }
             
@@ -597,15 +609,6 @@ const ProductForm = ({ recordForEdit, formType, setChanged }) => {
                     text="Submit"
                     startIcon={<SaveIcon />}
                     style={styles.customButton}
-                  />
-                  <Controls.Button
-                    text="Clear From"
-                    color="default"
-                    startIcon={<DeleteIcon />}
-                    onClick={() => {
-                      resetForm();
-                      setChanged(false)
-                    }}
                   />
                 </>
               ) :

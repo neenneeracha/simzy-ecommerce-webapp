@@ -367,6 +367,52 @@ const getNewArrivals = (req, res) => {
     });
 };
 
+// update product information
+const updateProductInfo = (req, res) => {
+    const product_id = req.params.id;
+
+    const values = [
+        req.body.product.category_id,
+        req.body.product.product_name,
+        req.body.product.description,
+        req.body.product.details,
+        req.body.product.price,
+        product_id
+    ];
+
+    const q =
+        "UPDATE product SET category_id = ?, product_name = ?, description = ?, details = ?, price = ?, updated_at = CURRENT_TIMESTAMP WHERE product_id = ?";
+    pool.query(q, values, (err, data) => {
+        if (err) return res.status(500).json(err);
+
+        return res.status(200).json(data);
+    });
+};
+
+// update product image
+const updateProductImg = (req, res) => {
+    const images = req.body.images
+    let status = 200
+    let error = { msg: "ok" }
+    const q = "UPDATE productimage SET img_link = ? WHERE product_color_id = ?";
+
+    for (let i = 0; i < images.length; i++) {
+        pool.query(q, [images[i].new_link, images[i].product_color_id], (err) => {
+            if (err) {
+                status = 500
+                error = err
+            }
+            if (status !== 200) {
+                i = images.length;
+            }
+
+        });
+    }
+
+    return res.status(status).json(error);
+};
+
+
 module.exports = {
     getAllProducts,
     getAllProductInfo,
@@ -376,4 +422,6 @@ module.exports = {
     getProductStock,
     getAllFilteredProducts,
     getNewArrivals,
+    updateProductInfo,
+    updateProductImg
 };

@@ -60,6 +60,8 @@ const ViewProducts = () => {
   const paperClasses = useStylesPaper();
   const [formType, setFormType] = useState("view");
   const [changed, setChanged] = useState(false);
+  const [stockChanged, setStockChanged] = useState(false);
+  const [imgChanged, setImgChanged] = useState(false);
   const [selectedID, setSelectedID] = useState(0);
   const [recordForEdit, setRecordForEdit] = useState(null);
   const [openPopup, setOpenPopup] = useState(false);
@@ -87,6 +89,82 @@ const ViewProducts = () => {
     setRecordForEdit(item);
     setOpenPopup(true);
   };
+
+  const addOrEdit = async (values, editedColors, editedStocks, editedImages, resetForm) => {
+    if (recordForEdit === null) {
+      alert("add")
+    } else {
+      console.log(changed)
+      console.log(stockChanged)
+      console.log(imgChanged)
+      
+      if (changed || stockChanged || imgChanged) {
+        try {
+          let res
+          if (changed) {
+            res = await axios.patch("http://localhost:8080/api/v1/products/" + selectedID, {product: values})
+          }
+          if (stockChanged) {
+            res = await axios.patch("http://localhost:8080/api/v1/color/update/" + selectedID, {colors: editedColors})
+            let newStock = []
+            let updateStock = [...editedStocks]
+            for (let i = 0; i < editedStocks.length; i++) {
+              if (typeof editedStocks[i].stock_id === 'string') {
+                newStock.push(editedStocks[i])
+                updateStock = updateStock.filter((stock) => stock.stock_id !== editedStocks[i].stock_id);
+              }
+            }
+            
+            if (newStock.length > 0) {
+              res = await axios.post("http://localhost:8080/api/v1/stock", {stocks: newStock})
+            }
+            if (updateStock.length > 0) {
+              console.log(updateStock)
+              res = await axios.patch("http://localhost:8080/api/v1/stock/update", {stocks: updateStock})
+            }
+          }
+          if (imgChanged) {
+            console.log(editedImages)
+            let newImg = []
+            for (let i = 0; i < editedImages.length; i++) {
+              if (typeof editedImages[i].new_link === 'string') {
+                newImg.push(editedImages[i])
+              }
+            }
+            if (newImg.length > 0) {
+              res = await axios.patch("http://localhost:8080/api/v1/products/img/update", {images: newImg})
+            }
+          }
+          if (res.status === 200) {
+            toast.success("Successfully updated !!", {
+              position: "top-center",
+            })
+            resetPopup(resetForm);
+            setTimeout(function () {
+              window.location.reload();
+            }, 3000);
+          }
+        } catch (err) {
+          if (err.request.status === 409) {
+            toast.error(err.response.data.msg, {
+              position: "top-center",
+            })
+          } else {
+            toast.error("Something went wrong, please try again !!", {
+              position: "top-center",
+            })
+          }
+          console.log(err);
+        }
+        
+      } else {
+        toast.error("No new changes made, submission ignored!", {
+          position: "top-center",
+        });
+        resetPopup(resetForm);
+      }
+    }
+  }
 
   // deleted selected product
   const handleDelete = async (product_id) => {
@@ -238,6 +316,9 @@ const ViewProducts = () => {
           recordForEdit={recordForEdit}
           formType={formType}
           setChanged={setChanged}
+          setStockChanged={setStockChanged}
+          setImgChanged={setImgChanged}
+          addOrEdit={addOrEdit}
            />
         </PopUp>
         <Confirmation
