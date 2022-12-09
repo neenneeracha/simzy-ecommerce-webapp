@@ -4,6 +4,7 @@ import styled from "styled-components";
 import NavbarAd from "../components/NavbarAd";
 import Controls from "./../components/controls/Controls";
 import UseTable from "../components/UseTable";
+import { toast } from "react-toastify";
 import {
   makeStyles,
   Paper,
@@ -12,6 +13,7 @@ import {
   TableCell,
 } from "@material-ui/core";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
+import SearchIcon from '@material-ui/icons/Search';
 import DeleteIcon from "@material-ui/icons/Delete";
 import PopUp from "../components/PopUp";
 import ProductForm from "../components/ProductForm";
@@ -47,15 +49,18 @@ const Title = styled.h2`
 
 // array object for head cell
 const headCells = [
+  { id: "product_id", label: "Product ID" },
   { id: "product_name", label: "Product Name" },
+  { id: "category", label: "Category" },
   { id: "price", label: "Price (THB)" },
-  { id: "main_category", label: "Main-Category" },
-  { id: "sub_category", label: "Sub-Category" },
   { id: "actions", label: "Actions" },
 ];
 
 const ViewProducts = () => {
   const paperClasses = useStylesPaper();
+  const [formType, setFormType] = useState("view");
+  const [changed, setChanged] = useState(false);
+  const [selectedID, setSelectedID] = useState(0);
   const [recordForEdit, setRecordForEdit] = useState(null);
   const [openPopup, setOpenPopup] = useState(false);
   const [products, setProducts] = useState([]);
@@ -64,27 +69,86 @@ const ViewProducts = () => {
     title: "",
     subTitle: "",
   });
-  //get return value from UseTable.jsx
+
+  // get return value from UseTable.jsx
   const { TblContainer, TblHead, TblPagination, recordsAfterPagingAndSorting } =
     UseTable(products, headCells);
+
+  // reset popup variables
+  const resetPopup = (resetForm) => {
+    setChanged(false);
+    resetForm();
+    setRecordForEdit(null);
+    setOpenPopup(false);
+    setSelectedID(0)
+  }
 
   const openInPopup = (item) => {
     setRecordForEdit(item);
     setOpenPopup(true);
   };
 
+  // deleted selected product
+  const handleDelete = async (product_id) => {
+    setConfirmDialog({
+      ...confirmDialog,
+      isOpen: false,
+    });
+
+    // try {
+    //   const res = await axios.delete("http://localhost:8080/api/v1/user/" + user_id);
+    //   if (res.status === 202) {
+    //     toast.success(res.data.msg, {
+    //       position: "top-center",
+    //     })
+    //     setTimeout(function () {
+    //       window.location.reload();
+    //     }, 3000);
+    //   }
+    // } catch (err) {
+    //   if (err.request.status === 409) {
+    //     toast.error(err.response.data.msg, {
+    //       position: "top-center",
+    //     })
+    //   } else {
+    //     toast.error("Something went wrong, please try again !!", {
+    //       position: "top-center",
+    //     })
+    //   }
+    //   console.log(err);
+    // }
+  };
+
   useEffect(() => {
-    const getProduct = async () => {
+    const getAllProductInfo = async () => {
       try {
         const res = await axios.get(
           "http://localhost:8080/api/v1/products/allproducts"
         );
+        if (res.data.length > 0) {
+          for (let i = 0; i < res.data.length; i++) {
+              var createdDate = new window.Date(res.data[i].created_at)
+                  .toISOString().replace(/T.*/,'')
+                  .split('-').reverse().join('/')
+              var createdTime = new window.Date(res.data[i].created_at)
+              .toISOString().slice(11,19)
+              res.data[i].created_at = createdDate.concat(" " + createdTime)
+
+              var updatedDate = new window.Date(res.data[i].updated_at)
+                  .toISOString().replace(/T.*/,'')
+                  .split('-').reverse().join('/')
+              var updatedTime = new window.Date(res.data[i].updated_at)
+              .toISOString().slice(11,19)
+              res.data[i].updated_at = updatedDate.concat(" " + updatedTime) 
+            
+          }          
+        }
         setProducts(res.data);
       } catch (error) {
         console.log(error);
       }
     };
-    getProduct();
+    getAllProductInfo();
   }, []);
 
   return (
@@ -103,6 +167,7 @@ const ViewProducts = () => {
             }}
             text="+ Add New Product"
             onClick={() => {
+              setFormType("add");
               setOpenPopup(true);
               setRecordForEdit(null);
             }}
@@ -114,22 +179,26 @@ const ViewProducts = () => {
             <TableBody>
               {recordsAfterPagingAndSorting().map((product) => (
                 <TableRow key={product.product_id}>
+                  <TableCell>{product.product_id}</TableCell>
+                  <TableCell>{product.product_name}</TableCell>
+                  <TableCell>{product.main_category} - {product.sub_category}</TableCell>
+                  <TableCell>{product.price}</TableCell>
                   <TableCell>
-                    <b>{product.product_name}</b>
-                  </TableCell>
-                  <TableCell>
-                    <b>{product.price}</b>
-                  </TableCell>
-                  <TableCell>
-                    <b>{product.main_category}</b>
-                  </TableCell>
-                  <TableCell>
-                    <b>{product.sub_category}</b>
-                  </TableCell>
-                  <TableCell>
+                  <Controls.ActionButton
+                      color="success"
+                      onClick={() => {
+                        setFormType("view");
+                        setSelectedID(product.product_id)
+                        openInPopup(product);
+                      }}
+                    >
+                      <SearchIcon fontSize="small" />
+                    </Controls.ActionButton>
                     <Controls.ActionButton
                       color="primary"
                       onClick={() => {
+                        setFormType("edit");
+                        setSelectedID(product.product_id)
                         openInPopup(product);
                       }}
                     >
@@ -140,11 +209,11 @@ const ViewProducts = () => {
                       onClick={() => {
                         setConfirmDialog({
                           isOpen: true,
-                          title: "Are you sure to delete this record?",
-                          subTitle: "You can't undo this operation",
-                          // onConfirm: () => {
-                          //   onDelete(user.user_id);
-                          // },
+                          title: `Are you sure that you want to delete product #${product.product_id}?`,
+                          subTitle: "You won't be able to undo this operation",
+                          onConfirm: () => {
+                            handleDelete(product.product_id);
+                          },
                         });
                       }}
                     >
@@ -158,11 +227,19 @@ const ViewProducts = () => {
           <TblPagination />
         </Paper>
         <PopUp
-          title="Product Form"
+          title={formType === "view"? `View Details of Product ID #${selectedID}` : 
+          formType === "edit"? `Edit Details of Product ID #${selectedID}` 
+          : `Add New Product`
+        }
           openPopup={openPopup}
           setOpenPopup={setOpenPopup}
         >
-          <ProductForm recordForEdit={recordForEdit} isMainColor={true} />
+          <ProductForm 
+          recordForEdit={recordForEdit} 
+          isMainColor={true}
+          formType={formType}
+          setChanged={setChanged}
+           />
         </PopUp>
         <Confirmation
           confirmDialog={confirmDialog}

@@ -1,3 +1,14 @@
+/********************************************************************
+ *
+ * Home.jsx
+ *
+ *    This file represents the homepage of SIMZY for customers
+ *   	which consist of Navigation bar, Slider, Main category
+ *    selection, New arrival items, and Footer components. 
+ *
+ ********************************************************************
+ */
+
 import React from "react";
 import styled from "styled-components";
 import Categories from "../components/Categories";
