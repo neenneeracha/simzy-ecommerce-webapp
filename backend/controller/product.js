@@ -412,6 +412,30 @@ const updateProductImg = (req, res) => {
     return res.status(status).json(error);
 };
 
+// remove product by admin
+const removeProduct = (req, res) => {
+    const product_id = req.params.id;
+    let q = "SELECT EXISTS (SELECT * FROM orderhistory oh LEFT JOIN productstock ps ON oh.stock_id = ps.stock_id LEFT JOIN productcolor pc ON ps.product_color_id = pc.product_color_id WHERE product_id = ?) AS productOrdered";
+
+    pool.query(q, [product_id], (err, data) => {
+        if (err) return res.status(500).json(err);
+
+        if (data[0].productOrdered === 1)
+            return res
+                .status(409)
+                .json({ msg: `Product #${product_id} has already been ordered, can't be deleted !!` });
+
+
+        q = "DELETE FROM product WHERE product_id = ?";
+
+        pool.query(q, [product_id], (err, data) => {
+            if (err) return res.status(500).json(err);
+
+            return res.status(202).json({ msg: `Product #${product_id} has been deleted !!` });
+        });
+    });
+};
+
 
 module.exports = {
     getAllProducts,
@@ -423,5 +447,6 @@ module.exports = {
     getAllFilteredProducts,
     getNewArrivals,
     updateProductInfo,
-    updateProductImg
+    updateProductImg,
+    removeProduct
 };

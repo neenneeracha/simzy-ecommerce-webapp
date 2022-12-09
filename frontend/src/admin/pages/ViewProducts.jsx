@@ -173,28 +173,28 @@ const ViewProducts = () => {
       isOpen: false,
     });
 
-    // try {
-    //   const res = await axios.delete("http://localhost:8080/api/v1/user/" + user_id);
-    //   if (res.status === 202) {
-    //     toast.success(res.data.msg, {
-    //       position: "top-center",
-    //     })
-    //     setTimeout(function () {
-    //       window.location.reload();
-    //     }, 3000);
-    //   }
-    // } catch (err) {
-    //   if (err.request.status === 409) {
-    //     toast.error(err.response.data.msg, {
-    //       position: "top-center",
-    //     })
-    //   } else {
-    //     toast.error("Something went wrong, please try again !!", {
-    //       position: "top-center",
-    //     })
-    //   }
-    //   console.log(err);
-    // }
+    try {
+      const res = await axios.delete("http://localhost:8080/api/v1/products/" + product_id);
+      if (res.status === 202) {
+        toast.success(res.data.msg, {
+          position: "top-center",
+        })
+        setTimeout(function () {
+          window.location.reload();
+        }, 3000);
+      }
+    } catch (err) {
+      if (err.request.status === 409) {
+        toast.error(err.response.data.msg, {
+          position: "top-center",
+        })
+      } else {
+        toast.error("Something went wrong, please try again !!", {
+          position: "top-center",
+        })
+      }
+      console.log(err);
+    }
   };
 
   useEffect(() => {
