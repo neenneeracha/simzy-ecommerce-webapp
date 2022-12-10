@@ -5,6 +5,7 @@ import {
 } from "@material-ui/icons";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Info = styled.div`
   opacity: 0;
@@ -87,13 +88,27 @@ const Icon = styled.div`
 `;
 
 const Product = ({ item }) => {
+  const fontSize = useSelector((state) => state.fontSize);
+
   return (
     <Container>
       <Circle />
       <Image src={item.img_link} />
       <Info>
-        <Name>{item.product_name}</Name>
-        <Price>Price: {item.price} THB</Price>
+        <Name
+          style={{
+            fontSize: `${20 + fontSize.fontSize}px`,
+          }}
+        >
+          {item.product_name}
+        </Name>
+        <Price
+          style={{
+            fontSize: `${20 + fontSize.fontSize}px`,
+          }}
+        >
+          Price: {item.price} THB
+        </Price>
         <Icon>
           <Link to={`/product/${item.product_id}`}>
             <SearchOutlined style={{ color: "black" }} />

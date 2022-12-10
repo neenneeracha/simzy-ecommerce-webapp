@@ -1,7 +1,7 @@
 import React from "react";
 import Carousel from "react-bootstrap/Carousel";
 import styled from "styled-components";
-
+import { useSelector } from "react-redux";
 const Container = styled.div`
   .carousel-control-next-icon:after,
   .carousel-control-prev-icon:after {
@@ -10,6 +10,7 @@ const Container = styled.div`
 `;
 
 const Slider = () => {
+  const fontSize = useSelector((state) => state.fontSize);
   return (
     <Container>
       <Carousel style={{ width: "100%", marginTop: "1%" }}>
@@ -20,8 +21,10 @@ const Slider = () => {
             alt="First slide"
           />
           <Carousel.Caption>
-            <h1>SIMZY</h1>
-            <h3>We have everything you need!</h3>
+            <h1 style={{ fontSize: `${52 + fontSize.fontSize}px` }}>SIMZY</h1>
+            <h3 style={{ fontSize: `${20 + fontSize.fontSize}px` }}>
+              We have everything you need!
+            </h3>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>
@@ -32,8 +35,10 @@ const Slider = () => {
           />
 
           <Carousel.Caption>
-            <h1>SIMZY</h1>
-            <h3>New season, new style</h3>
+            <h1 style={{ fontSize: `${52 + fontSize.fontSize}px` }}>SIMZY</h1>
+            <h3 style={{ fontSize: `${20 + fontSize.fontSize}px` }}>
+              New season, new style
+            </h3>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>
@@ -44,9 +49,9 @@ const Slider = () => {
           />
 
           <Carousel.Caption>
-            <h1>SIMZY</h1>
-            <h3>
-              Praesent commodo cursus magna, vel scelerisque nisl consectetur.
+            <h1 style={{ fontSize: `${52 + fontSize.fontSize}px` }}>SIMZY</h1>
+            <h3 style={{ fontSize: `${20 + fontSize.fontSize}px` }}>
+              A great dress can make you remember what is beautiful about life
             </h3>
           </Carousel.Caption>
         </Carousel.Item>

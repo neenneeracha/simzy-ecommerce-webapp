@@ -21,8 +21,9 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.h1`
-  font-weight: 500;
+  font-weight: bolder;
   text-align: center;
+  color: #eda3b5;
 `;
 
 const Bottom = styled.div`
@@ -173,7 +174,7 @@ const ButtonGroup = styled.div`
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
-  // const [quantity, setQuantity] = useState(1);
+  const fontSize = useSelector((state) => state.fontSize);
 
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -195,7 +196,9 @@ const Cart = () => {
     <Container>
       <Navbar />
       <Wrapper>
-        <Title>MY CART</Title>
+        <Title style={{ fontSize: `${36 + fontSize.fontSize}px` }}>
+          MY CART
+        </Title>
 
         {cart.products.length === 0 ? (
           <CartEmpty>
@@ -205,15 +208,27 @@ const Cart = () => {
               />
             </Icon>
             <Text>
-              <b>"You cart is currently empty"</b> <br />
-              <p>Looks like you haven't added anything to your cart yet</p>{" "}
+              <b style={{ fontSize: `${30 + fontSize.fontSize}px` }}>
+                "You cart is currently empty"
+              </b>{" "}
+              <br />
+              <p style={{ fontSize: `${28 + fontSize.fontSize}px` }}>
+                Looks like you haven't added anything to your cart yet
+              </p>{" "}
               <Link to="/">
                 <MDBBtn
                   className="mx-2"
                   color="primary"
                   style={{ fontFamily: "K2D" }}
                 >
-                  Continue shopping
+                  <b
+                    style={{
+                      fontSize: `${20 + fontSize.fontSize}px`,
+                      color: "white",
+                    }}
+                  >
+                    Continue shopping
+                  </b>
                 </MDBBtn>
               </Link>
             </Text>
@@ -226,13 +241,19 @@ const Cart = () => {
                   <ProductDetail>
                     <Image src={product.url} />
                     <Details>
-                      <ProductName>
+                      <ProductName
+                        style={{ fontSize: `${18 + fontSize.fontSize}px` }}
+                      >
                         <b>Product:</b> {product.product_name}
                       </ProductName>
-                      <ProductColor>
+                      <ProductColor
+                        style={{ fontSize: `${18 + fontSize.fontSize}px` }}
+                      >
                         <b>Color:</b> {product.color}
                       </ProductColor>
-                      <ProductSize>
+                      <ProductSize
+                        style={{ fontSize: `${18 + fontSize.fontSize}px` }}
+                      >
                         <b>Size:</b> {product.selectedSize}
                       </ProductSize>
                     </Details>
@@ -240,30 +261,51 @@ const Cart = () => {
                   <PriceDetail>
                     <ProductAmountContainer>
                       {/* <Remove /> */}
-                      <ProductAmount> X {product.quantity}</ProductAmount>
+                      <ProductAmount
+                        style={{ fontSize: `${24 + fontSize.fontSize}px` }}
+                      >
+                        {" "}
+                        X {product.quantity}
+                      </ProductAmount>
                       {/* <Add /> */}
                     </ProductAmountContainer>
-                    <ProductPrice>
+                    <ProductPrice
+                      style={{ fontSize: `${30 + fontSize.fontSize}px` }}
+                    >
                       ฿ {product.price * product.quantity}
                     </ProductPrice>
-                    <ButtonGroup>
+                    <ButtonGroup
+                      style={{ fontSize: `${18 + fontSize.fontSize}px` }}
+                    >
                       <Button
                         variant="contained"
                         color="secondary"
                         className={classes.button}
                         startIcon={<DeleteIcon />}
                         onClick={() => handleRemoveFromCart(product)}
+                        style={{ fontSize: `${14 + fontSize.fontSize}px` }}
                       >
-                        Delete
+                        <ButtonText
+                          style={{ fontSize: `${14 + fontSize.fontSize}px` }}
+                        >
+                          Delete
+                        </ButtonText>
                       </Button>
-                      <Link to={`/product/${product.product_id}`}>
+                      <Link
+                        to={`/product/${product.product_id}`}
+                        style={{ textDecoration: "none" }}
+                      >
                         <Button
                           variant="contained"
                           color="primary"
                           className={classes.button}
                           startIcon={<VisibilityIcon />}
                         >
-                          <ButtonText>View</ButtonText>
+                          <ButtonText
+                            style={{ fontSize: `${14 + fontSize.fontSize}px` }}
+                          >
+                            View
+                          </ButtonText>
                         </Button>
                       </Link>
                     </ButtonGroup>
@@ -273,8 +315,10 @@ const Cart = () => {
                 </Product>
               ))}
             </Info>
-            <Summary>
-              <SummaryTitle>ORDER SUMMARY</SummaryTitle>
+            <Summary style={{ fontSize: `${16 + fontSize.fontSize}px` }}>
+              <SummaryTitle style={{ fontSize: `${25 + fontSize.fontSize}px` }}>
+                ORDER SUMMARY
+              </SummaryTitle>
               <SummaryItem>
                 <SummaryItemText>Subtotal</SummaryItemText>
                 <SummaryItemPrice>฿ {cart.cartTotalAmount}</SummaryItemPrice>
@@ -284,17 +328,31 @@ const Cart = () => {
                 <SummaryItemPrice>฿90</SummaryItemPrice>
               </SummaryItem>
               <SummaryItem type="total">
-                <SummaryItemText>Total</SummaryItemText>
+                <SummaryItemText
+                  style={{ fontSize: `${25 + fontSize.fontSize}px` }}
+                >
+                  Total
+                </SummaryItemText>
                 <SummaryItemPrice>
                   {" "}
                   ฿ {cart.cartTotalAmount + 90}
                 </SummaryItemPrice>
               </SummaryItem>
               <Link to="/checkout" style={{ textDecoration: "none" }}>
-                <ButtonCheck>CHECKOUT NOW</ButtonCheck>
+                <ButtonCheck
+                  style={{ fontSize: `${20 + fontSize.fontSize}px` }}
+                >
+                  CHECKOUT NOW
+                </ButtonCheck>
               </Link>
 
-              <ButtonCheck onClick={handleClick}> BACK</ButtonCheck>
+              <ButtonCheck
+                onClick={handleClick}
+                style={{ fontSize: `${20 + fontSize.fontSize}px` }}
+              >
+                {" "}
+                BACK
+              </ButtonCheck>
             </Summary>
           </Bottom>
         )}

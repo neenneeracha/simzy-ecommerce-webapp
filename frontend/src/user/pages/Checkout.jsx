@@ -118,6 +118,7 @@ const Checkout = () => {
   const user = useUser();
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
+  const fontSize = useSelector((state) => state.fontSize);
 
   useEffect(() => {
     const getAddress = async () => {
@@ -153,7 +154,7 @@ const Checkout = () => {
       try {
         let res = await axios.post("http://localhost:8080/api/v1/payment/new", {
           payment: inputs.payment,
-          status: "0"
+          status: "0",
         });
         const payment_id = res.data.insertId;
 
@@ -199,23 +200,35 @@ const Checkout = () => {
     <Container>
       <Navbar />
       <Wrapper>
-        <Title>CHECK OUT</Title>
+        <Title style={{ fontSize: `${36 + fontSize.fontSize}px` }}>
+          CHECK OUT
+        </Title>
         <Row>
           <Col xs={12} md={8}>
             {" "}
             <Accordion
               defaultActiveKey={["0"]}
               alwaysOpen
-              style={{ margin: "2% 3%" }}
+              style={{
+                margin: "2% 3%",
+                fontSize: `${18 + fontSize.fontSize}px`,
+              }}
             >
               <Accordion.Item eventKey="0">
                 <Accordion.Header>
-                  <b>SHIPPING DETAILS</b>
+                  <b style={{ fontSize: `${20 + fontSize.fontSize}px` }}>
+                    SHIPPING DETAILS
+                  </b>
                 </Accordion.Header>
                 <Accordion.Body>
                   <Row>
                     <Col>
-                      <Form style={{ margin: "0px 50px" }}>
+                      <Form
+                        style={{
+                          margin: "0px 50px",
+                          fontSize: `${20 + fontSize.fontSize}px`,
+                        }}
+                      >
                         <Row>
                           <Form.Group
                             className="d-block mx-auto w-50"
@@ -383,7 +396,7 @@ const Checkout = () => {
               </Accordion.Item>
               <Accordion.Item eventKey="0">
                 <Accordion.Header>
-                  <b>PAYMENT METHOD</b>
+                  <b style={{ fontSize: `${20 + fontSize.fontSize}px` }}>PAYMENT METHOD</b>
                 </Accordion.Header>
                 <Accordion.Body>
                   <Form>
@@ -418,24 +431,24 @@ const Checkout = () => {
           </Col>
           <Col>
             <Summary>
-              <SummaryTitle>ORDER SUMMARY</SummaryTitle>
+              <SummaryTitle style={{ fontSize: `${28 + fontSize.fontSize}px` }}>ORDER SUMMARY</SummaryTitle>
               <SummaryItem>
-                <SummaryItemText>Subtotal</SummaryItemText>
-                <SummaryItemPrice>{cart.cartTotalAmount}</SummaryItemPrice>
+                <SummaryItemText style={{ fontSize: `${20 + fontSize.fontSize}px` }}>Subtotal</SummaryItemText>
+                <SummaryItemPrice style={{ fontSize: `${20 + fontSize.fontSize}px` }}>{cart.cartTotalAmount}</SummaryItemPrice>
               </SummaryItem>
               <SummaryItem>
-                <SummaryItemText>Estimated Shipping</SummaryItemText>
-                <SummaryItemPrice>฿90</SummaryItemPrice>
+                <SummaryItemText style={{ fontSize: `${20 + fontSize.fontSize}px` }}>Estimated Shipping</SummaryItemText>
+                <SummaryItemPrice style={{ fontSize: `${20 + fontSize.fontSize}px` }}>฿90</SummaryItemPrice>
               </SummaryItem>
               <SummaryItem type="total">
-                <SummaryItemText>Total</SummaryItemText>
-                <SummaryItemPrice>{cart.cartTotalAmount + 90}</SummaryItemPrice>
+                <SummaryItemText style={{ fontSize: `${28 + fontSize.fontSize}px` }}>Total</SummaryItemText>
+                <SummaryItemPrice style={{ fontSize: `${28 + fontSize.fontSize}px` }}>{cart.cartTotalAmount + 90}</SummaryItemPrice>
               </SummaryItem>
             </Summary>
             <ButtonGroup>
-              <ButtonCheck onClick={handleSubmit}>CHECKOUT NOW</ButtonCheck>
+              <ButtonCheck onClick={handleSubmit}> <SummaryItemText style={{ fontSize: `${20 + fontSize.fontSize}px` }}> CHECKOUT NOW</SummaryItemText></ButtonCheck>
 
-              <ButtonCheck onClick={handleClick}> BACK</ButtonCheck>
+              <ButtonCheck onClick={handleClick}>  <SummaryItemText style={{ fontSize: `${20 + fontSize.fontSize}px` }}> BACK</SummaryItemText></ButtonCheck>
             </ButtonGroup>
           </Col>
         </Row>

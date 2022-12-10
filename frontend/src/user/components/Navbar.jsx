@@ -1,16 +1,20 @@
-import { Search, AccountCircle, ShoppingCartOutlined } from "@material-ui/icons";
+import {
+  Search,
+  AccountCircle,
+  ShoppingCartOutlined,
+} from "@material-ui/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import NavDropdown from "react-bootstrap/NavDropdown";
-//import { Badge } from '@material-ui/core'
 import Badge from "react-bootstrap/Badge";
 import { useSelector, useDispatch } from "react-redux";
 import { getTotals } from "../redux/cartRedux";
 import { useUser, useUserUpdate } from "../../UserContext";
 import Alert from "./Alert";
-
+import Button from "react-bootstrap/Button";
+import { customFontSize, decreaseFontSize } from "../redux/fontRedux";
 const Container = styled.div`
   height: 60px;
 `;
@@ -108,15 +112,15 @@ const Navbar = () => {
     title: "",
     message: "",
     type: "",
-    link: ""
+    link: "",
   });
   const navigate = useNavigate();
   const { removeToken } = useUserUpdate();
   const user = useUser();
-
-
+  const [action, setAction] = useState("increase");
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
+  const fontSize = useSelector((state) => state.fontSize);
 
   useEffect(() => {
     dispatch(getTotals());
@@ -162,8 +166,13 @@ const Navbar = () => {
   }, []);
 
   const handleSearch = () => {
-    if (searchInput.split(' ').join('').length < 1) {
-      setError((prev) => ({ ...prev, title: "Invalid Input", message: "Please enter the word that you want to search", type: ""}));
+    if (searchInput.split(" ").join("").length < 1) {
+      setError((prev) => ({
+        ...prev,
+        title: "Invalid Input",
+        message: "Please enter the word that you want to search",
+        type: "",
+      }));
       setShow(true);
     } else {
       navigate(`/products?search_input=${searchInput}`);
@@ -180,22 +189,39 @@ const Navbar = () => {
   return (
     <Container>
       <Wrapper>
-      {
-        show ? <Alert show={show} setShow={setShow} text={error} setText={setError}/>
-        : undefined
-      }
+        {show ? (
+          <Alert
+            show={show}
+            setShow={setShow}
+            text={error}
+            setText={setError}
+          />
+        ) : undefined}
         <Left>
           <MenuItem>
-            <Link style={{ textDecoration: "none" }} to="/">
+            <Link
+              style={{
+                textDecoration: "none",
+                fontSize: `${16 + fontSize.fontSize}px`,
+              }}
+              to="/"
+            >
               <LinkItem>HOME</LinkItem>
             </Link>
           </MenuItem>
           <MenuItem>
-            <NavDropdown title="WOMEN" id="basic-nav-dropdown">
+            <NavDropdown
+              title="WOMEN"
+              id="basic-nav-dropdown"
+              style={{ fontSize: `${16 + fontSize.fontSize}px` }}
+            >
               {womenCats.map((cat, index) => (
                 <NavDropdown.Item as="li" key={index}>
                   <Link
-                    style={{ textDecoration: "none" }}
+                    style={{
+                      textDecoration: "none",
+                      fontSize: `${16 + fontSize.fontSize}px`,
+                    }}
                     to={`/products?main_category=Women&sub_category=${cat.sub_category}`}
                   >
                     <LinkCat>{cat.sub_category}</LinkCat>
@@ -205,11 +231,18 @@ const Navbar = () => {
             </NavDropdown>
           </MenuItem>
           <MenuItem>
-            <NavDropdown title="MEN" id="basic-nav-dropdown">
+            <NavDropdown
+              title="MEN"
+              id="basic-nav-dropdown"
+              style={{ fontSize: `${16 + fontSize.fontSize}px` }}
+            >
               {menCats.map((cat, index) => (
                 <NavDropdown.Item as="li" key={index}>
                   <Link
-                    style={{ textDecoration: "none" }}
+                    style={{
+                      textDecoration: "none",
+                      fontSize: `${16 + fontSize.fontSize}px`,
+                    }}
                     to={`/products?main_category=Men&sub_category=${cat.sub_category}`}
                   >
                     <LinkCat>{cat.sub_category}</LinkCat>
@@ -219,11 +252,18 @@ const Navbar = () => {
             </NavDropdown>
           </MenuItem>
           <MenuItem>
-            <NavDropdown title="KIDS" id="basic-nav-dropdown">
+            <NavDropdown
+              title="KIDS"
+              id="basic-nav-dropdown"
+              style={{ fontSize: `${16 + fontSize.fontSize}px` }}
+            >
               {kidsCats.map((cat, index) => (
                 <NavDropdown.Item as="li" key={index}>
                   <Link
-                    style={{ textDecoration: "none" }}
+                    style={{
+                      textDecoration: "none",
+                      fontSize: `${16 + fontSize.fontSize}px`,
+                    }}
                     to={`/products?main_category=Kids&sub_category=${cat.sub_category}`}
                   >
                     <LinkCat>{cat.sub_category}</LinkCat>
@@ -234,13 +274,35 @@ const Navbar = () => {
           </MenuItem>
         </Left>
         <Center>
-          <Logo>SIMZY</Logo>
+          <Logo style={{ fontSize: `${40 + fontSize.fontSize}px` }}>SIMZY</Logo>
         </Center>
         <Right>
+          <Button
+            variant="light"
+            onClick={() => dispatch(customFontSize())}
+            style={{
+              fontSize: `${16 + fontSize.fontSize}px`,
+              whiteSpace: "nowrap",
+            }}
+          >
+            + A
+          </Button>
+          <Button
+            variant="light"
+            onClick={() => dispatch(decreaseFontSize())}
+            style={{
+              fontSize: `${16 + fontSize.fontSize}px`,
+              whiteSpace: "nowrap",
+            }}
+          >
+            {" "}
+            - A
+          </Button>
           <SearchContainer style={{ textDecoration: "none" }}>
             <Input
               placeholder="search product"
               onChange={(e) => setSearchInput(e.target.value)}
+              style={{ fontSize: `${16 + fontSize.fontSize}px` }}
             />
             <Search
               style={{ color: "gray", fontsize: 16, cursor: "pointer" }}
@@ -248,7 +310,14 @@ const Navbar = () => {
             />
           </SearchContainer>
           <MenuItem>
-            <Link style={{ textDecoration: "none" }} to="/cart">
+            <Link
+              style={{
+                textDecoration: "none",
+                fontSize: `${16 + fontSize.fontSize}px`,
+                whiteSpace: "nowrap",
+              }}
+              to="/cart"
+            >
               <LinkItem>
                 CART <Badge bg="danger">{cart.cartTotalQuantity}</Badge>
                 {/* <Badge overlap="rectangular" badgeContent={cart.cartTotalQuantity} color="secondary" style={{ marginTop: 5 }}>
@@ -259,18 +328,34 @@ const Navbar = () => {
           </MenuItem>
           <MenuItem>
             <NavDropdown
-              title={<AccountCircle style={{ fontSize: 32 }} />}
+              title={
+                <AccountCircle
+                  style={{ fontSize: `${32 + fontSize.fontSize}px` }}
+                />
+              }
               id="basic-nav-dropdown"
             >
               {user == null ? (
                 <>
                   <NavDropdown.Item as="li">
-                    <Link style={{ textDecoration: "none" }} to="/login">
+                    <Link
+                      style={{
+                        textDecoration: "none",
+                        fontSize: `${16 + fontSize.fontSize}px`,
+                      }}
+                      to="/login"
+                    >
                       <LinkCat>Login</LinkCat>
                     </Link>
                   </NavDropdown.Item>
                   <NavDropdown.Item as="li">
-                    <Link style={{ textDecoration: "none" }} to="/register">
+                    <Link
+                      style={{
+                        textDecoration: "none",
+                        fontSize: `${16 + fontSize.fontSize}px`,
+                      }}
+                      to="/register"
+                    >
                       <LinkCat>Register</LinkCat>
                     </Link>
                   </NavDropdown.Item>
@@ -278,12 +363,26 @@ const Navbar = () => {
               ) : (
                 <>
                   <NavDropdown.Item as="li">
-                    <Link style={{ textDecoration: "none" }} to="/profile">
+                    <Link
+                      style={{
+                        textDecoration: "none",
+                        fontSize: `${16 + fontSize.fontSize}px`,
+                      }}
+                      to="/profile"
+                    >
                       <LinkCat>Profile</LinkCat>
                     </Link>
                   </NavDropdown.Item>
                   <NavDropdown.Item as="li">
-                    <LinkCat onClick={handleLogout}>Logout</LinkCat>
+                    <LinkCat
+                      onClick={handleLogout}
+                      style={{
+                        textDecoration: "none",
+                        fontSize: `${16 + fontSize.fontSize}px`,
+                      }}
+                    >
+                      Logout
+                    </LinkCat>
                   </NavDropdown.Item>
                 </>
               )}

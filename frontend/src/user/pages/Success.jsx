@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 import { Col, Image, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import Cookie from "js-cookie";
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   min-height: 100vh;
@@ -52,6 +53,7 @@ const Button = styled.h3`
 const Success = () => {
   const order_id = Cookie.get("orderID");
   const navigate = useNavigate();
+  const fontSize = useSelector((state) => state.fontSize);
 
   useEffect(() => {
     const checkOrderID = async () => {
@@ -76,17 +78,17 @@ const Success = () => {
                 className="d-block mx-auto img-fluid w-25"
                 src={process.env.PUBLIC_URL + "img/success.png"}
               />
-              <Text>Successfully ordered!</Text>
-              <TextThank>THANK YOU FOR YOUR ORDER</TextThank>
+              <Text style={{ fontSize: `${32 + fontSize.fontSize}px` }}>Successfully ordered!</Text>
+              <TextThank style={{ fontSize: `${28 + fontSize.fontSize}px` }}>THANK YOU FOR YOUR ORDER</TextThank>
               <OrderReference>
-                <b>YOUR ORDER REFERENCE: {order_id}</b>
+                <b style={{ fontSize: `${20 + fontSize.fontSize}px` }}>YOUR ORDER REFERENCE: {order_id}</b>
               </OrderReference>
               <Button
                 type="create"
                 className="d-block mx-auto w-50"
                 onClick={() => navigate("/")}
               >
-                BACK TO SHOP
+                <b style={{ fontSize: `${20 + fontSize.fontSize}px` }}>BACK TO SHOP</b>
               </Button>
             </SuccessAlert>
           </Col>

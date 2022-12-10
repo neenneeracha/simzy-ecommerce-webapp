@@ -2,6 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { ArrowBack } from "@material-ui/icons";
+import { customFontSize, decreaseFontSize } from "../redux/fontRedux";
+import { useDispatch, useSelector } from "react-redux";
+import Button from "react-bootstrap/Button";
 
 const Container = styled.div`
   height: 60px;
@@ -61,30 +64,71 @@ const LinkItem = styled.div`
     text-decoration: underline;
   }
 `;
+const Text = styled.div``;
 
 const handleClick = () => {
   window.history.back();
 };
 
 const BackNavBar = () => {
+  const fontSize = useSelector((state) => state.fontSize);
+  const dispatch = useDispatch();
   return (
     <Container>
       <Wrapper>
         <Left>
           <MenuItem onClick={handleClick}>
             <ArrowBack
-              style={{ fontSize: 18, marginBottom: 3, marginRight: 4 }}
+              style={{
+                fontSize: `${16 + fontSize.fontSize}px`,
+                marginBottom: 3,
+                marginRight: 4,
+              }}
             />{" "}
-            BACK
+            <Text
+              style={{
+                fontSize: `${16 + fontSize.fontSize}px`,
+                display: " inline-block",
+              }}
+            >
+              BACK
+            </Text>
           </MenuItem>
         </Left>
         <Center>
-          <Logo>SIMZY</Logo>
+          <Logo style={{ fontSize: `${40 + fontSize.fontSize}px` }}>SIMZY</Logo>
         </Center>
         <Right>
+          <Button
+            variant="light"
+            onClick={() => dispatch(customFontSize())}
+            style={{
+              fontSize: `${16 + fontSize.fontSize}px`,
+              whiteSpace: "nowrap",
+            }}
+          >
+            + A
+          </Button>
+          <Button
+            variant="light"
+            onClick={() => dispatch(decreaseFontSize())}
+            style={{
+              fontSize: `${16 + fontSize.fontSize}px`,
+              whiteSpace: "nowrap",
+            }}
+          >
+            {" "}
+            - A
+          </Button>
           <MenuItem>
             <Link style={{ textDecoration: "none" }} to="/">
-              <LinkItem>HOME</LinkItem>
+              <LinkItem
+                style={{
+                  fontSize: `${16 + fontSize.fontSize}px`,
+                }}
+              >
+                HOME
+              </LinkItem>
             </Link>
           </MenuItem>
         </Right>
