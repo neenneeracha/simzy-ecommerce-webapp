@@ -105,6 +105,7 @@ const AddImage = ({color, editedImages, setEditedImages, setImgChanged, formType
   const [selectedImages, setSelectedImages] = useState([]);
   const [file, setFile] = useState(null)
   const [id, setId] = useState(null)
+  const [imgCount, setImgCount] = useState(0)
 
   const onSelectFile = (event) => {
     const selectedFiles = event.target.files;

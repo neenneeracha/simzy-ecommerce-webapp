@@ -157,7 +157,7 @@ const ViewUsers = () => {
     setOpenPopup(true);
   };
 
-  // deleted selected user
+  // delete selected user
   const handleDelete = async (user_id) => {
     setConfirmDialog({
       ...confirmDialog,

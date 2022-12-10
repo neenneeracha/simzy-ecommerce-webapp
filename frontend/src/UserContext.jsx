@@ -53,12 +53,19 @@ export const UserProvider = ({ children }) => {
     setUser(null);
   };
 
+  const setFontSize = (fontSize) => {
+    Cookie.set("fontSize", fontSize, {
+      path: "/",
+      expires: 6 / 24,
+    });
+  }
+
   return (
     <Container>
       {
         loading ? <Loading loading={loading}/> :
         <UserContext.Provider value={user}>
-      <UserUpdateContext.Provider value={{ setToken, removeToken }}>
+      <UserUpdateContext.Provider value={{ setToken, removeToken, setFontSize }}>
         {children}
       </UserUpdateContext.Provider>
     </UserContext.Provider>

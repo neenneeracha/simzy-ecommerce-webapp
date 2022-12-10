@@ -25,6 +25,18 @@ const initialFValues = {
   // size: "",
 };
 
+const stockFields = {
+  color_group_id: "",
+  stock: [
+    {size: "XS", quantity: ""},
+    {size: "S", quantity: ""},
+    {size: "M", quantity: ""},
+    {size: "L", quantity: ""},
+    {size: "XL", quantity: ""},
+  ]
+}
+
+
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: theme.spacing(1),
@@ -103,12 +115,13 @@ const ProductForm = ({ recordForEdit, formType, setChanged, setStockChanged, set
   const [colors, setColors] = useState([]);
   const [stocks, setStocks] = useState([]);
   const [images, setImages] = useState([]);
+  const [newStock, setNewStock] = useState([{...stockFields, is_main_color: 1, index: 0}])
   const [categories, setCategories] = useState([]);
   const [colorGroups, setColorGroups] = useState([]);
   const [editedColors, setEditedColors] = useState([]);
   const [editedStocks, setEditedStocks] = useState([]);
   const [editedImages, setEditedImages] = useState([]);
-  
+  console.log(newStock)
 
   // form validation
   const validate = (fieldValues = values) => {
@@ -157,6 +170,49 @@ const ProductForm = ({ recordForEdit, formType, setChanged, setStockChanged, set
     setChanged(true);
     handleChange(e);
   };
+
+  const handleNewStock = (e, field) => {
+    if (field === "Color Group") {
+      let newArr = [...newStock]
+      e.target.name = e.target.name.split('-')[1]
+
+      for (let i = 0; i < newStock.length; i++) {
+        
+        if (newStock[i].index === parseInt(e.target.name)) {
+          newArr[i].color_group_id = e.target.value;
+          break;
+        }
+       }
+       setNewStock(newArr)
+    } else if (field === "Stock") {
+      console.log(e.target)
+      let newArr = [...newStock]
+      let found = false
+      const index = (e.target.name).split('-')[2]
+      const size = (e.target.name).split('-')[1]
+
+      for (let i = 0; i < newStock.length; i++) {
+        
+          if (newStock[i].index === parseInt(index)) {
+            for (let j = 0; j < newStock[i].stock.length; j++) {
+              if (newStock[i].stock[j].size === size) {
+                if (isNaN(e.target.value)) {
+                  newArr[i].stock[j].quantity = "";
+                } else {
+                  newArr[i].stock[j].quantity = parseInt(e.target.value);
+                }
+                found = true
+                break;
+              }
+              if (found === true)
+                break;
+            }
+          
+        }
+      }
+      setNewStock(newArr)
+    }
+  }
 
   const handleStock = (e, field) => {
     setStockChanged(true)
@@ -233,6 +289,31 @@ const ProductForm = ({ recordForEdit, formType, setChanged, setStockChanged, set
     return value;
   }
 
+  const checkNewQuantity = (color, size) => {
+    let value = 0;
+    let found = false
+    
+    for (let i = 0; i < newStock.length; i++) {
+      if (newStock[i].index === color.index) {
+        for (let j = 0; j < newStock[i].stock.length; j++) {
+          if (newStock[i].stock[j].size === size) {
+              if (isNaN(newStock[i].stock[j].quantity)) {
+                value = ""
+              } else {
+                value = newStock[i].stock[j].quantity
+              }
+            found = true
+            break;
+          }
+          if (found === true)
+            break;
+        }
+      }
+    }
+
+    return value;
+  }
+
   const getStockID = (color, size) => {
     const stock_id = stocks
     .filter((stock) => stock.product_color_id === color.product_color_id && stock.size === size).length > 0? 
@@ -241,6 +322,16 @@ const ProductForm = ({ recordForEdit, formType, setChanged, setStockChanged, set
       : `color-${color.product_color_id}-${size}`
 
     return stock_id
+  }
+
+  const manageStockField = (type) => {
+    let newArr = [...newStock]
+    if (type === "add") {
+      newArr.push(stockFields)
+    } else {
+      newArr.pop()
+    }
+    setNewStock(newArr)
   }
 
     // update edit information
@@ -263,13 +354,6 @@ const ProductForm = ({ recordForEdit, formType, setChanged, setStockChanged, set
             "http://localhost:8080/api/v1/products/img/" + recordForEdit.product_id
           );
           setImages(res.data);
-          // for (let i = 0; i < res.data.length; i++) {
-          //   if (res.data[i].is_main_color) {
-          //     setMainColor(res.data[i].product_color_id);
-          //     setUrl(res.data[i].img_link);
-          //     break;
-          //   }
-          // }
         } catch (error) {
           console.log(error);
         }
@@ -318,9 +402,9 @@ const ProductForm = ({ recordForEdit, formType, setChanged, setStockChanged, set
       getColors();
       getImages();
       getStocks();
+      }
       getAllCats();
       getAllColorGroups();
-      }
         
     }, [recordForEdit, setValues, setChanged, setStockChanged, setImgChanged]);
 
@@ -330,7 +414,10 @@ const ProductForm = ({ recordForEdit, formType, setChanged, setStockChanged, set
         setEditedImages(images)
         setEditedStocks(stocks)
       }
+      
     }, [formType, colors, images, stocks])
+
+    console.log(editedStocks)
 
   return (
     <Container>
@@ -598,6 +685,95 @@ const ProductForm = ({ recordForEdit, formType, setChanged, setStockChanged, set
                    
              ))
                  
+             }
+             {
+              formType === "add" ?
+              <>
+             {
+                 newStock.map((color) => (
+                   <Fragment key={color.color_group_id}>
+                   <Grid item xs={6}>
+                   <Controls.Select
+                  name={`index-${color.index}`}
+                  label="Color group - Color"
+                  value={color.color_group_id}
+                  onChange={(e) => handleNewStock(e, "Color Group")}
+                  options={colorGroups}
+                />
+                     
+                     <Controls.Input name={`stock-S-${color.index}`} label="Size S" 
+                     value={checkNewQuantity(color,"S")}
+                     onChange={(e) => handleNewStock(e,"Stock")}
+                     error={checkNewQuantity(color,"S") === ""? errors.stocks : undefined}
+                     />
+
+                     <Controls.Input name={`stock-L-${color.index}`} label="Size L" 
+                     value={checkNewQuantity(color,"L")}
+                     onChange={(e) => handleNewStock(e,"Stock")}
+                     error={checkNewQuantity(color,"L") === ""? errors.stocks : undefined}
+                     />
+                     
+
+                     <Line/>
+                   </Grid>
+                   <Grid item xs={6}>
+                   <Controls.Input name={`stock-XS-${color.index}`} label="Size XS" 
+                     value={checkNewQuantity(color,"XS")}
+                     onChange={(e) => handleNewStock(e,"Stock")}
+                     error={checkNewQuantity(color,"XS") === ""? errors.stocks : undefined}
+                     />
+
+                     <Controls.Input name={`stock-M-${color.index}`} label="Size M" 
+                     value={checkNewQuantity(color,"M")}
+                     onChange={(e) => handleNewStock(e,"Stock")}
+                     error={checkNewQuantity(color,"M") === ""? errors.stocks : undefined}
+                     />
+
+                     <Controls.Input name={`stock-XL-${color.index}`} label="Size XL" 
+                     value={checkNewQuantity(color,"XL")}
+                     onChange={(e) => handleNewStock(e,"Stock")}
+                     error={checkNewQuantity(color,"XL") === ""? errors.stocks : undefined}
+                     />
+                   </Grid>
+                 {/* <ImgContainer>
+               <Article>
+ 
+                 <List>
+                   {editedImages
+                     .filter((img) => img.product_color_id === color.product_color_id)
+                     .map((img) => (
+                       <ListItem
+                         key={img.img_link}
+                       >
+                         <Imagethumbnail src={img.img_link} />
+                       </ListItem>
+                       
+                     ))}
+                     {editedImages
+                     .filter((img) => img.product_color_id === color.product_color_id && img.new_link !== undefined).map((img) => (
+                       <ListItem
+                         key={img.new_link}
+                       >
+                         <EditedImagethumbnail src={img.new_link} />
+                       </ListItem>
+                       
+                     ))
+                    }
+                 </List>
+               </Article>
+             </ImgContainer> */}
+            
+              <AddImage formType={formType}/>
+             
+            
+             </Fragment>
+                   
+             ))
+                 
+             }
+              </>
+              :
+              undefined
              }
                
              </Grid>

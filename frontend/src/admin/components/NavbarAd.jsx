@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useUserUpdate } from "../../UserContext";
@@ -6,6 +6,8 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import { ExitToApp } from "@material-ui/icons";
 import { MDBIcon } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import Cookie from "js-cookie";
 
 const Navbar = styled.div`
   height: 70px;
@@ -51,14 +53,19 @@ const MenuItem = styled.div`
   cursor: pointer;
   margin-left: 25px;
   margin-bottom: 10px;
+  color: #eda3b5;
 
-  #basic-nav-dropdown {
-    color: pink;
+  &:hover {
+     color: pink;
+  }
 
-    &:hover {
-      color: #eda3b5;
-      text-decoration: underline;
-    }
+  // #basic-nav-dropdown {
+  //   color: pink;
+
+  //   &:hover {
+  //     color: #eda3b5;
+  //     text-decoration: underline;
+  //   }
   }
 `;
 
@@ -72,11 +79,24 @@ const Styles = {
 const LinkCat = styled.div`
   color: #eda3b5;
   text-decoration: none;
+
+  &:hover {
+    color: pink;
+ }
 `;
+
+const Status = styled.div`
+  color: black;
+  text-decoration: none;
+`;
+
+
 
 const NavbarAd = () => {
   const navigate = useNavigate();
-  const { removeToken } = useUserUpdate();
+  const { removeToken, setFontSize } = useUserUpdate();
+  const [orderStatus, setOrderStatus] = useState([])
+  
 
   const handleLogout = () => {
     removeToken();
@@ -84,14 +104,47 @@ const NavbarAd = () => {
     window.location.reload();
   };
 
+  const handleSet = () => {
+    let number = prompt("enter font size")
+    setFontSize(number)
+  }
+
+  useEffect(() => {
+    const getStatus = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:8080/api/v1/order/status"
+        );
+        res.data.push({status_id: "6", description: "View All Orders"})
+        setOrderStatus(res.data)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    getStatus()
+  }, [])
+
   return (
     <Navbar>
       <Wrapper>
         <Left>
           <MenuItem>
-            <Link to="/vieworders" style={Styles.customtext}>
+            {/* <Link to="/vieworders" style={Styles.customtext}>
               <LinkCat>ORDERS</LinkCat>
-            </Link>
+            </Link> */}
+            <NavDropdown title="ORDER" id="basic-nav-dropdown"
+            >
+              {orderStatus.map((status, index) => (
+                <NavDropdown.Item as="li" key={index}>
+                  <Link
+                    style={{ textDecoration: "none" }}
+                    to={`/vieworders?status_id=${status.status_id}`}
+                  >
+                    <Status>{status.status_id} : {status.description}</Status>
+                  </Link>
+                </NavDropdown.Item>
+              ))}
+            </NavDropdown>
           </MenuItem>
           <MenuItem>
             {" "}
@@ -106,6 +159,8 @@ const NavbarAd = () => {
             </Link>
           </MenuItem>
         </Left>
+        <LinkCat onClick={() => alert(Cookie.get("fontSize"))}>Get token</LinkCat>
+        <LinkCat onClick={handleSet}>Set token</LinkCat>
         <Center>
           <Logo>SIMZY</Logo>
         </Center>

@@ -166,7 +166,7 @@ const ViewProducts = () => {
     }
   }
 
-  // deleted selected product
+  // delete selected product
   const handleDelete = async (product_id) => {
     setConfirmDialog({
       ...confirmDialog,
