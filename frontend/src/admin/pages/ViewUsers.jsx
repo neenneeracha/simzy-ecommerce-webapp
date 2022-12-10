@@ -18,17 +18,20 @@ import SearchIcon from '@material-ui/icons/Search';
 import PopUp from "../components/PopUp";
 import UserForm from "../components/UserForm";
 import Confirmation from "../components/Confirmation";
+import EmptyList from "../components/EmptyList";
 
 // style the input form container
 const useStylesPaper = makeStyles((theme) => ({
   pageContent: {
     margin: theme.spacing(5),
     padding: theme.spacing(3),
+    borderRadius: 10
   },
 }));
 
 const Container = styled.div`
   max-width: 100%;
+  height: 100vh;
   overflow-x: hidden;
   background-color: #fff8f9;
 `;
@@ -241,7 +244,10 @@ const ViewUsers = () => {
             }}
           />
         </Top>
-        <Paper className={paperClasses.pageContent}>
+        {
+          users.length > 0?
+          <>
+          <Paper className={paperClasses.pageContent}>
           <TblContainer>
             <TblHead />
             <TableBody>
@@ -309,6 +315,11 @@ const ViewUsers = () => {
             setChanged={setChanged}
           />
         </PopUp>
+          </>
+          :
+          <EmptyList message="user"/>
+        }
+        
         <Confirmation
           confirmDialog={confirmDialog}
           setConfirmDialog={setConfirmDialog}

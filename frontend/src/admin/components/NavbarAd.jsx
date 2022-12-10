@@ -3,11 +3,11 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useUserUpdate } from "../../UserContext";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import Confirmation from "../components/Confirmation";
 import { ExitToApp } from "@material-ui/icons";
 import { MDBIcon } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import Cookie from "js-cookie";
 
 const Navbar = styled.div`
   height: 70px;
@@ -94,20 +94,24 @@ const Status = styled.div`
 
 const NavbarAd = () => {
   const navigate = useNavigate();
-  const { removeToken, setFontSize } = useUserUpdate();
+  const { removeToken } = useUserUpdate();
   const [orderStatus, setOrderStatus] = useState([])
+  const [confirmDialog, setConfirmDialog] = useState({
+    isOpen: false,
+    title: "",
+    subTitle: "",
+  });
   
 
   const handleLogout = () => {
+    setConfirmDialog({
+      ...confirmDialog,
+      isOpen: false,
+    });
     removeToken();
     navigate("/");
     window.location.reload();
   };
-
-  const handleSet = () => {
-    let number = prompt("enter font size")
-    setFontSize(number)
-  }
 
   useEffect(() => {
     const getStatus = async () => {
@@ -159,18 +163,30 @@ const NavbarAd = () => {
             </Link>
           </MenuItem>
         </Left>
-        <LinkCat onClick={() => alert(Cookie.get("fontSize"))}>Get token</LinkCat>
-        <LinkCat onClick={handleSet}>Set token</LinkCat>
         <Center>
           <Logo>SIMZY</Logo>
         </Center>
         <Right>
           <MenuItem>
-            <LinkCat onClick={handleLogout}>
+            <LinkCat 
+            onClick={() => {
+              setConfirmDialog({
+                isOpen: true,
+                title: `Are you sure that you want to log out of the system?`,
+                onConfirm: () => {
+                  handleLogout()
+                },
+              });
+            }}
+            >
             <ExitToApp style={{ fontSize: 32 }} />
             </LinkCat> 
           </MenuItem>
         </Right>
+        <Confirmation
+          confirmDialog={confirmDialog}
+          setConfirmDialog={setConfirmDialog}
+        />
       </Wrapper>
     </Navbar>
   );

@@ -149,11 +149,7 @@ const userRouter = createBrowserRouter([
 const adminRouter = createBrowserRouter([
   {
     path: "/",
-    element: <Navigate to="/admin" />,
-  },
-  {
-    path: "/admin",
-    element: <Admin />,
+    element: <Navigate to="/vieworders?status_id=6" />,
   },
   {
     path: "/viewproducts",

@@ -18,17 +18,20 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import PopUp from "../components/PopUp";
 import ProductForm from "../components/ProductForm";
 import Confirmation from "../components/Confirmation";
+import EmptyList from "../components/EmptyList";
 
 // style the input form container
 const useStylesPaper = makeStyles((theme) => ({
   pageContent: {
     margin: theme.spacing(5),
     padding: theme.spacing(3),
+    borderRadius: 10
   },
 }));
 
 const Container = styled.div`
   max-width: 100%;
+  height: 100vh;
   overflow-x: hidden;
   background-color: #fff8f9;
 `;
@@ -64,6 +67,8 @@ const ViewProducts = () => {
   const [imgChanged, setImgChanged] = useState(false);
   const [selectedID, setSelectedID] = useState(0);
   const [recordForEdit, setRecordForEdit] = useState(null);
+  const [newStock, setNewStock] = useState([])
+  const [newImages, setNewImages] = useState([])
   const [openPopup, setOpenPopup] = useState(false);
   const [products, setProducts] = useState([]);
   const [confirmDialog, setConfirmDialog] = useState({
@@ -248,10 +253,14 @@ const ViewProducts = () => {
               setFormType("add");
               setOpenPopup(true);
               setRecordForEdit(null);
+              console.log(newImages)
             }}
           />
         </Top>
-        <Paper className={paperClasses.pageContent}>
+        {
+          products.length > 0 ?
+          <>
+          <Paper className={paperClasses.pageContent}>
           <TblContainer>
             <TblHead />
             <TableBody>
@@ -319,8 +328,17 @@ const ViewProducts = () => {
           setStockChanged={setStockChanged}
           setImgChanged={setImgChanged}
           addOrEdit={addOrEdit}
+          newStock={newStock}
+          setNewStock={setNewStock}
+          newImages={newImages}
+          setNewImages={setNewImages}
            />
         </PopUp>
+          </>
+          :
+          <EmptyList message="product"/>
+        }
+        
         <Confirmation
           confirmDialog={confirmDialog}
           setConfirmDialog={setConfirmDialog}

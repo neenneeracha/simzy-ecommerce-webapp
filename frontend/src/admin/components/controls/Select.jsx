@@ -44,6 +44,17 @@ export default function Select(props) {
       </MuiSelect>
         </>
         :
+        label === "Order Status" ? 
+        <>
+        <MuiSelect label={label} name={name} value={value} onChange={onChange}>
+        {options.map((item) => (
+          <MenuItem key={item.status_id} value={item.status_id}>
+            {item.status_id} - {item.description}
+          </MenuItem>
+        ))}
+      </MuiSelect>
+        </>
+        :
         <>
         <InputLabel>{label}</InputLabel>
       <MuiSelect label={label} name={name} value={value} onChange={onChange}>

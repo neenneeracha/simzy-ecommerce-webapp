@@ -7,15 +7,16 @@ const {
     getOrderDetails,
     getOrderedProducts,
     getAllOrderInfo,
-    getOrderStatus
+    getOrderStatus,
+    updateOrderStatus
 } = require("../controller/order");
 
 router.route("/status").get(getOrderStatus);
 router.route("/neworder").post(addNewOrder);
 router.route("/orderhistory").post(addOrderHistory);
-router.route("/:id").get(getUserOrder);
 router.route("/details/:id").get(getOrderDetails);
 router.route("/products/:id").get(getOrderedProducts);
+router.route("/:id").get(getUserOrder).patch(updateOrderStatus);
 router.route("/").get(getAllOrderInfo);
 
 module.exports = router;

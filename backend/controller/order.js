@@ -2,10 +2,18 @@ const pool = require("../database/connector");
 
 //get all order information
 const getAllOrderInfo = (req, res) => {
-    const q =
-        "SELECT p.payment_type, p.status ,po.user_id,po.order_id, po.status, po.name, po.surname, po.phone_number, po.address, po.district, po.province, po.zip_code, po.created_at, po.updated_at, oh.quantity, pd.product_name, pd.price FROM payment p LEFT JOIN productorder po ON p.payment_id = po.payment_id LEFT JOIN orderhistory oh ON po.order_id = oh.order_id LEFT JOIN productstock ps ON oh.stock_id = ps.stock_id LEFT JOIN productcolor pc ON ps.product_color_id = pc.product_color_id LEFT JOIN product pd ON pc.product_id = pd.product_id WHERE po.order_id IS NOT NULL GROUP BY order_id";
+    const status_id = req.query.status_id;
 
-    pool.query(q, (err, data) => {
+    const q1 =
+        "SELECT order_id, user_id, name, surname, phone_number, address, district, province, zip_code, po.status_id, po.payment_id, po.created_at, po.updated_at, p.payment_type, p.status, os.description FROM productorder po LEFT JOIN payment p ON po.payment_id = p.payment_id LEFT JOIN orderstatus os ON po.status_id = os.status_id WHERE ?";
+
+    const q2 =
+        "SELECT order_id, user_id, name, surname, phone_number, address, district, province, zip_code, po.status_id, po.payment_id, po.created_at, po.updated_at, p.payment_type, p.status, os.description FROM productorder po LEFT JOIN payment p ON po.payment_id = p.payment_id LEFT JOIN orderstatus os ON po.status_id = os.status_id WHERE po.status_id = ?";
+
+    const q = parseInt(status_id) === 6 ? q1 : q2;
+    const values = parseInt(status_id) === 6 ? 1 : status_id;
+
+    pool.query(q, [values], (err, data) => {
         if (err) return res.status(500).json(err);
 
         return res.status(200).json(data);
@@ -113,6 +121,17 @@ const getOrderStatus = (req, res) => {
     });
 };
 
+const updateOrderStatus = (req, res) => {
+    const order_id = req.params.id;
+    const q =
+        "UPDATE productorder SET status_id = ? WHERE order_id = ?";
+    pool.query(q, [req.body.status, order_id], (err, data) => {
+        if (err) return res.status(500).json(err);
+
+        return res.status(200).json({ msg: `Successfully updated status of Order ID: ${order_id}` });
+    });
+};
+
 module.exports = {
     addNewOrder,
     addOrderHistory,
@@ -120,5 +139,6 @@ module.exports = {
     getOrderDetails,
     getOrderedProducts,
     getAllOrderInfo,
-    getOrderStatus
+    getOrderStatus,
+    updateOrderStatus
 };

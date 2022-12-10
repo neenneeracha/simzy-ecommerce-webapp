@@ -8,6 +8,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SaveIcon from "@material-ui/icons/Save";
+import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
@@ -33,6 +34,14 @@ const stockFields = {
     {size: "M", quantity: ""},
     {size: "L", quantity: ""},
     {size: "XL", quantity: ""},
+  ]
+}
+
+const imgFields = {
+  index: "",
+  is_main_color: "",
+  img: [
+    {link: ""},
   ]
 }
 
@@ -110,18 +119,18 @@ const styles = {
   },
 };
 
-const ProductForm = ({ recordForEdit, formType, setChanged, setStockChanged, setImgChanged, addOrEdit }) => {
+const ProductForm = ({ recordForEdit, formType, setChanged, setStockChanged, setImgChanged, addOrEdit, newStock, setNewStock, newImages, setNewImages }) => {
 
   const [colors, setColors] = useState([]);
   const [stocks, setStocks] = useState([]);
   const [images, setImages] = useState([]);
-  const [newStock, setNewStock] = useState([{...stockFields, is_main_color: 1, index: 0}])
   const [categories, setCategories] = useState([]);
   const [colorGroups, setColorGroups] = useState([]);
   const [editedColors, setEditedColors] = useState([]);
   const [editedStocks, setEditedStocks] = useState([]);
   const [editedImages, setEditedImages] = useState([]);
   console.log(newStock)
+  console.log(newImages)
 
   // form validation
   const validate = (fieldValues = values) => {
@@ -325,13 +334,17 @@ const ProductForm = ({ recordForEdit, formType, setChanged, setStockChanged, set
   }
 
   const manageStockField = (type) => {
-    let newArr = [...newStock]
+    let newArrStock = [...newStock]
+    let newArrImage = [...newImages]
     if (type === "add") {
-      newArr.push(stockFields)
+      newArrStock.push(stockFields)
+      newArrImage.push(imgFields)
     } else {
-      newArr.pop()
+      newArrStock.pop()
+      newArrImage.pop()
     }
-    setNewStock(newArr)
+    setNewStock(newArrStock)
+    setNewImages(newArrImage)
   }
 
     // update edit information
@@ -405,6 +418,11 @@ const ProductForm = ({ recordForEdit, formType, setChanged, setStockChanged, set
       }
       getAllCats();
       getAllColorGroups();
+      // setNewImages([])
+      // setNewStock([])
+      // setEditedColors([])
+      // setEditedImages([])
+      // setEditedStocks([])
         
     }, [recordForEdit, setValues, setChanged, setStockChanged, setImgChanged]);
 
@@ -413,11 +431,13 @@ const ProductForm = ({ recordForEdit, formType, setChanged, setStockChanged, set
         setEditedColors(colors)
         setEditedImages(images)
         setEditedStocks(stocks)
+      } 
+      if (formType === "add") {
+         setNewImages([{...imgFields, is_main_color: 1, index: 0}])
+         setNewStock([{...stockFields, is_main_color: 1, index: 0}])
       }
       
-    }, [formType, colors, images, stocks])
-
-    console.log(editedStocks)
+    }, [formType, colors, images, stocks, setNewImages, setNewStock])
 
   return (
     <Container>
@@ -735,42 +755,32 @@ const ProductForm = ({ recordForEdit, formType, setChanged, setStockChanged, set
                      error={checkNewQuantity(color,"XL") === ""? errors.stocks : undefined}
                      />
                    </Grid>
-                 {/* <ImgContainer>
-               <Article>
- 
-                 <List>
-                   {editedImages
-                     .filter((img) => img.product_color_id === color.product_color_id)
-                     .map((img) => (
-                       <ListItem
-                         key={img.img_link}
-                       >
-                         <Imagethumbnail src={img.img_link} />
-                       </ListItem>
-                       
-                     ))}
-                     {editedImages
-                     .filter((img) => img.product_color_id === color.product_color_id && img.new_link !== undefined).map((img) => (
-                       <ListItem
-                         key={img.new_link}
-                       >
-                         <EditedImagethumbnail src={img.new_link} />
-                       </ListItem>
-                       
-                     ))
-                    }
-                 </List>
-               </Article>
-             </ImgContainer> */}
-            
-              <AddImage formType={formType}/>
+              <AddImage color={color} editedImages={newImages} setEditedImages={setNewImages} formType={formType} />
              
-            
              </Fragment>
                    
              ))
                  
              }
+             
+                <Controls.Button
+                    text="Add more colors"
+                    color="default"
+                    startIcon={<AddIcon />}
+                    onClick={() => manageStockField("add")}
+                  />
+                  {
+                    newStock.length > 1 ? 
+                    <Controls.Button
+                    text="Remove color"
+                    color="default"
+                    startIcon={<DeleteIcon />}
+                    onClick={() => manageStockField("delete")}
+                    
+                  />
+                    : undefined
+                  } 
+            
               </>
               :
               undefined

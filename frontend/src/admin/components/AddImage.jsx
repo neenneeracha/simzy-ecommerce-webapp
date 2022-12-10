@@ -58,10 +58,10 @@ const Error = styled.h5`
 const ErrorDetail = styled.h5`
   color: red;
 `;
-const LebelGroup = styled.div`
+const LabelGroup = styled.div`
   display: flex;
 `;
-const LebelText = styled.h6`
+const LabelText = styled.h6`
   margin-top: 30px;
 `;
 
@@ -84,6 +84,13 @@ const Detail = styled.h6`
   color: black;
   cursor: pointer;
   padding-left: 68px;
+`;
+
+const DetailAdd = styled.h6`
+  font-weight: lighter;
+  color: black;
+  cursor: pointer;
+  padding-left: 0px;
 `;
 
 const Input = styled.input`
@@ -126,27 +133,57 @@ const AddImage = ({color, editedImages, setEditedImages, setImgChanged, formType
     URL.revokeObjectURL(image);
   }
 
-  
+  const handleDelete = (img) => {
+    let newArr = [...editedImages]
+    console.log(img)
+    console.log(newArr)
+    for (let i = 0; i < newArr.length; i++) {
+      for (let j = 0; j < newArr[i].img.length; j++) {
+        if (newArr[i].img[j].link === img.link) {
+          newArr[i].img[j].link = ""
+          break;
+        }
+      }
+    }
+    setEditedImages(newArr)
+  }
 
 useEffect(() => {
   const storeImgLink = (link) => {
-  
     let newArr = [...editedImages]
-    for (let i = 0; i < newArr.length; i++) {
-      if (newArr[i].product_color_id === parseInt(id)) {
-        newArr[i] = {...newArr[i], new_link: link}
-        console.log(newArr[i])
+    if (formType === "edit") {
+      for (let i = 0; i < newArr.length; i++) {
+        if (newArr[i].product_color_id === parseInt(id)) {
+          newArr[i] = {...newArr[i], new_link: link}
+          console.log(newArr[i])
+        }
       }
+    } else {
+      for (let i = 0; i < newArr.length; i++) {
+        if (newArr[i].index === parseInt(id)) {
+          if (newArr[i].is_main_color === 1) {
+            console.log(newArr[i])
+            if (newArr[i].img[0].link !== "") {
+              newArr[i].img.push({link: link})
+            } else {
+              newArr[i].img[0].link = link;
+            }
+            
+          } else {
+            newArr[i].img[0].link = link;
+          }
+        }
+      }
+      
+    }
     setEditedImages(newArr)
     setId(null)
-    }
     // setInputs(prev => ({...prev, image: link}))
     // console.log("ok")
 }
 
   const handleChange = () => {
     
-    console.log(file)
     if (file != null)
     {
     const fileName = new Date().getTime() + file.name
@@ -174,10 +211,12 @@ useEffect(() => {
 }
   if (file !== null && id !== null) {
     handleChange();
-    setImgChanged(true)
+    if (formType === "edit") {
+      setImgChanged(true)
+    }
   }
-}, [file, editedImages, setEditedImages, setImgChanged, id])
-
+}, [file, editedImages, setEditedImages, setImgChanged, formType, id])
+console.log(file)
   return (
     <Container>
       <Wrapper>
@@ -200,7 +239,22 @@ useEffect(() => {
           </>
           : 
           <>
-        <Text>+ Add Images</Text>
+          <InputWrapper>
+          <Input type="file"
+          name={`img-${color.index}`}
+          id={color.index}
+          multiple
+          onChange={(e) => {
+            setFile(e.target.files[0]);
+            setId(e.target.id)
+            console.log(e.target)
+          }}
+          accept="image/png , image/jpeg, image/webp"/>
+          <Label htmlFor={color.index}>+ Add Images</Label>
+          <DetailAdd>please upload 5 images for main color</DetailAdd>
+          </InputWrapper>
+          
+        {/* <Text>+ Add Images</Text>
         <TextDetail>up to 5 images</TextDetail>
         <input
           type="file"
@@ -208,13 +262,13 @@ useEffect(() => {
           onChange={onSelectFile}
           multiple
           accept="image/png , image/jpeg, image/webp"
-        />
+        /> */}
           </>
         }
       </Wrapper>
       <br />
 
-      {selectedImages.length > 0 &&
+      {/* {selectedImages.length > 0 &&
         (selectedImages.length > 5 ? (
           <Error>
             You can't upload more than 5 images! <br />
@@ -224,30 +278,62 @@ useEffect(() => {
           </Error>
         ) : (
           <></>
-        ))}
+        ))} */}
+      {
+        formType === "add" ?
+        <>
+              <Images>
+      {editedImages.filter((img) => img.index === color.index).map((img) => (
+      <>
+        {
+          img.img.filter((img) => img.link !== "").map((img, index) => (
+            <>
+            <Image key={index}>
+                <img src={img.link} height="150" weight="150" alt="upload" />
 
-      <Images>
-        {selectedImages &&
-          selectedImages.map((image, index) => {
-            return (
-              <Image key={image}>
-                <img src={image} height="150" weight="150" alt="upload" />
-
-                <LebelGroup>
-                  <LebelText>
+                <LabelGroup>
+                  <LabelText>
                     <b>Image: {index + 1}</b>
-                  </LebelText>
+                  </LabelText>
+                  <Controls.Button
+                    text="delete image"
+                    onClick={() => handleDelete(img)}
+                    startIcon={<DeleteIcon />}
+                    style={styles.customButton}
+                  />
+                </LabelGroup>
+              </Image>
+            </>
+          ))
+        }
+      </>
+
+      ))}
+        {/* {editedImages &&
+          editedImages.img.map((image, index) => {
+            return (
+              <Image key={index}>
+                <img src={image.link} height="150" weight="150" alt="upload" />
+
+                <LabelGroup>
+                  <LabelText>
+                    <b>Image: {index + 1}</b>
+                  </LabelText>
                   <Controls.Button
                     text="delete image"
                     onClick={() => deleteHandler(image)}
                     startIcon={<DeleteIcon />}
                     style={styles.customButton}
                   />
-                </LebelGroup>
+                </LabelGroup>
               </Image>
             );
-          })}
+          })} */}
       </Images>
+      </>
+      : undefined
+      }
+
     </Container>
   );
 };
