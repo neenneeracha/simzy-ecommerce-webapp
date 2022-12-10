@@ -10,6 +10,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import SaveIcon from "@material-ui/icons/Save";
 import AddIcon from "@material-ui/icons/Add";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import axios from "axios";
 
 /* initial default value */
@@ -25,26 +26,6 @@ const initialFValues = {
   // image: "",
   // size: "",
 };
-
-// const imgFields = {
-//   index: "",
-//   is_main_color: "",
-//   img: [
-//     {link: ""},
-//   ]
-// }
-
-// const stockFields = {
-//   color_group_id: "",
-//   stock: [
-//     {size: "XS", quantity: ""},
-//     {size: "S", quantity: ""},
-//     {size: "M", quantity: ""},
-//     {size: "L", quantity: ""},
-//     {size: "XL", quantity: ""},
-//   ]
-// }
-
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -124,17 +105,15 @@ const ProductForm = ({ recordForEdit, formType, setChanged, setStockChanged, set
   const [colors, setColors] = useState([]);
   const [stocks, setStocks] = useState([]);
   const [images, setImages] = useState([]);
+  const [submit, setSubmit] = useState(false);
   const [categories, setCategories] = useState([]);
   const [colorGroups, setColorGroups] = useState([]);
   const [editedColors, setEditedColors] = useState([]);
   const [editedStocks, setEditedStocks] = useState([]);
   const [editedImages, setEditedImages] = useState([]);
-  // console.log(newStock)
-  // console.log(newImages)
 
   // form validation
   const validate = (fieldValues = values) => {
-
     let temp = { ...errors };
     if ("product_name" in fieldValues)
       temp.product_name = fieldValues.product_name ? "" : "Product name is required";
@@ -147,16 +126,38 @@ const ProductForm = ({ recordForEdit, formType, setChanged, setStockChanged, set
     if ("details" in fieldValues)
       temp.details = fieldValues.details ? "" : "Details is required";
     
-    for (let i =0; i < editedStocks.length; i++) {
-      if (isNaN(editedStocks[i].quantity) || editedStocks[i].quantity === "") {
-        temp.stocks = "Quantity is required";
+    if (formType === "edit") {
+      for (let i =0; i < editedStocks.length; i++) {
+        if (isNaN(editedStocks[i].quantity) || editedStocks[i].quantity === "") {
+          temp.stocks = "Quantity is required";
+        }
       }
     }
+    if (formType === "add") {
+      let foundColor = false
+      let foundQuantity = false
+      for (let i = 0; i < newStock.length; i++){
+        if (newStock[i].color_group_id === "") {
+          temp.color = "Color is required";
+          foundColor = true;
+        }
+          
+        for (let j = 0; j < newStock[i].stock.length; j++) {
+          if ( isNaN(newStock[i].stock[j].quantity) || newStock[i].stock[j].quantity === "") 
+          temp.stocks = "Quantity is required";
+          foundQuantity = true;
+        }
+      }
+      if (!foundColor) temp.color = ""
+      if (!foundQuantity) temp.stocks = ""
   
+    }
+    
     // save error value into "errors"
     setErrors({
       ...temp,
     });
+
 
     if (fieldValues === values)
       // return boolean value if the validation is valid or not
@@ -170,17 +171,72 @@ const ProductForm = ({ recordForEdit, formType, setChanged, setStockChanged, set
   const handleSubmit = (e) => {
      e.preventDefault();
 
+    if (formType === "add") {
+      setSubmit(true)
+      if (!validate()) {
+        let arr = Object.values(errors).filter((error) => error !== "")
+        let pass = 0;
+        let quantity = false;
+        let color = false;
+        
+        for (let i = 0; i < arr.length; i++) {
+          if (arr[i] === 'Quantity is required') {
+            for (let i = 0; i < newStock.length; i++){
+              for (let j = 0; j < newStock[i].stock.length; j++) {
+                if (isNaN(newStock[i].stock[j].quantity) || newStock[i].stock[j].quantity === "") {
+                  quantity = true;
+                  break;
+                }
+              }
+              if (quantity === true) {
+                break;
+              }
+            }
+            if (!quantity) pass++;
+          } else if (arr[i] === 'Color is required') {
+            for (let i = 0; i < newStock.length; i++){
+              if (newStock[i].color_group_id === "") {
+                color = true;
+                break;
+              }
+          }
+          if (!color) pass++;
+        }
+        
+        if (pass === arr.length) {
+          let img = 0
+        for (let i = 0; i < newImages.length; i++) {
+            for (let j = 0; j < newImages[i].img.length; j++) {
+              if (newImages[i].img[j].link !== "") {
+                img++;
+              }
+            }
+        }
+        if (img - 4 - newImages.length === 0) {
+          setSubmit(false)
+          addOrEdit(values, editedColors, editedStocks, editedImages, resetForm)
+        } else {
+          toast.error("Incorrect number of images provided, please recheck !!", {
+                position: "top-center",
+              })
+          setSubmit(false)
+        }
+        }
+      }
+    }
+    } else {
     if (validate()) {
       addOrEdit(values, editedColors, editedStocks, editedImages, resetForm)
     }
-  };
+    }
+
+}
 
   const handleInput = (e) => {
     setChanged(true);
     handleChange(e);
   };
-console.log(newStock)
-console.log(newImages)
+
   const handleNewStock = (e, field) => {
     if (field === "Color Group") {
       let newArr = [...newStock]
@@ -193,10 +249,8 @@ console.log(newImages)
           break;
         }
        }
-       console.log(newArr)
        setNewStock(newArr)
     } else if (field === "Stock") {
-      console.log(e.target)
       let newArr = [...newStock]
       let found = false
       const index = (e.target.name).split('-')[2]
@@ -220,7 +274,6 @@ console.log(newImages)
             }
           
         }
-        console.log(newArr)
       setNewStock(newArr)
       }
       
@@ -458,9 +511,7 @@ console.log(newImages)
         setEditedStocks(stocks)
       } 
       if (formType === "add") {
-         //setNewImages([{...imgFields, is_main_color: 1, index: 0}])
-         //console.log(stockFields)
-         
+        
          let newStockArr = [{
             color_group_id: "",
             is_main_color: 1, 
@@ -767,18 +818,19 @@ console.log(newImages)
                   value={color.color_group_id}
                   onChange={(e) => handleNewStock(e, "Color Group")}
                   options={colorGroups}
+                  error={color.color_group_id === "" && submit? errors.color : undefined}
                 />
                      
                      <Controls.Input name={`stock-S-${color.index}`} label="Size S" 
                      value={checkNewQuantity(color,"S")}
                      onChange={(e) => handleNewStock(e,"Stock")}
-                     error={checkNewQuantity(color,"S") === ""? errors.stocks : undefined}
+                     error={checkNewQuantity(color,"S") === "" && submit? errors.stocks : undefined}
                      />
 
                      <Controls.Input name={`stock-L-${color.index}`} label="Size L" 
                      value={checkNewQuantity(color,"L")}
                      onChange={(e) => handleNewStock(e,"Stock")}
-                     error={checkNewQuantity(color,"L") === ""? errors.stocks : undefined}
+                     error={checkNewQuantity(color,"L") === "" && submit? errors.stocks : undefined}
                      />
                      
 
@@ -788,19 +840,19 @@ console.log(newImages)
                    <Controls.Input name={`stock-XS-${color.index}`} label="Size XS" 
                      value={checkNewQuantity(color,"XS")}
                      onChange={(e) => handleNewStock(e,"Stock")}
-                     error={checkNewQuantity(color,"XS") === ""? errors.stocks : undefined}
+                     error={checkNewQuantity(color,"XS") === "" && submit? errors.stocks : undefined}
                      />
 
                      <Controls.Input name={`stock-M-${color.index}`} label="Size M" 
                      value={checkNewQuantity(color,"M")}
                      onChange={(e) => handleNewStock(e,"Stock")}
-                     error={checkNewQuantity(color,"M") === ""? errors.stocks : undefined}
+                     error={checkNewQuantity(color,"M") === "" && submit? errors.stocks : undefined}
                      />
 
                      <Controls.Input name={`stock-XL-${color.index}`} label="Size XL" 
                      value={checkNewQuantity(color,"XL")}
                      onChange={(e) => handleNewStock(e,"Stock")}
-                     error={checkNewQuantity(color,"XL") === ""? errors.stocks : undefined}
+                     error={checkNewQuantity(color,"XL") === "" && submit? errors.stocks : undefined}
                      />
                    </Grid>
               <AddImage color={color} editedImages={newImages} setEditedImages={setNewImages} formType={formType} />  
@@ -847,7 +899,7 @@ console.log(newImages)
               (
                 <>
                   <Controls.Button
-                    className="w-75"
+                    className="w-25"
                     type="submit"
                     text="Submit"
                     style={styles.customButton}

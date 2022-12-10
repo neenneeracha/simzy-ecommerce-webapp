@@ -11,7 +11,8 @@ const {
     getNewArrivals,
     updateProductInfo,
     updateProductImg,
-    removeProduct
+    removeProduct,
+    addNewProduct
 } = require("../controller/product");
 
 
@@ -23,6 +24,6 @@ router.route("/:id").get(getOneProduct).patch(updateProductInfo).delete(removePr
 router.route("/img/:id").get(getProductImg);
 router.route("/color/:id").get(getProductColor);
 router.route("/stock/:id").get(getProductStock);
-router.route("/").get(getAllProducts);
+router.route("/").get(getAllProducts).post(addNewProduct);
 
 module.exports = router;

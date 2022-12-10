@@ -11,6 +11,7 @@ import Controls from "../components/controls/Controls";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { colors } from "@material-ui/core";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 const Container = styled.div`
   margin-top: 30px;
@@ -135,8 +136,7 @@ const AddImage = ({color, editedImages, setEditedImages, setImgChanged, formType
 
   const handleDelete = (img) => {
     let newArr = [...editedImages]
-    console.log(img)
-    console.log(newArr)
+
     for (let i = 0; i < newArr.length; i++) {
       for (let j = 0; j < newArr[i].img.length; j++) {
         if (newArr[i].img[j].link === img.link) {
@@ -155,22 +155,40 @@ useEffect(() => {
       for (let i = 0; i < newArr.length; i++) {
         if (newArr[i].product_color_id === parseInt(id)) {
           newArr[i] = {...newArr[i], new_link: link}
-          console.log(newArr[i])
         }
       }
     } else {
-      console.log("hi")
       for (let i = 0; i < newArr.length; i++) {
         if (parseInt(newArr[i].index) === parseInt(id)) {
           if (parseInt(newArr[i].is_main_color) === 1) {
-            console.log(newArr[i])
-            if (newArr[i].img[0].link !== "") {
-              newArr[i].img.push({link: link})
-            } else {
-              newArr[i].img[0].link = link;
-            }
+            // 5 images
+            let count = 0;
+            let set = false;
             
+            for (let j = 0; j < newArr[i].img.length; j++) {
+               if (newArr[i].img[j].link !== "") {
+                count++;
+              } else {
+                newArr[i].img[j].link = link;
+                set = true;
+                break;
+              }
+            }
+
+            if (count > 4) {
+              toast.error("Cannot upload more than 5 images !!", {
+              position: "top-center",
+            })
+            } else if (!set) {
+              newArr[i].img.push({link: link})
+            } 
+            // if (newArr[i].img[0].link !== "") {
+            //   newArr[i].img.push({link: link})
+            // } else {
+            //   newArr[i].img[0].link = link;
+            // }
           } else {
+            // 1 image
             newArr[i].img[0].link = link;
           }
         }
@@ -231,7 +249,6 @@ useEffect(() => {
           onChange={(e) => {
             setFile(e.target.files[0]);
             setId(e.target.id)
-            console.log(e.target.id)
           }}
           accept="image/png , image/jpeg, image/webp"/>
           <Label htmlFor={color.product_color_id}>+ Click Here to Update Image</Label>
@@ -239,6 +256,7 @@ useEffect(() => {
           </InputWrapper>
           </>
           : 
+          parseInt(color.is_main_color) === 1?
           <>
           <InputWrapper>
           <Input type="file"
@@ -248,7 +266,6 @@ useEffect(() => {
           onChange={(e) => {
             setFile(e.target.files[0]);
             setId(e.target.id)
-            console.log(e.target)
           }}
           accept="image/png , image/jpeg, image/webp"/>
           <Label htmlFor={color.index}>+ Add Images</Label>
@@ -264,6 +281,21 @@ useEffect(() => {
           multiple
           accept="image/png , image/jpeg, image/webp"
         /> */}
+          </>
+          :
+          <>
+          <InputWrapper>
+          <Input type="file"
+          name={`img-${color.index}`}
+          id={color.index}
+          onChange={(e) => {
+            setFile(e.target.files[0]);
+            setId(e.target.id)
+          }}
+          accept="image/png , image/jpeg, image/webp"/>
+          <Label htmlFor={color.index}>+ Add Image</Label>
+          <DetailAdd>please upload one image for other color</DetailAdd>
+          </InputWrapper>
           </>
         }
       </Wrapper>

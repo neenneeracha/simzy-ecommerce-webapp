@@ -3,7 +3,6 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Products from "../components/Products";
 import ProductNotFound from "../components/ProductNotFound";
-import Loading from "../components/Loading";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
@@ -120,10 +119,7 @@ const ProductList = () => {
           ? main_category
           : `Search results for "${search_input}"`}
       </Title>
-      {
-        loading ? <Loading loading={loading}/> 
-        :
-      !color && !size && !price && products.length === 0 ? (
+      {!color && !size && !price && products.length === 0 ? (
           <ProductNotFound filtered={false} />
         ) : (
           <>

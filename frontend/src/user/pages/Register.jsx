@@ -385,7 +385,7 @@ const Register = () => {
               controlId="address"
               style={{ marginBottom: "30px" }}>
                 <Form.Label>
-                  <FieldName>Address: </FieldName> <Description>(e.g., 126 Pracha Uthit Rd, Bang Mot)</Description>
+                  <FieldName>Address: </FieldName> <Description>(e.g., 126 Pracha Uthit Rd)</Description>
                 </Form.Label>
                 <Form.Control
                   type="text"

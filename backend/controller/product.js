@@ -436,6 +436,26 @@ const removeProduct = (req, res) => {
     });
 };
 
+// add new product
+const addNewProduct = (req, res) => {
+    const product = req.body.product
+
+    const values = [
+        product.category_id,
+        product.product_name,
+        product.description,
+        product.details,
+        product.price
+    ]
+    const q = "INSERT INTO product (`category_id`, `product_name`, `description`, `details`, `price`) VALUES (?)";
+
+    pool.query(q, [values], (err, data) => {
+        if (err) return res.status(500).json(err);
+
+        return res.status(201).json(data);
+    });
+
+};
 
 module.exports = {
     getAllProducts,
@@ -448,5 +468,6 @@ module.exports = {
     getNewArrivals,
     updateProductInfo,
     updateProductImg,
-    removeProduct
+    removeProduct,
+    addNewProduct
 };

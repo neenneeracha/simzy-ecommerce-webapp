@@ -56,8 +56,10 @@ const updateProductStock = (req, res) => {
     for (let i = 0; i < stocks.length; i++) {
         pool.query(q, [stocks[i].quantity, stocks[i].stock_id],
             (err, data) => {
-                status = 500
-                error = err
+                if (err) {
+                    status = 500
+                    error = err
+                }
             });
         if (status !== 200) break;
 
@@ -66,7 +68,68 @@ const updateProductStock = (req, res) => {
     return res.status(status).json(error);
 }
 
+const addNewStock = (req, res) => {
+    const product_id = req.params.id
+    const stocks = req.body.stocks
+    const images = req.body.images
+
+    let status = 200
+    let error = { msg: "ok" }
+    let product_color_id
+
+    const q1 = "INSERT INTO productcolor (`product_id`, `color_group_id`, `is_main_color`) VALUES (?,?,?)"
+    const q2 = "INSERT INTO productstock (`product_color_id`, `size`, `quantity`) VALUES (?,?,?)"
+    const q3 = "INSERT INTO productimage (`product_color_id`, `img_link`) VALUES (?,?)"
+    for (let i = 0; i < stocks.length; i++) {
+
+        pool.query(q1, [product_id, stocks[i].color_group_id, stocks[i].is_main_color],
+            (err, data) => {
+                if (err) {
+                    status = 500
+                    error = err
+
+                    if (status !== 200)
+                        i = stocks.length;
+                } else {
+                    product_color_id = data.insertId
+                    for (let j = 0; j < stocks[i].stock.length; j++) {
+                        if (stocks[i].stock[j].quantity > 0) {
+                            pool.query(q2, [product_color_id, stocks[i].stock[j].size, stocks[i].stock[j].quantity], (err, data) => {
+                                if (err) {
+                                    status = 500
+                                    error = err
+
+                                }
+                                if (status !== 200)
+                                    i = stocks.length;
+                            });
+                        }
+                    }
+
+                    for (let j = 0; j < images.length; j++) {
+                        if (parseInt(stocks[i].index) === parseInt(images[j].index)) {
+                            for (let k = 0; k < images[j].img.length; k++) {
+                                pool.query(q3, [product_color_id, images[j].img[k].link], (err, data) => {
+                                    if (err) {
+                                        status = 500
+                                        error = err
+                                    }
+                                    if (status !== 200)
+                                        i = stocks.length;
+                                });
+                            }
+                        }
+
+                    }
+                }
+            });
+
+    }
+    return res.status(status).json(status);
+}
+
 module.exports = {
     addProductStock,
     updateProductStock,
+    addNewStock
 };

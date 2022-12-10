@@ -98,12 +98,27 @@ const ViewProducts = () => {
 
   const addOrEdit = async (values, editedColors, editedStocks, editedImages, resetForm) => {
     if (recordForEdit === null) {
-      alert("add")
-    } else {
-      console.log(changed)
-      console.log(stockChanged)
-      console.log(imgChanged)
-      
+      try {
+        let res = await axios.post("http://localhost:8080/api/v1/products/", {product: values})
+        const product_id = res.data.insertId;
+        
+        res = await axios.post("http://localhost:8080/api/v1/stock/new/" + product_id, {stocks: newStock, images: newImages})
+        if (res.status === 200) {
+          toast.success(`Successfully added, the product ID is #${product_id} !!`, {
+            position: "top-center",
+          })
+          resetPopup(resetForm);
+          setTimeout(function () {
+            window.location.reload();
+          }, 3000);
+        }
+      } catch (err) {
+        toast.error("Something went wrong, please try again !!", {
+          position: "top-center",
+        })
+        console.log(err)
+      }
+    } else {      
       if (changed || stockChanged || imgChanged) {
         try {
           let res
@@ -125,12 +140,10 @@ const ViewProducts = () => {
               res = await axios.post("http://localhost:8080/api/v1/stock", {stocks: newStock})
             }
             if (updateStock.length > 0) {
-              console.log(updateStock)
               res = await axios.patch("http://localhost:8080/api/v1/stock/update", {stocks: updateStock})
             }
           }
           if (imgChanged) {
-            console.log(editedImages)
             let newImg = []
             for (let i = 0; i < editedImages.length; i++) {
               if (typeof editedImages[i].new_link === 'string') {

@@ -13,6 +13,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import ClearIcon from "@material-ui/icons/Clear";
 import Alert from "../components/Alert";
+import SizeChartModal from "../components/SizeChartModal";
 
 const Container = styled.div`
   min-height: 100vh;
@@ -140,6 +141,19 @@ const Line = styled.hr``;
 
 const Message = styled.h3``;
 
+const SizeChart = styled.p`
+color: silver;
+text-align: right;
+margin-top: 20px;
+margin-bottom: -40px;
+
+&:hover {
+  text-decoration: underline;
+  color: #eda3b5;
+  cursor: pointer;
+}
+`;
+
 const styles = {
   customButton: {
     backgroundColor: "#eda3b5",
@@ -147,6 +161,15 @@ const styles = {
     color: "white",
     borderRadius: "5px",
     marginTop: "30px",
+    padding: "15px 25px"
+  },
+  clearButton: {
+    backgroundColor: "white",
+    borderColor: "white",
+    color: "#9e9e9e",
+    borderRadius: "5px",
+    marginTop: "30px",
+    padding: "15px 25px"
   },
 };
 
@@ -165,6 +188,7 @@ const Product = () => {
   const [selectedSize, setSelectedSize] = useState(null);
   const [filteredColors, setFilteredColors] = useState([]);
   const [show, setShow] = useState(false);
+  const [open, setOpen] = useState(false);
   const [error, setError] = useState({
     title: "",
     message: "",
@@ -407,6 +431,7 @@ const Product = () => {
                 <MaterialTitle>Material: </MaterialTitle>
                 <MaterialContent> {product.details}</MaterialContent>
               </MaterialDetail>
+              <SizeChart onClick={() => setOpen(true)}>click here to view size chart</SizeChart>
               {stocks.length > 0 ? (
                 <>
                   <FilterContainer>
@@ -549,7 +574,7 @@ const Product = () => {
                     <Button
                       className="d-block mx-auto w-35"
                       type="submit"
-                      style={styles.customButton}
+                      style={styles.clearButton}
                       onClick={() => window.location.reload()}
                     >
                       <MDBIcon
@@ -581,6 +606,9 @@ const Product = () => {
             </InfoContainer>
           </Col>
         </Row>
+        <SizeChartModal show={open}
+        onHide={() => setOpen(false)}
+        />
       </Wrapper>
       <Footer />
     </Container>
