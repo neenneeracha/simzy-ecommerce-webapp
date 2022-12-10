@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import styled from "styled-components";
 import {
   getStorage,
@@ -159,9 +159,10 @@ useEffect(() => {
         }
       }
     } else {
+      console.log("hi")
       for (let i = 0; i < newArr.length; i++) {
-        if (newArr[i].index === parseInt(id)) {
-          if (newArr[i].is_main_color === 1) {
+        if (parseInt(newArr[i].index) === parseInt(id)) {
+          if (parseInt(newArr[i].is_main_color) === 1) {
             console.log(newArr[i])
             if (newArr[i].img[0].link !== "") {
               newArr[i].img.push({link: link})
@@ -216,7 +217,7 @@ useEffect(() => {
     }
   }
 }, [file, editedImages, setEditedImages, setImgChanged, formType, id])
-console.log(file)
+
   return (
     <Container>
       <Wrapper>
@@ -283,11 +284,11 @@ console.log(file)
         formType === "add" ?
         <>
               <Images>
-      {editedImages.filter((img) => img.index === color.index).map((img) => (
-      <>
+      {editedImages.filter((img) => parseInt(img.index) === parseInt(color.index)).map((img) => (
+      <Fragment key={img.index}>
         {
           img.img.filter((img) => img.link !== "").map((img, index) => (
-            <>
+            <Fragment key={index}>
             <Image key={index}>
                 <img src={img.link} height="150" weight="150" alt="upload" />
 
@@ -303,10 +304,10 @@ console.log(file)
                   />
                 </LabelGroup>
               </Image>
-            </>
+            </Fragment>
           ))
         }
-      </>
+      </Fragment>
 
       ))}
         {/* {editedImages &&

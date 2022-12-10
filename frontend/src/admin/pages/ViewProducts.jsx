@@ -20,6 +20,7 @@ import ProductForm from "../components/ProductForm";
 import Confirmation from "../components/Confirmation";
 import EmptyList from "../components/EmptyList";
 
+
 // style the input form container
 const useStylesPaper = makeStyles((theme) => ({
   pageContent: {

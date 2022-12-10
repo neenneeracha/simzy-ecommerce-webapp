@@ -26,24 +26,24 @@ const initialFValues = {
   // size: "",
 };
 
-const stockFields = {
-  color_group_id: "",
-  stock: [
-    {size: "XS", quantity: ""},
-    {size: "S", quantity: ""},
-    {size: "M", quantity: ""},
-    {size: "L", quantity: ""},
-    {size: "XL", quantity: ""},
-  ]
-}
+// const imgFields = {
+//   index: "",
+//   is_main_color: "",
+//   img: [
+//     {link: ""},
+//   ]
+// }
 
-const imgFields = {
-  index: "",
-  is_main_color: "",
-  img: [
-    {link: ""},
-  ]
-}
+// const stockFields = {
+//   color_group_id: "",
+//   stock: [
+//     {size: "XS", quantity: ""},
+//     {size: "S", quantity: ""},
+//     {size: "M", quantity: ""},
+//     {size: "L", quantity: ""},
+//     {size: "XL", quantity: ""},
+//   ]
+// }
 
 
 const useStyles = makeStyles((theme) => ({
@@ -129,8 +129,8 @@ const ProductForm = ({ recordForEdit, formType, setChanged, setStockChanged, set
   const [editedColors, setEditedColors] = useState([]);
   const [editedStocks, setEditedStocks] = useState([]);
   const [editedImages, setEditedImages] = useState([]);
-  console.log(newStock)
-  console.log(newImages)
+  // console.log(newStock)
+  // console.log(newImages)
 
   // form validation
   const validate = (fieldValues = values) => {
@@ -179,7 +179,8 @@ const ProductForm = ({ recordForEdit, formType, setChanged, setStockChanged, set
     setChanged(true);
     handleChange(e);
   };
-
+console.log(newStock)
+console.log(newImages)
   const handleNewStock = (e, field) => {
     if (field === "Color Group") {
       let newArr = [...newStock]
@@ -192,6 +193,7 @@ const ProductForm = ({ recordForEdit, formType, setChanged, setStockChanged, set
           break;
         }
        }
+       console.log(newArr)
        setNewStock(newArr)
     } else if (field === "Stock") {
       console.log(e.target)
@@ -218,8 +220,10 @@ const ProductForm = ({ recordForEdit, formType, setChanged, setStockChanged, set
             }
           
         }
-      }
+        console.log(newArr)
       setNewStock(newArr)
+      }
+      
     }
   }
 
@@ -334,11 +338,32 @@ const ProductForm = ({ recordForEdit, formType, setChanged, setStockChanged, set
   }
 
   const manageStockField = (type) => {
+    let stockElement = {
+      color_group_id: "",
+      is_main_color: "0", 
+      index: newStock.length,
+      stock: [
+        {size: "XS", quantity: ""},
+        {size: "S", quantity: ""},
+        {size: "M", quantity: ""},
+        {size: "L", quantity: ""},
+        {size: "XL", quantity: ""},
+      ]
+    }
+
+    let imgElement = {
+        index: newImages.length,
+        is_main_color: "0",
+        img: [
+          {link: ""},
+        ]
+      }
+
     let newArrStock = [...newStock]
     let newArrImage = [...newImages]
     if (type === "add") {
-      newArrStock.push(stockFields)
-      newArrImage.push(imgFields)
+      newArrStock.push(stockElement)
+      newArrImage.push(imgElement)
     } else {
       newArrStock.pop()
       newArrImage.pop()
@@ -433,11 +458,35 @@ const ProductForm = ({ recordForEdit, formType, setChanged, setStockChanged, set
         setEditedStocks(stocks)
       } 
       if (formType === "add") {
-         setNewImages([{...imgFields, is_main_color: 1, index: 0}])
-         setNewStock([{...stockFields, is_main_color: 1, index: 0}])
+         //setNewImages([{...imgFields, is_main_color: 1, index: 0}])
+         //console.log(stockFields)
+         
+         let newStockArr = [{
+            color_group_id: "",
+            is_main_color: 1, 
+            index: 0,
+            stock: [
+              {size: "XS", quantity: ""},
+              {size: "S", quantity: ""},
+              {size: "M", quantity: ""},
+              {size: "L", quantity: ""},
+              {size: "XL", quantity: ""},
+            ]
+          }]
+
+          let newImgArr = [{
+              index: "0",
+              is_main_color: "1",
+              img: [
+                {link: ""},
+              ]
+            }]
+          setNewStock(newStockArr)
+          setNewImages(newImgArr)
+         
       }
       
-    }, [formType, colors, images, stocks, setNewImages, setNewStock])
+    }, [formType, colors, images, stocks, setNewStock, setNewImages])
 
   return (
     <Container>
@@ -704,14 +753,13 @@ const ProductForm = ({ recordForEdit, formType, setChanged, setStockChanged, set
              </Fragment>
                    
              ))
-                 
              }
              {
               formType === "add" ?
               <>
-             {
-                 newStock.map((color) => (
-                   <Fragment key={color.color_group_id}>
+              {
+                 newStock.map((color, index) => (
+                   <Fragment key={index}>
                    <Grid item xs={6}>
                    <Controls.Select
                   name={`index-${color.index}`}
@@ -755,8 +803,7 @@ const ProductForm = ({ recordForEdit, formType, setChanged, setStockChanged, set
                      error={checkNewQuantity(color,"XL") === ""? errors.stocks : undefined}
                      />
                    </Grid>
-              <AddImage color={color} editedImages={newImages} setEditedImages={setNewImages} formType={formType} />
-             
+              <AddImage color={color} editedImages={newImages} setEditedImages={setNewImages} formType={formType} />  
              </Fragment>
                    
              ))
@@ -779,12 +826,11 @@ const ProductForm = ({ recordForEdit, formType, setChanged, setStockChanged, set
                     
                   />
                     : undefined
-                  } 
-            
+                  }
               </>
-              :
-              undefined
+              : undefined
              }
+             
                
              </Grid>
            </Paper>
