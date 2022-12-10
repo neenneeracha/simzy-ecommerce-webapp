@@ -8,24 +8,25 @@ import { Link, useNavigate } from "react-router-dom";
 import { useUserUpdate } from "../../UserContext";
 import axios from "axios";
 import Alert from "../components/Alert";
+import { useSelector } from "react-redux";
 
-const Container = styled.div `
+const Container = styled.div`
   position: fixed;
   padding: 0px 15px;
   margin: 0px auto;
 `;
 
-const Title = styled.h3 `
+const Title = styled.h3`
   color: #eda3b5;
   text-align: center;
   font-weight: bold;
 `;
 
-const Text = styled.div `
+const Text = styled.div`
   text-align: center;
 `;
 
-const LinkItem = styled.span `
+const LinkItem = styled.span`
   color: #eda3b5;
   text-decoration: underline;
 
@@ -35,23 +36,22 @@ const LinkItem = styled.span `
   }
 `;
 
-const FieldName = styled.b `
-  
-`
+const FieldName = styled.b``;
 
 const styles = {
-    customButton: {
-        backgroundColor: "#eda3b5",
-        borderColor: "#eda3b5",
-        color: "white",
-        borderRadius: "5px",
-        marginTop: "6%",
-    },
+  customButton: {
+    backgroundColor: "#eda3b5",
+    borderColor: "#eda3b5",
+    color: "white",
+    borderRadius: "5px",
+    marginTop: "6%",
+  },
 };
 
 const Login = () => {
   const { setToken } = useUserUpdate();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const fontSize = useSelector((state) => state.fontSize);
   const [show, setShow] = useState(false);
   const [inputs, setInputs] = useState({
     email: "",
@@ -61,25 +61,40 @@ const Login = () => {
     title: "",
     message: "",
     type: "",
-    link: ""
+    link: "",
   });
 
-    const handleChange = (e) => {
-        setInputs((prev) => ({...prev, [e.target.name]: e.target.value }));
-    };
+  const handleChange = (e) => {
+    setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
   const handleSubmit = async () => {
-    const checkEmail = inputs.email.split(' ').join('').length < 1
-    const checkPassword = inputs.password.split(' ').join('').length < 1
-    
+    const checkEmail = inputs.email.split(" ").join("").length < 1;
+    const checkPassword = inputs.password.split(" ").join("").length < 1;
+
     if (checkEmail && checkPassword) {
-      setError((prev) => ({ ...prev, title: "Invalid Input", message: "Email and Password cannot be blank, please try again!", type: "error"}));
+      setError((prev) => ({
+        ...prev,
+        title: "Invalid Input",
+        message: "Email and Password cannot be blank, please try again!",
+        type: "error",
+      }));
       setShow(true);
     } else if (checkEmail) {
-      setError((prev) => ({ ...prev, title: "Invalid Input", message: "Email cannot be blank, please try again!", type: "error"}));
+      setError((prev) => ({
+        ...prev,
+        title: "Invalid Input",
+        message: "Email cannot be blank, please try again!",
+        type: "error",
+      }));
       setShow(true);
     } else if (checkPassword) {
-      setError((prev) => ({ ...prev, title: "Invalid Input", message: "Password cannot be blank, please try again!", type: "error"}));
+      setError((prev) => ({
+        ...prev,
+        title: "Invalid Input",
+        message: "Password cannot be blank, please try again!",
+        type: "error",
+      }));
       setShow(true);
     } else {
       try {
@@ -93,24 +108,32 @@ const Login = () => {
       } catch (err) {
         console.log(err);
         if (err.response.status === 500) {
-          setError((prev) => ({ ...prev, title: "Something went wrong", message: err.response.data.msg, type: "error"}));
+          setError((prev) => ({
+            ...prev,
+            title: "Something went wrong",
+            message: err.response.data.msg,
+            type: "error",
+          }));
           setShow(true);
         } else {
-          setError((prev) => ({ ...prev, title: "Invalid Credentials", message: err.response.data.msg, type: "error"}));
+          setError((prev) => ({
+            ...prev,
+            title: "Invalid Credentials",
+            message: err.response.data.msg,
+            type: "error",
+          }));
           setShow(true);
         }
       }
     }
-    
   };
 
   return (
     <Container>
       <BackNavBar />
-      {
-        show ? <Alert show={show} setShow={setShow} text={error} setText={setError} />
-        : undefined
-      }
+      {show ? (
+        <Alert show={show} setShow={setShow} text={error} setText={setError} />
+      ) : undefined}
       <Row>
         <Col xs={12} md={6}>
           <Image
@@ -122,18 +145,23 @@ const Login = () => {
         </Col>
         <Col style={{ marginRight: "5%", marginTop: "5%" }}>
           <Title
-            style={{ width: "80%", marginLeft: "10%", marginTop: "10%" }}
+            style={{
+              width: "80%",
+              marginLeft: "10%",
+              marginTop: "10%",
+              fontSize: `${32 + fontSize.fontSize}px`,
+            }}
             className="center"
           >
             WELCOME TO SIMZY
           </Title>
           <Form
-            style={{ margin: "30px 100px" }}
+            style={{
+              margin: "30px 100px",
+              fontSize: `${16 + fontSize.fontSize}px`,
+            }}
           >
-            <Form.Group
-              controlId="emailInput"
-              style={{ marginTop: "30px" }}
-            >
+            <Form.Group controlId="emailInput" style={{ marginTop: "30px" }}>
               <Form.Label>
                 <FieldName>Email:</FieldName>
               </Form.Label>
@@ -146,10 +174,7 @@ const Login = () => {
               />
             </Form.Group>
 
-            <Form.Group
-              controlId="passwordInput"
-              style={{ marginTop: "30px" }}
-            >
+            <Form.Group controlId="passwordInput" style={{ marginTop: "30px" }}>
               <Form.Label>
                 <FieldName>Password:</FieldName>
               </Form.Label>
@@ -166,7 +191,15 @@ const Login = () => {
               style={styles.customButton}
               onClick={handleSubmit}
             >
-              Submit
+              <Text
+                style={{
+                  fontSize: `${16 + fontSize.fontSize}px`,
+                  display: " inline-block",
+                }}
+              >
+                {" "}
+                Submit
+              </Text>
             </Button>
             <Text style={{ marginTop: "2%", marginBottom: "5%" }}>
               Need an account? &nbsp;

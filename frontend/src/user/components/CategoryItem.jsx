@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   flex: 1;
@@ -31,6 +32,7 @@ const Title = styled.h1`
   margin-bottom: 20px;
   font-weight: bold;
 `;
+const Text = styled.div``;
 
 const Button = styled.button`
   border: none;
@@ -49,13 +51,30 @@ const Button = styled.button`
 `;
 
 const CategoryItem = ({ item }) => {
+  const fontSize = useSelector((state) => state.fontSize);
+
   return (
     <Container>
       <Link to={item.url}>
         <Image src={item.img} />
         <Info>
-          <Title>{item.title}</Title>
-          <Button>SHOP NOW</Button>
+          <Title
+            style={{
+              fontSize: `${40 + fontSize.fontSize}px`,
+            }}
+          >
+            {item.title}
+          </Title>
+          <Button>
+            {" "}
+            <Text
+              style={{
+                fontSize: `${20 + fontSize.fontSize}px`,
+              }}
+            >
+              SHOP NOW
+            </Text>
+          </Button>
         </Info>
       </Link>
     </Container>

@@ -9,6 +9,7 @@ import {
   Twitter,
 } from "@material-ui/icons";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   position: absolute;
@@ -121,15 +122,16 @@ const usefulLinks = [
 ];
 
 const Footer = () => {
+  const fontSize = useSelector((state) => state.fontSize);
   return (
     <Container>
       <Left>
-        <Logo>SIMZY</Logo>
-        <Desc>
+        <Logo style={{ fontSize: `${32 + fontSize.fontSize}px` }}>SIMZY</Logo>
+        <Desc style={{ fontSize: `${16 + fontSize.fontSize}px` }}>
           OPEN NOW! NEW SIMZY STORE AT ROBINSON BURIRAM. FIND THE EXCLUSIVE
           PROMOTION AND SPECIAL SURPRISE ONLY FOR THIS STORE DURING 7 - 13
-          OCT'22 [NEW STORE] OCTOBER 20TH MEET THE NEW UNIQLO STORE AT TERMINAL
-          21 RAMA 3. #LIFEWEARNEXTTOYOU
+          OCT'22 OCTOBER 20TH MEET THE NEW SIMZY STORE AT TERMINAL 21 RAMA 3.
+          #LIFEWEARNEXTTOYOU
         </Desc>
         <SocialContainer>
           <SocialIcon color="3B5999">
@@ -147,27 +149,44 @@ const Footer = () => {
         </SocialContainer>
       </Left>
       <Center>
-        <Title>Useful Links</Title>
+        <Title style={{ fontSize: `${32 + fontSize.fontSize}px` }}>
+          Useful Links
+        </Title>
         <List>
           {usefulLinks.map((link, index) => (
             <ListItem key={index}>
               <Link style={{ textDecoration: "none" }} to={link.url}>
-                <LinkItem>{link.name}</LinkItem>
+                <LinkItem style={{ fontSize: `${18 + fontSize.fontSize}px` }}>
+                  {link.name}
+                </LinkItem>
               </Link>
             </ListItem>
           ))}
         </List>
       </Center>
       <Right>
-        <Title>Contact</Title>
-        <ContactItem>
-          <Room style={{ marginRight: "10px" }} /> 126 Pracha Uthit Rd, Bang
-          Mot, Thung Khru, Bangkok 10140
+        <Title style={{ fontSize: `${32 + fontSize.fontSize}px` }}>
+          Contact
+        </Title>
+        <ContactItem style={{ fontSize: `${18 + fontSize.fontSize}px` }}>
+          <Room
+            style={{
+              marginRight: "10px",
+              fontSize: `${18 + fontSize.fontSize}px`,
+            }}
+          />{" "}
+          186 Pracha Uthit Rd, Bang Mot, Thung Khru, Bangkok 10180
         </ContactItem>
-        <ContactItem>
-          <Phone style={{ marginRight: "10px" }} /> Tel: +66 (0) 2315 6666
+        <ContactItem style={{ fontSize: `${18 + fontSize.fontSize}px` }}>
+          <Phone
+            style={{
+              marginRight: "10px",
+              fontSize: `${18 + fontSize.fontSize}px`,
+            }}
+          />{" "}
+          Tel: +66 (0) 2315 6666
         </ContactItem>
-        <ContactItem>
+        <ContactItem style={{ fontSize: `${18 + fontSize.fontSize}px` }}>
           <MailOutline style={{ marginRight: "10px" }} /> Email: Simzy@gmail.com
         </ContactItem>
       </Right>

@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -48,28 +49,51 @@ const Button = styled.button`
 
 const ProductNotFound = ({ filtered }) => {
   const navigate = useNavigate();
+  const fontSize = useSelector((state) => state.fontSize);
+
   return (
     <Container>
       <Wrapper>
         <Image src={process.env.PUBLIC_URL + "img/no-result.png"} />
         <TextWrapper>
-          <Title>No Results Found!</Title>
+          <Title style={{ fontSize: `${40 + fontSize.fontSize}px` }}>
+            No Results Found!
+          </Title>
           {filtered ? (
             <>
-              <Text>
+              <Text style={{ fontSize: `${18 + fontSize.fontSize}px` }}>
                 We’re sorry, there's no product matching your selected filters.
               </Text>
               <Button onClick={() => window.location.reload()}>
-                Clear selected filters
+                <Text
+                  style={{
+                    fontSize: `${18 + fontSize.fontSize}px`,
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Clear selected filters
+                </Text>
               </Button>
             </>
           ) : (
             <>
-              <Text>
+              <Text style={{ fontSize: `${18 + fontSize.fontSize}px` }}>
                 We’re sorry, there's no product with the name you provided.
               </Text>
-              <Button onClick={() => navigate("/")}>
-                Explore more at homepage
+              <Button
+                onClick={() => navigate("/")}
+                style={{
+                  fontSize: `${18 + fontSize.fontSize}px`,
+                  marginTop: "30px",
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: `${16 + fontSize.fontSize}px`,
+                  }}
+                >
+                  Explore more at homepage
+                </Text>
               </Button>
             </>
           )}

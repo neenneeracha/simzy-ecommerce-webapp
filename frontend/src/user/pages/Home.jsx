@@ -23,6 +23,7 @@ const Container = styled.div`
   position: relative;
 `;
 
+
 const Home = () => {
   return (
     <Container>

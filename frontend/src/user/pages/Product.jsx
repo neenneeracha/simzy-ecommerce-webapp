@@ -55,7 +55,7 @@ const Title = styled.h1`
   font-weight: 350;
 `;
 
-const Desc = styled.p`
+const Desc = styled.div`
   margin: 20px 0px;
   color: #999;
 `;
@@ -63,6 +63,7 @@ const Desc = styled.p`
 const Price = styled.h3`
   font-weight: 100;
 `;
+const Text = styled.div``;
 
 const FilterContainer = styled.div`
   width: 50%;
@@ -147,6 +148,7 @@ const styles = {
     color: "white",
     borderRadius: "5px",
     marginTop: "30px",
+    whiteSpace: "nowrap",
   },
 };
 
@@ -169,13 +171,15 @@ const Product = () => {
     title: "",
     message: "",
     type: "",
-    link: ""
+    link: "",
   });
   const navigate = useNavigate();
 
   const sizeOptions = ["XS", "S", "M", "L", "XL"];
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
+  // const [fontSize, setFontSize] = useState([]);
+  const fontSize = useSelector((state) => state.fontSize);
 
   useEffect(() => {
     const getProduct = async () => {
@@ -284,38 +288,39 @@ const Product = () => {
           )
           .slice(0)[0].quantity;
 
-          const stock_id = stocks
-        .filter(
-          (stock) =>
-            stock.product_color_id === selectedColor &&
-            stock.size === selectedSize
-        )
-        .slice(0)[0].stock_id;
+        const stock_id = stocks
+          .filter(
+            (stock) =>
+              stock.product_color_id === selectedColor &&
+              stock.size === selectedSize
+          )
+          .slice(0)[0].stock_id;
 
-          let inCartQuantity = 0
-          const inCart = cart.products.filter((product) => product.stock === stock_id)
+        let inCartQuantity = 0;
+        const inCart = cart.products.filter(
+          (product) => product.stock === stock_id
+        );
 
-          if (inCart.length !== 0) {
-            inCartQuantity = inCart.slice(0)[0].quantity
-          }
+        if (inCart.length !== 0) {
+          inCartQuantity = inCart.slice(0)[0].quantity;
+        }
 
         if (stock - inCartQuantity < quantity) {
           // quantity exceed
           const color = colors
             .filter((color) => color.product_color_id === selectedColor)
             .slice(0)[0].color;
-            toast.info(
+          toast.info(
             `Sorry, we only have ${stock} items for ${color} - ${selectedSize} in the stock`,
             {
               position: "top-center",
             }
           );
           if (stock - inCartQuantity === 0) {
-            setSelectedSize(null)
+            setSelectedSize(null);
           } else {
             setQuantity(stock - inCartQuantity);
           }
-          
         }
       }
     };
@@ -325,34 +330,49 @@ const Product = () => {
 
   const addToCartHandler = () => {
     if (!selectedColor && !selectedSize) {
-      setError((prev) => ({ ...prev, title: "Invalid Selection", message: "Please select both color and size !!", type: "error"}));
+      setError((prev) => ({
+        ...prev,
+        title: "Invalid Selection",
+        message: "Please select both color and size !!",
+        type: "error",
+      }));
       setShow(true);
     } else if (!selectedColor) {
-      setError((prev) => ({ ...prev, title: "Invalid Selection", message: "Please select the color that you want !!", type: "error"}));
+      setError((prev) => ({
+        ...prev,
+        title: "Invalid Selection",
+        message: "Please select the color that you want !!",
+        type: "error",
+      }));
       setShow(true);
     } else if (!selectedSize) {
-      setError((prev) => ({ ...prev, title: "Invalid Selection", message: "Please select the size that you want !!", type: "error"}));
+      setError((prev) => ({
+        ...prev,
+        title: "Invalid Selection",
+        message: "Please select the size that you want !!",
+        type: "error",
+      }));
       setShow(true);
     } else {
       /* update cart */
       if (quantity !== 0) {
         const color = colors
-        .filter((color) => color.product_color_id === selectedColor)
-        .slice(0)[0].color;
+          .filter((color) => color.product_color_id === selectedColor)
+          .slice(0)[0].color;
 
-      const stock = stocks
-        .filter(
-          (stock) =>
-            stock.product_color_id === selectedColor &&
-            stock.size === selectedSize
-        )
-        .slice(0)[0].stock_id;
+        const stock = stocks
+          .filter(
+            (stock) =>
+              stock.product_color_id === selectedColor &&
+              stock.size === selectedSize
+          )
+          .slice(0)[0].stock_id;
 
-      dispatch(
-        addProduct({ ...product, stock, quantity, url, color, selectedSize })
-      );
+        dispatch(
+          addProduct({ ...product, stock, quantity, url, color, selectedSize })
+        );
       }
-      setQuantity(1)
+      setQuantity(1);
     }
   };
 
@@ -368,10 +388,14 @@ const Product = () => {
     <Container>
       <Navbar />
       <Wrapper>
-      {
-        show ? <Alert show={show} setShow={setShow} text={error} setText={setError}/>
-        : undefined
-      }
+        {show ? (
+          <Alert
+            show={show}
+            setShow={setShow}
+            text={error}
+            setText={setError}
+          />
+        ) : undefined}
         <Row>
           <Col>
             <ImgContainer>
@@ -400,18 +424,37 @@ const Product = () => {
 
           <Col>
             <InfoContainer>
-              <Title>{product.product_name}</Title>
-              <Desc>{product.description}</Desc>
-              <Price>{product.price} THB</Price>
+              <Title style={{ fontSize: `${40 + fontSize.fontSize}px` }}>
+                {product.product_name}
+              </Title>
+              <Desc style={{ fontSize: `${20 + fontSize.fontSize}px` }}>
+                {product.description}
+              </Desc>
+              <Price style={{ fontSize: `${30 + fontSize.fontSize}px` }}>
+                {product.price} THB
+              </Price>
               <MaterialDetail>
-                <MaterialTitle>Material: </MaterialTitle>
-                <MaterialContent> {product.details}</MaterialContent>
+                <MaterialTitle
+                  style={{ fontSize: `${20 + fontSize.fontSize}px` }}
+                >
+                  Material:{" "}
+                </MaterialTitle>
+                <MaterialContent
+                  style={{ fontSize: `${16 + fontSize.fontSize}px` }}
+                >
+                  {" "}
+                  {product.details}
+                </MaterialContent>
               </MaterialDetail>
               {stocks.length > 0 ? (
                 <>
                   <FilterContainer>
                     <ColorInfo>
-                      <FilterTitle>Color: </FilterTitle>
+                      <FilterTitle
+                        style={{ fontSize: `${20 + fontSize.fontSize}px` }}
+                      >
+                        Color:{" "}
+                      </FilterTitle>
                       <FilterColor>
                         {!selectedSize ? (
                           <>
@@ -423,7 +466,9 @@ const Product = () => {
                                 value={color.product_color_id}
                                 label={color.color}
                                 inline
-                                checked={color.product_color_id === selectedColor}
+                                checked={
+                                  color.product_color_id === selectedColor
+                                }
                                 onChange={(e) =>
                                   setSelectedColor(parseInt(e.target.value))
                                 }
@@ -440,7 +485,9 @@ const Product = () => {
                                 value={color.product_color_id}
                                 label={color.color}
                                 inline
-                                checked={color.product_color_id === selectedColor}
+                                checked={
+                                  color.product_color_id === selectedColor
+                                }
                                 disabled={
                                   filteredColors.filter(
                                     (filter) =>
@@ -460,7 +507,11 @@ const Product = () => {
                       </FilterColor>
                     </ColorInfo>
                     <SizeInfo>
-                      <FilterTitle>Size: {""} </FilterTitle>
+                      <FilterTitle
+                        style={{ fontSize: `${20 + fontSize.fontSize}px` }}
+                      >
+                        Size: {""}{" "}
+                      </FilterTitle>
                       <FilterSize>
                         {!selectedColor ? (
                           <>
@@ -506,8 +557,14 @@ const Product = () => {
                       </FilterSize>
                     </SizeInfo>
                     <AddContainer style={{ marginTop: "5%" }}>
-                      <FilterTitle>Quantity: </FilterTitle>
-                      <AmountContainer>
+                      <FilterTitle
+                        style={{ fontSize: `${20 + fontSize.fontSize}px` }}
+                      >
+                        Quantity:{" "}
+                      </FilterTitle>
+                      <AmountContainer
+                        style={{ fontSize: `${20 + fontSize.fontSize}px` }}
+                      >
                         <Remove
                           onClick={() => handleQuantity("dec")}
                           style={{ cursor: "pointer" }}
@@ -530,22 +587,21 @@ const Product = () => {
                       <MDBIcon
                         fas
                         icon="shopping-cart"
-                        style={{ marginRight: "10px" }}
+                        style={{
+                          marginRight: "10px",
+                          fontSize: `${16 + fontSize.fontSize}px`,
+                        }}
                       />{" "}
-                      ADD TO CART
+                      <Text
+                        style={{
+                          fontSize: `${16 + fontSize.fontSize}px`,
+                          display: " inline-block",
+                        }}
+                      >
+                        ADD TO CART
+                      </Text>
                     </Button>
-                    {/* <Button
-                  className="d-block mx-auto w-35"
-                  type="submit"
-                  style={styles.customButton}
-                >
-                  <MDBIcon
-                    far
-                    icon="money-bill-alt"
-                    style={{ marginRight: "10px" }}
-                  />{" "}
-                  CHECK OUT
-                </Button> */}
+
                     <Button
                       className="d-block mx-auto w-35"
                       type="submit"
@@ -555,9 +611,20 @@ const Product = () => {
                       <MDBIcon
                         fas
                         icon="trash-alt"
-                        style={{ marginRight: "10px" }}
+                        style={{
+                          marginRight: "10px",
+                          fontSize: `${16 + fontSize.fontSize}px`,
+                        }}
                       />{" "}
-                      CLEAR SELECTION
+                      <Text
+                        style={{
+                          fontSize: `${16 + fontSize.fontSize}px`,
+                          display: " inline-block",
+                        }}
+                      >
+                        {" "}
+                        CLEAR SELECTION
+                      </Text>
                     </Button>
                   </ButtonGroup>
                 </>
