@@ -26,7 +26,6 @@ import ViewProducts from "./admin/pages/ViewProducts";
 import SuccessProduct from "./admin/pages/SuccessProduct";
 import PaymentProcessing from "./user/pages/PaymentProcessing";
 
-import { userInputs, productInputs, popularProducts } from "./data";
 const guestRouter = createBrowserRouter([
   {
     path: "/",

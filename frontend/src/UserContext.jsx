@@ -18,7 +18,7 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     const verifyUser = async () => {
-      setLoading(true)
+      setLoading(true);
       const token = Cookie.get("accessToken");
       if (!token) setUser(null);
 
@@ -32,7 +32,7 @@ export const UserProvider = ({ children }) => {
         Cookie.remove("accessToken", { path: "" });
         setUser(null);
       }
-      setLoading(false)
+      setLoading(false);
     };
     verifyUser();
   }, []);
@@ -55,14 +55,15 @@ export const UserProvider = ({ children }) => {
 
   return (
     <Container>
-      {
-        loading ? <Loading loading={loading}/> :
+      {loading ? (
+        <Loading loading={loading} />
+      ) : (
         <UserContext.Provider value={user}>
-      <UserUpdateContext.Provider value={{ setToken, removeToken }}>
-        {children}
-      </UserUpdateContext.Provider>
-    </UserContext.Provider>
-      }
+          <UserUpdateContext.Provider value={{ setToken, removeToken }}>
+            {children}
+          </UserUpdateContext.Provider>
+        </UserContext.Provider>
+      )}
     </Container>
   );
 };

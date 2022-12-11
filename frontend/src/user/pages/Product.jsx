@@ -487,12 +487,10 @@ const Product = () => {
                         style={{ fontSize: `${20 + fontSize.fontSize}px` }}
                       >
                         Color:{" "}
-                      </FilterTitle>{" "}
+                      </FilterTitle>
                       <FilterColor>
-                        {" "}
                         {!selectedSize ? (
                           <>
-                            {" "}
                             {colors.map((color, index) => (
                               <MDBRadio
                                 key={index}
@@ -508,11 +506,10 @@ const Product = () => {
                                   setSelectedColor(parseInt(e.target.value))
                                 }
                               />
-                            ))}{" "}
+                            ))}
                           </>
                         ) : (
                           <>
-                            {" "}
                             {colors.map((color, index) => (
                               <MDBRadio
                                 key={index}
