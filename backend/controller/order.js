@@ -1,3 +1,13 @@
+/********************************************************************
+ *
+ * order.js
+ *
+ *   This file contains a collection of controllers to handle 
+ *   requests to the backend for order information
+ * 
+ ********************************************************************
+ */
+
 const pool = require("../database/connector");
 
 //get all order information
@@ -121,6 +131,7 @@ const getOrderStatus = (req, res) => {
     });
 };
 
+// update order staus
 const updateOrderStatus = (req, res) => {
     const order_id = req.params.id;
     const q =

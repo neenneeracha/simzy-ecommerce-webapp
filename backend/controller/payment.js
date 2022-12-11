@@ -1,8 +1,19 @@
+/********************************************************************
+ *
+ * payment.js
+ *
+ *   This file contains a collection of controllers to handle 
+ *   requests to the backend for payment information
+ * 
+ ********************************************************************
+ */
+
 const pool = require("../database/connector");
 require("dotenv").config();
 
 const KEY = process.env.STRIPE_SECRET_KEY;
 const stripe = require("stripe")(KEY);
+
 
 const stripePayment = async (req, res) => {
   const session = await stripe.checkout.sessions.create({
@@ -38,12 +49,14 @@ const stripePayment = async (req, res) => {
   res.send({ url: session.url });
 };
 
+// get payment details by admin
 const getPaymentDetails = async (req, res) => {
   const session = await stripe.checkout.sessions.retrieve(req.query.session_id);
 
   res.send(session.metadata);
 };
 
+// add new payment by admin
 const addNewPayment = (req, res) => {
   const payment_type = req.body.payment;
   const payment_status = req.body.status;

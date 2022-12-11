@@ -1,3 +1,13 @@
+/********************************************************************
+ *
+ * ActionButton.jsx
+ *
+ *    This file represents the multi-use action button component 
+ *    with single icon
+ *
+ ********************************************************************
+ */
+
 import React from "react";
 import { Button, makeStyles } from "@material-ui/core";
 

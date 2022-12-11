@@ -1,3 +1,13 @@
+/********************************************************************
+ *
+ * Select.jsx
+ *
+ *    This file represents the multi-use select components 
+ *    used for collect user information from a list of options
+ *
+ ********************************************************************
+ */
+
 import React from "react";
 import {
   FormControl,

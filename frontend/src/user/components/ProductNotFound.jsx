@@ -1,3 +1,14 @@
+/********************************************************************
+ *
+ * ProductNotFound.jsx
+ *
+ *    This file represents a page of products not found and is used
+ *    when the system is unable to match a product in SIMZY with the
+ *    filter criteria or product name entered by the user.
+ *
+ ********************************************************************
+ */
+
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -5,12 +16,14 @@ import { useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 
 const Container = styled.div``;
+
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 40px 30px 0px;
 `;
+
 const Image = styled.img`
   height: 40%;
   width: 40%;
@@ -33,22 +46,6 @@ const Text = styled.div`
 `;
 
 const ButtonText = styled.div``;
-
-// const Button = styled.button`
-//   color: #eda3b5;
-//   background-color: white;
-//   font-size: 18px;
-//   padding: 10px 18px;
-//   border: 0.5px lightgray solid;
-//   border-radius: 10px;
-
-//   :hover {
-//     pointer: cursor;
-//     color: white;
-//     background-color: #eda3b5;
-//     border-color: black;
-//   }
-// `;
 
 const styles = {
   customButton: {
@@ -94,7 +91,7 @@ const ProductNotFound = ({ filtered }) => {
           ) : (
             <>
               <Text style={{ fontSize: `${18 + fontSize.fontSize}px` }}>
-                We’re sorry, there's no product with the name you provided.
+                We're sorry, there's no product with the name you provided.
               </Text>
               <Button onClick={() => navigate("/")} style={styles.customButton}>
                 <ButtonText
@@ -108,8 +105,6 @@ const ProductNotFound = ({ filtered }) => {
             </>
           )}
         </TextWrapper>
-
-        {/* <h1 onClick={window.location.reload()}>Clear filter</h1> */}
       </Wrapper>
     </Container>
   );

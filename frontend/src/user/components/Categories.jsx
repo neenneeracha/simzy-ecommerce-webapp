@@ -1,3 +1,14 @@
+/********************************************************************
+ *
+ * Categories.jsx
+ *
+ *    This file represents the product category components used
+ *    on the homepage, which are female, male and kid.
+ *
+ ********************************************************************
+ */
+
+import React from "react";
 import styled from "styled-components";
 import CategoryItem from "./CategoryItem";
 

@@ -1,3 +1,13 @@
+/********************************************************************
+ *
+ * UseTable.jsx
+ *
+ *   This file represents the table component which can be re-use in 
+ *   multiple file
+ *
+ ********************************************************************
+ */
+
 import React, { useState } from "react";
 import {
   Table,
@@ -31,10 +41,12 @@ const useTable = (records, headCells) => {
   const pages = [5, 10, 25];
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(pages[page]);
+
   // content of the table
   const TblContainer = (props) => (
     <Table className={classes.table}>{props.children}</Table>
   );
+
   // Header of the table
   const TblHead = (props) => {
     return (
@@ -58,6 +70,7 @@ const useTable = (records, headCells) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+  
   //showing paging control
   const TblPagination = () => (
     <TablePagination

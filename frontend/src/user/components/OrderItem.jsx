@@ -1,10 +1,20 @@
+/********************************************************************
+ *
+ * OrderItem.jsx
+ *
+ *   This file represents the order item component display product 
+ *   details on the order detail page 
+ *
+ ********************************************************************
+ */
+
 import React from "react";
 import styled from "styled-components";
-
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 const Container = styled.div``;
+
 const ProductSum = styled.div`
   padding: 50px;
   background-color: white;
@@ -27,9 +37,11 @@ const Details = styled.div`
 `;
 
 const ProductName = styled.span``;
+
 const ProductColor = styled.div`
   display: flex;
 `;
+
 const SelectColor = styled.div`
   background-color: ${(props) => props.color};
   margin-left: 5%;
@@ -40,9 +52,11 @@ const SelectColor = styled.div`
 `;
 
 const ProductSize = styled.span``;
+
 const Amount = styled.span`
   text-align-last: right;
 `;
+
 const OrderItem = () => {
   return (
     <Container>

@@ -1,3 +1,13 @@
+/********************************************************************
+ *
+ * CheckBox.jsx
+ *
+ *    This file represents the multi-use input check box component 
+ *    allow user select one or more items from option set
+ *
+ ********************************************************************
+ */
+
 import React from "react";
 import {
   FormControl,

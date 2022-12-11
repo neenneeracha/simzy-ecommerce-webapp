@@ -1,3 +1,14 @@
+/********************************************************************
+ *
+ * Product.jsx
+ *
+ *    This file represents the product container mapping the signle 
+ *    product and display it as the product list
+ * 
+ ********************************************************************
+ */
+
+import React from 'react';
 import styled from "styled-components";
 import Product from "./Product";
 

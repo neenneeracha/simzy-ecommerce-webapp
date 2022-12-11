@@ -1,3 +1,13 @@
+/********************************************************************
+ *
+ * OrderHistory.jsx
+ *
+ *   This file represents the order history section and is displayed
+ *   on the user profile page. Shows the customer's order history.
+ *
+ ********************************************************************
+ */
+
 import React, { useEffect, useState } from "react";
 import OrderDetails from "./OrderDetails";
 import Table from "react-bootstrap/Table";
@@ -54,6 +64,7 @@ const Text = styled.p`
   text-align: center;
 `;
 const NormalText = styled.div``;
+
 const Title = styled.h2`
   color: black;
   font-size: 28px;
@@ -74,6 +85,7 @@ const OrderHistory = () => {
   const fontSize = useSelector((state) => state.fontSize);
   const user = useUser();
 
+  // get the user's order details
   useEffect(() => {
     const getOrders = async () => {
       try {

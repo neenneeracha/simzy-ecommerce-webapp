@@ -1,3 +1,14 @@
+/********************************************************************
+ *
+ * Checkout.jsx
+ *
+ *    This file represents the checkout page of SIMZY
+ *    which is used to get the shipping details and payment method
+ *    of the user, as well as display the order summary
+ *
+ ********************************************************************
+ */
+
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -124,13 +135,13 @@ const Checkout = () => {
     phoneNumber: "",
     payment: "",
   });
-
   const navigate = useNavigate();
   const user = useUser();
-  const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
   const fontSize = useSelector((state) => state.fontSize);
 
+  // used to get the user's registered address
   useEffect(() => {
     const getAddress = async () => {
       try {
@@ -145,6 +156,7 @@ const Checkout = () => {
     getAddress();
   }, [user.user_id]);
 
+  // handle user-entered addresses
   const handleAddress = () => {
     setInputs((prev) => ({ ...prev, name: address[0].name }));
     if (!!errors.name) {
@@ -176,6 +188,7 @@ const Checkout = () => {
     }
   };
 
+  // used to set a new state for the input
   const handleChange = (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
@@ -263,6 +276,7 @@ if (inputs.payment.split(" ").join("").length < 1) {
     return newErrors;
   };
 
+  // gets the current value of state
   const handleSubmit = async () => {
     const formErrors = validateForm();
     if (Object.keys(formErrors).length > 0) {
@@ -312,6 +326,7 @@ if (inputs.payment.split(" ").join("").length < 1) {
   }
   };
 
+  // handle with back button action
   const handleClick = () => {
     window.history.back();
   };
@@ -520,7 +535,9 @@ if (inputs.payment.split(" ").join("").length < 1) {
               </Accordion.Item>
               <Accordion.Item eventKey="0">
                 <Accordion.Header>
-                  <b style={{ fontSize: `${20 + fontSize.fontSize}px` }}>PAYMENT METHOD</b>
+                  <b style={{ fontSize: `${20 + fontSize.fontSize}px` }}>
+                    PAYMENT METHOD
+                  </b>
                 </Accordion.Header>
                 <Accordion.Body>
                   <Form>
@@ -558,24 +575,66 @@ if (inputs.payment.split(" ").join("").length < 1) {
           </Col>
           <Col>
             <Summary>
-              <SummaryTitle style={{ fontSize: `${28 + fontSize.fontSize}px` }}>ORDER SUMMARY</SummaryTitle>
+              <SummaryTitle style={{ fontSize: `${28 + fontSize.fontSize}px` }}>
+                ORDER SUMMARY
+              </SummaryTitle>
               <SummaryItem>
-                <SummaryItemText style={{ fontSize: `${20 + fontSize.fontSize}px` }}>Subtotal</SummaryItemText>
-                <SummaryItemPrice style={{ fontSize: `${20 + fontSize.fontSize}px` }}>{cart.cartTotalAmount}</SummaryItemPrice>
+                <SummaryItemText
+                  style={{ fontSize: `${20 + fontSize.fontSize}px` }}
+                >
+                  Subtotal
+                </SummaryItemText>
+                <SummaryItemPrice
+                  style={{ fontSize: `${20 + fontSize.fontSize}px` }}
+                >
+                  {cart.cartTotalAmount}
+                </SummaryItemPrice>
               </SummaryItem>
               <SummaryItem>
-                <SummaryItemText style={{ fontSize: `${20 + fontSize.fontSize}px` }}>Estimated Shipping</SummaryItemText>
-                <SummaryItemPrice style={{ fontSize: `${20 + fontSize.fontSize}px` }}>฿90</SummaryItemPrice>
+                <SummaryItemText
+                  style={{ fontSize: `${20 + fontSize.fontSize}px` }}
+                >
+                  Estimated Shipping
+                </SummaryItemText>
+                <SummaryItemPrice
+                  style={{ fontSize: `${20 + fontSize.fontSize}px` }}
+                >
+                  ฿90
+                </SummaryItemPrice>
               </SummaryItem>
               <SummaryItem type="total">
-                <SummaryItemText style={{ fontSize: `${28 + fontSize.fontSize}px` }}>Total</SummaryItemText>
-                <SummaryItemPrice style={{ fontSize: `${28 + fontSize.fontSize}px` }}>{cart.cartTotalAmount + 90}</SummaryItemPrice>
+                <SummaryItemText
+                  style={{ fontSize: `${28 + fontSize.fontSize}px` }}
+                >
+                  Total
+                </SummaryItemText>
+                <SummaryItemPrice
+                  style={{ fontSize: `${28 + fontSize.fontSize}px` }}
+                >
+                  {cart.cartTotalAmount + 90}
+                </SummaryItemPrice>
               </SummaryItem>
             </Summary>
             <ButtonGroup>
-              <ButtonCheck onClick={handleSubmit}> <SummaryItemText style={{ fontSize: `${20 + fontSize.fontSize}px` }}> CHECKOUT NOW</SummaryItemText></ButtonCheck>
+              <ButtonCheck onClick={handleSubmit}>
+                {" "}
+                <SummaryItemText
+                  style={{ fontSize: `${20 + fontSize.fontSize}px` }}
+                >
+                  {" "}
+                  CHECKOUT NOW
+                </SummaryItemText>
+              </ButtonCheck>
 
-              <ButtonCheck onClick={handleClick}>  <SummaryItemText style={{ fontSize: `${20 + fontSize.fontSize}px` }}> BACK</SummaryItemText></ButtonCheck>
+              <ButtonCheck onClick={handleClick}>
+                {" "}
+                <SummaryItemText
+                  style={{ fontSize: `${20 + fontSize.fontSize}px` }}
+                >
+                  {" "}
+                  BACK
+                </SummaryItemText>
+              </ButtonCheck>
             </ButtonGroup>
           </Col>
         </Row>

@@ -1,17 +1,26 @@
-import React, { useState, useEffect } from 'react'
+/********************************************************************
+ *
+ * EditUserInfo.jsx
+ *
+ *    This file represents the component of the profile page
+ *    for users to edit their personal information.
+ *
+ ********************************************************************
+ */
+
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../UserContext";
 import axios from "axios";
-
 import {
-    MDBCol,
-    MDBRow,
-    MDBCard,
-    MDBCardText,
-    MDBCardBody
-  } from "mdb-react-ui-kit";
+  MDBCol,
+  MDBRow,
+  MDBCard,
+  MDBCardText,
+  MDBCardBody,
+} from "mdb-react-ui-kit";
 
   const Line = styled.hr`
 `;
@@ -95,106 +104,8 @@ const EditUserInfo = ({ userInfo, reset, submit, setReset, setSubmit, setChanged
       }, [reset, setReset, setInputs, userInfo, errors]);
 
       useEffect(() => {
-        const validateForm = () => {
-          const newErrors = {};
-          if (inputs.firstname.split(" ").join("").length < 1) {
-            newErrors.firstname = "Please provide firstname";
-          } else if (
-            !Boolean(
-              inputs.firstname
-                .split(" ")
-                .join("")
-                .match(/^[A-Za-z]*$/)
-            )
-          ) {
-            newErrors.firstname = "Firstname should contain only letters";
-          }
-          if (inputs.lastname.split(" ").join("").length < 1) {
-            newErrors.lastname = "Please provide lastname";
-          } else if (
-            !Boolean(
-              inputs.lastname
-                .split(" ")
-                .join("")
-                .match(/^[A-Za-z]*$/)
-            )
-          ) {
-            newErrors.lastname = "Lastname should contain only letters";
-          }
-          if (inputs.email.split(" ").join("").length < 1) {
-            newErrors.email = "Please provide email";
-          } else if (
-            !Boolean(
-              inputs.email.match(
-                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-              )
-            )
-          ) {
-            newErrors.email = "Please enter a valid email";
-          }
-      
-          if (inputs.phoneNumber.split(" ").join("").length < 1) {
-            newErrors.phoneNumber = "Please provide phone number";
-          } else if (
-            !Boolean(
-              inputs.phoneNumber
-                .split(" ")
-                .join("")
-                .match(/^[0-9]*$/)
-            )
-          ) {
-            newErrors.phoneNumber = "Phone number should contain only numbers";
-          } else if (inputs.phoneNumber.split(" ").join("").length > 10) {
-            newErrors.phoneNumber = "Phone number should not exceed 10 digits";
-          } else if (inputs.phoneNumber.split(" ").join("").length < 10) {
-            newErrors.phoneNumber = "Phone number should be 10 digits";
-          }
-          if (inputs.gender.split(" ").join("").length < 1) {
-            newErrors.gender = "Please provide gender";
-          }
-          if (inputs.address.split(" ").join("").length < 1) {
-            newErrors.address = "Please provide address";
-          }
-          if (inputs.district.split(" ").join("").length < 1) {
-            newErrors.district = "Please provide district";
-          } else if (
-            !Boolean(
-              inputs.district
-                .split(" ")
-                .join("")
-                .match(/^[A-Za-z]*$/)
-            )
-          ) {
-            newErrors.district = "District should contain only letters";
-          }
-          if (inputs.province.split(" ").join("").length < 1) {
-            newErrors.province = "Please provide province";
-          } else if (
-            !Boolean(
-              inputs.province
-                .split(" ")
-                .join("")
-                .match(/^[A-Za-z]*$/)
-            )
-          ) {
-            newErrors.province = "Province should contain only letters";
-          }
-          if (inputs.zipCode.split(" ").join("").length < 1) {
-            newErrors.zipCode = "Please provide zipcode";
-          }
-      
-          return newErrors;
-        };
-
-        
         const updateProfile = async () => {
           if (submit) {
-            const formErrors = validateForm();
-
-          if (Object.keys(formErrors).length > 0) {
-            setErrors(formErrors);
-            setSubmit(false)
-          } else {
             setSubmit(false)
             try {
               const res = await axios.patch("http://localhost:8080/api/v1/user/update-info/" + user.user_id, inputs);
@@ -210,20 +121,15 @@ const EditUserInfo = ({ userInfo, reset, submit, setReset, setSubmit, setChanged
               console.log(err);
             }
           }
-          }
-            
           
         };
 
-        updateProfile()
-        
-      }, [submit, inputs, user, navigate, setSubmit, setChanged]);
-
-      
+    updateProfile();
+  }, [submit, inputs, user, navigate, setSubmit, setChanged]);
 
   return (
     <MDBCard className="p-4">
-    <MDBCardBody>
+      <MDBCardBody>
         <Form>
         <MDBRow>
         <MDBCol sm="3">
@@ -238,14 +144,7 @@ const EditUserInfo = ({ userInfo, reset, submit, setReset, setSubmit, setChanged
                   required
                   onChange={handleChange}
                   style={{width: "580px"}}
-                  isInvalid={!!errors.firstname}
                 />
-                <Form.Control.Feedback
-                  style={{ maxWidth: "400px", marginTop: "-12px" }}
-                  type="invalid"
-                >
-                  {errors.firstname}
-                </Form.Control.Feedback>
         </MDBCol>
       </MDBRow>
       <Line />
@@ -262,14 +161,7 @@ const EditUserInfo = ({ userInfo, reset, submit, setReset, setSubmit, setChanged
                   required
                   onChange={handleChange}
                   style={{width: "580px"}}
-                  isInvalid={!!errors.lastname}
                 />
-                <Form.Control.Feedback
-                  style={{ maxWidth: "400px", marginTop: "-12px" }}
-                  type="invalid"
-                >
-                  {errors.lastname}
-                </Form.Control.Feedback>
         </MDBCol>
       </MDBRow>
       <Line />
@@ -279,8 +171,7 @@ const EditUserInfo = ({ userInfo, reset, submit, setReset, setSubmit, setChanged
         </MDBCol>
         <MDBCol sm="9">
         {["radio"].map((type) => (
-              <Radio key={`inline-${type}`} className="m-1" 
-              >
+              <div key={`inline-${type}`} className="m-1">
                 <Form.Check
                   inline
                   label="Woman"
@@ -312,7 +203,7 @@ const EditUserInfo = ({ userInfo, reset, submit, setReset, setSubmit, setChanged
                   onChange={handleChange}
                   checked={inputs.gender === "O"}
                 />
-              </Radio>
+              </div>
             ))}
         </MDBCol>
       </MDBRow>
@@ -330,14 +221,7 @@ const EditUserInfo = ({ userInfo, reset, submit, setReset, setSubmit, setChanged
                   required
                   onChange={handleChange}
                   style={{width: "580px"}}
-                  isInvalid={!!errors.email}
                 />
-                <Form.Control.Feedback
-                  style={{ maxWidth: "400px", marginTop: "-12px" }}
-                  type="invalid"
-                >
-                  {errors.email}
-                </Form.Control.Feedback>
         </MDBCol>
       </MDBRow>
       <Line />
@@ -354,14 +238,7 @@ const EditUserInfo = ({ userInfo, reset, submit, setReset, setSubmit, setChanged
                   required
                   onChange={handleChange}
                   style={{width: "580px"}}
-                  isInvalid={!!errors.phoneNumber}
                 />
-                <Form.Control.Feedback
-                  style={{ maxWidth: "400px", marginTop: "-12px" }}
-                  type="invalid"
-                >
-                  {errors.phoneNumber}
-                </Form.Control.Feedback>
         </MDBCol>
       </MDBRow>
       <Line />
@@ -378,14 +255,7 @@ const EditUserInfo = ({ userInfo, reset, submit, setReset, setSubmit, setChanged
                   required
                   onChange={handleChange}
                   style={{width: "580px"}}
-                  isInvalid={!!errors.address}
                 />
-                <Form.Control.Feedback
-                  style={{ maxWidth: "400px", marginTop: "-12px" }}
-                  type="invalid"
-                >
-                  {errors.address}
-                </Form.Control.Feedback>
         </MDBCol>
       </MDBRow>
       <Line />
@@ -402,14 +272,7 @@ const EditUserInfo = ({ userInfo, reset, submit, setReset, setSubmit, setChanged
                   required
                   onChange={handleChange}
                   style={{width: "580px"}}
-                  isInvalid={!!errors.district}
                 />
-                <Form.Control.Feedback
-                  style={{ maxWidth: "400px", marginTop: "-12px" }}
-                  type="invalid"
-                >
-                  {errors.district}
-                </Form.Control.Feedback>
         </MDBCol>
       </MDBRow>
       <Line />
@@ -426,14 +289,7 @@ const EditUserInfo = ({ userInfo, reset, submit, setReset, setSubmit, setChanged
                   required
                   onChange={handleChange}
                   style={{width: "580px"}}
-                  isInvalid={!!errors.province}
                 />
-                <Form.Control.Feedback
-                  style={{ maxWidth: "400px", marginTop: "-12px" }}
-                  type="invalid"
-                >
-                  {errors.province}
-                </Form.Control.Feedback>
         </MDBCol>
       </MDBRow>
       <Line />
@@ -450,22 +306,14 @@ const EditUserInfo = ({ userInfo, reset, submit, setReset, setSubmit, setChanged
                   required
                   onChange={handleChange}
                   style={{width: "580px"}}
-                  isInvalid={!!errors.zipCode}
                 />
-                <Form.Control.Feedback
-                  style={{ maxWidth: "400px", marginTop: "-12px" }}
-                  type="invalid"
-                >
-                  {errors.zipCode}
-                </Form.Control.Feedback>
         </MDBCol>
       </MDBRow>
       <Line />
         </Form>
-      
-    </MDBCardBody>
-  </MDBCard>
-  )
-}
+      </MDBCardBody>
+    </MDBCard>
+  );
+};
 
-export default EditUserInfo
+export default EditUserInfo;

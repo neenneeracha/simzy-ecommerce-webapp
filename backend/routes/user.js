@@ -1,3 +1,13 @@
+/********************************************************************
+ *
+ * user.js
+ *
+ *   This file contains a collection of routers to handle 
+ *   requests to the backend for user information
+ * 
+ ********************************************************************
+ */
+
 const router = require("express").Router();
 
 const { getShippingInfo, getAllUserInfo, getUserInfo, addNewUser, updatePassword, updatePasswordByAdmin, updateUserInfo, updateInfoByAdmin, removeUser } = require("../controller/user");

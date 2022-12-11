@@ -1,3 +1,14 @@
+/********************************************************************
+ *
+ * Summary.jsx
+ *
+ *    This file represents the order summary page for customers
+ *    which consist of Navigation bar, Slider, Order Item, 
+ *    Shipping information, Price information and Footer components.
+ *
+ ********************************************************************
+ */
+
 import React from "react";
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
@@ -9,6 +20,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
 const Container = styled.div``;
+
 const Content = styled.div`
   background-color: #f6f6f6;
 `;
@@ -30,6 +42,7 @@ const Button = styled.h3`
     cursor: default;
   }
 `;
+
 const Summary = () => {
   return (
     <Container>

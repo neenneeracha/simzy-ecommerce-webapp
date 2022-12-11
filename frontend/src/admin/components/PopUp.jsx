@@ -1,3 +1,12 @@
+/********************************************************************
+ *
+ * PopUp.jsx
+ *
+ *   This file represents the pop-up component of SIMZY
+ *
+ ********************************************************************
+ */
+
 import React from "react";
 import {
   Dialog,

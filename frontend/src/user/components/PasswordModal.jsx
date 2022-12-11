@@ -1,3 +1,14 @@
+/********************************************************************
+ *
+ * PasswordModal.jsx
+ *
+ *    This file represents the Edit Password component, which allows 
+ *    the user to change a new password. This components can be 
+ *    accessed from the profile page 
+ *    
+ ********************************************************************
+ */
+
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -16,9 +27,7 @@ const styles = {
   },
 };
 
-const Container = styled.div`
-  
-`;
+const Container = styled.div``;
 
 const PasswordModal = ({show, handleChange}) => {
   const [currentPassword, setCurrentPassword] = useState("");

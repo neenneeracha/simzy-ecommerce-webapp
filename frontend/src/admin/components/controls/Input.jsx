@@ -1,3 +1,13 @@
+/********************************************************************
+ *
+ * Input.jsx
+ *
+ *    This file represents the multi-use input Text Field component 
+ *    allow user to enter and edit text
+ *
+ ********************************************************************
+ */
+
 import React from "react";
 import { TextField } from "@material-ui/core";
 
