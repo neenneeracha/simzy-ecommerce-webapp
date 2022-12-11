@@ -214,7 +214,7 @@ const Login = () => {
                 Submit
               </Text>
             </Button>
-            <Text style={{ marginTop: "2%", marginBottom: "5%" }}>
+            <Text style={{ marginTop: "18px", marginBottom: "5%" }}>
               Need an account? &nbsp;
               <Link style={{ textDecoration: "none" }} to="/register">
                 <LinkItem>CREATE NOW</LinkItem>

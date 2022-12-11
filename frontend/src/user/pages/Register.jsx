@@ -580,6 +580,7 @@ const Register = () => {
             </Button>
             <Text
               style={{
+                marginTop: "22px",
                 fontSize: `${16 + fontSize.fontSize}px`,
               }}
             >
