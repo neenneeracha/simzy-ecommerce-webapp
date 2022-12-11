@@ -407,38 +407,32 @@ const Product = () => {
             }
         };
 
-        return ( <
-            Container >
-            <
-            Navbar / >
-            <
-            Wrapper > {
-                show ? ( <
-                    Alert show = { show }
+        return ( 
+            <Container>
+            <Navbar />
+            <Wrapper> {
+                show ? ( 
+                    <Alert show = { show }
                     setShow = { setShow }
                     text = { error }
                     setText = { setError }
                     />
                 ) : undefined
-            } <
-            Row >
-            <
-            Col >
-            <
-            ImgContainer >
-            <
-            article >
-            <
-            ImageLightbox > < /ImageLightbox> {
-                url ? < Image src = { url }
-                /> : undefined}
+            } 
+            <Row>
+            <Col>
+            <ImgContainer >
+            <article>
+            <ImageLightbox > </ImageLightbox> {
+                url ? <Image src = { url }
+                /> : undefined
+                }
 
-                <
-                ul > {
+                <ul> {
                         images
                         .filter((img) => img.is_main_color === 1)
-                        .map((img, index) => ( <
-                            li key = { index }
+                        .map((img, index) => ( 
+                            <li key = { index }
                             onClick = {
                                 () => setUrl(img.img_link) }
                             className = {
@@ -446,266 +440,247 @@ const Product = () => {
                             } >
                             <
                             Imagethumbnail src = { img.img_link }
-                            /> <
-                            /li>
+                            /> 
+                            </li>
                         ))
-                    } { " " } <
-                    /ul> <
-                    /article> <
-                    /ImgContainer> <
-                    /Col>
+                    } { " " } 
+                    </ul> 
+                    </article> 
+                    </ImgContainer> 
+                    </Col>
 
-                <
-                Col >
-                    <
-                    InfoContainer >
-                    <
-                    Title style = {
-                        { fontSize: `${40 + fontSize.fontSize}px` } } > { product.product_name } <
-                    /Title> <
-                    Desc style = {
-                        { fontSize: `${20 + fontSize.fontSize}px` } } > { product.description } <
-                    /Desc> <
-                    Price style = {
+                <Col>
+                    <InfoContainer >
+                    <Title style = {
+                        { fontSize: `${40 + fontSize.fontSize}px` } } > { product.product_name } 
+                    </Title> 
+                    <Desc style = {
+                        { fontSize: `${20 + fontSize.fontSize}px` } } > { product.description } 
+                    </Desc> 
+                    <Price style = {
                         { fontSize: `${30 + fontSize.fontSize}px` } } > { product.price }
                 THB
-                    <
-                    /Price> <
-                    MaterialDetail >
-                    <
-                    MaterialTitle
-                style = {
+                    </Price> 
+                    <MaterialDetail>
+                    <MaterialTitle
+                    style = {
                         { fontSize: `${20 + fontSize.fontSize}px` } } >
-                    Material: { " " } <
-                    /MaterialTitle> <
-                    MaterialContent
-                style = {
+                    Material: { " " } 
+                    </MaterialTitle> 
+                    <MaterialContent
+                    style = {
                         { fontSize: `${16 + fontSize.fontSize}px` } } >
-                    { " " } { product.details } <
-                    /MaterialContent> <
-                    /MaterialDetail> <
-                    SizeChart onClick = {
-                        () => setOpen(true) } > click here to view size chart < /SizeChart> {
-                        stocks.length > 0 ? ( <
-                            >
-                            <
-                            FilterContainer >
-                            <
-                            ColorInfo >
-                            <
-                            FilterTitle style = {
-                                { fontSize: `${20 + fontSize.fontSize}px` } } >
-                            Color: { " " } <
-                            /FilterTitle> <
-                            FilterColor > {!selectedSize ? ( <
-                                    > {
-                                        colors.map((color, index) => ( <
-                                            MDBRadio key = { index }
-                                            name = "inlineRadio-color"
-                                            id = { `inlineRadio${color.product_color_id}` }
-                                            value = { color.product_color_id }
-                                            label = { color.color }
-                                            inline checked = {
-                                                color.product_color_id === selectedColor
-                                            }
-                                            onChange = {
-                                                (e) =>
-                                                setSelectedColor(parseInt(e.target.value))
-                                            }
-                                            />
-                                        ))
-                                    } <
-                                    />
-                                ) : ( <
-                                    > {
-                                        colors.map((color, index) => ( <
-                                            MDBRadio key = { index }
-                                            name = "inlineRadio-color"
-                                            id = { `inlineRadio${color.product_color_id}` }
-                                            value = { color.product_color_id }
-                                            label = { color.color }
-                                            inline checked = {
-                                                color.product_color_id === selectedColor
-                                            }
-                                            disabled = {
-                                                filteredColors.filter(
-                                                    (filter) =>
-                                                    filter.product_color_id ===
-                                                    color.product_color_id
-                                                ).length > 0 ?
-                                                false :
-                                                    true
-                                            }
-                                            onChange = {
-                                                (e) =>
-                                                setSelectedColor(parseInt(e.target.value))
-                                            }
-                                            />
-                                        ))
-                                    } <
-                                    />
-                                )
-                            } <
-                            /FilterColor> <
-                            /ColorInfo> <
-                            SizeInfo >
-                            <
-                            FilterTitle style = {
-                                { fontSize: `${20 + fontSize.fontSize}px` } } >
-                            Size: { "" } { " " } <
-                            /FilterTitle> <
-                            FilterSize > {!selectedColor ? ( <
-                                    > {
-                                        sizeOptions.map((size, index) => ( <
-                                            MDBRadio key = { index }
-                                            name = "inlineRadio-size"
-                                            id = { size }
-                                            value = { size }
-                                            label = { size }
-                                            inline checked = { size === selectedSize }
-                                            onChange = {
-                                                (e) =>
-                                                setSelectedSize(e.target.value)
-                                            }
-                                            />
-                                        ))
-                                    } <
-                                    />
-                                ) : ( <
-                                    > {
-                                        sizeOptions.map((size, index) => ( <
-                                            MDBRadio key = { index }
-                                            name = "inlineRadio-size"
-                                            id = { size }
-                                            value = { size }
-                                            label = { size }
-                                            inline checked = { size === selectedSize }
-                                            disabled = {
-                                                sizes.filter((stock) => stock.size === size)
-                                                .length > 0 ?
-                                                false :
-                                                    true
-                                            }
-                                            onChange = {
-                                                (e) =>
-                                                setSelectedSize(e.target.value)
-                                            }
-                                            />
-                                        ))
-                                    } <
-                                    />
-                                )
-                            } <
-                            /FilterSize> <
-                            /SizeInfo> <
-                            AddContainer style = {
+                    { " " } { product.details } 
+                    </MaterialContent> 
+                    </MaterialDetail> 
+                    <SizeChart onClick = {() => setOpen(true)}> 
+                        click here to view size chart 
+                        </SizeChart> 
+                        {stocks.length > 0 ? (
+                <>
+                  <FilterContainer>
+                    <ColorInfo>
+                      <FilterTitle
+                        style={{ fontSize: `${20 + fontSize.fontSize}px` }}
+                      >
+                        Color:{" "}
+                      </FilterTitle>
+                      <FilterColor>
+                        {!selectedSize ? (
+                          <>
+                            {colors.map((color, index) => (
+                              <MDBRadio
+                                key={index}
+                                name="inlineRadio-color"
+                                id={`inlineRadio${color.product_color_id}`}
+                                value={color.product_color_id}
+                                label={color.color}
+                                inline
+                                checked={
+                                  color.product_color_id === selectedColor
+                                }
+                                onChange={(e) =>
+                                  setSelectedColor(parseInt(e.target.value))
+                                }
+                              />
+                            ))}
+                          </>
+                        ) : (
+                          <>
+                            {colors.map((color, index) => (
+                              <MDBRadio
+                                key={index}
+                                name="inlineRadio-color"
+                                id={`inlineRadio${color.product_color_id}`}
+                                value={color.product_color_id}
+                                label={color.color}
+                                inline
+                                checked={
+                                  color.product_color_id === selectedColor
+                                }
+                                disabled={
+                                  filteredColors.filter(
+                                    (filter) =>
+                                      filter.product_color_id ===
+                                      color.product_color_id
+                                  ).length > 0
+                                    ? false
+                                    : true
+                                }
+                                onChange={(e) =>
+                                  setSelectedColor(parseInt(e.target.value))
+                                }
+                              />
+                            ))}
+                          </>
+                        )}
+                      </FilterColor>
+                    </ColorInfo>
+                    <SizeInfo>
+                      <FilterTitle
+                        style={{ fontSize: `${20 + fontSize.fontSize}px` }}
+                      >
+                        Size: {""}{" "}
+                      </FilterTitle>
+                      <FilterSize>
+                        {!selectedColor ? (
+                          <>
+                            {sizeOptions.map((size, index) => (
+                              <MDBRadio
+                                key={index}
+                                name="inlineRadio-size"
+                                id={size}
+                                value={size}
+                                label={size}
+                                inline
+                                checked={size === selectedSize}
+                                onChange={(e) =>
+                                  setSelectedSize(e.target.value)
+                                }
+                              />
+                            ))}
+                          </>
+                        ) : (
+                          <>
+                            {sizeOptions.map((size, index) => (
+                              <MDBRadio
+                                key={index}
+                                name="inlineRadio-size"
+                                id={size}
+                                value={size}
+                                label={size}
+                                inline
+                                checked={size === selectedSize}
+                                disabled={
+                                  sizes.filter((stock) => stock.size === size)
+                                    .length > 0
+                                    ? false
+                                    : true
+                                }
+                                onChange={(e) =>
+                                  setSelectedSize(e.target.value)
+                                }
+                              />
+                            ))}
+                          </>
+                        )}
+                      </FilterSize>
+                    </SizeInfo>
+                            <AddContainer style = {
                                 { marginTop: "5%" } } >
-                            <
-                            FilterTitle style = {
+                            <FilterTitle style = {
                                 { fontSize: `${20 + fontSize.fontSize}px` } } >
-                            Quantity: { " " } <
-                            /FilterTitle> <
-                            AmountContainer style = {
+                            Quantity: { " " } 
+                            </FilterTitle> 
+                            <AmountContainer style = {
                                 { fontSize: `${20 + fontSize.fontSize}px` } } >
-                            <
-                            Remove onClick = {
+                            <Remove onClick = {
                                 () => handleQuantity("dec") }
                             style = {
                                 { cursor: "pointer" } }
-                            /> <
-                            Amount > { quantity } < /Amount> <
-                            Add onClick = {
+                            /> 
+                            <Amount > { quantity } </Amount> 
+                            <Add onClick = {
                                 () => handleQuantity("inc") }
                             style = {
                                 { cursor: "pointer" } }
-                            /> <
-                            /AmountContainer> <
-                            /AddContainer> <
-                            /FilterContainer> <
-                            ButtonGroup >
-                            <
-                            Button className = "d-block mx-auto w-35"
+                            /> 
+                            </AmountContainer> 
+                            </AddContainer> 
+                            </FilterContainer> 
+                            <ButtonGroup >
+                            <Button className = "d-block mx-auto w-35"
                             type = "submit"
                             style = { styles.customButton }
                             onClick = { addToCartHandler } >
-                            <
-                            MDBIcon fas icon = "shopping-cart"
+                            <MDBIcon fas icon = "shopping-cart"
                             style = {
                                 {
                                     marginRight: "10px",
                                     fontSize: `${16 + fontSize.fontSize}px`,
                                 }
                             }
-                            />{" "} <
-                            Text style = {
+                            />{" "} <Text style = {
                                 {
                                     fontSize: `${16 + fontSize.fontSize}px`,
                                     display: " inline-block",
                                 }
                             } >
-                            ADD TO CART <
-                            /Text> <
-                            /Button>
+                            ADD TO CART 
+                            </Text>
+                             </Button>
 
-                            <
-                            Button className = "d-block mx-auto w-35"
+                            <Button className = "d-block mx-auto w-35"
                             type = "submit"
                             style = { styles.clearButton }
                             onClick = {
                                 () => window.location.reload() } >
-                            <
-                            MDBIcon fas icon = "trash-alt"
+                            <MDBIcon fas icon = "trash-alt"
                             style = {
                                 {
                                     marginRight: "10px",
                                     fontSize: `${16 + fontSize.fontSize}px`,
                                 }
                             }
-                            />{" "} <
-                            Text style = {
+                            />{" "} <Text style = {
                                 {
                                     fontSize: `${16 + fontSize.fontSize}px`,
                                     display: " inline-block",
                                 }
                             } >
                             { " " }
-                            CLEAR SELECTION <
-                            /Text> <
-                            /Button> <
-                            /ButtonGroup> <
-                            />
-                        ) : ( <
-                            >
-                            <
-                            Line / >
-                            <
-                            Message >
-                            Sorry, this product is currently out of stock <
-                            /Message> <
-                            Link to = { `/products?main_category=${product.main_category}&sub_category=${product.sub_category}` } >
-                            <
-                            Button > {
+                            CLEAR SELECTION 
+                            </Text> 
+                            </Button> 
+                            </ButtonGroup>
+                            </>
+                        ) : ( 
+                            <>
+                            <Line/>
+                            <Message >
+                            Sorry, this product is currently out of stock
+                            </Message> 
+                            <Link to = { `/products?main_category=${product.main_category}&sub_category=${product.sub_category}` } >
+                            <Button > {
                                 product.main_category !== "Kids" ?
                                 `View other ${product.main_category}'s ${product.sub_category}` :
                                     `View other products for ${product.main_category} (${product.sub_category})`
-                            } <
-                            /Button> <
-                            /Link> <
-                            />
-                        )
-                    } <
-                    /InfoContainer> <
-                    /Col> <
-                    /Row> <
-                    SizeChartModal show = { open }
+                            } 
+                            </Button>
+                            </Link> 
+                            </>
+                        )} 
+                    </InfoContainer> 
+                    </Col> 
+                    </Row> 
+                    <SizeChartModal show = { open }
                 onHide = {
                     () => setOpen(false) }
-                /> <
-                /Wrapper> <
-                Footer / >
-                    <
-                    /Container>
+                /> 
+                </Wrapper> 
+                <Footer />
+            </Container>
             );
         };
 
-        export default Product;
+export default Product;

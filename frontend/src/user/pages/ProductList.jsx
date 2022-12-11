@@ -110,120 +110,101 @@ const ProductList = () => {
         setPrice(null);
     };
 
-    return ( <
-        Container >
-        <
-        Navbar / >
-        <
-        Title style = {
+    return ( 
+        <Container>
+        <Navbar />
+        <Title style = {
             { fontSize: `${36 + fontSize.fontSize}px` } } > {
             sub_category ?
             sub_category :
                 main_category ?
                 main_category :
                 `Search results for "${search_input}"`
-        } <
-        /Title> {
-            !color && !size && !price && products.length === 0 ? ( <
-                ProductNotFound filtered = { false }
-                />
-            ) : ( <
-                >
-                <
-                FilterContainer >
-                <
-                Filter >
-                <
-                FilterText > Filter By: < /FilterText>
+        } </Title> 
+        {
+            !color && !size && !price && products.length === 0 ? ( 
+                <ProductNotFound filtered = { false }/>
+            ) : ( 
+                <>
+                <FilterContainer >
+                <Filter >
+                <FilterText > Filter By: </FilterText>
 
-                <
-                Select onChange = {
+                <Select onChange = {
                     (e) => setColor(e.target.value) } > {
-                    color ? ( <
-                        Option disabled > Color < /Option>
-                    ) : ( <
-                        Option disabled selected >
-                        Color <
-                        /Option>
+                    color ? ( <Option disabled> Color </Option>
+                    ) : ( <Option disabled selected >
+                        Color </Option>
                     )
-                } <
-                Option > White < /Option> <
-                Option > Black < /Option> <
-                Option > Pink < /Option> <
-                Option > Blue < /Option> <
-                Option > Yellow < /Option> <
-                Option > Green < /Option> <
-                /Select> <
-                Select onChange = {
+                } <Option>White</Option> 
+                <Option>Black</Option> 
+                <Option>Pink</Option> 
+                <Option> Blue </Option> 
+                <Option> Yellow </Option> 
+                <Option> Green </Option> 
+                </Select> 
+                <Select onChange = {
                     (e) => setSize(e.target.value) } > {
-                    size ? ( <
-                        Option disabled > Size < /Option>
-                    ) : ( <
-                        Option disabled selected >
-                        Size <
-                        /Option>
+                    size ? ( <Option disabled> Size </Option>
+                    ) : ( 
+                        <Option disabled selected >
+                        Size 
+                        </Option>
                     )
-                } <
-                Option > XS < /Option> <
-                Option > S < /Option> <
-                Option > M < /Option> <
-                Option > L < /Option> <
-                Option > XL < /Option> <
-                /Select> <
-                Select onChange = {
+                } <Option>XS</Option> 
+                <Option>S</Option> 
+                <Option>M</Option> 
+                <Option>L</Option> 
+                <Option>XL</Option> 
+                </Select> 
+                <Select onChange = {
                     (e) => setPrice(e.target.value) } > {
-                    price ? ( <
-                        Option disabled > Price Range < /Option>
-                    ) : ( <
-                        Option disabled selected >
-                        Price Range <
-                        /Option>
+                    price ? ( 
+                        <Option disabled > Price Range </Option>
+                    ) : ( 
+                        <Option disabled selected >
+                        Price Range
+                        </Option>
                     )
-                } <
-                Option value = "999" > 0 THB - 999 THB < /Option> <
-                Option value = "1999" > 1000 THB - 1999 THB < /Option> <
-                Option value = "2999" > 2000 THB - 2999 THB < /Option> <
-                Option value = "3999" > 3000 THB - 3999 THB < /Option> <
-                Option value = "4999" > 4000 THB - 4999 THB < /Option> <
-                /Select> {
-                    color || size || price ? ( <
-                        Button onClick = { resetFilter } > Reset < /Button>
+                } 
+                <Option value = "999" > 0 THB - 999 THB </Option>
+                <Option value = "1999" > 1000 THB - 1999 THB </Option> 
+                <Option value = "2999" > 2000 THB - 2999 THB </Option> 
+                <Option value = "3999" > 3000 THB - 3999 THB </Option> 
+                <Option value = "4999" > 4000 THB - 4999 THB </Option> 
+                </Select> {
+                    color || size || price ? ( 
+                        <Button onClick = { resetFilter } > Reset </Button>
                     ) : undefined
-                } <
-                /Filter>
+                } </Filter>
 
-                <
-                Filter >
-                <
-                FilterText > Sort By: < /FilterText> <
-                Select onChange = {
+                <Filter >
+                <FilterText > Sort By: </FilterText> 
+                <Select onChange = {
                     (e) => {
                         setSort(e.target.value);
                     }
                 } >
-                <
-                Option value = "newest" > Newest < /Option> <
-                Option value = "asc" > Price low to high < /Option> <
-                Option value = "desc" > Price high to low < /Option> <
-                /Select> <
-                /Filter> <
-                /FilterContainer> {
-                    products.length === 0 ? ( <
-                        ProductNotFound filtered = { true }
+                <Option value = "newest" > Newest </Option> 
+                <Option value = "asc" > Price low to high </Option> 
+                <Option value = "desc" > Price high to low </Option> 
+                </Select> 
+                </Filter> 
+                </FilterContainer> {
+                    products.length === 0 ? ( 
+                        <ProductNotFound filtered = { true }
                         />
-                    ) : ( <
-                        Products products = { products }
+                    ) : ( 
+                        <Products products = { products }
                         />
                     )
-                } <
-                />
+                } 
+                </>
             )
         }
 
-        <
-        Footer / >
-        <
-        /Container>
+        <Footer />
+        </Container>
     );
 };
 
