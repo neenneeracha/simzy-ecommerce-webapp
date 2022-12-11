@@ -32,7 +32,7 @@ const OptionAlert = ({ show, setShow, text, setText }) => {
         <Modal.Header closeButton>
           <Modal.Title style={{fontWeight: "bold" }}>{text.title}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>{text.message}</Modal.Body>
+        <Modal.Body style={{ margin: "10px auto", fontSize: "20px"}}>{text.message}</Modal.Body>
         <Modal.Footer>
           <Button style={{
             backgroundColor: "#9e9e9e",

@@ -112,7 +112,7 @@ const Register = () => {
           .match(/^[A-Za-z]*$/)
       )
     ) {
-      newErrors.firstname = "Lastname should contain only letters";
+      newErrors.lastname = "Lastname should contain only letters";
     }
     if (inputs.email.split(" ").join("").length < 1) {
       newErrors.email = "Please provide email";
@@ -272,7 +272,7 @@ const Register = () => {
                 style={{ marginBottom: "30px" }}
               >
                 <Form.Label>
-                  <FieldName>First Name:</FieldName>{" "}
+                  <FieldName>First Name:</FieldName>
                   <Description>(only characters are allowed)</Description>
                 </Form.Label>
                 <Form.Control
