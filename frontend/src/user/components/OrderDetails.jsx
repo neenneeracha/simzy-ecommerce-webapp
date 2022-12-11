@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
-import Card from 'react-bootstrap/Card';
+import Card from "react-bootstrap/Card";
 import { ArrowBack } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import styled from "styled-components";
 import axios from "axios";
-
-import {
-  MDBCol
-} from 'mdb-react-ui-kit';
+import { useSelector } from "react-redux";
+import { MDBCol } from "mdb-react-ui-kit";
 
 const styles = {
   customButton: {
@@ -16,13 +14,11 @@ const styles = {
     borderColor: "#eda3b5",
     color: "white",
     borderRadius: "5px",
-    fontSize: "14px"
-  }
+    fontSize: "14px",
+  },
 };
 
-const Container = styled.div`
-  
-`;
+const Container = styled.div``;
 
 const BackBtn = styled.div`
   font-size: 14px;
@@ -46,21 +42,18 @@ const Title = styled.h2`
 `;
 
 const Status = styled.p`
-text-align: center;
-font-size: 16px;
-margin: 0px;
+  text-align: center;
+  font-size: 16px;
+  margin: 0px;
 `;
 
-const Highlight = styled.strong`
-
-`;
+const Highlight = styled.strong``;
 
 const Line = styled.hr`
-margin-top: 20px;
+  margin-top: 20px;
 `;
 
-const Details = styled.div`
-`;
+const Details = styled.div``;
 
 const Section = styled.div`
   display: flex;
@@ -69,7 +62,7 @@ const Section = styled.div`
 `;
 
 const Text = styled.h5`
-margin-top: 36px;
+  margin-top: 36px;
 `;
 
 const LineBreak = styled.p`
@@ -139,7 +132,7 @@ const Summary = styled.div`
   margin-top: 4%;
 `;
 
-const SummaryTitle = styled.h5`
+const SummaryTitle = styled.span`
   font-weight: bold;
 `;
 
@@ -151,14 +144,20 @@ const SummaryItem = styled.div`
   font-size: ${(props) => props.type === "total" && "20px"};
 `;
 
-
 const SummaryItemText = styled.span``;
 
 const SummaryItemPrice = styled.span``;
+const ButtonText = styled.div``;
 
-const OrderDetails = ({ order_id, setViewOrder, totalPrice, setTotalPrice }) => {
-  const [orderDetails, setOrderDetails] = useState([])
-  const [orderedItems, setOrderedItems] = useState([])
+const OrderDetails = ({
+  order_id,
+  setViewOrder,
+  totalPrice,
+  setTotalPrice,
+}) => {
+  const [orderDetails, setOrderDetails] = useState([]);
+  const [orderedItems, setOrderedItems] = useState([]);
+  const fontSize = useSelector((state) => state.fontSize);
 
   useEffect(() => {
     const getOrderDetails = async () => {
@@ -167,21 +166,29 @@ const OrderDetails = ({ order_id, setViewOrder, totalPrice, setTotalPrice }) => 
           "http://localhost:8080/api/v1/order/details/" + order_id
         );
         if (res.data.length > 0) {
-              var createdDate = new window.Date(res.data[0].created_at)
-                  .toISOString().replace(/T.*/,'')
-                  .split('-').reverse().join('/')
-              var createdTime = new window.Date(res.data[0].created_at)
-              .toISOString().slice(11,19)
-              res.data[0].created_at = createdDate.concat(" " + createdTime)
+          var createdDate = new window.Date(res.data[0].created_at)
+            .toISOString()
+            .replace(/T.*/, "")
+            .split("-")
+            .reverse()
+            .join("/");
+          var createdTime = new window.Date(res.data[0].created_at)
+            .toISOString()
+            .slice(11, 19);
+          res.data[0].created_at = createdDate.concat(" " + createdTime);
 
-              var updatedDate = new window.Date(res.data[0].updated_at)
-                  .toISOString().replace(/T.*/,'')
-                  .split('-').reverse().join('/')
-              var updatedTime = new window.Date(res.data[0].updated_at)
-              .toISOString().slice(11,19)
-              res.data[0].updated_at = updatedDate.concat(" " + updatedTime)               
+          var updatedDate = new window.Date(res.data[0].updated_at)
+            .toISOString()
+            .replace(/T.*/, "")
+            .split("-")
+            .reverse()
+            .join("/");
+          var updatedTime = new window.Date(res.data[0].updated_at)
+            .toISOString()
+            .slice(11, 19);
+          res.data[0].updated_at = updatedDate.concat(" " + updatedTime);
         }
-        setOrderDetails(res.data[0])
+        setOrderDetails(res.data[0]);
       } catch (error) {
         console.log(error);
       }
@@ -191,7 +198,7 @@ const OrderDetails = ({ order_id, setViewOrder, totalPrice, setTotalPrice }) => 
         const res = await axios.get(
           "http://localhost:8080/api/v1/order/products/" + order_id
         );
-        setOrderedItems(res.data)
+        setOrderedItems(res.data);
       } catch (error) {
         console.log(error);
       }
@@ -201,140 +208,210 @@ const OrderDetails = ({ order_id, setViewOrder, totalPrice, setTotalPrice }) => 
   }, [order_id]);
 
   return (
-    <Container>       
+    <Container>
       <Card>
         <Card.Body>
-          <BackBtn onClick={() => {
-                  setViewOrder(null);
-                  setTotalPrice(null);
-                }}>
-          <ArrowBack
-                  style={{ fontSize: 18, marginBottom: 3, marginRight: 4 }}
-                />{" "}
-                BACK TO ORDER HISTORY
+          <BackBtn
+            onClick={() => {
+              setViewOrder(null);
+              setTotalPrice(null);
+            }}
+          >
+            <ArrowBack
+              style={{
+                fontSize: `${18 + fontSize.fontSize}px`,
+                marginBottom: 3,
+                marginRight: 4,
+              }}
+            />{" "}
+            BACK TO ORDER HISTORY
           </BackBtn>
-        <Body>
-                <Title>Order Reference #{order_id}</Title>
-                <Status>Ordered date: {orderDetails.created_at}</Status> 
-                <Status>Status: <Highlight>{orderDetails.description}</Highlight> | Updated at {orderDetails.updated_at}</Status> 
-               
-                <Line />
-                <Details>
-                <Text>Payment Details</Text>
-                <Section>
-                  <MDBCol sm="2" style={{ marginTop: 5 }}>Payment ID:</MDBCol>
-                  <MDBCol sm="2" style={{ marginTop: 5, color: "#616161" }}>{orderDetails.payment_id}</MDBCol>
+          <Body>
+            <Title style={{ fontSize: `${36 + fontSize.fontSize}px` }}>
+              Order Reference #{order_id}
+            </Title>
+            <Status style={{ fontSize: `${16 + fontSize.fontSize}px` }}>
+              Ordered date: {orderDetails.created_at}
+            </Status>
+            <Status style={{ fontSize: `${16 + fontSize.fontSize}px` }}>
+              Status: <Highlight>{orderDetails.description}</Highlight> |
+              Updated at {orderDetails.updated_at}
+            </Status>
 
-                  <MDBCol sm="2" style={{ marginTop: 5 }}>Payment Status:</MDBCol>
-                  <MDBCol sm="2" style={{ marginTop: 5, color: "#616161" }}>{orderDetails.status === 0? "Pending" : "Paid"}</MDBCol>
+            <Line />
+            <Details style={{ fontSize: `${18 + fontSize.fontSize}px` }}>
+              <Text style={{ fontSize: `${22 + fontSize.fontSize}px` }}>
+                Payment Details
+              </Text>
+              <Section>
+                <MDBCol sm="2" style={{ marginTop: 5 }}>
+                  Payment ID:
+                </MDBCol>
+                <MDBCol sm="2" style={{ marginTop: 5, color: "#616161" }}>
+                  {orderDetails.payment_id}
+                </MDBCol>
 
-                  <MDBCol sm="2" style={{ marginTop: 5 }}>Payment Type:</MDBCol>
-                  <MDBCol sm="2" style={{ marginTop: 5, color: "#616161" }}>{orderDetails.payment_type === 1? "Cash on Delivery" : "Card Payment"}</MDBCol>
-                </Section>
-                </Details>
-                <Details>
-                <LineBreak/>
-                <Line />
-                <Text>Shipping Details</Text>
-                <Section>
-                  <MDBCol sm="2" style={{ marginTop: 5 }}>Name:</MDBCol>
-                  <MDBCol sm="4" style={{ marginTop: 5, color: "#616161" }}>{orderDetails.name}</MDBCol>
+                <MDBCol sm="2" style={{ marginTop: 5 }}>
+                  Payment Status:
+                </MDBCol>
+                <MDBCol sm="2" style={{ marginTop: 5, color: "#616161" }}>
+                  {orderDetails.status === 0 ? "Pending" : "Paid"}
+                </MDBCol>
 
-                  <MDBCol sm="2" style={{ marginTop: 5 }}>Surname:</MDBCol>
-                  <MDBCol sm="4" style={{ marginTop: 5, color: "#616161" }}>{orderDetails.surname}</MDBCol>
-                </Section>
-                
-                <Section>
-                  <MDBCol sm="2" style={{ marginTop: 5 }}>Address:</MDBCol>
-                  <MDBCol sm="10" style={{ marginTop: 5, color: "#616161" }}>{orderDetails.address}</MDBCol>
-                  <MDBCol sm="0" ></MDBCol>
-                  <MDBCol sm="0" ></MDBCol>
-                </Section>
-                <Section>
-                  <MDBCol sm="2" style={{ marginTop: 5 }}>District:</MDBCol>
-                  <MDBCol sm="4" style={{ marginTop: 5, color: "#616161" }}>{orderDetails.district}</MDBCol>
+                <MDBCol sm="2" style={{ marginTop: 5 }}>
+                  Payment Type:
+                </MDBCol>
+                <MDBCol sm="2" style={{ marginTop: 5, color: "#616161" }}>
+                  {orderDetails.payment_type === 1
+                    ? "Cash on Delivery"
+                    : "Card Payment"}
+                </MDBCol>
+              </Section>
+            </Details>
+            <Details>
+              <LineBreak />
+              <Line />
+              <Text style={{ fontSize: `${22 + fontSize.fontSize}px` }}>
+                Shipping Details
+              </Text>
+              <Section style={{ fontSize: `${18 + fontSize.fontSize}px` }}>
+                <MDBCol sm="2" style={{ marginTop: 5 }}>
+                  Name:
+                </MDBCol>
+                <MDBCol sm="4" style={{ marginTop: 5, color: "#616161" }}>
+                  {orderDetails.name}
+                </MDBCol>
 
-                  <MDBCol sm="2" style={{ marginTop: 5 }}>Province:</MDBCol>
-                  <MDBCol sm="4" style={{ marginTop: 5, color: "#616161" }}>{orderDetails.province}</MDBCol>
-                </Section>
-                <Section>
-                  <MDBCol sm="2" style={{ marginTop: 5 }}>Zipcode:</MDBCol>
-                  <MDBCol style={{ marginTop: 5, color: "#616161" }}>{orderDetails.zip_code}</MDBCol>
+                <MDBCol sm="2" style={{ marginTop: 5 }}>
+                  Surname:
+                </MDBCol>
+                <MDBCol sm="4" style={{ marginTop: 5, color: "#616161" }}>
+                  {orderDetails.surname}
+                </MDBCol>
+              </Section>
 
-                  <MDBCol sm="2" style={{ marginTop: 5 }}>Phone no:</MDBCol>
-                  <MDBCol style={{ marginTop: 5, color: "#616161" }}>{orderDetails.phone_number}</MDBCol>
-                </Section>
-                </Details>
-                <LineBreak />
-                <Line />
-                <Text>Items Ordered</Text>
-                {orderedItems.map((product) => (
-                <Product key={product.product_id}>
-                  <ProductDetail>
-                    <Image src={product.img_link} />
-                    <ProductDetails>
-                      <ProductText>
-                        <b>Product:</b> {product.product_name}
-                      </ProductText>
-                      <ProductText>
-                        <b>Color:</b> {product.color}
-                      </ProductText>
-                      <ProductText>
-                        <b>Size:</b> {product.size}
-                      </ProductText>
-                      <ProductText>
-                        <b>Price per unit:</b> THB {product.price} 
-                      </ProductText>
-                    </ProductDetails>
-                  </ProductDetail>
-                  <PriceDetail>
-                    <ProductAmountContainer>
-                      <ProductAmount> X {product.quantity}</ProductAmount>
-                    </ProductAmountContainer>
-                    <ProductPrice>
-                      ฿ {product.price * product.quantity}
-                    </ProductPrice>
-                    <ButtonGroup>
-                     
-                      <Link to={`/product/${product.product_id}`} target="_blank">
-                      <Button
-                
-                style={styles.customButton}
-                
+              <Section style={{ fontSize: `${18 + fontSize.fontSize}px` }}>
+                <MDBCol sm="2" style={{ marginTop: 5 }}>
+                  Address:
+                </MDBCol>
+                <MDBCol sm="10" style={{ marginTop: 5, color: "#616161" }}>
+                  {orderDetails.address}
+                </MDBCol>
+                <MDBCol sm="0"></MDBCol>
+                <MDBCol sm="0"></MDBCol>
+              </Section>
+              <Section style={{ fontSize: `${18 + fontSize.fontSize}px` }}>
+                <MDBCol sm="2" style={{ marginTop: 5 }}>
+                  District:
+                </MDBCol>
+                <MDBCol sm="4" style={{ marginTop: 5, color: "#616161" }}>
+                  {orderDetails.district}
+                </MDBCol>
+
+                <MDBCol sm="2" style={{ marginTop: 5 }}>
+                  Province:
+                </MDBCol>
+                <MDBCol sm="4" style={{ marginTop: 5, color: "#616161" }}>
+                  {orderDetails.province}
+                </MDBCol>
+              </Section>
+              <Section style={{ fontSize: `${18 + fontSize.fontSize}px` }}>
+                <MDBCol sm="2" style={{ marginTop: 5 }}>
+                  Zipcode:
+                </MDBCol>
+                <MDBCol style={{ marginTop: 5, color: "#616161" }}>
+                  {orderDetails.zip_code}
+                </MDBCol>
+
+                <MDBCol sm="2" style={{ marginTop: 5 }}>
+                  Phone no:
+                </MDBCol>
+                <MDBCol style={{ marginTop: 5, color: "#616161" }}>
+                  {orderDetails.phone_number}
+                </MDBCol>
+              </Section>
+            </Details>
+            <LineBreak />
+            <Line />
+            <Text style={{ fontSize: `${22 + fontSize.fontSize}px` }}>
+              Items Ordered
+            </Text>
+            {orderedItems.map((product) => (
+              <Product
+                key={product.product_id}
+                style={{ fontSize: `${18 + fontSize.fontSize}px` }}
               >
-                VIEW DETAILS
-              </Button>
-                      </Link>
-                    </ButtonGroup>
-                  </PriceDetail>
+                <ProductDetail>
+                  <Image src={product.img_link} />
+                  <ProductDetails>
+                    <ProductText>
+                      <b>Product:</b> {product.product_name}
+                    </ProductText>
+                    <ProductText>
+                      <b>Color:</b> {product.color}
+                    </ProductText>
+                    <ProductText>
+                      <b>Size:</b> {product.size}
+                    </ProductText>
+                    <ProductText>
+                      <b>Price per unit:</b> THB {product.price}
+                    </ProductText>
+                  </ProductDetails>
+                </ProductDetail>
+                <PriceDetail>
+                  <ProductAmountContainer>
+                    <ProductAmount
+                      style={{ fontSize: `${18 + fontSize.fontSize}px` }}
+                    >
+                      {" "}
+                      X {product.quantity}
+                    </ProductAmount>
+                  </ProductAmountContainer>
+                  <ProductPrice
+                    style={{ fontSize: `${20 + fontSize.fontSize}px` }}
+                  >
+                    ฿ {product.price * product.quantity}
+                  </ProductPrice>
+                  <ButtonGroup>
+                    <Link to={`/product/${product.product_id}`} target="_blank">
+                      <Button style={styles.customButton}>
+                        {" "}
+                        <ButtonText
+                          style={{ fontSize: `${18 + fontSize.fontSize}px` }}
+                        >
+                          VIEW DETAILS
+                        </ButtonText>
+                      </Button>
+                    </Link>
+                  </ButtonGroup>
+                </PriceDetail>
 
-                  <Line />
-                </Product>
-              ))}
-              <Summary>
-              <SummaryTitle>ORDER SUMMARY</SummaryTitle>
-              <SummaryItem>
-                <SummaryItemText>Subtotal</SummaryItemText>
+                <Line />
+              </Product>
+            ))}
+            <Summary>
+              <SummaryTitle style={{ fontSize: `${22 + fontSize.fontSize}px`}}>ORDER SUMMARY</SummaryTitle>
+              <SummaryItem style={{ fontSize: `${18 + fontSize.fontSize}px`}}>
+                <SummaryItemText >Subtotal</SummaryItemText>
                 <SummaryItemPrice>THB {totalPrice}</SummaryItemPrice>
               </SummaryItem>
-              <SummaryItem>
+              <SummaryItem style={{ fontSize: `${18 + fontSize.fontSize}px`}}>
                 <SummaryItemText>Shipping Fee</SummaryItemText>
                 <SummaryItemPrice>THB 90</SummaryItemPrice>
               </SummaryItem>
-              <SummaryItem type="total">
+              <SummaryItem
+                type="total"
+                style={{ fontSize: `${22 + fontSize.fontSize}px` }}
+              >
                 <SummaryItemText>Total</SummaryItemText>
                 <SummaryItemPrice>THB {totalPrice + 90}</SummaryItemPrice>
               </SummaryItem>
             </Summary>
-            
-        </Body>
-      
-    
+          </Body>
         </Card.Body>
       </Card>
     </Container>
-    
-  )
-}
+  );
+};
 
-export default OrderDetails
+export default OrderDetails;
