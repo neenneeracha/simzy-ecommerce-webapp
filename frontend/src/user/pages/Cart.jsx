@@ -259,10 +259,10 @@ const Cart = () => {
             </Icon>
             <Text>
               <b style={{ fontSize: `${30 + fontSize.fontSize}px` }}>
-                "You cart is currently empty"
+                You cart is currently empty
               </b>{" "}
               <br />
-              <p style={{ fontSize: `${28 + fontSize.fontSize}px` }}>
+              <p style={{ margin: "10px 0px 20px", fontSize: `${24 + fontSize.fontSize}px` }}>
                 Looks like you haven't added anything to your cart yet
               </p>{" "}
               <Link to="/">

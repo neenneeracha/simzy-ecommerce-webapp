@@ -53,8 +53,15 @@ const PasswordModal = ({show, handleChange}) => {
           position: "top-center",
         }
       );
+    } else if (newPassword.split(' ').join('').length < 6) {
+      toast.error("Password should be at least 6 characters long",
+        {
+          position: "top-center",
+        }
+      );
     } else {
-      const res = await axios.patch("http://localhost:8080/api/v1/user/update-password/" + user.user_id, {
+      try {
+        const res = await axios.patch("http://localhost:8080/api/v1/user/update-password/" + user.user_id, {
           currentPW: currentPassword,
           newPW: newPassword
         });
@@ -67,6 +74,18 @@ const PasswordModal = ({show, handleChange}) => {
       );
           handleChange(false)
         }
+      } catch (err) {
+      if (err.request.status === 403) {
+          toast.error(err.response.data.msg, {
+            position: "top-center",
+          });
+        } else {
+          toast.error("Something went wrong, please try again !!", {
+            position: "top-center",
+          });
+        }
+        console.log(err);
+      }
     }
   };
 

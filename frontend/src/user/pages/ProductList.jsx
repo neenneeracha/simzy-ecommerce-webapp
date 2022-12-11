@@ -68,7 +68,6 @@ const styles = {
 };
 
 const ProductList = () => {
-  const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [searchParams] = useSearchParams();
   const [color, setColor] = useState(null);
@@ -83,7 +82,6 @@ const ProductList = () => {
   // get display products
   useEffect(() => {
     const getProducts = async () => {
-      setLoading(true);
       try {
         const res = await axios.get(
           sub_category
@@ -102,7 +100,6 @@ const ProductList = () => {
       } catch (error) {
         console.log(error);
       }
-      setLoading(false);
     };
 
     getProducts();
