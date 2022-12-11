@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 import styled from "styled-components";
 import { useUser } from "../../UserContext";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const styles = {
   customButton: {
@@ -26,9 +27,23 @@ const PasswordModal = ({show, handleChange}) => {
 
   const handleSubmit = async () => {
     if (currentPassword.split(' ').join('').length < 1) {
-      alert("Please enter your current password")
+      toast.error("Please enter your current password",
+        {
+          position: "top-center",
+        }
+      );
     } else if (newPassword.split(' ').join('').length < 1) {
-      alert("Please enter your new password")
+       toast.error("Please enter your new password",
+        {
+          position: "top-center",
+        }
+      );
+    } else if (currentPassword === newPassword) {
+      toast.error("You entered the same password for both fields !!",
+        {
+          position: "top-center",
+        }
+      );
     } else {
       const res = await axios.patch("http://localhost:8080/api/v1/user/update-password/" + user.user_id, {
           currentPW: currentPassword,
@@ -36,7 +51,11 @@ const PasswordModal = ({show, handleChange}) => {
         });
       
         if (res.status === 200) {
-          alert(res.data.msg)
+           toast.success(res.data.msg,
+        {
+          position: "top-center",
+        }
+      );
           handleChange(false)
         }
     }
@@ -46,7 +65,10 @@ const PasswordModal = ({show, handleChange}) => {
         <Container>    
           <Modal
             show={show}
-            onHide={() => handleChange(false)}
+            onHide={() => {
+              toast.dismiss();
+              handleChange(false)
+            }}
             dialogClassName="modal-90w"
             aria-labelledby="passwordModal"
             centered
@@ -79,7 +101,10 @@ const PasswordModal = ({show, handleChange}) => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => handleChange(false)}>
+          <Button variant="secondary" onClick={() => {
+              toast.dismiss();
+              handleChange(false)
+            }}>
             Close
           </Button>
           <Button style={styles.customButton} onClick={handleSubmit}>

@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 30px;
+  margin: 100px 30px;
 `;
 const Image = styled.img`
   height: 40%;
@@ -18,23 +18,35 @@ const Image = styled.img`
 const Text = styled.h4`
   height: 40%;
   width: 40%;
+
   b {
     color: #eda3b5;
     font-size: 40px;
+    
   }
 `;
+
+const LineBreak = styled.br`
+`;
+
+const Description = styled.p`
+
+`;
+const Bold = styled.b`
+`;
+
 const PageNotfound = () => {
   return (
     <Container>
       <Wrapper>
         <Image src={process.env.PUBLIC_URL + "img/404Error-amico.png"} />
         <Text>
-          <b>Page Not Found! </b>
-          <br /> We’re sorry, the page you requested could not be found <br />{" "}
+          <Bold>Page Not Found! </Bold>
+          <Description /><Description /> We’re sorry, the page you requested could not be found <LineBreak />{" "}
           Please go back to homepage
-          <br />
+          <LineBreak />
           <Link to="/">
-            <MDBBtn className="mx-2" color="primary" style={{ margin: "10%" }}>
+            <MDBBtn className="mx-2" color="primary" style={{ marginTop: "4%" }}>
               Go Home
             </MDBBtn>
           </Link>
