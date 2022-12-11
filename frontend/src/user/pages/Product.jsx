@@ -1,19 +1,29 @@
-import { Add, Remove } from "@material-ui/icons";
+/********************************************************************
+ *
+ * Product.jsx
+ *
+ *    This file represents a product's detail page
+ *   	which will display product images, names, prices and
+ *    other information.
+ *
+ ********************************************************************
+ */
+
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import React, { useState, useEffect } from "react";
+import Alert from "../components/Alert";
+import SizeChartModal from "../components/SizeChartModal";
 import Button from "react-bootstrap/Button";
+import axios from "axios";
+import { Add, Remove } from "@material-ui/icons";
 import { Col, Row } from "react-bootstrap";
 import { MDBIcon, MDBRadio } from "mdb-react-ui-kit";
 import { addProduct } from "../redux/cartRedux";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useParams, Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import ClearIcon from "@material-ui/icons/Clear";
-import Alert from "../components/Alert";
-import SizeChartModal from "../components/SizeChartModal";
 
 const Container = styled.div`
   min-height: 100vh;
@@ -64,6 +74,7 @@ const Desc = styled.div`
 const Price = styled.h3`
   font-weight: 100;
 `;
+
 const Text = styled.div``;
 
 const FilterContainer = styled.div`
@@ -96,6 +107,7 @@ const FilterSize = styled.div`
   display: flex;
 `;
 const MaterialDetail = styled.div``;
+
 const MaterialTitle = styled.h5`
   margin: 30px 0;
 `;
@@ -135,8 +147,6 @@ const Imagethumbnail = styled.img`
 const ButtonGroup = styled.div`
   display: flex;
 `;
-
-const ImageLightbox = styled.div``;
 
 const Line = styled.hr``;
 
@@ -180,7 +190,6 @@ const styles = {
 const Product = () => {
   const { id } = useParams();
   const [url, setUrl] = useState("");
-  const [info, setInfo] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState({});
   const [colors, setColors] = useState([]);
@@ -193,20 +202,19 @@ const Product = () => {
   const [filteredColors, setFilteredColors] = useState([]);
   const [show, setShow] = useState(false);
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const sizeOptions = ["XS", "S", "M", "L", "XL"];
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
+  const fontSize = useSelector((state) => state.fontSize);
   const [error, setError] = useState({
     title: "",
     message: "",
     type: "",
     link: "",
   });
-  const navigate = useNavigate();
 
-  const sizeOptions = ["XS", "S", "M", "L", "XL"];
-  const dispatch = useDispatch();
-  const cart = useSelector((state) => state.cart);
-  // const [fontSize, setFontSize] = useState([]);
-  const fontSize = useSelector((state) => state.fontSize);
-
+  // get product information from the backend, including colors, images, and stock
   useEffect(() => {
     const getProduct = async () => {
       try {
@@ -268,6 +276,7 @@ const Product = () => {
     getStocks();
   }, [id, navigate]);
 
+  // change the picture according to the selected color
   useEffect(() => {
     const changeImage = () => {
       if (selectedColor !== null) {
@@ -281,6 +290,7 @@ const Product = () => {
     changeImage();
   }, [images, mainColor, selectedColor]);
 
+  // get the available size of the products in stock according to the selected color
   useEffect(() => {
     const manageSize = () => {
       if (selectedColor !== null) {
@@ -292,6 +302,7 @@ const Product = () => {
     manageSize();
   }, [stocks, selectedColor]);
 
+  // get the available color of the products in stock according to the selected size
   useEffect(() => {
     const manageColor = () => {
       if (selectedSize != null) {
@@ -303,6 +314,7 @@ const Product = () => {
     manageColor();
   }, [stocks, selectedSize]);
 
+  // get the available quantity of products with the selected color, size and quantity.
   useEffect(() => {
     const checkQuantity = () => {
       if (selectedColor && selectedSize) {
@@ -354,6 +366,7 @@ const Product = () => {
     checkQuantity();
   }, [selectedSize, selectedColor, quantity, stocks, colors, cart.products]);
 
+  // handling add-to-cart operations
   const addToCartHandler = () => {
     if (!selectedColor && !selectedSize) {
       setError((prev) => ({
@@ -380,7 +393,7 @@ const Product = () => {
       }));
       setShow(true);
     } else {
-      /* update cart */
+      // update cart
       if (quantity !== 0) {
         const color = colors
           .filter((color) => color.product_color_id === selectedColor)
@@ -402,6 +415,7 @@ const Product = () => {
     }
   };
 
+  // manage the increase and decrease in the number of product
   const handleQuantity = (type) => {
     if (type === "dec") {
       quantity > 1 && setQuantity(quantity - 1);
@@ -414,7 +428,6 @@ const Product = () => {
     <Container>
       <Navbar />
       <Wrapper>
-        {" "}
         {show ? (
           <Alert
             show={show}
@@ -422,14 +435,13 @@ const Product = () => {
             text={error}
             setText={setError}
           />
-        ) : undefined}{" "}
+        ) : undefined}
         <Row>
           <Col>
             <ImgContainer>
               <article>
                 {url ? <Image src={url} /> : undefined}
                 <ul>
-                  {" "}
                   {images
                     .filter((img) => img.is_main_color === 1)
                     .map((img, index) => (
@@ -440,45 +452,40 @@ const Product = () => {
                           img.img_link === url ? "opacity-30" : undefined
                         }
                       >
-                        <Imagethumbnail src={img.img_link} />{" "}
+                        <Imagethumbnail src={img.img_link} />
                       </li>
-                    ))}{" "}
-                </ul>{" "}
-              </article>{" "}
-            </ImgContainer>{" "}
+                    ))}
+                </ul>
+              </article>
+            </ImgContainer>
           </Col>
           <Col>
             <InfoContainer>
               <Title style={{ fontSize: `${40 + fontSize.fontSize}px` }}>
-                {" "}
-                {product.product_name}{" "}
-              </Title>{" "}
+                {product.product_name}
+              </Title>
               <Desc style={{ fontSize: `${20 + fontSize.fontSize}px` }}>
-                {" "}
-                {product.description}{" "}
-              </Desc>{" "}
+                {product.description}
+              </Desc>
               <Price style={{ fontSize: `${30 + fontSize.fontSize}px` }}>
-                {" "}
                 {product.price}
                 THB
-              </Price>{" "}
+              </Price>
               <MaterialDetail>
                 <MaterialTitle
                   style={{ fontSize: `${20 + fontSize.fontSize}px` }}
                 >
-                  Material:{" "}
-                </MaterialTitle>{" "}
+                  Material:
+                </MaterialTitle>
                 <MaterialContent
                   style={{ fontSize: `${16 + fontSize.fontSize}px` }}
                 >
-                  {" "}
-                  {product.details}{" "}
-                </MaterialContent>{" "}
-              </MaterialDetail>{" "}
+                  {product.details}
+                </MaterialContent>
+              </MaterialDetail>
               <SizeChart onClick={() => setOpen(true)}>
-                {" "}
-                click here to view size chart{" "}
-              </SizeChart>{" "}
+                click here to view size chart
+              </SizeChart>
               {stocks.length > 0 ? (
                 <>
                   <FilterContainer>
@@ -486,7 +493,7 @@ const Product = () => {
                       <FilterTitle
                         style={{ fontSize: `${20 + fontSize.fontSize}px` }}
                       >
-                        Color:{" "}
+                        Color:
                       </FilterTitle>
                       <FilterColor>
                         {!selectedSize ? (
@@ -534,22 +541,20 @@ const Product = () => {
                                   setSelectedColor(parseInt(e.target.value))
                                 }
                               />
-                            ))}{" "}
+                            ))}
                           </>
-                        )}{" "}
-                      </FilterColor>{" "}
-                    </ColorInfo>{" "}
+                        )}
+                      </FilterColor>
+                    </ColorInfo>
                     <SizeInfo>
                       <FilterTitle
                         style={{ fontSize: `${20 + fontSize.fontSize}px` }}
                       >
-                        Size: {""}{" "}
-                      </FilterTitle>{" "}
+                        Size: {""}
+                      </FilterTitle>
                       <FilterSize>
-                        {" "}
                         {!selectedColor ? (
                           <>
-                            {" "}
                             {sizeOptions.map((size, index) => (
                               <MDBRadio
                                 key={index}
@@ -563,11 +568,10 @@ const Product = () => {
                                   setSelectedSize(e.target.value)
                                 }
                               />
-                            ))}{" "}
+                            ))}
                           </>
                         ) : (
                           <>
-                            {" "}
                             {sizeOptions.map((size, index) => (
                               <MDBRadio
                                 key={index}
@@ -587,32 +591,32 @@ const Product = () => {
                                   setSelectedSize(e.target.value)
                                 }
                               />
-                            ))}{" "}
+                            ))}
                           </>
-                        )}{" "}
-                      </FilterSize>{" "}
-                    </SizeInfo>{" "}
+                        )}
+                      </FilterSize>
+                    </SizeInfo>
                     <AddContainer style={{ marginTop: "5%" }}>
                       <FilterTitle
                         style={{ fontSize: `${20 + fontSize.fontSize}px` }}
                       >
-                        Quantity:{" "}
-                      </FilterTitle>{" "}
+                        Quantity:
+                      </FilterTitle>
                       <AmountContainer
                         style={{ fontSize: `${20 + fontSize.fontSize}px` }}
                       >
                         <Remove
                           onClick={() => handleQuantity("dec")}
                           style={{ cursor: "pointer" }}
-                        />{" "}
-                        <Amount> {quantity} </Amount>{" "}
+                        />
+                        <Amount> {quantity} </Amount>
                         <Add
                           onClick={() => handleQuantity("inc")}
                           style={{ cursor: "pointer" }}
-                        />{" "}
-                      </AmountContainer>{" "}
-                    </AddContainer>{" "}
-                  </FilterContainer>{" "}
+                        />
+                      </AmountContainer>
+                    </AddContainer>
+                  </FilterContainer>
                   <ButtonGroup>
                     <Button
                       className="d-block mx-auto w-35"
@@ -627,15 +631,15 @@ const Product = () => {
                           marginRight: "10px",
                           fontSize: `${16 + fontSize.fontSize}px`,
                         }}
-                      />{" "}
+                      />
                       <Text
                         style={{
                           fontSize: `${16 + fontSize.fontSize}px`,
                           display: " inline-block",
                         }}
                       >
-                        ADD TO CART{" "}
-                      </Text>{" "}
+                        ADD TO CART
+                      </Text>
                     </Button>
                     <Button
                       className="d-block mx-auto w-35"
@@ -650,42 +654,40 @@ const Product = () => {
                           marginRight: "10px",
                           fontSize: `${16 + fontSize.fontSize}px`,
                         }}
-                      />{" "}
+                      />
                       <Text
                         style={{
                           fontSize: `${16 + fontSize.fontSize}px`,
                           display: " inline-block",
                         }}
                       >
-                        {" "}
-                        CLEAR SELECTION{" "}
-                      </Text>{" "}
-                    </Button>{" "}
-                  </ButtonGroup>{" "}
+                        CLEAR SELECTION
+                      </Text>
+                    </Button>
+                  </ButtonGroup>
                 </>
               ) : (
                 <>
                   <Line />
                   <Message>
-                    Sorry, this product is currently out of stock{" "}
-                  </Message>{" "}
+                    Sorry, this product is currently out of stock
+                  </Message>
                   <Link
                     to={`/products?main_category=${product.main_category}&sub_category=${product.sub_category}`}
                   >
                     <Button style={styles.customButton}>
-                      {" "}
                       {product.main_category !== "Kids"
                         ? `View other ${product.main_category}'s ${product.sub_category}`
-                        : `View other products for ${product.main_category} (${product.sub_category})`}{" "}
-                    </Button>{" "}
-                  </Link>{" "}
+                        : `View other products for ${product.main_category} (${product.sub_category})`}
+                    </Button>
+                  </Link>
                 </>
-              )}{" "}
-            </InfoContainer>{" "}
-          </Col>{" "}
-        </Row>{" "}
-        <SizeChartModal show={open} onHide={() => setOpen(false)} />{" "}
-      </Wrapper>{" "}
+              )}
+            </InfoContainer>
+          </Col>
+        </Row>
+        <SizeChartModal show={open} onHide={() => setOpen(false)} />
+      </Wrapper>
       <Footer />
     </Container>
   );
