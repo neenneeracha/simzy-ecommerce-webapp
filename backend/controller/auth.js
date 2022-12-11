@@ -1,9 +1,19 @@
+/********************************************************************
+ *
+ * auth.js
+ *  
+ *   This file contains a collection of controllers to handle 
+ *   requests to the backend for user authentication information
+ * 
+ ********************************************************************
+ */
+
 const pool = require("../database/connector");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-// add new user
+// add new user 
 const addNewUser = (req, res) => {
     let q = "SELECT EXISTS (SELECT * FROM userinfo WHERE email = ?) AS userExist";
 

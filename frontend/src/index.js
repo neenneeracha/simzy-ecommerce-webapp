@@ -1,3 +1,13 @@
+/********************************************************************
+ *
+ * index.js
+ *
+ *    This file represents the index file used for render the main 
+ *    react component to the “root” element
+ *
+ ********************************************************************
+ */
+
 import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";

@@ -1,3 +1,14 @@
+/********************************************************************
+ *
+ * CategoriesItem.jsx
+ *
+ *    This file represents the compoents of Categories.jsx
+ *    which link to each category's product page.
+ *
+ ********************************************************************
+ */
+
+import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -66,7 +77,6 @@ const CategoryItem = ({ item }) => {
             {item.title}
           </Title>
           <Button>
-            {" "}
             <Text
               style={{
                 fontSize: `${20 + fontSize.fontSize}px`,

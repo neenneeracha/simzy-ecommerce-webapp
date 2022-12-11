@@ -1,3 +1,13 @@
+/********************************************************************
+ *
+ * UserInfo.jsx
+ *
+ *    This file represents the user information in the user 
+ *    profile page
+ *    
+ ********************************************************************
+ */
+
 import React from 'react'
 import styled from "styled-components";
 

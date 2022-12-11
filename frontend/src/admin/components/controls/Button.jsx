@@ -1,3 +1,13 @@
+/********************************************************************
+ *
+ * Button.jsx
+ *
+ *    This file represents the multi-use button component with text 
+ *    and allows click events.
+ *
+ ********************************************************************
+ */
+
 import React from "react";
 import { Button as MuiButton, makeStyles } from "@material-ui/core";
 

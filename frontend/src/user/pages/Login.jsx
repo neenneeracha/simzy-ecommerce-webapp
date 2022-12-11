@@ -1,7 +1,18 @@
+/********************************************************************
+ *
+ * Login.jsx
+ *
+ *    This file represents the login page for SIMZY customers and 
+ *    admin which requires an email and password to log in to 
+ *    the system.
+ *
+ ********************************************************************
+ */
+
 import React, { useState } from "react";
+import styled from "styled-components";
 import { Col, Image, Row } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
-import styled from "styled-components";
 import Button from "react-bootstrap/Button";
 import BackNavBar from "../components/BackNavBar";
 import { Link, useNavigate } from "react-router-dom";
@@ -64,10 +75,12 @@ const Login = () => {
     link: "",
   });
 
+  // used to set a new state for the input
   const handleChange = (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  // get the current state value and perform input validation
   const handleSubmit = async () => {
     const checkEmail = inputs.email.split(" ").join("").length < 1;
     const checkPassword = inputs.password.split(" ").join("").length < 1;

@@ -1,13 +1,23 @@
+/********************************************************************
+ *
+ * ProductList.jsx
+ *
+ *    This file represents the product display page, displayed
+ *    by male, female and kids category.
+ *
+ ********************************************************************
+ */
+
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { useSearchParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import Button from "react-bootstrap/Button";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Products from "../components/Products";
 import ProductNotFound from "../components/ProductNotFound";
-import { useState, useEffect } from "react";
 import axios from "axios";
-import { useSearchParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-import Button from "react-bootstrap/Button";
 import { MDBIcon } from "mdb-react-ui-kit";
 
 const Container = styled.div`
@@ -37,6 +47,7 @@ const Select = styled.select`
   padding: 10px;
   margin-right: 20px;
 `;
+
 const Option = styled.option``;
 
 const Filter = styled.div`
@@ -69,6 +80,7 @@ const ProductList = () => {
   const search_input = searchParams.get("search_input");
   const fontSize = useSelector((state) => state.fontSize);
 
+  // get display products
   useEffect(() => {
     const getProducts = async () => {
       setLoading(true);
@@ -96,6 +108,7 @@ const ProductList = () => {
     getProducts();
   }, [main_category, sub_category, search_input, color, size, price]);
 
+  // handle sorting function with the latest products and prices
   useEffect(() => {
     if (sort === "newest") {
       setProducts((prev) =>
@@ -110,6 +123,7 @@ const ProductList = () => {
     }
   }, [sort]);
 
+  // reset filter inputs
   const resetFilter = () => {
     setColor(null);
     setSize(null);
@@ -120,13 +134,12 @@ const ProductList = () => {
     <Container>
       <Navbar />
       <Title style={{ fontSize: `${36 + fontSize.fontSize}px` }}>
-        {" "}
         {sub_category
           ? sub_category
           : main_category
           ? main_category
-          : `Search results for "${search_input}"`}{" "}
-      </Title>{" "}
+          : `Search results for "${search_input}"`}
+      </Title>
       {!color && !size && !price && products.length === 0 ? (
         <ProductNotFound filtered={false} />
       ) : (
@@ -134,58 +147,54 @@ const ProductList = () => {
           <FilterContainer>
             <Filter>
               <FilterText style={{ fontSize: `${20 + fontSize.fontSize}px` }}>
-                {" "}
-                Filter By:{" "}
+                Filter By:
               </FilterText>
               <Select
                 onChange={(e) => setColor(e.target.value)}
                 style={{ fontSize: `${16 + fontSize.fontSize}px` }}
               >
-                {" "}
                 {color ? (
                   <Option disabled> Color </Option>
                 ) : (
                   <Option disabled selected>
-                    Color{" "}
+                    Color
                   </Option>
-                )}{" "}
-                <Option> White </Option> <Option> Black </Option>{" "}
-                <Option> Pink </Option> <Option> Blue </Option>{" "}
-                <Option> Yellow </Option> <Option> Green </Option>{" "}
-              </Select>{" "}
+                )}
+                <Option> White </Option> <Option> Black </Option>
+                <Option> Pink </Option> <Option> Blue </Option>
+                <Option> Yellow </Option> <Option> Green </Option>
+              </Select>
               <Select
                 onChange={(e) => setSize(e.target.value)}
                 style={{ fontSize: `${16 + fontSize.fontSize}px` }}
               >
-                {" "}
                 {size ? (
                   <Option disabled> Size </Option>
                 ) : (
                   <Option disabled selected>
-                    Size{" "}
+                    Size
                   </Option>
-                )}{" "}
-                <Option> XS </Option> <Option> S </Option> <Option> M </Option>{" "}
-                <Option> L </Option> <Option> XL </Option>{" "}
-              </Select>{" "}
+                )}
+                <Option> XS </Option> <Option> S </Option> <Option> M </Option>
+                <Option> L </Option> <Option> XL </Option>
+              </Select>
               <Select
                 onChange={(e) => setPrice(e.target.value)}
                 style={{ fontSize: `${16 + fontSize.fontSize}px` }}
               >
-                {" "}
                 {price ? (
                   <Option disabled> Price Range </Option>
                 ) : (
                   <Option disabled selected>
-                    Price Range{" "}
+                    Price Range
                   </Option>
-                )}{" "}
-                <Option value="999"> 0 THB - 999 THB </Option>{" "}
-                <Option value="1999"> 1000 THB - 1999 THB </Option>{" "}
-                <Option value="2999"> 2000 THB - 2999 THB </Option>{" "}
-                <Option value="3999"> 3000 THB - 3999 THB </Option>{" "}
-                <Option value="4999"> 4000 THB - 4999 THB </Option>{" "}
-              </Select>{" "}
+                )}
+                <Option value="999"> 0 THB - 999 THB </Option>
+                <Option value="1999"> 1000 THB - 1999 THB </Option>
+                <Option value="2999"> 2000 THB - 2999 THB </Option>
+                <Option value="3999"> 3000 THB - 3999 THB </Option>
+                <Option value="4999"> 4000 THB - 4999 THB </Option>
+              </Select>
               {color || size || price ? (
                 <Button onClick={resetFilter} style={styles.clearButton}>
                   <MDBIcon
@@ -208,23 +217,26 @@ const ProductList = () => {
               ) : undefined}
             </Filter>
             <Filter>
-              <FilterText> Sort By: </FilterText>{" "}
+              <FilterText style={{ fontSize: `${20 + fontSize.fontSize}px` }}>
+                Sort By:
+              </FilterText>
               <Select
                 onChange={(e) => {
                   setSort(e.target.value);
                 }}
+                style={{ fontSize: `${16 + fontSize.fontSize}px` }}
               >
-                <Option value="newest"> Newest </Option>{" "}
-                <Option value="asc"> Price low to high </Option>{" "}
-                <Option value="desc"> Price high to low </Option>{" "}
-              </Select>{" "}
-            </Filter>{" "}
-          </FilterContainer>{" "}
+                <Option value="newest"> Newest </Option>
+                <Option value="asc"> Price low to high </Option>
+                <Option value="desc"> Price high to low </Option>
+              </Select>
+            </Filter>
+          </FilterContainer>
           {products.length === 0 ? (
             <ProductNotFound filtered={true} />
           ) : (
             <Products products={products} />
-          )}{" "}
+          )}
         </>
       )}
       <Footer />

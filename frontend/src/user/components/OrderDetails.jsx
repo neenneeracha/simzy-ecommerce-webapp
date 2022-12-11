@@ -1,3 +1,14 @@
+/********************************************************************
+ *
+ * OrderDetails.jsx
+ *
+ *   This file represents the order details component, which
+ *   is a section of the user profile page that displays the
+ *   customer's ordered details
+ *
+ ********************************************************************
+ */
+
 import React, { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
 import { ArrowBack } from "@material-ui/icons";
@@ -147,6 +158,7 @@ const SummaryItem = styled.div`
 const SummaryItemText = styled.span``;
 
 const SummaryItemPrice = styled.span``;
+
 const ButtonText = styled.div``;
 
 const OrderDetails = ({
@@ -159,6 +171,7 @@ const OrderDetails = ({
   const [orderedItems, setOrderedItems] = useState([]);
   const fontSize = useSelector((state) => state.fontSize);
 
+  // get the user's order details
   useEffect(() => {
     const getOrderDetails = async () => {
       try {
@@ -390,12 +403,14 @@ const OrderDetails = ({
               </Product>
             ))}
             <Summary>
-              <SummaryTitle style={{ fontSize: `${22 + fontSize.fontSize}px`}}>ORDER SUMMARY</SummaryTitle>
-              <SummaryItem style={{ fontSize: `${18 + fontSize.fontSize}px`}}>
-                <SummaryItemText >Subtotal</SummaryItemText>
+              <SummaryTitle style={{ fontSize: `${22 + fontSize.fontSize}px` }}>
+                ORDER SUMMARY
+              </SummaryTitle>
+              <SummaryItem style={{ fontSize: `${18 + fontSize.fontSize}px` }}>
+                <SummaryItemText>Subtotal</SummaryItemText>
                 <SummaryItemPrice>THB {totalPrice}</SummaryItemPrice>
               </SummaryItem>
-              <SummaryItem style={{ fontSize: `${18 + fontSize.fontSize}px`}}>
+              <SummaryItem style={{ fontSize: `${18 + fontSize.fontSize}px` }}>
                 <SummaryItemText>Shipping Fee</SummaryItemText>
                 <SummaryItemPrice>THB 90</SummaryItemPrice>
               </SummaryItem>

@@ -1,3 +1,12 @@
+/********************************************************************
+ *
+ * UserForm.jsx
+ *
+ *   This file represents the components of the user form
+ *
+ ********************************************************************
+ */
+
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import Controls from "../components/controls/Controls";
@@ -104,6 +113,7 @@ const UserForm = ({ addOrEdit, recordForEdit, formType, setChanged }) => {
   const { values, setValues, errors, setErrors, handleChange, resetForm } =
     UseForm(initialFValues, true, validate);
 
+  // handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -112,6 +122,7 @@ const UserForm = ({ addOrEdit, recordForEdit, formType, setChanged }) => {
     }
   };
 
+  // handle input value
   const handleInput = (e) => {
     setChanged(true);
     if (e.target.name === "is_admin") {
@@ -136,208 +147,203 @@ const UserForm = ({ addOrEdit, recordForEdit, formType, setChanged }) => {
           <Grid container>
             {formType === "view" ? (
               <>
-              <Grid item xs={6}>
-              <Controls.Input
-                name="name"
-                label="First Name"
-                value={values.name}
-                readOnly
-              />
-              <Controls.Input
-                name="email"
-                label="Email"
-                value={values.email}
-                readOnly
-              />
-              <Controls.Input
-                name="address"
-                label="Address"
-                value={values.address}
-                readOnly
-              />
-              <Controls.Input
-                name="province"
-                label="Province"
-                value={values.province}
-                readOnly
-              />
-              <Controls.Input
-                name="update"
-                label="Latest Update"
-                value={values.updated_at}
-                readOnly
-              />
-              <Controls.CheckBox
-                  name="is_admin"
-                  label="Admin"
-                  value={values.is_admin}
-                  readOnly
-              />
-             
-            </Grid>
-            <Grid item xs={6}>
-              <Controls.Input
-                name="surname"
-                label="Last Name"
-                value={values.surname}
-                readOnly
-              />
-              <Controls.Input
-                name="phone_number"
-                label="Phone Number"
-                value={values.phone_number}
-                readOnly
-              />
-              <Controls.Input
-                name="district"
-                label="District"
-                value={values.district}
-                readOnly
-              />
-              <Controls.Input
-                name="zip_code"
-                label="Zip Code"
-                value={values.zip_code}
-                readOnly
-              />
-              <Controls.RadioGroup
-                name="gender"
-                label="Gender"
-                value={values.gender}
-                items={genderItems}
-                readOnly
-              />
-            </Grid>
+                <Grid item xs={6}>
+                  <Controls.Input
+                    name="name"
+                    label="First Name"
+                    value={values.name}
+                    readOnly
+                  />
+                  <Controls.Input
+                    name="email"
+                    label="Email"
+                    value={values.email}
+                    readOnly
+                  />
+                  <Controls.Input
+                    name="address"
+                    label="Address"
+                    value={values.address}
+                    readOnly
+                  />
+                  <Controls.Input
+                    name="province"
+                    label="Province"
+                    value={values.province}
+                    readOnly
+                  />
+                  <Controls.Input
+                    name="update"
+                    label="Latest Update"
+                    value={values.updated_at}
+                    readOnly
+                  />
+                  <Controls.CheckBox
+                    name="is_admin"
+                    label="Admin"
+                    value={values.is_admin}
+                    readOnly
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <Controls.Input
+                    name="surname"
+                    label="Last Name"
+                    value={values.surname}
+                    readOnly
+                  />
+                  <Controls.Input
+                    name="phone_number"
+                    label="Phone Number"
+                    value={values.phone_number}
+                    readOnly
+                  />
+                  <Controls.Input
+                    name="district"
+                    label="District"
+                    value={values.district}
+                    readOnly
+                  />
+                  <Controls.Input
+                    name="zip_code"
+                    label="Zip Code"
+                    value={values.zip_code}
+                    readOnly
+                  />
+                  <Controls.RadioGroup
+                    name="gender"
+                    label="Gender"
+                    value={values.gender}
+                    items={genderItems}
+                    readOnly
+                  />
+                </Grid>
               </>
             ) : (
               <>
-              <Grid item xs={6}>
-              <Controls.Input
-                name="name"
-                label="First Name"
-                value={values.name}
-                onChange={handleInput}
-                error={errors.name}
-              />
-              <Controls.Input
-                name="email"
-                label="Email"
-                value={values.email}
-                onChange={handleInput}
-                error={errors.email}
-              />
-              <Controls.Input
-                name="phone_number"
-                label="Phone Number"
-                value={values.phone_number}
-                onChange={handleInput}
-                error={errors.phone_number}
-              />
-              <Controls.Input
-                name="district"
-                label="District"
-                value={values.district}
-                onChange={handleInput}
-                error={errors.district}
-              />
-              <Controls.Input
-                name="zip_code"
-                label="Zip Code"
-                value={values.zip_code}
-                onChange={handleInput}
-                error={errors.zip_code}
-              />
-              <Controls.CheckBox
-                  name="is_admin"
-                  label="Admin"
-                  value={values.is_admin}
-                  onChange={handleInput}
-                  checked={values.is_admin === 1 || values.is_admin === true}
-              />
-             
-            </Grid>
-            <Grid item xs={6}>
-              <Controls.Input
-                name="surname"
-                label="Last Name"
-                value={values.surname}
-                onChange={handleInput}
-                error={errors.surname}
-              />
-              {
-                formType === "edit" ? 
-                 <Controls.Input
-                name="password"
-                label="New Password (optional)"
-                value={values.password}
-                onChange={handleInput}
-                error={errors.password}
-                type="password"
-              />
-              :
-               <Controls.Input
-                name="password"
-                label="Password"
-                value={values.password}
-                onChange={handleInput}
-                error={errors.password}
-                type="password"
-              />
-              }
-               
-              <Controls.Input
-                name="address"
-                label="Address"
-                value={values.address}
-                onChange={handleInput}
-                error={errors.address}
-              />
-              <Controls.Input
-                name="province"
-                label="Province"
-                value={values.province}
-                onChange={handleInput}
-                error={errors.province}
-              />
-              <Controls.RadioGroup
-                name="gender"
-                label="Gender"
-                value={values.gender}
-                onChange={handleInput}
-                items={genderItems}
-                error={errors.gender}
-              />
-              {formType === "edit" ? (
-                <>
-                  <Controls.Button
-                    type="submit"
-                    text="Submit"
-                    startIcon={<SaveIcon />}
-                    style={styles.customButton}
+                <Grid item xs={6}>
+                  <Controls.Input
+                    name="name"
+                    label="First Name"
+                    value={values.name}
+                    onChange={handleInput}
+                    error={errors.name}
                   />
-                  <Controls.Button
-                    text="Clear From"
-                    color="default"
-                    startIcon={<DeleteIcon />}
-                    onClick={() => {
-                      resetForm();
-                      setChanged(false)
-                    }}
+                  <Controls.Input
+                    name="email"
+                    label="Email"
+                    value={values.email}
+                    onChange={handleInput}
+                    error={errors.email}
                   />
-                </>
-              ) :
-              (
-                <>
-                  <Controls.Button
-                    className="w-75"
-                    type="submit"
-                    text="Submit"
-                    style={styles.customButton}
+                  <Controls.Input
+                    name="phone_number"
+                    label="Phone Number"
+                    value={values.phone_number}
+                    onChange={handleInput}
+                    error={errors.phone_number}
                   />
-                </>
-              ) 
-            }
-            </Grid>
+                  <Controls.Input
+                    name="district"
+                    label="District"
+                    value={values.district}
+                    onChange={handleInput}
+                    error={errors.district}
+                  />
+                  <Controls.Input
+                    name="zip_code"
+                    label="Zip Code"
+                    value={values.zip_code}
+                    onChange={handleInput}
+                    error={errors.zip_code}
+                  />
+                  <Controls.CheckBox
+                    name="is_admin"
+                    label="Admin"
+                    value={values.is_admin}
+                    onChange={handleInput}
+                    checked={values.is_admin === 1 || values.is_admin === true}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <Controls.Input
+                    name="surname"
+                    label="Last Name"
+                    value={values.surname}
+                    onChange={handleInput}
+                    error={errors.surname}
+                  />
+                  {formType === "edit" ? (
+                    <Controls.Input
+                      name="password"
+                      label="New Password (optional)"
+                      value={values.password}
+                      onChange={handleInput}
+                      error={errors.password}
+                      type="password"
+                    />
+                  ) : (
+                    <Controls.Input
+                      name="password"
+                      label="Password"
+                      value={values.password}
+                      onChange={handleInput}
+                      error={errors.password}
+                      type="password"
+                    />
+                  )}
+
+                  <Controls.Input
+                    name="address"
+                    label="Address"
+                    value={values.address}
+                    onChange={handleInput}
+                    error={errors.address}
+                  />
+                  <Controls.Input
+                    name="province"
+                    label="Province"
+                    value={values.province}
+                    onChange={handleInput}
+                    error={errors.province}
+                  />
+                  <Controls.RadioGroup
+                    name="gender"
+                    label="Gender"
+                    value={values.gender}
+                    onChange={handleInput}
+                    items={genderItems}
+                    error={errors.gender}
+                  />
+                  {formType === "edit" ? (
+                    <>
+                      <Controls.Button
+                        type="submit"
+                        text="Submit"
+                        startIcon={<SaveIcon />}
+                        style={styles.customButton}
+                      />
+                      <Controls.Button
+                        text="Clear From"
+                        color="default"
+                        startIcon={<DeleteIcon />}
+                        onClick={() => {
+                          resetForm();
+                          setChanged(false);
+                        }}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <Controls.Button
+                        className="w-75"
+                        type="submit"
+                        text="Submit"
+                        style={styles.customButton}
+                      />
+                    </>
+                  )}
+                </Grid>
               </>
             )}
           </Grid>

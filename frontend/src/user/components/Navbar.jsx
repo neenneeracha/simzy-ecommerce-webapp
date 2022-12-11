@@ -1,10 +1,17 @@
-import {
-  Search,
-  AccountCircle,
-  ShoppingCartOutlined,
-} from "@material-ui/icons";
+/********************************************************************
+ *
+ * Navbar.jsx
+ *
+ *   This file represents the navigation bar component of SIMZY users
+ *   Provides home page, product list page, cart and
+ *   other important link
+ *
+ ********************************************************************
+ */
+
+import React, { useState, useEffect } from "react";
+import { Search, AccountCircle } from "@material-ui/icons";
 import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import NavDropdown from "react-bootstrap/NavDropdown";
@@ -15,15 +22,16 @@ import { useUser, useUserUpdate } from "../../UserContext";
 import Alert from "./Alert";
 import Button from "react-bootstrap/Button";
 import { increaseFontSize, decreaseFontSize } from "../redux/fontRedux";
+
 const Container = styled.div`
   height: 60px;
 `;
 
 const Wrapper = styled.div`
   padding: 10px 20px;
-  display: flex; /* shoe horizontal */
+  display: flex;
   align-items: center;
-  justify-content: space-between; /* space */
+  justify-content: space-between;
   margin-bottom: 30px;
 `;
 
@@ -117,16 +125,18 @@ const Navbar = () => {
   const navigate = useNavigate();
   const { removeToken } = useUserUpdate();
   const user = useUser();
-  const [action, setAction] = useState("increase");
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const fontSize = useSelector((state) => state.fontSize);
 
+  // get the total items in the shopping cart
   useEffect(() => {
     dispatch(getTotals());
   }, [cart, dispatch]);
 
+  // get all products in each category
   useEffect(() => {
+    // get all products in the women's category
     const getWomenCat = async () => {
       try {
         const res = await axios.get(
@@ -138,6 +148,7 @@ const Navbar = () => {
       }
     };
 
+    // get all products in the men's category
     const getMenCat = async () => {
       try {
         const res = await axios.get(
@@ -149,6 +160,7 @@ const Navbar = () => {
       }
     };
 
+    // get all products in the kids's category
     const getKidsCat = async () => {
       try {
         const res = await axios.get(
@@ -165,6 +177,7 @@ const Navbar = () => {
     getKidsCat();
   }, []);
 
+  // search for products by user input
   const handleSearch = () => {
     if (searchInput.split(" ").join("").length < 1) {
       setError((prev) => ({
@@ -180,6 +193,7 @@ const Navbar = () => {
     }
   };
 
+  // log out of account
   const handleLogout = () => {
     removeToken();
     navigate("/");

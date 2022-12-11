@@ -1,3 +1,14 @@
+/********************************************************************
+ *
+ * ProfileSection.jsx
+ *
+ *    This file represents the profile component use in the
+ *    user profile page whcih allow user to view and edit
+ *    their personal information.
+ *
+ ********************************************************************
+ */
+
 import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import styled from "styled-components";
@@ -45,6 +56,7 @@ const Text = styled.p`
   font-family: garamond;
   margin-top: 10px;
 `;
+
 const NormalText = styled.div``;
 
 const Date = styled.p`
@@ -63,6 +75,8 @@ const ProfileSection = () => {
   const [submit, setSubmit] = useState(false);
   const user = useUser();
   const fontSize = useSelector((state) => state.fontSize);
+
+  // get user's information
   useEffect(() => {
     const getUserInfo = async () => {
       try {
@@ -91,16 +105,19 @@ const ProfileSection = () => {
     setShow(show);
   };
 
+  // reset input
   const handleReset = () => {
     setReset(true);
     setChanged(false);
   };
 
+  // get back
   const handleBack = () => {
     setChanged(false);
     setEditProfile(false);
   };
 
+  // handle with new user detail
   const handleSubmit = () => {
     setSubmit(true);
   };

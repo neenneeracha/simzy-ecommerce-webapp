@@ -1,3 +1,13 @@
+/********************************************************************
+ *
+ * Success.jsx
+ *
+ *    This file represents the notification page for successful
+ *    product orders, where users can get an order reference.
+ *
+ ********************************************************************
+ */
+
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
@@ -11,13 +21,16 @@ const Container = styled.div`
   min-height: 100vh;
   position: relative;
 `;
+
 const Content = styled.div`
   margin-top: 2%;
 `;
+
 const SuccessAlert = styled.div`
   padding: 50px;
   margin: 3% 0;
 `;
+
 const Text = styled.h3`
   text-align: center;
   margin-top: 50px;
@@ -50,11 +63,13 @@ const Button = styled.h3`
     opacity: 0.7;
   }
 `;
+
 const Success = () => {
   const order_id = Cookie.get("orderID");
   const navigate = useNavigate();
   const fontSize = useSelector((state) => state.fontSize);
 
+  // check the order ID
   useEffect(() => {
     const checkOrderID = async () => {
       if (isNaN(order_id)) {
@@ -78,21 +93,28 @@ const Success = () => {
                 className="d-block mx-auto img-fluid w-25"
                 src={process.env.PUBLIC_URL + "img/success.png"}
               />
-              <Text style={{ fontSize: `${32 + fontSize.fontSize}px` }}>Successfully ordered!</Text>
-              <TextThank style={{ fontSize: `${28 + fontSize.fontSize}px` }}>THANK YOU FOR YOUR ORDER</TextThank>
+              <Text style={{ fontSize: `${32 + fontSize.fontSize}px` }}>
+                Successfully ordered!
+              </Text>
+              <TextThank style={{ fontSize: `${24 + fontSize.fontSize}px` }}>
+                THANK YOU FOR YOUR ORDER
+              </TextThank>
               <OrderReference>
-                <b style={{ fontSize: `${20 + fontSize.fontSize}px` }}>YOUR ORDER REFERENCE: {order_id}</b>
+                <b style={{ fontSize: `${20 + fontSize.fontSize}px` }}>
+                  YOUR ORDER REFERENCE: {order_id}
+                </b>
               </OrderReference>
               <Button
                 type="create"
                 className="d-block mx-auto w-50"
                 onClick={() => navigate("/")}
               >
-                <b style={{ fontSize: `${20 + fontSize.fontSize}px` }}>BACK TO SHOP</b>
+                <b style={{ fontSize: `${20 + fontSize.fontSize}px` }}>
+                  BACK TO SHOP
+                </b>
               </Button>
             </SuccessAlert>
           </Col>
-
           <Col></Col>
         </Row>
       </Content>

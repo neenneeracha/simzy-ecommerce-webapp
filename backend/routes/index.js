@@ -1,5 +1,14 @@
-const router = require("express").Router();
+/********************************************************************
+ *
+ * index.js
+ *
+ *  This file is the main page of the SIMZY back-end router
+ * 
+ ********************************************************************
+ */
 
+
+const router = require("express").Router();
 const productRoutes = require("./product");
 const authRoutes = require("./auth");
 const categoryRoutes = require("./category");

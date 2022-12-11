@@ -1,3 +1,13 @@
+/********************************************************************
+ *
+ * ViewProducts.jsx
+ *
+ *   This file represents the SIMZY products details page and 
+ *   allow administrators to view, edit, delete and insert products
+ *
+ ********************************************************************
+ */
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styled from "styled-components";
@@ -13,20 +23,19 @@ import {
   TableCell,
 } from "@material-ui/core";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
-import SearchIcon from '@material-ui/icons/Search';
+import SearchIcon from "@material-ui/icons/Search";
 import DeleteIcon from "@material-ui/icons/Delete";
 import PopUp from "../components/PopUp";
 import ProductForm from "../components/ProductForm";
 import Confirmation from "../components/Confirmation";
 import EmptyList from "../components/EmptyList";
 
-
 // style the input form container
 const useStylesPaper = makeStyles((theme) => ({
   pageContent: {
     margin: theme.spacing(5),
     padding: theme.spacing(3),
-    borderRadius: 10
+    borderRadius: 10,
   },
 }));
 
@@ -36,12 +45,14 @@ const Container = styled.div`
   overflow-x: hidden;
   background-color: #fff8f9;
 `;
+
 const Wrapper = styled.div``;
 
 const Top = styled.div`
   display: flex;
   margin: 30px;
 `;
+
 const Title = styled.h2`
   width: 100%;
   color: black;
@@ -68,8 +79,8 @@ const ViewProducts = () => {
   const [imgChanged, setImgChanged] = useState(false);
   const [selectedID, setSelectedID] = useState(0);
   const [recordForEdit, setRecordForEdit] = useState(null);
-  const [newStock, setNewStock] = useState([])
-  const [newImages, setNewImages] = useState([])
+  const [newStock, setNewStock] = useState([]);
+  const [newImages, setNewImages] = useState([]);
   const [openPopup, setOpenPopup] = useState(false);
   const [products, setProducts] = useState([]);
   const [confirmDialog, setConfirmDialog] = useState({
@@ -88,25 +99,41 @@ const ViewProducts = () => {
     resetForm();
     setRecordForEdit(null);
     setOpenPopup(false);
-    setSelectedID(0)
-  }
+    setSelectedID(0);
+  };
 
+  // reset popup variables
   const openInPopup = (item) => {
     setRecordForEdit(item);
     setOpenPopup(true);
   };
 
-  const addOrEdit = async (values, editedColors, editedStocks, editedImages, resetForm) => {
+  // update new user or edit product
+  const addOrEdit = async (
+    values,
+    editedColors,
+    editedStocks,
+    editedImages,
+    resetForm
+  ) => {
     if (recordForEdit === null) {
       try {
-        let res = await axios.post("http://localhost:8080/api/v1/products/", {product: values})
+        let res = await axios.post("http://localhost:8080/api/v1/products/", {
+          product: values,
+        });
         const product_id = res.data.insertId;
-        
-        res = await axios.post("http://localhost:8080/api/v1/stock/new/" + product_id, {stocks: newStock, images: newImages})
+
+        res = await axios.post(
+          "http://localhost:8080/api/v1/stock/new/" + product_id,
+          { stocks: newStock, images: newImages }
+        );
         if (res.status === 200) {
-          toast.success(`Successfully added, the product ID is #${product_id} !!`, {
-            position: "top-center",
-          })
+          toast.success(
+            `Successfully added, the product ID is #${product_id} !!`,
+            {
+              position: "top-center",
+            }
+          );
           resetPopup(resetForm);
           setTimeout(function () {
             window.location.reload();
@@ -115,49 +142,65 @@ const ViewProducts = () => {
       } catch (err) {
         toast.error("Something went wrong, please try again !!", {
           position: "top-center",
-        })
-        console.log(err)
+        });
+        console.log(err);
       }
-    } else {      
+    } else {
       if (changed || stockChanged || imgChanged) {
         try {
-          let res
+          let res;
           if (changed) {
-            res = await axios.patch("http://localhost:8080/api/v1/products/" + selectedID, {product: values})
+            res = await axios.patch(
+              "http://localhost:8080/api/v1/products/" + selectedID,
+              { product: values }
+            );
           }
           if (stockChanged) {
-            res = await axios.patch("http://localhost:8080/api/v1/color/update/" + selectedID, {colors: editedColors})
-            let newStock = []
-            let updateStock = [...editedStocks]
+            res = await axios.patch(
+              "http://localhost:8080/api/v1/color/update/" + selectedID,
+              { colors: editedColors }
+            );
+            let newStock = [];
+            let updateStock = [...editedStocks];
             for (let i = 0; i < editedStocks.length; i++) {
-              if (typeof editedStocks[i].stock_id === 'string') {
-                newStock.push(editedStocks[i])
-                updateStock = updateStock.filter((stock) => stock.stock_id !== editedStocks[i].stock_id);
+              if (typeof editedStocks[i].stock_id === "string") {
+                newStock.push(editedStocks[i]);
+                updateStock = updateStock.filter(
+                  (stock) => stock.stock_id !== editedStocks[i].stock_id
+                );
               }
             }
-            
+
             if (newStock.length > 0) {
-              res = await axios.post("http://localhost:8080/api/v1/stock", {stocks: newStock})
+              res = await axios.post("http://localhost:8080/api/v1/stock", {
+                stocks: newStock,
+              });
             }
             if (updateStock.length > 0) {
-              res = await axios.patch("http://localhost:8080/api/v1/stock/update", {stocks: updateStock})
+              res = await axios.patch(
+                "http://localhost:8080/api/v1/stock/update",
+                { stocks: updateStock }
+              );
             }
           }
           if (imgChanged) {
-            let newImg = []
+            let newImg = [];
             for (let i = 0; i < editedImages.length; i++) {
-              if (typeof editedImages[i].new_link === 'string') {
-                newImg.push(editedImages[i])
+              if (typeof editedImages[i].new_link === "string") {
+                newImg.push(editedImages[i]);
               }
             }
             if (newImg.length > 0) {
-              res = await axios.patch("http://localhost:8080/api/v1/products/img/update", {images: newImg})
+              res = await axios.patch(
+                "http://localhost:8080/api/v1/products/img/update",
+                { images: newImg }
+              );
             }
           }
           if (res.status === 200) {
             toast.success("Successfully updated !!", {
               position: "top-center",
-            })
+            });
             resetPopup(resetForm);
             setTimeout(function () {
               window.location.reload();
@@ -167,15 +210,14 @@ const ViewProducts = () => {
           if (err.request.status === 409) {
             toast.error(err.response.data.msg, {
               position: "top-center",
-            })
+            });
           } else {
             toast.error("Something went wrong, please try again !!", {
               position: "top-center",
-            })
+            });
           }
           console.log(err);
         }
-        
       } else {
         toast.error("No new changes made, submission ignored!", {
           position: "top-center",
@@ -183,7 +225,7 @@ const ViewProducts = () => {
         resetPopup(resetForm);
       }
     }
-  }
+  };
 
   // delete selected product
   const handleDelete = async (product_id) => {
@@ -193,11 +235,13 @@ const ViewProducts = () => {
     });
 
     try {
-      const res = await axios.delete("http://localhost:8080/api/v1/products/" + product_id);
+      const res = await axios.delete(
+        "http://localhost:8080/api/v1/products/" + product_id
+      );
       if (res.status === 202) {
         toast.success(res.data.msg, {
           position: "top-center",
-        })
+        });
         setTimeout(function () {
           window.location.reload();
         }, 3000);
@@ -206,16 +250,17 @@ const ViewProducts = () => {
       if (err.request.status === 409) {
         toast.error(err.response.data.msg, {
           position: "top-center",
-        })
+        });
       } else {
         toast.error("Something went wrong, please try again !!", {
           position: "top-center",
-        })
+        });
       }
       console.log(err);
     }
   };
 
+  // get all product details
   useEffect(() => {
     const getAllProductInfo = async () => {
       try {
@@ -224,21 +269,28 @@ const ViewProducts = () => {
         );
         if (res.data.length > 0) {
           for (let i = 0; i < res.data.length; i++) {
-              var createdDate = new window.Date(res.data[i].created_at)
-                  .toISOString().replace(/T.*/,'')
-                  .split('-').reverse().join('/')
-              var createdTime = new window.Date(res.data[i].created_at)
-              .toISOString().slice(11,19)
-              res.data[i].created_at = createdDate.concat(" " + createdTime)
+            var createdDate = new window.Date(res.data[i].created_at)
+              .toISOString()
+              .replace(/T.*/, "")
+              .split("-")
+              .reverse()
+              .join("/");
+            var createdTime = new window.Date(res.data[i].created_at)
+              .toISOString()
+              .slice(11, 19);
+            res.data[i].created_at = createdDate.concat(" " + createdTime);
 
-              var updatedDate = new window.Date(res.data[i].updated_at)
-                  .toISOString().replace(/T.*/,'')
-                  .split('-').reverse().join('/')
-              var updatedTime = new window.Date(res.data[i].updated_at)
-              .toISOString().slice(11,19)
-              res.data[i].updated_at = updatedDate.concat(" " + updatedTime) 
-            
-          }          
+            var updatedDate = new window.Date(res.data[i].updated_at)
+              .toISOString()
+              .replace(/T.*/, "")
+              .split("-")
+              .reverse()
+              .join("/");
+            var updatedTime = new window.Date(res.data[i].updated_at)
+              .toISOString()
+              .slice(11, 19);
+            res.data[i].updated_at = updatedDate.concat(" " + updatedTime);
+          }
         }
         setProducts(res.data);
       } catch (error) {
@@ -267,92 +319,97 @@ const ViewProducts = () => {
               setFormType("add");
               setOpenPopup(true);
               setRecordForEdit(null);
-              console.log(newImages)
+              console.log(newImages);
             }}
           />
         </Top>
-        {
-          products.length > 0 ?
+        {products.length > 0 ? (
           <>
-          <Paper className={paperClasses.pageContent}>
-          <TblContainer>
-            <TblHead />
-            <TableBody>
-              {recordsAfterPagingAndSorting().map((product) => (
-                <TableRow key={product.product_id}>
-                  <TableCell>{product.product_id}</TableCell>
-                  <TableCell>{product.product_name}</TableCell>
-                  <TableCell>{product.main_category} - {product.sub_category}</TableCell>
-                  <TableCell>{product.price}</TableCell>
-                  <TableCell>
-                  <Controls.ActionButton
-                      color="success"
-                      onClick={() => {
-                        setFormType("view");
-                        setSelectedID(product.product_id)
-                        openInPopup(product);
-                      }}
-                    >
-                      <SearchIcon fontSize="small" />
-                    </Controls.ActionButton>
-                    <Controls.ActionButton
-                      color="primary"
-                      onClick={() => {
-                        setFormType("edit");
-                        setSelectedID(product.product_id)
-                        openInPopup(product);
-                      }}
-                    >
-                      <EditOutlinedIcon fontSize="small" />
-                    </Controls.ActionButton>
-                    <Controls.ActionButton
-                      color="secondary"
-                      onClick={() => {
-                        setConfirmDialog({
-                          isOpen: true,
-                          title: `Are you sure that you want to delete product #${product.product_id}?`,
-                          subTitle: "You won't be able to undo this operation",
-                          onConfirm: () => {
-                            handleDelete(product.product_id);
-                          },
-                        });
-                      }}
-                    >
-                      <DeleteIcon fontSize="small" />
-                    </Controls.ActionButton>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </TblContainer>
-          <TblPagination />
-        </Paper>
-        <PopUp
-          title={formType === "view"? `View Details of Product ID #${selectedID}` : 
-          formType === "edit"? `Edit Details of Product ID #${selectedID}` 
-          : `Add New Product`
-        }
-          openPopup={openPopup}
-          setOpenPopup={setOpenPopup}
-        >
-          <ProductForm 
-          recordForEdit={recordForEdit}
-          formType={formType}
-          setChanged={setChanged}
-          setStockChanged={setStockChanged}
-          setImgChanged={setImgChanged}
-          addOrEdit={addOrEdit}
-          newStock={newStock}
-          setNewStock={setNewStock}
-          newImages={newImages}
-          setNewImages={setNewImages}
-           />
-        </PopUp>
+            <Paper className={paperClasses.pageContent}>
+              <TblContainer>
+                <TblHead />
+                <TableBody>
+                  {recordsAfterPagingAndSorting().map((product) => (
+                    <TableRow key={product.product_id}>
+                      <TableCell>{product.product_id}</TableCell>
+                      <TableCell>{product.product_name}</TableCell>
+                      <TableCell>
+                        {product.main_category} - {product.sub_category}
+                      </TableCell>
+                      <TableCell>{product.price}</TableCell>
+                      <TableCell>
+                        <Controls.ActionButton
+                          color="success"
+                          onClick={() => {
+                            setFormType("view");
+                            setSelectedID(product.product_id);
+                            openInPopup(product);
+                          }}
+                        >
+                          <SearchIcon fontSize="small" />
+                        </Controls.ActionButton>
+                        <Controls.ActionButton
+                          color="primary"
+                          onClick={() => {
+                            setFormType("edit");
+                            setSelectedID(product.product_id);
+                            openInPopup(product);
+                          }}
+                        >
+                          <EditOutlinedIcon fontSize="small" />
+                        </Controls.ActionButton>
+                        <Controls.ActionButton
+                          color="secondary"
+                          onClick={() => {
+                            setConfirmDialog({
+                              isOpen: true,
+                              title: `Are you sure that you want to delete product #${product.product_id}?`,
+                              subTitle:
+                                "You won't be able to undo this operation",
+                              onConfirm: () => {
+                                handleDelete(product.product_id);
+                              },
+                            });
+                          }}
+                        >
+                          <DeleteIcon fontSize="small" />
+                        </Controls.ActionButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </TblContainer>
+              <TblPagination />
+            </Paper>
+            <PopUp
+              title={
+                formType === "view"
+                  ? `View Details of Product ID #${selectedID}`
+                  : formType === "edit"
+                  ? `Edit Details of Product ID #${selectedID}`
+                  : `Add New Product`
+              }
+              openPopup={openPopup}
+              setOpenPopup={setOpenPopup}
+            >
+              <ProductForm
+                recordForEdit={recordForEdit}
+                formType={formType}
+                setChanged={setChanged}
+                setStockChanged={setStockChanged}
+                setImgChanged={setImgChanged}
+                addOrEdit={addOrEdit}
+                newStock={newStock}
+                setNewStock={setNewStock}
+                newImages={newImages}
+                setNewImages={setNewImages}
+              />
+            </PopUp>
           </>
-          :
-          <EmptyList message="product"/>
-        }
-        
+        ) : (
+          <EmptyList message="product" />
+        )}
+
         <Confirmation
           confirmDialog={confirmDialog}
           setConfirmDialog={setConfirmDialog}

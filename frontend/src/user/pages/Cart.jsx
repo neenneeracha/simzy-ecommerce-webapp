@@ -1,7 +1,18 @@
+/********************************************************************
+ *
+ * Cart.jsx
+ *
+ *    This file represents the customer's shopping cart of SIMZY  
+ *    The products added to the cart by the customer will be
+ *    displayed, along with a summary of all the total prices.
+ *
+ ********************************************************************
+ */
+
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import DeleteIcon from "@material-ui/icons/Delete";
 import VisibilityIcon from "@material-ui/icons/Visibility";
@@ -150,15 +161,18 @@ const Text = styled.h3`
     font-size: 20px;
   }
 `;
+
 const Icon = styled.div`
   text-align: center;
   margin: 50px 0 30px;
 `;
+
 const useStyles = makeStyles((theme) => ({
   button: {
     margin: theme.spacing(1),
   },
 }));
+
 const Imageicon = styled.img`
   height: 20%;
   width: 20%;
@@ -168,6 +182,7 @@ const ButtonText = styled.div`
   color: white;
   text-decoration: none;
 `;
+
 const ButtonGroup = styled.div`
   display: flex;
 `;
@@ -175,19 +190,20 @@ const ButtonGroup = styled.div`
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const fontSize = useSelector((state) => state.fontSize);
-
   const dispatch = useDispatch();
   const classes = useStyles();
 
+  // handle with back button action
   const handleClick = () => {
     window.history.back();
   };
 
-  /* remove item from the cart */
+  // remove item from the cart
   const handleRemoveFromCart = (product) => {
     dispatch(removeFromCart(product));
   };
 
+  // trigger redux funtion
   useEffect(() => {
     dispatch(getTotals());
   }, [cart, dispatch]);

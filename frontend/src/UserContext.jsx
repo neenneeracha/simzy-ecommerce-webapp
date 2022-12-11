@@ -1,4 +1,13 @@
-import { createContext, useContext, useState, useEffect } from "react";
+/********************************************************************
+ *
+ * UserContext.jsx
+ *
+ *    This file is used to globally manage SIMZY user status
+ *
+ ********************************************************************
+ */
+
+import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import Cookie from "js-cookie";
 import styled from "styled-components";
@@ -16,6 +25,7 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  // verify login user
   useEffect(() => {
     const verifyUser = async () => {
       setLoading(true);

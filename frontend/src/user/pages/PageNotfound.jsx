@@ -1,9 +1,21 @@
+/********************************************************************
+ *
+ * PageNotfound.jsx
+ *
+ *    This file represents a 404 page not found 
+ *   	which will be displayed when the server cannot find the
+ *    requested resource
+ *
+ ********************************************************************
+ */
+
 import React from "react";
 import styled from "styled-components";
 import { MDBBtn } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
 
 const Container = styled.div``;
+
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -23,6 +35,7 @@ const Text = styled.h4`
     font-size: 40px;
   }
 `;
+
 const PageNotfound = () => {
   return (
     <Container>

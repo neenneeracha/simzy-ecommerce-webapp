@@ -1,3 +1,12 @@
+/********************************************************************
+ *
+ * OrderForm.jsx
+ *
+ *   This file represents the components of the order form
+ *
+ ********************************************************************
+ */
+
 import styled from "styled-components";
 import Controls from "../components/controls/Controls";
 import { UseForm, Form } from "../components/UseForm";
@@ -25,7 +34,7 @@ const initialFValues = {
   zip_code: "",
   created_at: "",
   updated_at: "",
-  total_price: ""
+  total_price: "",
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -39,7 +48,9 @@ const Container = styled.div`
   max-width: 100%;
   overflow-x: hidden;
 `;
+
 const Wrapper = styled.div``;
+
 const styles = {
   customButton: {
     backgroundColor: "#eda3b5",
@@ -54,6 +65,7 @@ const styles = {
 const Header = styled.h5`
   margin-top: 20px;
 `;
+
 const Index = styled.h6`
   margin-left: 20px;
   margin-top: 20px;
@@ -69,7 +81,7 @@ const Imagethumbnail = styled.img`
 `;
 
 const Line = styled.hr`
-margin-top: 20px;
+  margin-top: 20px;
 `;
 
 const LineBreak = styled.p`
@@ -90,6 +102,7 @@ const OrderForm = ({ recordForEdit, formType, orderStatus, handleEdit }) => {
       });
   }, [recordForEdit, setValues]);
 
+  // get the items ordered in the order
   useEffect(() => {
     const getOrderedItems = async () => {
       try {
@@ -105,10 +118,11 @@ const OrderForm = ({ recordForEdit, formType, orderStatus, handleEdit }) => {
     getOrderedItems();
   }, [values.order_id]);
 
+  // handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleEdit(values, resetForm)
- };
+    handleEdit(values, resetForm);
+  };
 
   return (
     <Container>
@@ -133,24 +147,23 @@ const OrderForm = ({ recordForEdit, formType, orderStatus, handleEdit }) => {
               </Grid>
 
               <Grid item xs={6}>
-                {
-                  formType === "view" ? 
+                {formType === "view" ? (
                   <Controls.Input
-                  name="order_status"
-                  label="Order Status"
-                  value={values.description}
-                  readOnly
-                />
-                  :
+                    name="order_status"
+                    label="Order Status"
+                    value={values.description}
+                    readOnly
+                  />
+                ) : (
                   <Controls.Select
-                  name="status_id"
-                  label="Order Status"
-                  value={values.status_id}
-                  onChange={handleChange}
-                  options={orderStatus}
-                />
-                }
-              
+                    name="status_id"
+                    label="Order Status"
+                    value={values.status_id}
+                    onChange={handleChange}
+                    options={orderStatus}
+                  />
+                )}
+
                 <Controls.Input
                   name="created_at"
                   label="Latest Update"
@@ -173,13 +186,17 @@ const OrderForm = ({ recordForEdit, formType, orderStatus, handleEdit }) => {
                 <Controls.Input
                   name="payment_type"
                   label="Payment Type"
-                  value={values.payment_type === 1? "Cash on Delivery" : "Card Payment"}
+                  value={
+                    values.payment_type === 1
+                      ? "Cash on Delivery"
+                      : "Card Payment"
+                  }
                   readOnly
                 />
               </Grid>
 
               <Grid item xs={6}>
-              <Controls.Input
+                <Controls.Input
                   name="user_id"
                   label="User ID"
                   value={values.user_id}
@@ -188,7 +205,7 @@ const OrderForm = ({ recordForEdit, formType, orderStatus, handleEdit }) => {
                 <Controls.Input
                   name="payment_status"
                   label="Payment Status"
-                  value={values.status === 0? "Pending" : "Paid"}
+                  value={values.status === 0 ? "Pending" : "Paid"}
                   readOnly
                 />
               </Grid>
@@ -206,22 +223,22 @@ const OrderForm = ({ recordForEdit, formType, orderStatus, handleEdit }) => {
                 />
               </Grid>
               <Grid item xs={6}>
-              <Controls.Input
+                <Controls.Input
                   name="surname"
                   label="Recipient Surname"
                   value={values.surname}
                   readOnly
                 />
               </Grid>
-            
-            <Controls.Input
-                  name="address"
-                  label="Address"
-                  value={values.address}
-                  readOnly
-                />
-            <Grid item xs={6}>
+
               <Controls.Input
+                name="address"
+                label="Address"
+                value={values.address}
+                readOnly
+              />
+              <Grid item xs={6}>
+                <Controls.Input
                   name="district"
                   label="District"
                   value={values.district}
@@ -235,7 +252,7 @@ const OrderForm = ({ recordForEdit, formType, orderStatus, handleEdit }) => {
                 />
               </Grid>
               <Grid item xs={6}>
-              <Controls.Input
+                <Controls.Input
                   name="province"
                   label="Province"
                   value={values.province}
@@ -248,73 +265,69 @@ const OrderForm = ({ recordForEdit, formType, orderStatus, handleEdit }) => {
                   readOnly
                 />
               </Grid>
-              </Grid>
+            </Grid>
           </Paper>
           <Paper className={classes.root} elevation={0}>
             <Header>Items Ordered</Header>
             {orderedItems.map((orderedItem, index) => (
               <>
-              <Grid container>
-
-                <Grid item xs={6} style={{ marginTop: "50px" }}>
-
-                  <Imagethumbnail src={orderedItem.img_link} />
+                <Grid container>
+                  <Grid item xs={6} style={{ marginTop: "50px" }}>
+                    <Imagethumbnail src={orderedItem.img_link} />
+                  </Grid>
+                  <Grid item xs={6}>
+                    {" "}
+                    <Index>Item #{index + 1}</Index>
+                    <Controls.Input
+                      name="product_id"
+                      label="Product ID"
+                      value={orderedItem.product_id}
+                      readOnly
+                    />
+                    <Controls.Input
+                      name="product_name"
+                      label="Product Name"
+                      multiline={true}
+                      value={orderedItem.product_name}
+                      readOnly
+                    />
+                    <Controls.Input
+                      name="quantity"
+                      label="Ordered Quantity"
+                      value={orderedItem.quantity}
+                      readOnly
+                    />
+                    <Controls.Input
+                      name="price"
+                      label="Price per unit"
+                      value={orderedItem.price}
+                      readOnly
+                    />
+                  </Grid>
                 </Grid>
-                <Grid item xs={6}>
-                  {" "}
-                  <Index>Item #{index + 1}</Index>
-                  <Controls.Input
-                    name="product_id"
-                    label="Product ID"
-                    value={orderedItem.product_id}
-                    readOnly
-                  />
-                  <Controls.Input
-                    name="product_name"
-                    label="Product Name"
-                    multiline={true}
-                    value={orderedItem.product_name}
-                    readOnly
-                  />
-                  <Controls.Input
-                    name="quantity"
-                    label="Ordered Quantity"
-                    value={orderedItem.quantity}
-                    readOnly
-                  />
-                  <Controls.Input
-                    name="price"
-                    label="Price per unit"
-                    value={orderedItem.price}
-                    readOnly
-                  />
-                  
-                </Grid>
-              </Grid>
-              <LineBreak />
-              <Line />
+                <LineBreak />
+                <Line />
               </>
             ))}
-            <Header style={{marginTop: "48px"}}>Total Price</Header>
+            <Header style={{ marginTop: "48px" }}>Total Price</Header>
             <Grid container>
               <Grid xs={8}>
-              <Controls.Input
-              name="total"
-              label="Total Amount (excluding THB 90 shipping fee)"
-              value={`THB ${orderedItems
-                .reduce((acc, item) => acc + item.quantity * item.price, 0)
-                .toFixed(2)}`}
-              onChange={handleChange}
-            />
+                <Controls.Input
+                  name="total"
+                  label="Total Amount (excluding THB 90 shipping fee)"
+                  value={`THB ${orderedItems
+                    .reduce((acc, item) => acc + item.quantity * item.price, 0)
+                    .toFixed(2)}`}
+                  onChange={handleChange}
+                />
               </Grid>
             </Grid>
           </Paper>
 
           <Paper className={classes.root} elevation={0}>
             <Grid container>
-            <Grid item xs={6}></Grid>
+              <Grid item xs={6}></Grid>
               <Grid item xs={6}>
-               
                 {formType === "edit" ? (
                   <>
                     <Controls.Button

@@ -1,3 +1,13 @@
+/********************************************************************
+ *
+ * BackNavBar.jsx
+ *
+ *    This file represents the navigation bar that returns
+ *    to the home page. Used in the registration and login pages.
+ *
+ ********************************************************************
+ */
+
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -12,9 +22,9 @@ const Container = styled.div`
 
 const Wrapper = styled.div`
   padding: 10px 20px;
-  display: flex; /* shoe horizontal */
+  display: flex;
   align-items: center;
-  justify-content: space-between; /* space */
+  justify-content: space-between;
 `;
 
 const Left = styled.div`
@@ -66,6 +76,7 @@ const LinkItem = styled.div`
 `;
 const Text = styled.div``;
 
+// handle with the back button action to go back to the previous page
 const handleClick = () => {
   window.history.back();
 };
@@ -73,6 +84,7 @@ const handleClick = () => {
 const BackNavBar = () => {
   const fontSize = useSelector((state) => state.fontSize);
   const dispatch = useDispatch();
+
   return (
     <Container>
       <Wrapper>

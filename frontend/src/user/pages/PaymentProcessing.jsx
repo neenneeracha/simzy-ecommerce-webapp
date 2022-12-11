@@ -1,3 +1,13 @@
+/********************************************************************
+ *
+ * PaymentProcessing.jsx
+ *
+ *   This file represents the payment processing page and 
+ *   shows loading until the system finishes processing the payment.
+ *
+ ********************************************************************
+ */
+
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
@@ -16,16 +26,17 @@ const Container = styled.div`
 
 const PaymentProcessing = () => {
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
-  const session_id = searchParams.get("session_id");
   const [loading, setLoading] = useState(true);
   const [inputs, setInputs] = useState([]);
-  LoadingOverlay.propTypes = undefined;
-
+  const navigate = useNavigate();
+  const session_id = searchParams.get("session_id");
   const user = useUser();
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
+  LoadingOverlay.propTypes = undefined;
+
+  // get payment information from backend
   useEffect(() => {
     const getPaymentDetails = async () => {
       const res = await axios.get(
@@ -37,6 +48,7 @@ const PaymentProcessing = () => {
     getPaymentDetails();
   }, [session_id]);
 
+  
   useEffect(() => {
     const handleSubmit = async () => {
       if (inputs.length !== 0) {

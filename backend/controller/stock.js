@@ -1,5 +1,16 @@
+/********************************************************************
+ *
+ * stock.js
+ *
+ *   This file contains a collection of controllers to handle 
+ *   requests to the backend for product stock information
+ * 
+ ********************************************************************
+ */
+
 const pool = require("../database/connector");
 
+// add product stock by admin
 const addProductStock = (req, res) => {
     const stocks = req.body.stocks
     let status = 200
@@ -47,6 +58,7 @@ const addProductStock = (req, res) => {
     return res.status(status).json(error);
 }
 
+// update product stock by admin
 const updateProductStock = (req, res) => {
     const stocks = req.body.stocks
     let status = 200
@@ -68,6 +80,7 @@ const updateProductStock = (req, res) => {
     return res.status(status).json(error);
 }
 
+// add new product by admin
 const addNewStock = (req, res) => {
     const product_id = req.params.id
     const stocks = req.body.stocks

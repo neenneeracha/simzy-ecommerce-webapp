@@ -1,3 +1,14 @@
+/********************************************************************
+ *
+ * Register.jsx
+ *
+ *    This file represents the registration page for SIMZY users.
+ *    Users can register as SIMZY users by entering required personal
+ *    information, such as name, email, phone number, etc.
+ *
+ ********************************************************************
+ */
+
 import React, { useState } from "react";
 import { Col, Image, Row } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
@@ -14,6 +25,7 @@ const Container = styled.div`
   padding: 0px 15px;
   margin: 0px auto;
 `;
+
 const Title = styled.h3`
   color: #eda3b5;
   text-align: center;
@@ -42,10 +54,13 @@ const ErrorMessage = styled.span`
   color: #dc3545;
   font-size: 14px;
 `;
+
 const FieldName = styled.b``;
+
 const Description = styled.span`
   font-size: 14px;
 `;
+
 const styles = {
   customButton: {
     backgroundColor: "#eda3b5",
@@ -80,6 +95,7 @@ const Register = () => {
     phoneNumber: "",
   });
 
+  // handle input change
   const handleChange = (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
@@ -88,6 +104,7 @@ const Register = () => {
     }
   };
 
+  // validate the form input values
   const validateForm = () => {
     const newErrors = {};
     if (inputs.firstname.split(" ").join("").length < 1) {
@@ -184,6 +201,7 @@ const Register = () => {
     return newErrors;
   };
 
+  // gets the current value of state
   const handleSubmit = async () => {
     const formErrors = validateForm();
 
@@ -452,7 +470,8 @@ const Register = () => {
                 style={{ marginBottom: "30px" }}
               >
                 <Form.Label>
-                  <FieldName>Address: </FieldName> <Description>(e.g., 126 Pracha Uthit Rd)</Description>
+                  <FieldName>Address: </FieldName>{" "}
+                  <Description>(e.g., 126 Pracha Uthit Rd)</Description>
                 </Form.Label>
                 <Form.Control
                   type="text"
@@ -564,7 +583,8 @@ const Register = () => {
             </Button>
             <Text
               style={{
-                fontSize: `${16 + fontSize.fontSize}px`,
+                fontSize: `${16 + fontSize.fontSize}px`, 
+                margin: "20px"
               }}
             >
               Already have an account? &nbsp;

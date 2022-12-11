@@ -1,5 +1,16 @@
+/********************************************************************
+ *
+ * color.js
+ *
+ *   This file contains a collection of controllers to handle 
+ *   requests to the backend for product color information
+ * 
+ ********************************************************************
+ */
+
 const pool = require("../database/connector");
 
+// get color group
 const getAllColorGroup = (req, res) => {
 
     const q = "SELECT * FROM colorgroup";
@@ -10,6 +21,7 @@ const getAllColorGroup = (req, res) => {
     });
 };
 
+// update product stock color
 const UpdateStockColor = (req, res) => {
     const product_id = req.params.id
     const colors = req.body.colors

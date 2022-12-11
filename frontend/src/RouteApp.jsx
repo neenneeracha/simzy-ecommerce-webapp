@@ -1,3 +1,13 @@
+/********************************************************************
+ *
+ * RouteApp.jsx
+ *
+ *    This file collects the browser URLs used in SIMZY, including
+ *    client, administrator and guest URLs.
+ *
+ ********************************************************************
+ */
+
 import {
   createBrowserRouter,
   RouterProvider,
@@ -5,9 +15,7 @@ import {
 } from "react-router-dom";
 import { useUser } from "./UserContext";
 import { ToastContainer } from "react-toastify";
-
 import "react-toastify/dist/ReactToastify.css";
-
 import Home from "./user/pages/Home";
 import Product from "./user/pages/Product";
 import ProductList from "./user/pages/ProductList";
@@ -18,13 +26,11 @@ import Checkout from "./user/pages/Checkout";
 import Summary from "./user/pages/Summary";
 import Success from "./user/pages/Success";
 import Profile from "./user/pages/Profile";
-import Admin from "./admin/pages/Admin";
+import PageNotfound from "./user/pages/PageNotfound";
+import PaymentProcessing from "./user/pages/PaymentProcessing";
 import ViewUsers from "./admin/pages/ViewUsers";
 import ViewOrders from "./admin/pages/ViewOrders";
-import PageNotfound from "./user/pages/PageNotfound";
 import ViewProducts from "./admin/pages/ViewProducts";
-import SuccessProduct from "./admin/pages/SuccessProduct";
-import PaymentProcessing from "./user/pages/PaymentProcessing";
 
 const guestRouter = createBrowserRouter([
   {
@@ -142,7 +148,6 @@ const userRouter = createBrowserRouter([
     path: "/*",
     element: <PageNotfound />,
   },
-  
 ]);
 
 const adminRouter = createBrowserRouter([
@@ -161,10 +166,6 @@ const adminRouter = createBrowserRouter([
   {
     path: "/viewusers",
     element: <ViewUsers />,
-  },
-  {
-    path: "/successadded",
-    element: <SuccessProduct />,
   },
   {
     path: "/*",

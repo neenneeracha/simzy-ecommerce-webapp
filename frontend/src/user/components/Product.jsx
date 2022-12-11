@@ -1,8 +1,16 @@
-import {
-  FavoriteBorderOutlined,
-  SearchOutlined,
-  ShoppingCartOutlined,
-} from "@material-ui/icons";
+/********************************************************************
+ *
+ * Product.jsx
+ *
+ *    This file represents the single product component for 
+ *    display product image, name and prices, and link to 
+ *    the product details page.
+ * 
+ ********************************************************************
+ */
+
+import React from "react";
+import { SearchOutlined } from "@material-ui/icons";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";

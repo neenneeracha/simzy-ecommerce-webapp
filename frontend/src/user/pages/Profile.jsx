@@ -1,3 +1,14 @@
+/********************************************************************
+ *
+ * Profile.jsx
+ *
+ *    This file represents the SIMZY user's profile page
+ *    which will display the user's personal information
+ *    and order history.
+ *
+ ********************************************************************
+ */
+
 import React, { useState } from "react";
 import {
   MDBTabs,
@@ -45,6 +56,7 @@ const Profile = () => {
   const [justifyActive, setJustifyActive] = useState("tab1");
   const fontSize = useSelector((state) => state.fontSize);
 
+  // activate the selected tab bar
   const handleJustifyClick = (value) => {
     if (value === justifyActive) {
       return;
@@ -105,7 +117,6 @@ const Profile = () => {
           </MDBTabsPane>
         </MDBTabsContent>
       </Tabs>
-
       <Footer />
     </Container>
   );

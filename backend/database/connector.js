@@ -1,3 +1,12 @@
+/********************************************************************
+ *
+ * connector.js
+ *
+ *   This file used for connect web application with the database
+ * 
+ ********************************************************************
+ */
+
 const mysql = require("mysql");
 
 // initialize pool

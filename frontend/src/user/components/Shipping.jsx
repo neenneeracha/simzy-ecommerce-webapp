@@ -1,52 +1,30 @@
+/********************************************************************
+ *
+ * Shipping.jsx
+ *
+ *    This file represents the components of the shipping
+ *    information used to obtain user's shipping address detail
+ *
+ ********************************************************************
+ */
+
 import React, { useState } from "react";
-import { Col, Image, Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import styled from "styled-components";
-import Button from "react-bootstrap/Button";
-import BackNavBar from "../components/BackNavBar";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Container = styled.div`
   max-width: 100%;
   overflow-x: hidden;
 `;
-const Title = styled.h3`
-  color: #eda3b5;
-  text-align: center;
-  font-weight: bold;
-`;
 
 const Text = styled.div`
   text-align: center;
-
-  // &:hover {
-  //   color: #eda3b5;
-  //   text-decoration: underline;
-  // }
 `;
-
-const LinkItem = styled.span`
-  color: #eda3b5;
-  text-decoration: underline;
-
-  &:hover {
-    font-weight: bold;
-    color: black;
-  }
-`;
-
-const styles = {
-  customButton: {
-    backgroundColor: "#eda3b5",
-    borderColor: "#eda3b5",
-    color: "white",
-    borderRadius: "5px",
-  },
-};
 
 const Shipping = () => {
-  const [validated, setValidated] = useState(false);
   const [inputs, setInputs] = useState({
     firstname: "",
     lastname: "",
@@ -102,7 +80,6 @@ const Shipping = () => {
                   onChange={handleChange}
                 />
                 <Form.Control.Feedback type="invalid">
-                  {" "}
                   First Name is required
                 </Form.Control.Feedback>
               </Form.Group>
@@ -113,7 +90,7 @@ const Shipping = () => {
                 style={{ marginTop: "30px" }}
               >
                 <Form.Label>
-                  <b>Last Name:</b>{" "}
+                  <b>Last Name:</b>
                 </Form.Label>
                 <Form.Control
                   type="text"
@@ -123,8 +100,7 @@ const Shipping = () => {
                   onChange={handleChange}
                 />
                 <Form.Control.Feedback type="invalid">
-                  {" "}
-                  Last Name is required{" "}
+                  Last Name is required
                 </Form.Control.Feedback>
               </Form.Group>
             </Row>
@@ -145,7 +121,6 @@ const Shipping = () => {
                 onChange={handleChange}
               />
               <Form.Control.Feedback type="invalid">
-                {" "}
                 Phone Number is required
               </Form.Control.Feedback>
             </Form.Group>
@@ -163,8 +138,7 @@ const Shipping = () => {
                   onChange={handleChange}
                 />
                 <Form.Control.Feedback type="invalid">
-                  {" "}
-                  Address is required{" "}
+                  Address is required
                 </Form.Control.Feedback>
               </Form.Group>
 
@@ -174,7 +148,7 @@ const Shipping = () => {
                 style={{ marginBottom: "30px" }}
               >
                 <Form.Label>
-                  <b>District:</b>{" "}
+                  <b>District:</b>
                 </Form.Label>
                 <Form.Control
                   type="district"
@@ -184,8 +158,7 @@ const Shipping = () => {
                   onChange={handleChange}
                 />
                 <Form.Control.Feedback type="invalid">
-                  {" "}
-                  District is required{" "}
+                  District is required
                 </Form.Control.Feedback>
               </Form.Group>
             </Row>
@@ -203,8 +176,7 @@ const Shipping = () => {
                   onChange={handleChange}
                 />
                 <Form.Control.Feedback type="invalid">
-                  {" "}
-                  Province is required{" "}
+                  Province is required
                 </Form.Control.Feedback>
               </Form.Group>
 
@@ -214,7 +186,7 @@ const Shipping = () => {
                 style={{ marginBottom: "30px" }}
               >
                 <Form.Label>
-                  <b>Zipcode:</b>{" "}
+                  <b>Zipcode:</b>
                 </Form.Label>
                 <Form.Control
                   type="Zipcode"
@@ -224,8 +196,7 @@ const Shipping = () => {
                   onChange={handleChange}
                 />
                 <Form.Control.Feedback type="invalid">
-                  {" "}
-                  Zipcode is required{" "}
+                  Zipcode is required
                 </Form.Control.Feedback>
               </Form.Group>
             </Row>

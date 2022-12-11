@@ -1,6 +1,16 @@
+/********************************************************************
+ *
+ * product.js
+ *
+ *   This file contains a collection of controllers to handle 
+ *   requests to the backend for product information
+ * 
+ ********************************************************************
+ */
+
 const pool = require("../database/connector");
 
-// get all product information
+// get all product information by admin
 const getAllProductInfo = (req, res) => {
     const q =
         "SELECT * FROM product LEFT JOIN category ON product.category_id = category.category_id ";
@@ -11,7 +21,7 @@ const getAllProductInfo = (req, res) => {
     });
 };
 
-// get all product
+// get all product by admin
 const getAllProducts = (req, res) => {
     // not from search
     if (typeof req.query.search_input !== "string") {
@@ -49,6 +59,7 @@ const getAllProducts = (req, res) => {
     }
 };
 
+// get the filtered products 
 const getAllFilteredProducts = (req, res) => {
     let minPrice = "0";
     let q = "";
@@ -304,7 +315,7 @@ const getAllFilteredProducts = (req, res) => {
     });
 };
 
-// get one product to display product details
+// get one product to display product details 
 const getOneProduct = (req, res) => {
     const product_id = req.params.id;
 

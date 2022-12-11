@@ -1,16 +1,24 @@
+/********************************************************************
+ *
+ * NewArrivals.jsx
+ *
+ *   This file represents the new product launch by SIMZI
+ *   This component is displayed on the home page
+ *
+ ********************************************************************
+ */
+
 import React, { useState, useEffect } from "react";
 import Products from "../components/Products";
-
 import axios from "axios";
 import styled from "styled-components";
 
-const Container = styled.div`
-`;
+const Container = styled.div``;
 
 const Line = styled.hr`
-    width: 30%;
-    margin: 10px auto;
-    color: gray;
+  width: 30%;
+  margin: 10px auto;
+  color: gray;
 `;
 
 const Title = styled.h1`
@@ -21,37 +29,34 @@ const Title = styled.h1`
 `;
 
 const NewArrivals = () => {
-    const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState([]);
 
-    useEffect(() => {
-        const getNewArrivals = async () => {
-          try {
-            const res = await axios.get(
-              "http://localhost:8080/api/v1/products/new-arrivals"
-            );
-            setProducts(res.data);
-          } catch (error) {
-            console.log(error);
-          }
-        };
-        getNewArrivals();
-      }, []);
+  // get new item
+  useEffect(() => {
+    const getNewArrivals = async () => {
+      try {
+        const res = await axios.get(
+          "http://localhost:8080/api/v1/products/new-arrivals"
+        );
+        setProducts(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getNewArrivals();
+  }, []);
 
   return (
     <Container>
-        {
-            products.length > 0 ? 
-            <>
-                <Title>New Arrivals</Title>
-                <Line/>
-                <Products products={products} />
-            </>
-            :
-            undefined
-        }
-    
+      {products.length > 0 ? (
+        <>
+          <Title>New Arrivals</Title>
+          <Line />
+          <Products products={products} />
+        </>
+      ) : undefined}
     </Container>
-  )
-}
+  );
+};
 
-export default NewArrivals
+export default NewArrivals;

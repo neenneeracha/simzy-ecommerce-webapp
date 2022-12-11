@@ -1,3 +1,13 @@
+/********************************************************************
+ *
+ * Confirmation.jsx
+ *
+ *    This file represents the Confirmation dialog which asks user 
+ *    to approve requested operation
+ *
+ ********************************************************************
+ */
+
 import React from "react";
 import {
   Dialog,

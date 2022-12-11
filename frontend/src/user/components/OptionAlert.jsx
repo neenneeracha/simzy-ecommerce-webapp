@@ -1,12 +1,21 @@
+/********************************************************************
+ *
+ * OptionAlrt.jsx
+ *
+ *    This file represents the alert components 
+ *    which is used when an option exists for the user to 
+ *    select 
+ * 
+ ********************************************************************
+ */
+
 import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
-const Container = styled.div`
-  
-`;
+const Container = styled.div``;
 
 const OptionAlert = ({ show, setShow, text, setText }) => {
     const navigate = useNavigate();

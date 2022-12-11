@@ -1,3 +1,13 @@
+/********************************************************************
+ *
+ * user.js
+ *
+ *   This file contains a collection of controllers to handle 
+ *   requests to the backend for user information
+ * 
+ ********************************************************************
+ */
+
 const pool = require("../database/connector");
 const bcrypt = require("bcrypt");
 
