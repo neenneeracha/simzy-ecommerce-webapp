@@ -1,3 +1,14 @@
+/********************************************************************
+ *
+ * Footer.jsx
+ *
+ *   This file represents the footer component 
+ *   which displays general information about the SIMZY website. 
+ *
+ ********************************************************************
+ */
+
+import React from "react";
 import { Link } from "react-router-dom";
 import {
   Facebook,
@@ -15,7 +26,7 @@ const Container = styled.div`
   position: absolute;
   bottom: 0;
   width: 100%;
-  margin-bottom: -420px;
+  margin-bottom: -350px;
   display: flex;
   background-color: #efeff4;
 `;
@@ -134,18 +145,20 @@ const Footer = () => {
           OCT'22 OCTOBER 20TH MEET THE NEW SIMZY STORE AT TERMINAL 21 RAMA 3.
           #LIFEWEARNEXTTOYOU
         </Desc>
-        <SocialContainer>
+        <SocialContainer style={{ cursor: "pointer" }}>
           <SocialIcon color="3B5999">
-            <Facebook />
+            <Facebook
+              onClick={() => window.open("https://www.facebook.com/KMUTT/", "_blank")}
+            />
           </SocialIcon>
           <SocialIcon color="E4405F">
-            <Instagram />
+            <Instagram onClick={() => window.open("https://www.instagram.com/love.kmutt/", "_blank")} />
           </SocialIcon>
           <SocialIcon color="55ACEE">
-            <Twitter />
+            <Twitter onClick={() => window.open("https://twitter.com/kmutt", "_blank")} />
           </SocialIcon>
           <SocialIcon color="E60023">
-            <Pinterest />
+            <Pinterest onClick={() => window.open("https://www.facebook.com/cpe.kmutt/", "_blank")} />
           </SocialIcon>
         </SocialContainer>
       </Left>
