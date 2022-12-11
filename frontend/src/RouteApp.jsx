@@ -77,10 +77,6 @@ const guestRouter = createBrowserRouter([
     path: "/*",
     element: <PageNotfound />,
   },
-  {
-    path: "/checkout",
-    element: <Navigate to="/login" />,
-  },
 ]);
 
 const userRouter = createBrowserRouter([

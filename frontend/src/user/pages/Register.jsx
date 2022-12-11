@@ -95,7 +95,6 @@ const Register = () => {
     phoneNumber: "",
   });
 
-  // handle input change
   const handleChange = (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
@@ -104,7 +103,6 @@ const Register = () => {
     }
   };
 
-  // validate the form input values
   const validateForm = () => {
     const newErrors = {};
     if (inputs.firstname.split(" ").join("").length < 1) {
@@ -129,7 +127,7 @@ const Register = () => {
           .match(/^[A-Za-z]*$/)
       )
     ) {
-      newErrors.firstname = "Lastname should contain only letters";
+      newErrors.lastname = "Lastname should contain only letters";
     }
     if (inputs.email.split(" ").join("").length < 1) {
       newErrors.email = "Please provide email";
@@ -201,7 +199,6 @@ const Register = () => {
     return newErrors;
   };
 
-  // gets the current value of state
   const handleSubmit = async () => {
     const formErrors = validateForm();
 
@@ -290,7 +287,7 @@ const Register = () => {
                 style={{ marginBottom: "30px" }}
               >
                 <Form.Label>
-                  <FieldName>First Name:</FieldName>{" "}
+                  <FieldName>First Name:</FieldName>
                   <Description>(only characters are allowed)</Description>
                 </Form.Label>
                 <Form.Control
@@ -583,8 +580,7 @@ const Register = () => {
             </Button>
             <Text
               style={{
-                fontSize: `${16 + fontSize.fontSize}px`, 
-                margin: "20px"
+                fontSize: `${16 + fontSize.fontSize}px`,
               }}
             >
               Already have an account? &nbsp;

@@ -2,25 +2,28 @@
  *
  * Cart.jsx
  *
- *    This file represents the customer's shopping cart of SIMZY  
+ *    This file represents the customer's shopping cart of SIMZY
  *    The products added to the cart by the customer will be
  *    displayed, along with a summary of all the total prices.
  *
  ********************************************************************
  */
 
-import React, { useEffect } from "react";
-import styled from "styled-components";
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
-import { Link } from "react-router-dom";
-import DeleteIcon from "@material-ui/icons/Delete";
-import VisibilityIcon from "@material-ui/icons/Visibility";
-import { useDispatch, useSelector } from "react-redux";
-import { removeFromCart, getTotals } from "../redux/cartRedux";
-import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/core/styles";
-import { MDBBtn } from "mdb-react-ui-kit";
+ import styled from "styled-components";
+ import Footer from "../components/Footer";
+ import Navbar from "../components/Navbar";
+ import React, { useEffect, useState } from "react";
+ import { Link } from "react-router-dom";
+ import DeleteIcon from "@material-ui/icons/Delete";
+ import VisibilityIcon from "@material-ui/icons/Visibility";
+ import { useDispatch, useSelector } from "react-redux";
+ import { removeFromCart, getTotals } from "../redux/cartRedux";
+ import Button from "@material-ui/core/Button";
+ import { makeStyles } from "@material-ui/core/styles";
+ import { MDBBtn } from "mdb-react-ui-kit";
+ import OptionAlert from "../components/OptionAlert";
+ import { useUser } from "../../UserContext";
+ import {useNavigate } from "react-router-dom"; 
 
 const Container = styled.div`
   min-height: 100vh;
@@ -190,20 +193,43 @@ const ButtonGroup = styled.div`
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const fontSize = useSelector((state) => state.fontSize);
+
+  const user = useUser();
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
   const classes = useStyles();
 
-  // handle with back button action
+  const [show, setShow] = useState(false);
+  const [showOption, setShowOption] = useState({});
+
+  // go back to previous page 
   const handleClick = () => {
     window.history.back();
   };
 
-  // remove item from the cart
+  // log user out 
+  const handleCheckout = () => {
+    if (user !== null) {
+      navigate("/checkout");
+    } else {
+      const newText = {};
+      newText.title = "Unauthorized User";
+      newText.message = "Please login before proceeding to checkout";
+      newText.backBtn = "Back";
+      newText.proceedBtn = "Login now";
+      newText.proceedLink = "/login";
+      setShowOption(newText);
+      setShow(true);
+    }
+  };
+
+  /* remove item from the cart */
   const handleRemoveFromCart = (product) => {
     dispatch(removeFromCart(product));
   };
 
-  // trigger redux funtion
+  // get total item in cart
   useEffect(() => {
     dispatch(getTotals());
   }, [cart, dispatch]);
@@ -212,6 +238,14 @@ const Cart = () => {
     <Container>
       <Navbar />
       <Wrapper>
+        {show ? (
+          <OptionAlert
+            show={show}
+            setShow={setShow}
+            text={showOption}
+            setText={setShowOption}
+          />
+        ) : undefined}
         <Title style={{ fontSize: `${36 + fontSize.fontSize}px` }}>
           MY CART
         </Title>
@@ -354,13 +388,13 @@ const Cart = () => {
                   ฿ {cart.cartTotalAmount + 90}
                 </SummaryItemPrice>
               </SummaryItem>
-              <Link to="/checkout" style={{ textDecoration: "none" }}>
-                <ButtonCheck
-                  style={{ fontSize: `${20 + fontSize.fontSize}px` }}
-                >
-                  CHECKOUT NOW
-                </ButtonCheck>
-              </Link>
+
+              <ButtonCheck
+                onClick={handleCheckout}
+                style={{ fontSize: `${20 + fontSize.fontSize}px` }}
+              >
+                CHECKOUT NOW
+              </ButtonCheck>
 
               <ButtonCheck
                 onClick={handleClick}

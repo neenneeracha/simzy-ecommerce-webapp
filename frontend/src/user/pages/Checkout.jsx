@@ -93,6 +93,11 @@ const Text = styled.div`
   }
 `;
 
+const FieldName = styled.b``;
+const Description = styled.span`
+  font-size: 14px;
+`;
+
 const ButtonCheck = styled.h3`
   text-align: center;
   color: gray;
@@ -112,8 +117,15 @@ const ButtonCheck = styled.h3`
   }
 `;
 
+const ErrorMessage = styled.span`
+  color: #dc3545;
+  font-size: 17px;
+`;
+
 const Checkout = () => {
-  const [inputs, setInputs] = useState({
+  const [address, setAddress] = useState([]);
+  const [errors, setErrors] = useState({});
+    const [inputs, setInputs] = useState({
     name: "",
     surname: "",
     address: "",
@@ -123,7 +135,6 @@ const Checkout = () => {
     phoneNumber: "",
     payment: "",
   });
-  const [address, setAddress] = useState([]);
   const navigate = useNavigate();
   const user = useUser();
   const dispatch = useDispatch();
@@ -148,21 +159,129 @@ const Checkout = () => {
   // handle user-entered addresses
   const handleAddress = () => {
     setInputs((prev) => ({ ...prev, name: address[0].name }));
+    if (!!errors.name) {
+      setErrors((prev) => ({ ...prev, name: null }));
+    }
     setInputs((prev) => ({ ...prev, surname: address[0].surname }));
+    if (!!errors.surname) {
+      setErrors((prev) => ({ ...prev, surname: null }));
+    }
     setInputs((prev) => ({ ...prev, address: address[0].address }));
+    if (!!errors.address) {
+      setErrors((prev) => ({ ...prev, address: null }));
+    }
     setInputs((prev) => ({ ...prev, district: address[0].district }));
+    if (!!errors.district) {
+      setErrors((prev) => ({ ...prev, district: null }));
+    }
     setInputs((prev) => ({ ...prev, province: address[0].province }));
+    if (!!errors.province) {
+      setErrors((prev) => ({ ...prev, province: null }));
+    }
     setInputs((prev) => ({ ...prev, zipCode: address[0].zip_code }));
+    if (!!errors.zipCode) {
+      setErrors((prev) => ({ ...prev, zipCode: null }));
+    }
     setInputs((prev) => ({ ...prev, phoneNumber: address[0].phone_number }));
+    if (!!errors.phoneNumber) {
+      setErrors((prev) => ({ ...prev, phoneNumber: null }));
+    }
   };
 
   // used to set a new state for the input
   const handleChange = (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+
+    if (!!errors[e.target.name]) {
+      setErrors((prev) => ({ ...prev, [e.target.name]: null }));
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (inputs.name.split(" ").join("").length < 1) {
+      newErrors.name = "Please provide firstname";
+    } else if (
+      !Boolean(
+        inputs.name
+          .split(" ")
+          .join("")
+          .match(/^[A-Za-z]*$/)
+      )
+    ) {
+      newErrors.name = "Firstname should contain only letters";
+    }
+    if (inputs.surname.split(" ").join("").length < 1) {
+      newErrors.surname = "Please provide surname";
+    } else if (
+      !Boolean(
+        inputs.surname
+          .split(" ")
+          .join("")
+          .match(/^[A-Za-z]*$/)
+      )
+    ) {
+      newErrors.surname = "Lastname should contain only letters";
+    }
+if (inputs.payment.split(" ").join("").length < 1) {
+      newErrors.payment = "Please select payment type";
+    }
+    if (inputs.phoneNumber.split(" ").join("").length < 1) {
+      newErrors.phoneNumber = "Please provide phone number";
+    } else if (
+      !Boolean(
+        inputs.phoneNumber
+          .split(" ")
+          .join("")
+          .match(/^[0-9]*$/)
+      )
+    ) {
+      newErrors.phoneNumber = "Phone number should contain only numbers";
+    } else if (inputs.phoneNumber.split(" ").join("").length > 10) {
+      newErrors.phoneNumber = "Phone number should not exceed 10 digits";
+    } else if (inputs.phoneNumber.split(" ").join("").length < 10) {
+      newErrors.phoneNumber = "Phone number should be 10 digits";
+    }
+    if (inputs.address.split(" ").join("").length < 1) {
+      newErrors.address = "Please provide address";
+    }
+    if (inputs.district.split(" ").join("").length < 1) {
+      newErrors.district = "Please provide district";
+    } else if (
+      !Boolean(
+        inputs.district
+          .split(" ")
+          .join("")
+          .match(/^[A-Za-z]*$/)
+      )
+    ) {
+      newErrors.district = "District should contain only letters";
+    }
+    if (inputs.province.split(" ").join("").length < 1) {
+      newErrors.province = "Please provide province";
+    } else if (
+      !Boolean(
+        inputs.province
+          .split(" ")
+          .join("")
+          .match(/^[A-Za-z]*$/)
+      )
+    ) {
+      newErrors.province = "Province should contain only letters";
+    }
+    if (inputs.zipCode.split(" ").join("").length < 1) {
+      newErrors.zipCode = "Please provide zipcode";
+    }
+
+    return newErrors;
   };
 
   // gets the current value of state
   const handleSubmit = async () => {
+    const formErrors = validateForm();
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
+    } else {
     if (inputs.payment === "1") {
       // cash on delivery
       try {
@@ -204,6 +323,7 @@ const Checkout = () => {
     } else {
       alert("Please select payment type first!");
     }
+  }
   };
 
   // handle with back button action
@@ -248,32 +368,34 @@ const Checkout = () => {
                           <Form.Group
                             className="d-block mx-auto w-50"
                             controlId="validationCustom01"
-                            style={{ marginTop: "30px" }}
+                            style={{ marginTop: "30px", marginBottom: "20px" }}
                           >
                             <Form.Label>
-                              <b>First Name:</b>
+                              <FieldName>First Name: </FieldName>
+                              <Description> (only characters are allowed)</Description>
                             </Form.Label>
                             <Form.Control
                               type="text"
                               placeholder="Enter your first name"
                               name="name"
-                              value={inputs.name}
                               required
                               onChange={handleChange}
+                              value={inputs.name}
+                              isInvalid={!!errors.name}
                             />
                             <Form.Control.Feedback type="invalid">
-                              {" "}
-                              First Name is required
+                              {errors.name}
                             </Form.Control.Feedback>
                           </Form.Group>
 
                           <Form.Group
                             className="d-block mx-auto w-50"
                             controlId="validationCustom02"
-                            style={{ marginTop: "30px" }}
+                            style={{ marginTop: "30px", marginBottom: "20px"  }}
                           >
                             <Form.Label>
-                              <b>Last Name:</b>{" "}
+                              <FieldName>Last Name: </FieldName>
+                  <Description>(only characters are allowed)</Description>
                             </Form.Label>
                             <Form.Control
                               type="text"
@@ -282,10 +404,10 @@ const Checkout = () => {
                               value={inputs.surname}
                               required
                               onChange={handleChange}
+                              isInvalid={!!errors.surname}
                             />
                             <Form.Control.Feedback type="invalid">
-                              {" "}
-                              Last Name is required{" "}
+                              {errors.surname}
                             </Form.Control.Feedback>
                           </Form.Group>
                         </Row>
@@ -293,9 +415,10 @@ const Checkout = () => {
                         <Form.Group
                           className="d-block mx-auto"
                           controlId="validationCustom01"
+                          style={{ marginTop: "30px", marginBottom: "30px"  }}
                         >
-                          <Form.Label style={{ marginTop: "30px" }}>
-                            <b>Phone Number:</b>
+                          <Form.Label>
+                             <FieldName>Phone Number:</FieldName>
                           </Form.Label>
                           <Form.Control
                             type="text"
@@ -303,12 +426,11 @@ const Checkout = () => {
                             name="phoneNumber"
                             required
                             value={inputs.phoneNumber}
-                            style={{ marginBottom: "30px" }}
                             onChange={handleChange}
+                            isInvalid={!!errors.phoneNumber}
                           />
                           <Form.Control.Feedback type="invalid">
-                            {" "}
-                            Phone Number is required
+                            {errors.phoneNumber}
                           </Form.Control.Feedback>
                         </Form.Group>
 
@@ -316,9 +438,10 @@ const Checkout = () => {
                           <Form.Group
                             className="d-block mx-auto w-50"
                             controlId="address"
+                            style={{ marginTop: "30px", marginBottom: "20px"  }}
                           >
                             <Form.Label>
-                              <b>Address: </b>
+                              <FieldName>Address: </FieldName> <Description>(e.g., 126 Pracha Uthit Rd)</Description>
                             </Form.Label>
                             <Form.Control
                               type="text"
@@ -327,20 +450,20 @@ const Checkout = () => {
                               value={inputs.address}
                               required
                               onChange={handleChange}
+                              isInvalid={!!errors.address}
                             />
                             <Form.Control.Feedback type="invalid">
-                              {" "}
-                              Address is required{" "}
+                              {errors.address}
                             </Form.Control.Feedback>
                           </Form.Group>
 
                           <Form.Group
                             className="d-block mx-auto w-50"
                             controlId="validationCustom03"
-                            style={{ marginBottom: "30px" }}
+                            style={{ marginTop: "30px", marginBottom: "20px"  }}
                           >
                             <Form.Label>
-                              <b>District:</b>{" "}
+                             <FieldName>District:</FieldName>
                             </Form.Label>
                             <Form.Control
                               type="text"
@@ -349,10 +472,10 @@ const Checkout = () => {
                               value={inputs.district}
                               required
                               onChange={handleChange}
+                              isInvalid={!!errors.district}
                             />
                             <Form.Control.Feedback type="invalid">
-                              {" "}
-                              District is required{" "}
+                              {errors.district}
                             </Form.Control.Feedback>
                           </Form.Group>
                         </Row>
@@ -361,9 +484,10 @@ const Checkout = () => {
                           <Form.Group
                             className="d-block mx-auto w-50"
                             controlId="address"
+                            style={{ marginTop: "30px", marginBottom: "20px"  }}
                           >
                             <Form.Label>
-                              <b>Province: </b>
+                              <FieldName>Province: </FieldName>
                             </Form.Label>
                             <Form.Control
                               type="text"
@@ -372,20 +496,20 @@ const Checkout = () => {
                               value={inputs.province}
                               required
                               onChange={handleChange}
+                               isInvalid={!!errors.province}
                             />
                             <Form.Control.Feedback type="invalid">
-                              {" "}
-                              Province is required{" "}
+                              {errors.province}
                             </Form.Control.Feedback>
                           </Form.Group>
 
                           <Form.Group
                             className="d-block mx-auto w-50"
                             controlId="validationCustom03"
-                            style={{ marginBottom: "30px" }}
+                            style={{ marginTop: "30px", marginBottom: "20px"  }}
                           >
                             <Form.Label>
-                              <b>Zipcode:</b>{" "}
+                              <FieldName>Zipcode:</FieldName>
                             </Form.Label>
                             <Form.Control
                               type="text"
@@ -394,14 +518,14 @@ const Checkout = () => {
                               value={inputs.zipCode}
                               required
                               onChange={handleChange}
+                              isInvalid={!!errors.zipCode}
                             />
                             <Form.Control.Feedback type="invalid">
-                              {" "}
-                              Zipcode is required{" "}
+                              {errors.zipCode}
                             </Form.Control.Feedback>
                           </Form.Group>
                         </Row>
-                        <Text style={{ margin: "2%" }} onClick={handleAddress}>
+                        <Text style={{ margin: "3%" }} onClick={handleAddress}>
                           Click here to use address from your profile
                         </Text>
                       </Form>
@@ -421,7 +545,7 @@ const Checkout = () => {
                       <Form.Label style={{ marginBottom: "20px" }}>
                         Please Select a payment method
                       </Form.Label>
-                      <Col>
+                      <Col style={{marginBottom: "15px"}}>
                         <Form.Check
                           name="payment"
                           label="Cash On Delivery"
@@ -440,6 +564,9 @@ const Checkout = () => {
                           onChange={handleChange}
                         />
                       </Col>
+                      {errors.payment ? (
+                  <ErrorMessage>{errors.payment}</ErrorMessage>
+                ) : undefined}
                     </Form.Group>
                   </Form>
                 </Accordion.Body>
