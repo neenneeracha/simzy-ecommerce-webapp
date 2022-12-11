@@ -15,7 +15,7 @@ const Container = styled.div`
   position: absolute;
   bottom: 0;
   width: 100%;
-  margin-bottom: -300px;
+  margin-bottom: -420px;
   display: flex;
   background-color: #efeff4;
 `;
@@ -123,6 +123,7 @@ const usefulLinks = [
 
 const Footer = () => {
   const fontSize = useSelector((state) => state.fontSize);
+
   return (
     <Container>
       <Left>

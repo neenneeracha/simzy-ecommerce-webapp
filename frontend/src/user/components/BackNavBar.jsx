@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { ArrowBack } from "@material-ui/icons";
-import { customFontSize, decreaseFontSize } from "../redux/fontRedux";
+import { increaseFontSize, decreaseFontSize } from "../redux/fontRedux";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 
@@ -101,7 +101,7 @@ const BackNavBar = () => {
         <Right>
           <Button
             variant="light"
-            onClick={() => dispatch(customFontSize())}
+            onClick={() => dispatch(increaseFontSize())}
             style={{
               fontSize: `${16 + fontSize.fontSize}px`,
               whiteSpace: "nowrap",

@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
+import Button from "react-bootstrap/Button";
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -26,26 +27,39 @@ const Title = styled.h2`
   font-size: 48px;
 `;
 
-const Text = styled.p`
+const Text = styled.div`
   color: black;
   font-size: 20px;
 `;
 
-const Button = styled.button`
-  color: #eda3b5;
-  background-color: white;
-  font-size: 18px;
-  padding: 10px 18px;
-  border: 0.5px lightgray solid;
-  border-radius: 10px;
+const ButtonText = styled.div``;
 
-  :hover {
-    pointer: cursor;
-    color: white;
-    background-color: #eda3b5;
-    border-color: black;
-  }
-`;
+// const Button = styled.button`
+//   color: #eda3b5;
+//   background-color: white;
+//   font-size: 18px;
+//   padding: 10px 18px;
+//   border: 0.5px lightgray solid;
+//   border-radius: 10px;
+
+//   :hover {
+//     pointer: cursor;
+//     color: white;
+//     background-color: #eda3b5;
+//     border-color: black;
+//   }
+// `;
+
+const styles = {
+  customButton: {
+    backgroundColor: "#eda3b5",
+    borderColor: "#eda3b5",
+    color: "white",
+    borderRadius: "5px",
+    marginTop: "30px",
+    padding: "10px 20px",
+  },
+};
 
 const ProductNotFound = ({ filtered }) => {
   const navigate = useNavigate();
@@ -64,15 +78,17 @@ const ProductNotFound = ({ filtered }) => {
               <Text style={{ fontSize: `${18 + fontSize.fontSize}px` }}>
                 We’re sorry, there's no product matching your selected filters.
               </Text>
-              <Button onClick={() => window.location.reload()}>
-                <Text
+              <Button
+                onClick={() => window.location.reload()}
+                style={styles.customButton}
+              >
+                <ButtonText
                   style={{
                     fontSize: `${18 + fontSize.fontSize}px`,
-                    whiteSpace: "nowrap",
                   }}
                 >
                   Clear selected filters
-                </Text>
+                </ButtonText>
               </Button>
             </>
           ) : (
@@ -80,20 +96,14 @@ const ProductNotFound = ({ filtered }) => {
               <Text style={{ fontSize: `${18 + fontSize.fontSize}px` }}>
                 We’re sorry, there's no product with the name you provided.
               </Text>
-              <Button
-                onClick={() => navigate("/")}
-                style={{
-                  fontSize: `${18 + fontSize.fontSize}px`,
-                  marginTop: "30px",
-                }}
-              >
-                <Text
+              <Button onClick={() => navigate("/")} style={styles.customButton}>
+                <ButtonText
                   style={{
                     fontSize: `${16 + fontSize.fontSize}px`,
                   }}
                 >
                   Explore more at homepage
-                </Text>
+                </ButtonText>
               </Button>
             </>
           )}

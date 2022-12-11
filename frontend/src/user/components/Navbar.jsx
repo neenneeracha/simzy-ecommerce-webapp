@@ -14,7 +14,7 @@ import { getTotals } from "../redux/cartRedux";
 import { useUser, useUserUpdate } from "../../UserContext";
 import Alert from "./Alert";
 import Button from "react-bootstrap/Button";
-import { customFontSize, decreaseFontSize } from "../redux/fontRedux";
+import { increaseFontSize, decreaseFontSize } from "../redux/fontRedux";
 const Container = styled.div`
   height: 60px;
 `;
@@ -279,7 +279,7 @@ const Navbar = () => {
         <Right>
           <Button
             variant="light"
-            onClick={() => dispatch(customFontSize())}
+            onClick={() => dispatch(increaseFontSize())}
             style={{
               fontSize: `${16 + fontSize.fontSize}px`,
               whiteSpace: "nowrap",
