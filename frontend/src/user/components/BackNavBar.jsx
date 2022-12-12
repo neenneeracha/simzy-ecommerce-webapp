@@ -16,6 +16,7 @@ import { increaseFontSize, decreaseFontSize } from "../redux/fontRedux";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 
+// style the components
 const Container = styled.div`
   height: 60px;
 `;

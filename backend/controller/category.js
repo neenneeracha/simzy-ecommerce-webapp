@@ -2,9 +2,9 @@
  *
  * category.js
  *
- *   This file contains a collection of controllers to handle 
+ *   This file contains a collection of controllers to handle
  *   requests to the backend for product category information
- * 
+ *
  ********************************************************************
  */
 

@@ -12,6 +12,7 @@ import React from "react";
 import styled from "styled-components";
 import { HashLoader } from "react-spinners";
 
+// style the components
 const Container = styled.div`
   margin: 0;
   position: absolute;

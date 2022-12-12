@@ -2,8 +2,8 @@
  *
  * OrderItem.jsx
  *
- *   This file represents the order item component display product 
- *   details on the order detail page 
+ *   This file represents the order item component display product
+ *   details on the order detail page
  *
  ********************************************************************
  */
@@ -13,12 +13,14 @@ import styled from "styled-components";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
+// style the components
 const Container = styled.div``;
 
 const ProductSum = styled.div`
   padding: 50px;
   background-color: white;
 `;
+
 const Title = styled.h2`
   text-align: center;
   margin: 30px;

@@ -25,6 +25,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
+// style the components
 const Container = styled.div`
   min-height: 100vh;
   position: relative;
@@ -106,14 +107,17 @@ const FilterSize = styled.div`
   cursor: pointer;
   display: flex;
 `;
+
 const MaterialDetail = styled.div``;
 
 const MaterialTitle = styled.h5`
   margin: 30px 0;
 `;
+
 const MaterialContent = styled.h6`
   color: #999;
 `;
+
 const AddContainer = styled.div`
   width: 50%;
   display: flex;
@@ -216,6 +220,7 @@ const Product = () => {
 
   // get product information from the backend, including colors, images, and stock
   useEffect(() => {
+    // get product detail
     const getProduct = async () => {
       try {
         const res = await axios.get(
@@ -230,6 +235,7 @@ const Product = () => {
       }
     };
 
+    // get the color details of the product
     const getColors = async () => {
       try {
         const res = await axios.get(
@@ -241,6 +247,7 @@ const Product = () => {
       }
     };
 
+    // get the images of the product
     const getImages = async () => {
       try {
         const res = await axios.get(
@@ -259,6 +266,7 @@ const Product = () => {
       }
     };
 
+    // get the stock details of the product
     const getStocks = async () => {
       try {
         const res = await axios.get(
@@ -279,6 +287,7 @@ const Product = () => {
   // change the picture according to the selected color
   useEffect(() => {
     const changeImage = () => {
+      // found the picture according to the selected color.
       if (selectedColor !== null) {
         setUrl(
           images
@@ -317,6 +326,7 @@ const Product = () => {
   // get the available quantity of products with the selected color, size and quantity.
   useEffect(() => {
     const checkQuantity = () => {
+      // user selects the color and size of the product
       if (selectedColor && selectedSize) {
         const stock = stocks
           .filter(
@@ -368,6 +378,7 @@ const Product = () => {
 
   // handling add-to-cart operations
   const addToCartHandler = () => {
+    // user does not select color and size
     if (!selectedColor && !selectedSize) {
       setError((prev) => ({
         ...prev,
@@ -376,7 +387,9 @@ const Product = () => {
         type: "error",
       }));
       setShow(true);
-    } else if (!selectedColor) {
+    }
+    // user does not select color
+    else if (!selectedColor) {
       setError((prev) => ({
         ...prev,
         title: "Invalid Selection",
@@ -384,7 +397,9 @@ const Product = () => {
         type: "error",
       }));
       setShow(true);
-    } else if (!selectedSize) {
+    }
+    // user does not select size
+    else if (!selectedSize) {
       setError((prev) => ({
         ...prev,
         title: "Invalid Selection",
@@ -393,7 +408,6 @@ const Product = () => {
       }));
       setShow(true);
     } else {
-      // update cart
       if (quantity !== 0) {
         const color = colors
           .filter((color) => color.product_color_id === selectedColor)
@@ -407,6 +421,7 @@ const Product = () => {
           )
           .slice(0)[0].stock_id;
 
+        // add selected product(s) to cart
         dispatch(
           addProduct({ ...product, stock, quantity, url, color, selectedSize })
         );
@@ -417,9 +432,12 @@ const Product = () => {
 
   // manage the increase and decrease in the number of product
   const handleQuantity = (type) => {
+    // button type is decrease the quantity
     if (type === "dec") {
+      //decrease quantity by 1
       quantity > 1 && setQuantity(quantity - 1);
     } else {
+      // increase quantity by 1
       setQuantity(quantity + 1);
     }
   };
@@ -428,6 +446,7 @@ const Product = () => {
     <Container>
       <Navbar />
       <Wrapper>
+        {/* show error alert */}
         {show ? (
           <Alert
             show={show}
@@ -517,6 +536,7 @@ const Product = () => {
                           </>
                         ) : (
                           <>
+                            {/* display product color */}
                             {colors.map((color, index) => (
                               <MDBRadio
                                 key={index}
@@ -553,8 +573,10 @@ const Product = () => {
                         Size: {""}
                       </FilterTitle>
                       <FilterSize>
+                        {/* no color selected */}
                         {!selectedColor ? (
                           <>
+                            {/* display product size */}
                             {sizeOptions.map((size, index) => (
                               <MDBRadio
                                 key={index}
@@ -668,6 +690,7 @@ const Product = () => {
                 </>
               ) : (
                 <>
+                  {/* out of stock for the selected product */}
                   <Line />
                   <Message>
                     Sorry, this product is currently out of stock
@@ -675,6 +698,7 @@ const Product = () => {
                   <Link
                     to={`/products?main_category=${product.main_category}&sub_category=${product.sub_category}`}
                   >
+                    {/* Links to other product pages with the same subcategory */}
                     <Button style={styles.customButton}>
                       {product.main_category !== "Kids"
                         ? `View other ${product.main_category}'s ${product.sub_category}`

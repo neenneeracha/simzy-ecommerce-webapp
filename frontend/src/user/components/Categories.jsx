@@ -12,6 +12,7 @@ import React from "react";
 import styled from "styled-components";
 import CategoryItem from "./CategoryItem";
 
+// category image and url
 const categories = [
   {
     id: 1,
@@ -33,6 +34,7 @@ const categories = [
   },
 ];
 
+// style the components
 const Container = styled.div`
   display: flex;
   padding: 20px;

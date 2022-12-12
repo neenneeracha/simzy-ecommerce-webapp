@@ -17,6 +17,7 @@ import { useUser } from "../../context/UserContext";
 import axios from "axios";
 import { useSelector } from "react-redux";
 
+// style the components
 const styles = {
   customButton: {
     backgroundColor: "#eda3b5",
@@ -92,6 +93,7 @@ const OrderHistory = () => {
         const res = await axios.get(
           "http://localhost:8080/api/v1/order/" + user.user_id
         );
+        // found order detail
         if (res.data.length > 0) {
           for (let i = 0; i < res.data.length; i++) {
             var date = new window.Date(res.data[i].created_at)
@@ -116,6 +118,7 @@ const OrderHistory = () => {
 
   return (
     <Container>
+      {/* no order history information found */}
       {orders.length === 0 ? (
         <>
           <Image src={process.env.PUBLIC_URL + "img/no-order.png"} />
@@ -140,6 +143,7 @@ const OrderHistory = () => {
         </>
       ) : viewOrder === null ? (
         <>
+          {/* display order history information */}
           <Table striped bordered hover>
             <Thread>
               <TableRow>

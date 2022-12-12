@@ -2,8 +2,8 @@
  *
  * Login.jsx
  *
- *    This file represents the login page for SIMZY customers and 
- *    admin which requires an email and password to log in to 
+ *    This file represents the login page for SIMZY customers and
+ *    admin which requires an email and password to log in to
  *    the system.
  *
  ********************************************************************
@@ -21,6 +21,7 @@ import axios from "axios";
 import Alert from "../components/Alert";
 import { useSelector } from "react-redux";
 
+// style the components
 const Container = styled.div`
   position: fixed;
   padding: 0px 15px;
@@ -75,7 +76,7 @@ const Login = () => {
     link: "",
   });
 
-  // used to set a new state for the input
+  // set a new state for the input
   const handleChange = (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -85,7 +86,9 @@ const Login = () => {
     const checkEmail = inputs.email.split(" ").join("").length < 1;
     const checkPassword = inputs.password.split(" ").join("").length < 1;
 
+    // check if email and password are empty
     if (checkEmail && checkPassword) {
+      // display error message if empty
       setError((prev) => ({
         ...prev,
         title: "Invalid Input",
@@ -93,7 +96,9 @@ const Login = () => {
         type: "error",
       }));
       setShow(true);
-    } else if (checkEmail) {
+    }
+    // check if email is empty
+    else if (checkEmail) {
       setError((prev) => ({
         ...prev,
         title: "Invalid Input",
@@ -101,7 +106,9 @@ const Login = () => {
         type: "error",
       }));
       setShow(true);
-    } else if (checkPassword) {
+    }
+    // check if password is empty
+    else if (checkPassword) {
       setError((prev) => ({
         ...prev,
         title: "Invalid Input",
@@ -109,7 +116,9 @@ const Login = () => {
         type: "error",
       }));
       setShow(true);
-    } else {
+    }
+    // send input to back end
+    else {
       try {
         const res = await axios.post(
           "http://localhost:8080/api/v1/auth/login",
@@ -144,6 +153,7 @@ const Login = () => {
   return (
     <Container>
       <BackNavBar />
+      {/* if an error occurs, display error alert */}
       {show ? (
         <Alert show={show} setShow={setShow} text={error} setText={setError} />
       ) : undefined}

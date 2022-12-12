@@ -2,7 +2,7 @@
  *
  * App.jsx
  *
- *    This file represents the the oncatenation of all the
+ *    This file represents the concatenation of all the
  *    application's files
  *
  ********************************************************************

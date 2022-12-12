@@ -3,7 +3,7 @@
  * Summary.jsx
  *
  *    This file represents the order summary page for customers
- *    which consist of Navigation bar, Slider, Order Item, 
+ *    which consist of Navigation bar, Slider, Order Item,
  *    Shipping information, Price information and Footer components.
  *
  ********************************************************************
@@ -19,6 +19,7 @@ import PriceInfo from "../components/PriceInfo";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
+// style the components
 const Container = styled.div``;
 
 const Content = styled.div`

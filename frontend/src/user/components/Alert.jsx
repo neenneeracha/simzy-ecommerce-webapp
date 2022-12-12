@@ -16,6 +16,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+// style the components
 const Container = styled.div``;
 
 const Alert = ({ show, setShow, text, setText }) => {

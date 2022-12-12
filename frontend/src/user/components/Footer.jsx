@@ -2,8 +2,8 @@
  *
  * Footer.jsx
  *
- *   This file represents the footer component 
- *   which displays general information about the SIMZY website. 
+ *   This file represents the footer component
+ *   which displays general information about the SIMZY website.
  *
  ********************************************************************
  */
@@ -22,6 +22,7 @@ import {
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 
+// style the components
 const Container = styled.div`
   position: absolute;
   bottom: 0;
@@ -148,17 +149,29 @@ const Footer = () => {
         <SocialContainer style={{ cursor: "pointer" }}>
           <SocialIcon color="3B5999">
             <Facebook
-              onClick={() => window.open("https://www.facebook.com/KMUTT/", "_blank")}
+              onClick={() =>
+                window.open("https://www.facebook.com/KMUTT/", "_blank")
+              }
             />
           </SocialIcon>
           <SocialIcon color="E4405F">
-            <Instagram onClick={() => window.open("https://www.instagram.com/love.kmutt/", "_blank")} />
+            <Instagram
+              onClick={() =>
+                window.open("https://www.instagram.com/love.kmutt/", "_blank")
+              }
+            />
           </SocialIcon>
           <SocialIcon color="55ACEE">
-            <Twitter onClick={() => window.open("https://twitter.com/kmutt", "_blank")} />
+            <Twitter
+              onClick={() => window.open("https://twitter.com/kmutt", "_blank")}
+            />
           </SocialIcon>
           <SocialIcon color="E60023">
-            <Pinterest onClick={() => window.open("https://www.facebook.com/cpe.kmutt/", "_blank")} />
+            <Pinterest
+              onClick={() =>
+                window.open("https://www.facebook.com/cpe.kmutt/", "_blank")
+              }
+            />
           </SocialIcon>
         </SocialContainer>
       </Left>
@@ -167,6 +180,7 @@ const Footer = () => {
           Useful Links
         </Title>
         <List>
+          {/* SIMZY page link */}
           {usefulLinks.map((link, index) => (
             <ListItem key={index}>
               <Link style={{ textDecoration: "none" }} to={link.url}>

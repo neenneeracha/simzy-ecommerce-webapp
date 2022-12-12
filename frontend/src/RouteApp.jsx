@@ -2,8 +2,8 @@
  *
  * RouteApp.jsx
  *
- *    This file collects the browser URLs used in SIMZY, including
- *    client, administrator and guest URLs.
+ *    This file collects the browser URLs used in SIMZY frontend, 
+ *    including client, administrator and guest URLs.
  *
  ********************************************************************
  */
@@ -32,6 +32,7 @@ import ViewUsers from "./admin/pages/ViewUsers";
 import ViewOrders from "./admin/pages/ViewOrders";
 import ViewProducts from "./admin/pages/ViewProducts";
 
+// router for SIMZY guests
 const guestRouter = createBrowserRouter([
   {
     path: "/",
@@ -79,6 +80,7 @@ const guestRouter = createBrowserRouter([
   },
 ]);
 
+// router for SIMZY users
 const userRouter = createBrowserRouter([
   {
     path: "/",
@@ -146,6 +148,7 @@ const userRouter = createBrowserRouter([
   },
 ]);
 
+// router for SIMZY admins
 const adminRouter = createBrowserRouter([
   {
     path: "/",

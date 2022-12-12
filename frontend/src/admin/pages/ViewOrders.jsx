@@ -2,7 +2,7 @@
  *
  * ViewOrders.jsx
  *
- *   This file represents the SIMZY orders details page and 
+ *   This file represents the SIMZY orders details page and
  *   allow administrators to view and edit order
  *
  ********************************************************************
@@ -38,6 +38,7 @@ const useStylesPaper = makeStyles((theme) => ({
   },
 }));
 
+// style the components
 const Container = styled.div`
   max-width: 100%;
   height: 100vh;
@@ -94,9 +95,11 @@ const ViewOrders = () => {
     setOpenPopup(true);
   };
 
+  // handle with order information
   useEffect(() => {
     if (parseInt(status_id) > 6 || parseInt(status_id) < 1) navigate("/*");
 
+    // get all orfer information
     const getAllOrderInfo = async () => {
       try {
         const res = await axios.get(
@@ -133,6 +136,7 @@ const ViewOrders = () => {
       }
     };
 
+    // get order status
     const getStatus = async () => {
       try {
         const res = await axios.get(
@@ -155,6 +159,7 @@ const ViewOrders = () => {
     setSelectedID(0);
   };
 
+  // handle with editing order form
   const handleEdit = async (order, resetForm) => {
     if (order.status_id === recordForEdit.status_id) {
       toast.error("No new changes made, submission ignored!", {
@@ -191,6 +196,7 @@ const ViewOrders = () => {
       <Wrapper>
         <Top>
           <Title>
+            {/* order page title */}
             Orders List{" "}
             {typeof status_id === "string" && orderStatus.length > 0
               ? `- ${

@@ -1,6 +1,6 @@
 /********************************************************************
  *
- * OptionAlrt.jsx
+ * OptionAlert.jsx
  *
  *    This file represents the alert components
  *    which is used when an option exists for the user to
@@ -15,6 +15,7 @@ import Modal from "react-bootstrap/Modal";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
+// style the components
 const Container = styled.div``;
 
 const OptionAlert = ({ show, setShow, text, setText }) => {

@@ -10,6 +10,7 @@
 import React from "react";
 import styled from "styled-components";
 
+// style the components
 const Container = styled.div``;
 
 const Wrapper = styled.div`

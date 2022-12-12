@@ -13,6 +13,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import styled from "styled-components";
 
+// style the components
 const Container = styled.div``;
 
 const Image = styled.img``;

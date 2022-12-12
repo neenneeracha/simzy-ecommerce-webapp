@@ -20,6 +20,7 @@ import ProductNotFound from "../components/ProductNotFound";
 import axios from "axios";
 import { MDBIcon } from "mdb-react-ui-kit";
 
+// style the components
 const Container = styled.div`
   min-height: 85vh;
   position: relative;
@@ -192,6 +193,7 @@ const ProductList = () => {
                 <Option value="3999"> 3000 THB - 3999 THB </Option>
                 <Option value="4999"> 4000 THB - 4999 THB </Option>
               </Select>
+              {/* reset filter value  */}
               {color || size || price ? (
                 <Button onClick={resetFilter} style={styles.clearButton}>
                   <MDBIcon

@@ -4,7 +4,7 @@
  *
  *    This file represents the profile component use in the
  *    user profile page whcih allow user to view and edit
- *    their personal information.
+ *    their personal information
  *
  ********************************************************************
  */
@@ -26,6 +26,12 @@ import {
   MDBCardImage,
 } from "mdb-react-ui-kit";
 
+// style the components
+const Container = styled.div`
+  min-height: 68vh;
+  padding: 4% 5%;
+`;
+
 const styles = {
   customButton: {
     backgroundColor: "#eda3b5",
@@ -44,11 +50,6 @@ const styles = {
     height: "45px",
   },
 };
-
-const Container = styled.div`
-  min-height: 68vh;
-  padding: 4% 5%;
-`;
 
 const Text = styled.p`
   color: gray;
@@ -84,6 +85,7 @@ const ProfileSection = () => {
           "http://localhost:8080/api/v1/user/" + user.user_id
         );
 
+        // found user data
         if (res.data.length > 0) {
           var date = new window.Date(res.data[0].created_at)
             .toISOString()
@@ -154,6 +156,7 @@ const ProfileSection = () => {
 
           <MDBCard className="mb-4 mb-lg-0">
             <MDBCardBody className="p-3">
+              {/* form is edited */}
               {editProfile === true ? (
                 <>
                   <Button

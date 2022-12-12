@@ -3,8 +3,8 @@
  * PriceInfo.jsx
  *
  *    This file represents the price details component, which
- *    is a part of the user profile page that displays the summary 
- *    price of the order. 
+ *    is a part of the user profile page that displays the summary
+ *    price of the order.
  *
  ********************************************************************
  */
@@ -14,6 +14,7 @@ import styled from "styled-components";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
+// style the components
 const Container = styled.div``;
 
 const PriceSum = styled.div`

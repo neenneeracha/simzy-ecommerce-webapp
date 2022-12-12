@@ -33,7 +33,7 @@ const cartSlice = createSlice({
       // handle with the product that already existing in the cart
       const itemIndex = state.products.findIndex(
         (item) => item.product_id === action.payload.product_id
-      );
+      ); // itemIndex the position of the duplicated item (return <0 if not exist) 
 
       const SizeCheck = state.products.findIndex((product, index) => {
         return (
@@ -69,6 +69,7 @@ const cartSlice = createSlice({
     },
     // remove a product from cart
     removeFromCart(state, action) {
+       // return undeleted item 
       const nextCartItems = state.products.filter(
         (product) =>
           product.product_id !== action.payload.product_id ||
@@ -77,7 +78,7 @@ const cartSlice = createSlice({
       );
 
       state.products = nextCartItems;
-
+      // update in localstorage 
       localStorage.setItem("products", JSON.stringify(state.products));
 
       toast.error("Deleted Item from cart", {
@@ -88,6 +89,7 @@ const cartSlice = createSlice({
     clearCart(state, action) {
 
       state.products = [];
+      // clear localstorage 
       localStorage.removeItem("products");
 
     },
@@ -105,6 +107,7 @@ const cartSlice = createSlice({
           return cartTotal;
         },
         {
+          // initial value 
           total: 0,
           totalQuantity: 0,
         }

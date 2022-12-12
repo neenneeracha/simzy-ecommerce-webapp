@@ -1,6 +1,6 @@
 /********************************************************************
  *
- * CategoriesItem.jsx
+ * CategoryItem.jsx
  *
  *    This file represents the compoents of Categories.jsx
  *    which link to each category's product page.
@@ -13,6 +13,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+// style the components
 const Container = styled.div`
   flex: 1;
   margin: 3px;
@@ -43,6 +44,7 @@ const Title = styled.h1`
   margin-bottom: 20px;
   font-weight: bold;
 `;
+
 const Text = styled.div``;
 
 const Button = styled.button`

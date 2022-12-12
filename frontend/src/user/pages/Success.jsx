@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import Cookie from "js-cookie";
 import { useSelector } from "react-redux";
 
+// style the components
 const Container = styled.div`
   min-height: 100vh;
   position: relative;

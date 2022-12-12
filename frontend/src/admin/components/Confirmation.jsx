@@ -21,6 +21,7 @@ import {
 import Controls from "./controls/Controls";
 import NotListedLocationIcon from "@material-ui/icons/NotListedLocation";
 
+// style the components
 const useStyles = makeStyles((theme) => ({
   dialog: {
     padding: theme.spacing(2),
@@ -53,6 +54,7 @@ const Confirmation = (props) => {
   const classes = useStyles();
 
   return (
+    // set the default feature for the dialog
     <Dialog open={confirmDialog.isOpen} classes={{ paper: classes.dialog }}>
       <DialogTitle className={classes.dialogTitle}>
         <IconButton disableRipple className={classes.titleIcon}>

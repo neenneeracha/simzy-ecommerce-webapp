@@ -37,6 +37,7 @@ const initialFValues = {
   total_price: "",
 };
 
+// style the components
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: theme.spacing(1),
@@ -44,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// style the components
 const Container = styled.div`
   max-width: 100%;
   overflow-x: hidden;
@@ -147,6 +149,7 @@ const OrderForm = ({ recordForEdit, formType, orderStatus, handleEdit }) => {
               </Grid>
 
               <Grid item xs={6}>
+                {/* view form */}
                 {formType === "view" ? (
                   <Controls.Input
                     name="order_status"
@@ -269,6 +272,7 @@ const OrderForm = ({ recordForEdit, formType, orderStatus, handleEdit }) => {
           </Paper>
           <Paper className={classes.root} elevation={0}>
             <Header>Items Ordered</Header>
+            {/* orders ordered products */}
             {orderedItems.map((orderedItem, index) => (
               <>
                 <Grid container>
@@ -312,6 +316,7 @@ const OrderForm = ({ recordForEdit, formType, orderStatus, handleEdit }) => {
             <Header style={{ marginTop: "48px" }}>Total Price</Header>
             <Grid container>
               <Grid xs={8}>
+                {/* order total price */}
                 <Controls.Input
                   name="total"
                   label="Total Amount (excluding THB 90 shipping fee)"

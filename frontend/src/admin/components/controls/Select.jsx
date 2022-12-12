@@ -2,7 +2,7 @@
  *
  * Select.jsx
  *
- *    This file represents the multi-use select components 
+ *    This file represents the multi-use select components
  *    used for collect user information from a list of options
  *
  ********************************************************************
@@ -18,6 +18,7 @@ import {
   makeStyles,
 } from "@material-ui/core";
 
+// style the components
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "25ch",
@@ -29,55 +30,74 @@ export default function Select(props) {
   const classes = useStyles();
 
   return (
+    // default settings for select fields
     <FormControl {...(error && { error: true })} className={classes.root}>
-      {
-        label === "Category" ? 
+      {label === "Category" ? (
         <>
-        <InputLabel>{label}</InputLabel>
-      <MuiSelect label={label} name={name} value={value} onChange={onChange}>
-        {options.map((item) => (
-          <MenuItem key={item.category_id} value={item.category_id}>
-            {item.main_category} - {item.sub_category}
-          </MenuItem>
-        ))}
-      </MuiSelect>
-        </> : 
-        label === "Color group - Color" ? 
-        <>
-      <InputLabel>{label}</InputLabel>
-      <MuiSelect label={label} name={name} value={value} onChange={onChange}>
-        {options.map((item) => (
-          <MenuItem key={item.color_group_id} value={item.color_group_id}>
-            {item.color_group} - {item.color}
-          </MenuItem>
-        ))}
-      </MuiSelect>
+          <InputLabel>{label}</InputLabel>
+          <MuiSelect
+            label={label}
+            name={name}
+            value={value}
+            onChange={onChange}
+          >
+            {options.map((item) => (
+              <MenuItem key={item.category_id} value={item.category_id}>
+                {item.main_category} - {item.sub_category}
+              </MenuItem>
+            ))}
+          </MuiSelect>
         </>
-        :
-        label === "Order Status" ? 
+      ) : label === "Color group - Color" ? (
         <>
-        <MuiSelect label={label} name={name} value={value} onChange={onChange}>
-        {options.map((item) => (
-          <MenuItem key={item.status_id} value={item.status_id}>
-            {item.status_id} - {item.description}
-          </MenuItem>
-        ))}
-      </MuiSelect>
+          <InputLabel>{label}</InputLabel>
+          <MuiSelect
+            label={label}
+            name={name}
+            value={value}
+            onChange={onChange}
+          >
+            {options.map((item) => (
+              <MenuItem key={item.color_group_id} value={item.color_group_id}>
+                {item.color_group} - {item.color}
+              </MenuItem>
+            ))}
+          </MuiSelect>
         </>
-        :
+      ) : label === "Order Status" ? (
         <>
-        <InputLabel>{label}</InputLabel>
-      <MuiSelect label={label} name={name} value={value} onChange={onChange}>
-        <MenuItem value="">None</MenuItem>
-        {options.map((item) => (
-          <MenuItem key={item.id} value={item.id}>
-            {item.title}
-          </MenuItem>
-        ))}
-      </MuiSelect>
+          <MuiSelect
+            label={label}
+            name={name}
+            value={value}
+            onChange={onChange}
+          >
+            {options.map((item) => (
+              <MenuItem key={item.status_id} value={item.status_id}>
+                {item.status_id} - {item.description}
+              </MenuItem>
+            ))}
+          </MuiSelect>
         </>
-      }
-      {error && <FormHelperText>{error}</FormHelperText>}      
+      ) : (
+        <>
+          <InputLabel>{label}</InputLabel>
+          <MuiSelect
+            label={label}
+            name={name}
+            value={value}
+            onChange={onChange}
+          >
+            <MenuItem value="">None</MenuItem>
+            {options.map((item) => (
+              <MenuItem key={item.id} value={item.id}>
+                {item.title}
+              </MenuItem>
+            ))}
+          </MuiSelect>
+        </>
+      )}
+      {error && <FormHelperText>{error}</FormHelperText>}
     </FormControl>
   );
 }

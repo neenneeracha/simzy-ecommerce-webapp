@@ -9,22 +9,23 @@
  ********************************************************************
  */
 
- import styled from "styled-components";
- import Footer from "../components/Footer";
- import Navbar from "../components/Navbar";
- import React, { useEffect, useState } from "react";
- import { Link } from "react-router-dom";
- import DeleteIcon from "@material-ui/icons/Delete";
- import VisibilityIcon from "@material-ui/icons/Visibility";
- import { useDispatch, useSelector } from "react-redux";
- import { removeFromCart, getTotals } from "../redux/cartRedux";
- import Button from "@material-ui/core/Button";
- import { makeStyles } from "@material-ui/core/styles";
- import { MDBBtn } from "mdb-react-ui-kit";
- import OptionAlert from "../components/OptionAlert";
- import { useUser } from "../../context/UserContext";
- import {useNavigate } from "react-router-dom"; 
+import styled from "styled-components";
+import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import DeleteIcon from "@material-ui/icons/Delete";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import { useDispatch, useSelector } from "react-redux";
+import { removeFromCart, getTotals } from "../redux/cartRedux";
+import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
+import { MDBBtn } from "mdb-react-ui-kit";
+import OptionAlert from "../components/OptionAlert";
+import { useUser } from "../../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
+// style the components
 const Container = styled.div`
   min-height: 100vh;
   position: relative;
@@ -203,12 +204,12 @@ const Cart = () => {
   const [show, setShow] = useState(false);
   const [showOption, setShowOption] = useState({});
 
-  // go back to previous page 
+  // go back to previous page
   const handleClick = () => {
     window.history.back();
   };
 
-  // log user out 
+  // log user out
   const handleCheckout = () => {
     if (user !== null) {
       navigate("/checkout");
@@ -250,6 +251,7 @@ const Cart = () => {
           MY CART
         </Title>
 
+        {/* cart is empty */}
         {cart.products.length === 0 ? (
           <CartEmpty>
             <Icon>
@@ -262,7 +264,12 @@ const Cart = () => {
                 You cart is currently empty
               </b>{" "}
               <br />
-              <p style={{ margin: "10px 0px 20px", fontSize: `${24 + fontSize.fontSize}px` }}>
+              <p
+                style={{
+                  margin: "10px 0px 20px",
+                  fontSize: `${24 + fontSize.fontSize}px`,
+                }}
+              >
                 Looks like you haven't added anything to your cart yet
               </p>{" "}
               <Link to="/">
@@ -286,6 +293,7 @@ const Cart = () => {
         ) : (
           <Bottom>
             <Info>
+              {/* shopping cart with product(s) */}
               {cart.products.map((product) => (
                 <Product key={product.product_id}>
                   <ProductDetail>
@@ -310,14 +318,11 @@ const Cart = () => {
                   </ProductDetail>
                   <PriceDetail>
                     <ProductAmountContainer>
-                      {/* <Remove /> */}
                       <ProductAmount
                         style={{ fontSize: `${24 + fontSize.fontSize}px` }}
                       >
-                        {" "}
                         X {product.quantity}
                       </ProductAmount>
-                      {/* <Add /> */}
                     </ProductAmountContainer>
                     <ProductPrice
                       style={{ fontSize: `${30 + fontSize.fontSize}px` }}

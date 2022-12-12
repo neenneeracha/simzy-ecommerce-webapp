@@ -24,6 +24,7 @@ import { clearCart } from "../redux/cartRedux";
 import { useUser } from "../../context/UserContext";
 import Cookie from "js-cookie";
 
+// style the components
 const Container = styled.div`
   min-height: 100vh;
   position: relative;
@@ -94,6 +95,7 @@ const Text = styled.div`
 `;
 
 const FieldName = styled.b``;
+
 const Description = styled.span`
   font-size: 14px;
 `;
@@ -125,7 +127,7 @@ const ErrorMessage = styled.span`
 const Checkout = () => {
   const [address, setAddress] = useState([]);
   const [errors, setErrors] = useState({});
-    const [inputs, setInputs] = useState({
+  const [inputs, setInputs] = useState({
     name: "",
     surname: "",
     address: "",
@@ -141,7 +143,7 @@ const Checkout = () => {
   const cart = useSelector((state) => state.cart);
   const fontSize = useSelector((state) => state.fontSize);
 
-  // used to get the user's registered address
+  // get the user's registered address
   useEffect(() => {
     const getAddress = async () => {
       try {
@@ -188,7 +190,7 @@ const Checkout = () => {
     }
   };
 
-  // used to set a new state for the input
+  // set a new state for the input
   const handleChange = (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
@@ -197,8 +199,11 @@ const Checkout = () => {
     }
   };
 
+  // validate form input
   const validateForm = () => {
     const newErrors = {};
+
+    // first name validation
     if (inputs.name.split(" ").join("").length < 1) {
       newErrors.name = "Please provide firstname";
     } else if (
@@ -211,6 +216,7 @@ const Checkout = () => {
     ) {
       newErrors.name = "Firstname should contain only letters";
     }
+    // surname validation
     if (inputs.surname.split(" ").join("").length < 1) {
       newErrors.surname = "Please provide surname";
     } else if (
@@ -223,9 +229,11 @@ const Checkout = () => {
     ) {
       newErrors.surname = "Lastname should contain only letters";
     }
-if (inputs.payment.split(" ").join("").length < 1) {
+    // payment type validation
+    if (inputs.payment.split(" ").join("").length < 1) {
       newErrors.payment = "Please select payment type";
     }
+    // phone number validation
     if (inputs.phoneNumber.split(" ").join("").length < 1) {
       newErrors.phoneNumber = "Please provide phone number";
     } else if (
@@ -242,9 +250,11 @@ if (inputs.payment.split(" ").join("").length < 1) {
     } else if (inputs.phoneNumber.split(" ").join("").length < 10) {
       newErrors.phoneNumber = "Phone number should be 10 digits";
     }
+    // address validation
     if (inputs.address.split(" ").join("").length < 1) {
       newErrors.address = "Please provide address";
     }
+    // district validation
     if (inputs.district.split(" ").join("").length < 1) {
       newErrors.district = "Please provide district";
     } else if (
@@ -257,6 +267,7 @@ if (inputs.payment.split(" ").join("").length < 1) {
     ) {
       newErrors.district = "District should contain only letters";
     }
+    // province validation
     if (inputs.province.split(" ").join("").length < 1) {
       newErrors.province = "Please provide province";
     } else if (
@@ -269,6 +280,7 @@ if (inputs.payment.split(" ").join("").length < 1) {
     ) {
       newErrors.province = "Province should contain only letters";
     }
+    // zipcode validation
     if (inputs.zipCode.split(" ").join("").length < 1) {
       newErrors.zipCode = "Please provide zipcode";
     }
@@ -282,51 +294,61 @@ if (inputs.payment.split(" ").join("").length < 1) {
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
     } else {
-    if (inputs.payment === "1") {
-      // cash on delivery
-      try {
-        let res = await axios.post("http://localhost:8080/api/v1/payment/new", {
-          payment: inputs.payment,
-          status: "0",
-        });
-        const payment_id = res.data.insertId;
+      if (inputs.payment === "1") {
+        // cash on delivery
+        try {
+          let res = await axios.post(
+            "http://localhost:8080/api/v1/payment/new",
+            {
+              payment: inputs.payment,
+              status: "0",
+            }
+          );
+          const payment_id = res.data.insertId;
 
-        res = await axios.post("http://localhost:8080/api/v1/order/neworder", [
-          inputs,
-          { user_id: user.user_id, payment_id: payment_id },
-        ]);
-        const order_id = res.data.insertId;
+          res = await axios.post(
+            "http://localhost:8080/api/v1/order/neworder",
+            [inputs, { user_id: user.user_id, payment_id: payment_id }]
+          );
+          const order_id = res.data.insertId;
 
-        res = await axios.post(
-          "http://localhost:8080/api/v1/order/orderhistory",
-          [cart.products, { order_id: order_id }]
-        );
-        dispatch(clearCart());
-        Cookie.set("orderID", order_id, { path: "/", expires: 2 / (24 * 60) });
-        navigate("/success");
-      } catch (error) {
-        console.log(error);
-      }
-    } else if (inputs.payment === "2") {
-      // card payment
-      try {
-        const res = await axios.post(
-          "http://localhost:8080/api/v1/payment/stripe",
-          { amount: cart.cartTotalAmount + 90, email: address[0].email, inputs }
-        );
-        if (res.data.url) {
-          window.location.href = res.data.url;
+          res = await axios.post(
+            "http://localhost:8080/api/v1/order/orderhistory",
+            [cart.products, { order_id: order_id }]
+          );
+          dispatch(clearCart());
+          Cookie.set("orderID", order_id, {
+            path: "/",
+            expires: 2 / (24 * 60),
+          });
+          navigate("/success");
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
+      } else if (inputs.payment === "2") {
+        // card payment
+        try {
+          const res = await axios.post(
+            "http://localhost:8080/api/v1/payment/stripe",
+            {
+              amount: cart.cartTotalAmount + 90,
+              email: address[0].email,
+              inputs,
+            }
+          );
+          if (res.data.url) {
+            window.location.href = res.data.url;
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        alert("Please select payment type first!");
       }
-    } else {
-      alert("Please select payment type first!");
     }
-  }
   };
 
-  // handle with back button action
+  // return to previous page
   const handleClick = () => {
     window.history.back();
   };
@@ -372,7 +394,10 @@ if (inputs.payment.split(" ").join("").length < 1) {
                           >
                             <Form.Label>
                               <FieldName>First Name: </FieldName>
-                              <Description> (only characters are allowed)</Description>
+                              <Description>
+                                {" "}
+                                (only characters are allowed)
+                              </Description>
                             </Form.Label>
                             <Form.Control
                               type="text"
@@ -391,11 +416,13 @@ if (inputs.payment.split(" ").join("").length < 1) {
                           <Form.Group
                             className="d-block mx-auto w-50"
                             controlId="validationCustom02"
-                            style={{ marginTop: "30px", marginBottom: "20px"  }}
+                            style={{ marginTop: "30px", marginBottom: "20px" }}
                           >
                             <Form.Label>
                               <FieldName>Last Name: </FieldName>
-                  <Description>(only characters are allowed)</Description>
+                              <Description>
+                                (only characters are allowed)
+                              </Description>
                             </Form.Label>
                             <Form.Control
                               type="text"
@@ -415,10 +442,10 @@ if (inputs.payment.split(" ").join("").length < 1) {
                         <Form.Group
                           className="d-block mx-auto"
                           controlId="validationCustom01"
-                          style={{ marginTop: "30px", marginBottom: "30px"  }}
+                          style={{ marginTop: "30px", marginBottom: "30px" }}
                         >
                           <Form.Label>
-                             <FieldName>Phone Number:</FieldName>
+                            <FieldName>Phone Number:</FieldName>
                           </Form.Label>
                           <Form.Control
                             type="text"
@@ -438,10 +465,13 @@ if (inputs.payment.split(" ").join("").length < 1) {
                           <Form.Group
                             className="d-block mx-auto w-50"
                             controlId="address"
-                            style={{ marginTop: "30px", marginBottom: "20px"  }}
+                            style={{ marginTop: "30px", marginBottom: "20px" }}
                           >
                             <Form.Label>
-                              <FieldName>Address: </FieldName> <Description>(e.g., 126 Pracha Uthit Rd)</Description>
+                              <FieldName>Address: </FieldName>{" "}
+                              <Description>
+                                (e.g., 126 Pracha Uthit Rd)
+                              </Description>
                             </Form.Label>
                             <Form.Control
                               type="text"
@@ -460,10 +490,10 @@ if (inputs.payment.split(" ").join("").length < 1) {
                           <Form.Group
                             className="d-block mx-auto w-50"
                             controlId="validationCustom03"
-                            style={{ marginTop: "30px", marginBottom: "20px"  }}
+                            style={{ marginTop: "30px", marginBottom: "20px" }}
                           >
                             <Form.Label>
-                             <FieldName>District:</FieldName>
+                              <FieldName>District:</FieldName>
                             </Form.Label>
                             <Form.Control
                               type="text"
@@ -484,7 +514,7 @@ if (inputs.payment.split(" ").join("").length < 1) {
                           <Form.Group
                             className="d-block mx-auto w-50"
                             controlId="address"
-                            style={{ marginTop: "30px", marginBottom: "20px"  }}
+                            style={{ marginTop: "30px", marginBottom: "20px" }}
                           >
                             <Form.Label>
                               <FieldName>Province: </FieldName>
@@ -496,7 +526,7 @@ if (inputs.payment.split(" ").join("").length < 1) {
                               value={inputs.province}
                               required
                               onChange={handleChange}
-                               isInvalid={!!errors.province}
+                              isInvalid={!!errors.province}
                             />
                             <Form.Control.Feedback type="invalid">
                               {errors.province}
@@ -506,7 +536,7 @@ if (inputs.payment.split(" ").join("").length < 1) {
                           <Form.Group
                             className="d-block mx-auto w-50"
                             controlId="validationCustom03"
-                            style={{ marginTop: "30px", marginBottom: "20px"  }}
+                            style={{ marginTop: "30px", marginBottom: "20px" }}
                           >
                             <Form.Label>
                               <FieldName>Zipcode:</FieldName>
@@ -545,7 +575,7 @@ if (inputs.payment.split(" ").join("").length < 1) {
                       <Form.Label style={{ marginBottom: "20px" }}>
                         Please Select a payment method
                       </Form.Label>
-                      <Col style={{marginBottom: "15px"}}>
+                      <Col style={{ marginBottom: "15px" }}>
                         <Form.Check
                           name="payment"
                           label="Cash On Delivery"
@@ -565,8 +595,8 @@ if (inputs.payment.split(" ").join("").length < 1) {
                         />
                       </Col>
                       {errors.payment ? (
-                  <ErrorMessage>{errors.payment}</ErrorMessage>
-                ) : undefined}
+                        <ErrorMessage>{errors.payment}</ErrorMessage>
+                      ) : undefined}
                     </Form.Group>
                   </Form>
                 </Accordion.Body>

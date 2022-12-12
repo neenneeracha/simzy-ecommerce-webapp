@@ -27,6 +27,7 @@ const CheckBox = (props) => {
   });
 
   return (
+    // default settings for check box
     <FormControl>
       <FormControlLabel
         control={

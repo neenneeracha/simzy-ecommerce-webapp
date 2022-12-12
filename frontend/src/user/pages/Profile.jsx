@@ -24,6 +24,7 @@ import Footer from "../components/Footer";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 
+// style the components
 const Container = styled.div`
   min-height: 100vh;
   position: relative;

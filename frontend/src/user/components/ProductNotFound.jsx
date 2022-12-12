@@ -15,6 +15,7 @@ import styled from "styled-components";
 import { useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 
+// style the components
 const Container = styled.div``;
 
 const Wrapper = styled.div`
@@ -70,10 +71,11 @@ const ProductNotFound = ({ filtered }) => {
           <Title style={{ fontSize: `${40 + fontSize.fontSize}px` }}>
             No Results Found!
           </Title>
+          {/* no products meet the filtering requirement */}
           {filtered ? (
             <>
               <Text style={{ fontSize: `${18 + fontSize.fontSize}px` }}>
-                We’re sorry, there's no product matching your selected filters.
+                We're sorry, there's no product matching your selected filters.
               </Text>
               <Button
                 onClick={() => window.location.reload()}
@@ -90,6 +92,7 @@ const ProductNotFound = ({ filtered }) => {
             </>
           ) : (
             <>
+              {/* no products match the input name */}
               <Text style={{ fontSize: `${18 + fontSize.fontSize}px` }}>
                 We're sorry, there's no product with the name you provided.
               </Text>

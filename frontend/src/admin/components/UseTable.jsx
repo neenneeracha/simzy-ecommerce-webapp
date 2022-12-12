@@ -18,6 +18,7 @@ import {
   TablePagination,
 } from "@material-ui/core";
 
+// style the components
 const useStyles = makeStyles((theme) => ({
   table: {
     marginTop: theme.spacing(3),

@@ -11,6 +11,7 @@
 import React from "react";
 import { Button as MuiButton, makeStyles } from "@material-ui/core";
 
+// style the components
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: theme.spacing(2),

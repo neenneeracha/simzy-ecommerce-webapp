@@ -4,7 +4,7 @@
  *
  *    This file represents the homepage of SIMZY for customers
  *   	which consist of Navigation bar, Slider, Main category
- *    selection, New arrival items, and Footer components. 
+ *    selection, New arrival items, and Footer components.
  *
  ********************************************************************
  */
@@ -17,12 +17,11 @@ import Navbar from "../components/Navbar";
 import NewArrivals from "../components/NewArrivals";
 import Slider from "../components/Slider";
 
-
+// style the components
 const Container = styled.div`
   min-height: 100vh;
   position: relative;
 `;
-
 
 const Home = () => {
   return (

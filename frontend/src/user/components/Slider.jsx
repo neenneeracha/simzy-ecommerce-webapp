@@ -2,8 +2,8 @@
  *
  * Slider.jsx
  *
- *    This file represents the slider component in the main page.
- *    
+ *    This file represents the slider component in the home page
+ *
  ********************************************************************
  */
 
@@ -12,6 +12,7 @@ import Carousel from "react-bootstrap/Carousel";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 
+// style the components
 const Container = styled.div`
   .carousel-control-next-icon:after,
   .carousel-control-prev-icon:after {
@@ -21,7 +22,7 @@ const Container = styled.div`
 
 const Slider = () => {
   const fontSize = useSelector((state) => state.fontSize);
-  
+
   return (
     <Container>
       <Carousel style={{ width: "100%", marginTop: "1%" }}>

@@ -23,6 +23,7 @@ import Alert from "./Alert";
 import Button from "react-bootstrap/Button";
 import { increaseFontSize, decreaseFontSize } from "../redux/fontRedux";
 
+// style the components
 const Container = styled.div`
   height: 60px;
 `;
@@ -129,7 +130,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const fontSize = useSelector((state) => state.fontSize);
 
-  // get the total items in the shopping cart
+  // get the total item(s) in the shopping cart
   useEffect(() => {
     dispatch(getTotals());
   }, [cart, dispatch]);
@@ -179,6 +180,7 @@ const Navbar = () => {
 
   // search for products by user input
   const handleSearch = () => {
+    // invalid input
     if (searchInput.split(" ").join("").length < 1) {
       setError((prev) => ({
         ...prev,
@@ -193,7 +195,7 @@ const Navbar = () => {
     }
   };
 
-  // log out of account
+  // log user out
   const handleLogout = () => {
     removeToken();
     navigate("/");
@@ -203,6 +205,7 @@ const Navbar = () => {
   return (
     <Container>
       <Wrapper>
+        {/* show error message */}
         {show ? (
           <Alert
             show={show}
@@ -229,6 +232,7 @@ const Navbar = () => {
               id="basic-nav-dropdown"
               style={{ fontSize: `${16 + fontSize.fontSize}px` }}
             >
+              {/* show women product sub-categories */}
               {womenCats.map((cat, index) => (
                 <NavDropdown.Item as="li" key={index}>
                   <Link
@@ -250,6 +254,7 @@ const Navbar = () => {
               id="basic-nav-dropdown"
               style={{ fontSize: `${16 + fontSize.fontSize}px` }}
             >
+              {/* show men product sub-categories */}
               {menCats.map((cat, index) => (
                 <NavDropdown.Item as="li" key={index}>
                   <Link
@@ -271,6 +276,7 @@ const Navbar = () => {
               id="basic-nav-dropdown"
               style={{ fontSize: `${16 + fontSize.fontSize}px` }}
             >
+              {/* show kid product sub-categories */}
               {kidsCats.map((cat, index) => (
                 <NavDropdown.Item as="li" key={index}>
                   <Link
@@ -291,6 +297,7 @@ const Navbar = () => {
           <Logo style={{ fontSize: `${40 + fontSize.fontSize}px` }}>SIMZY</Logo>
         </Center>
         <Right>
+          {/* button to increase font size */}
           <Button
             variant="light"
             onClick={() => dispatch(increaseFontSize())}
@@ -301,6 +308,7 @@ const Navbar = () => {
           >
             + A
           </Button>
+          {/* button to decrease font size */}
           <Button
             variant="light"
             onClick={() => dispatch(decreaseFontSize())}
@@ -312,6 +320,7 @@ const Navbar = () => {
             {" "}
             - A
           </Button>
+          {/* search box */}
           <SearchContainer style={{ textDecoration: "none" }}>
             <Input
               placeholder="search product"
@@ -334,9 +343,6 @@ const Navbar = () => {
             >
               <LinkItem>
                 CART <Badge bg="danger">{cart.cartTotalQuantity}</Badge>
-                {/* <Badge overlap="rectangular" badgeContent={cart.cartTotalQuantity} color="secondary" style={{ marginTop: 5 }}>
-                    <ShoppingCartOutlined/>
-                </Badge> */}
               </LinkItem>
             </Link>
           </MenuItem>
@@ -349,6 +355,7 @@ const Navbar = () => {
               }
               id="basic-nav-dropdown"
             >
+              {/* guest */}
               {user == null ? (
                 <>
                   <NavDropdown.Item as="li">
@@ -376,6 +383,7 @@ const Navbar = () => {
                 </>
               ) : (
                 <>
+                  {/* user logged in */}
                   <NavDropdown.Item as="li">
                     <Link
                       style={{

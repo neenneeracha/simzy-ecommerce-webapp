@@ -2,7 +2,7 @@
  *
  * ProductForm.jsx
  *
- *   This file represents the components of the product form 
+ *   This file represents the components of the product form
  *
  ********************************************************************
  */
@@ -30,11 +30,9 @@ const initialFValues = {
   sub_category: "",
   description: "",
   details: "",
-  // mainColor: "",
-  // image: "",
-  // size: "",
 };
 
+// style the components
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: theme.spacing(1),
@@ -42,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// style the components
 const Container = styled.div`
   max-width: 100%;
   overflow-x: hidden;
@@ -190,6 +189,7 @@ const ProductForm = ({
       return Object.values(temp).every((x) => x === "");
   };
 
+  // get value from UseForm
   const { values, setValues, errors, setErrors, handleChange, resetForm } =
     UseForm(initialFValues, true, validate);
   const classes = useStyles();
@@ -198,6 +198,7 @@ const ProductForm = ({
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // from type is "add"
     if (formType === "add") {
       setSubmit(true);
       if (!validate()) {
@@ -270,13 +271,13 @@ const ProductForm = ({
     }
   };
 
-  // handle the input 
+  // handle the input
   const handleInput = (e) => {
     setChanged(true);
     handleChange(e);
   };
 
-  // handle product stock 
+  // handle product stock
   const handleNewStock = (e, field) => {
     if (field === "Color Group") {
       let newArr = [...newStock];
@@ -315,6 +316,7 @@ const ProductForm = ({
     }
   };
 
+  // handle with stock information
   const handleStock = (e, field) => {
     setStockChanged(true);
     if (field === "Color Group") {
@@ -338,7 +340,7 @@ const ProductForm = ({
           : e.target.id.split("-")[1];
 
       for (i = 0; i < editedStocks.length; i++) {
-        if (editedStocks[i].stock_id == e.target.name) {
+        if (editedStocks[i].stock_id === e.target.name) {
           if (isNaN(e.target.value)) {
             newArr[i].quantity = "";
           } else {
@@ -368,6 +370,7 @@ const ProductForm = ({
     }
   };
 
+  // check product quantity
   const checkQuantity = (color, size) => {
     const value =
       stocks.filter(
@@ -386,6 +389,7 @@ const ProductForm = ({
     return value;
   };
 
+  // check edited quantity
   const checkEditedQuantity = (color, size) => {
     let value = 0;
     for (let i = 0; i < editedStocks.length; i++) {
@@ -405,6 +409,7 @@ const ProductForm = ({
     return value;
   };
 
+  // check product new quantity
   const checkNewQuantity = (color, size) => {
     let value = 0;
     let found = false;
@@ -429,6 +434,7 @@ const ProductForm = ({
     return value;
   };
 
+  // get product stock ID
   const getStockID = (color, size) => {
     const stock_id =
       stocks.filter(
@@ -448,6 +454,7 @@ const ProductForm = ({
     return stock_id;
   };
 
+  // manage stock input field
   const manageStockField = (type) => {
     let stockElement = {
       color_group_id: "",
@@ -462,6 +469,7 @@ const ProductForm = ({
       ],
     };
 
+    // non-main color image
     let imgElement = {
       index: newImages.length,
       is_main_color: "0",
@@ -495,6 +503,7 @@ const ProductForm = ({
       }
     };
 
+    // get product images
     const getImages = async () => {
       try {
         const res = await axios.get(
@@ -507,6 +516,7 @@ const ProductForm = ({
       }
     };
 
+    // get product stock information
     const getStocks = async () => {
       try {
         const res = await axios.get(
@@ -519,6 +529,7 @@ const ProductForm = ({
       }
     };
 
+    // get all categories information
     const getAllCats = async () => {
       try {
         const res = await axios.get(
@@ -530,6 +541,7 @@ const ProductForm = ({
       }
     };
 
+    // get all color group information
     const getAllColorGroups = async () => {
       try {
         const res = await axios.get("http://localhost:8080/api/v1/color");
@@ -552,13 +564,9 @@ const ProductForm = ({
     }
     getAllCats();
     getAllColorGroups();
-    // setNewImages([])
-    // setNewStock([])
-    // setEditedColors([])
-    // setEditedImages([])
-    // setEditedStocks([])
   }, [recordForEdit, setValues, setChanged, setStockChanged, setImgChanged]);
 
+  // handle editing and adding of form information
   useEffect(() => {
     if (formType === "edit") {
       setEditedColors(colors);
@@ -597,6 +605,7 @@ const ProductForm = ({
     <Container>
       <Wrapper>
         <Form onSubmit={handleSubmit}>
+          {/* view form */}
           {formType === "view" ? (
             <>
               <Paper className={classes.root} elevation={0}>
@@ -661,6 +670,7 @@ const ProductForm = ({
               <Paper className={classes.root} elevation={0}>
                 <Header>Stock Details</Header>
                 <Grid container>
+                  {/* display stock by color for each size */}
                   {colors.map((color) => (
                     <Fragment key={color.product_color_id}>
                       <Grid item xs={6}>
@@ -712,6 +722,7 @@ const ProductForm = ({
                       <ImgContainer>
                         <Article>
                           <List>
+                            {/* sisplay product image */}
                             {images
                               .filter(
                                 (img) =>
@@ -733,6 +744,7 @@ const ProductForm = ({
             </>
           ) : (
             <>
+              {/* edit form */}
               <Paper className={classes.root} elevation={0}>
                 <Header>Product Details</Header>
                 <Grid container>
@@ -896,6 +908,7 @@ const ProductForm = ({
                       ) : undefined}
                     </Fragment>
                   ))}
+                  {/* add new product */}
                   {formType === "add" ? (
                     <>
                       {newStock.map((color, index) => (

@@ -21,6 +21,7 @@ import axios from "axios";
 import OptionAlert from "../components/OptionAlert";
 import { useSelector } from "react-redux";
 
+// style the components
 const Container = styled.div`
   padding: 0px 15px;
   margin: 0px auto;
@@ -95,6 +96,7 @@ const Register = () => {
     phoneNumber: "",
   });
 
+  // handle changes in form input
   const handleChange = (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
@@ -103,8 +105,10 @@ const Register = () => {
     }
   };
 
+  // validate input value
   const validateForm = () => {
     const newErrors = {};
+    // first name validation
     if (inputs.firstname.split(" ").join("").length < 1) {
       newErrors.firstname = "Please provide firstname";
     } else if (
@@ -117,6 +121,7 @@ const Register = () => {
     ) {
       newErrors.firstname = "Firstname should contain only letters";
     }
+    // first last validation
     if (inputs.lastname.split(" ").join("").length < 1) {
       newErrors.lastname = "Please provide lastname";
     } else if (
@@ -129,6 +134,7 @@ const Register = () => {
     ) {
       newErrors.lastname = "Lastname should contain only letters";
     }
+    // email validation
     if (inputs.email.split(" ").join("").length < 1) {
       newErrors.email = "Please provide email";
     } else if (
@@ -140,12 +146,13 @@ const Register = () => {
     ) {
       newErrors.email = "Please enter a valid email";
     }
+    // password validation
     if (inputs.password.split(" ").join("").length < 1) {
       newErrors.password = "Please provide password";
     } else if (inputs.password.split(" ").join("").length < 6) {
       newErrors.password = "Password should be at least 6 characters long";
     }
-
+    // phone number validation
     if (inputs.phoneNumber.split(" ").join("").length < 1) {
       newErrors.phoneNumber = "Please provide phone number";
     } else if (
@@ -162,12 +169,15 @@ const Register = () => {
     } else if (inputs.phoneNumber.split(" ").join("").length < 10) {
       newErrors.phoneNumber = "Phone number should be 10 digits";
     }
+    // gender validation
     if (inputs.gender.split(" ").join("").length < 1) {
       newErrors.gender = "Please provide gender";
     }
+    // address
     if (inputs.address.split(" ").join("").length < 1) {
       newErrors.address = "Please provide address";
     }
+    // district validation
     if (inputs.district.split(" ").join("").length < 1) {
       newErrors.district = "Please provide district";
     } else if (
@@ -192,6 +202,7 @@ const Register = () => {
     ) {
       newErrors.province = "Province should contain only letters";
     }
+    // zipcode validation
     if (inputs.zipCode.split(" ").join("").length < 1) {
       newErrors.zipCode = "Please provide zipcode";
     }
@@ -202,6 +213,7 @@ const Register = () => {
   const handleSubmit = async () => {
     const formErrors = validateForm();
 
+    // form validation error occurs
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
     } else {

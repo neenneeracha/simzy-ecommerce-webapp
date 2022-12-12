@@ -14,6 +14,7 @@ import { TextField } from "@material-ui/core";
 const Input = (props) => {
   const { name, label, value, error = null, onChange, type, multiline } = props;
   return (
+    // default settings for text input field
     <TextField
       id={name}
       label={label}

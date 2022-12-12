@@ -21,6 +21,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 
+// style the components
 const Container = styled.div`
   margin-top: 30px;
 `;
@@ -129,6 +130,7 @@ const AddImage = ({
     setEditedImages(newArr);
   };
 
+  // handle image information
   useEffect(() => {
     const storeImgLink = (link) => {
       let newArr = [...editedImages];
@@ -155,7 +157,7 @@ const AddImage = ({
                   break;
                 }
               }
-
+              // more than 5 image 
               if (count > 4) {
                 toast.error("Cannot upload more than 5 images !!", {
                   position: "top-center",
@@ -174,6 +176,7 @@ const AddImage = ({
       setId(null);
     };
 
+    // handlw input change 
     const handleChange = () => {
       if (file != null) {
         const fileName = new Date().getTime() + file.name;

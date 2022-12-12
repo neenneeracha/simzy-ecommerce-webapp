@@ -2,10 +2,10 @@
  *
  * Product.jsx
  *
- *    This file represents the single product component for 
- *    display product image, name and prices, and link to 
+ *    This file represents the single product component for
+ *    display product image, name and prices, as well as link to
  *    the product details page.
- * 
+ *
  ********************************************************************
  */
 
@@ -15,6 +15,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+// style the components
 const Info = styled.div`
   opacity: 0;
   width: 100%;

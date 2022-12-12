@@ -15,6 +15,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+// style the components
 const Container = styled.div`
   max-width: 100%;
   overflow-x: hidden;
@@ -40,10 +41,12 @@ const Shipping = () => {
 
   const navigate = useNavigate();
 
+  // handle with input change
   const handleChange = (e) => {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  // handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 

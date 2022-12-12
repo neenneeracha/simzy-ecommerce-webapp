@@ -21,6 +21,7 @@ import {
 const RadioGroup = (props) => {
   const { name, label, value, error = null, onChange, items } = props;
   return (
+     // default settings for radio group
     <FormControl>
       {error !== "" && error !== null ? (
         <FormLabel style={{ fontSize: 14, color: "#F44336" }}>

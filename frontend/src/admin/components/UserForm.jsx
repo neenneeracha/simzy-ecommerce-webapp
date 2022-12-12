@@ -38,6 +38,7 @@ const genderItems = [
   { id: "O", title: "Other" },
 ];
 
+// style the components
 const Container = styled.div`
   max-width: 100%;
   overflow-x: hidden;
@@ -110,6 +111,7 @@ const UserForm = ({ addOrEdit, recordForEdit, formType, setChanged }) => {
       return Object.values(temp).every((x) => x === "");
   };
 
+  // get value from UseForm
   const { values, setValues, errors, setErrors, handleChange, resetForm } =
     UseForm(initialFValues, true, validate);
 

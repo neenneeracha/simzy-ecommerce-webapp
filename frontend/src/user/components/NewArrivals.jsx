@@ -13,6 +13,7 @@ import Products from "../components/Products";
 import axios from "axios";
 import styled from "styled-components";
 
+// style the components
 const Container = styled.div``;
 
 const Line = styled.hr`
@@ -31,7 +32,7 @@ const Title = styled.h1`
 const NewArrivals = () => {
   const [products, setProducts] = useState([]);
 
-  // get new item
+  // get new products
   useEffect(() => {
     const getNewArrivals = async () => {
       try {

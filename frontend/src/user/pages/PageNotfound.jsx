@@ -22,6 +22,7 @@ const Wrapper = styled.div`
   align-items: center;
   margin: 100px 30px;
 `;
+
 const Image = styled.img`
   height: 40%;
   width: 40%;
@@ -38,14 +39,11 @@ const Text = styled.h4`
   }
 `;
 
-const LineBreak = styled.br`
-`;
+const LineBreak = styled.br``;
 
-const Description = styled.p`
+const Description = styled.p``;
 
-`;
-const Bold = styled.b`
-`;
+const Bold = styled.b``;
 
 const PageNotfound = () => {
   return (
@@ -54,7 +52,7 @@ const PageNotfound = () => {
         <Image src={process.env.PUBLIC_URL + "img/404Error-amico.png"} />
         <Text>
           <Bold>Page Not Found! </Bold>
-          <Description /><Description /> We’re sorry, the page you requested could not be found <LineBreak />{" "}
+          <Description /><Description /> We're sorry, the page you requested could not be found <LineBreak />{" "}
           Please go back to homepage
           <LineBreak />
           <Link to="/">

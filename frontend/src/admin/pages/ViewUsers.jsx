@@ -39,6 +39,7 @@ const useStylesPaper = makeStyles((theme) => ({
   },
 }));
 
+// style the components
 const Container = styled.div`
   max-width: 100%;
   height: 100vh;
@@ -354,7 +355,7 @@ const ViewUsers = () => {
         ) : (
           <EmptyList message="user" />
         )}
-
+        {/* Confirmation dialog box */}
         <Confirmation
           confirmDialog={confirmDialog}
           setConfirmDialog={setConfirmDialog}

@@ -19,6 +19,7 @@ import { ExitToApp } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
+// style the components
 const Navbar = styled.div`
   height: 70px;
   border-bottom: 0.5px solid rgb(231, 228, 228);
@@ -137,9 +138,6 @@ const NavbarAd = () => {
       <Wrapper>
         <Left>
           <MenuItem>
-            {/* <Link to="/vieworders" style={Styles.customtext}>
-              <LinkCat>ORDERS</LinkCat>
-            </Link> */}
             <NavDropdown title="ORDER" id="basic-nav-dropdown">
               {orderStatus.map((status, index) => (
                 <NavDropdown.Item as="li" key={index}>

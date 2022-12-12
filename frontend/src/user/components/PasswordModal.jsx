@@ -2,21 +2,24 @@
  *
  * PasswordModal.jsx
  *
- *    This file represents the Edit Password component, which allows 
- *    the user to change a new password. This components can be 
- *    accessed from the profile page 
- *    
+ *    This file represents the Edit Password component, which allows
+ *    the user to change a new password. This components can be
+ *    accessed from the profile page
+ *
  ********************************************************************
  */
 
-import React, { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import Form from 'react-bootstrap/Form';
+import React, { useState } from "react";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
 import styled from "styled-components";
 import { useUser } from "../../context/UserContext";
 import axios from "axios";
 import { toast } from "react-toastify";
+
+// style the components
+const Container = styled.div``;
 
 const styles = {
   customButton: {
@@ -27,55 +30,56 @@ const styles = {
   },
 };
 
-const Container = styled.div``;
-
-const PasswordModal = ({show, handleChange}) => {
+const PasswordModal = ({ show, handleChange }) => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const user = useUser();
 
+  // handle submission
   const handleSubmit = async () => {
-    if (currentPassword.split(' ').join('').length < 1) {
-      toast.error("Please enter your current password",
-        {
-          position: "top-center",
-        }
-      );
-    } else if (newPassword.split(' ').join('').length < 1) {
-       toast.error("Please enter your new password",
-        {
-          position: "top-center",
-        }
-      );
-    } else if (currentPassword === newPassword) {
-      toast.error("You entered the same password for both fields !!",
-        {
-          position: "top-center",
-        }
-      );
-    } else if (newPassword.split(' ').join('').length < 6) {
-      toast.error("Password should be at least 6 characters long",
-        {
-          position: "top-center",
-        }
-      );
+    // current password is empty
+    if (currentPassword.split(" ").join("").length < 1) {
+      toast.error("Please enter your current password", {
+        position: "top-center",
+      });
+    }
+    // new password is empty
+    else if (newPassword.split(" ").join("").length < 1) {
+      toast.error("Please enter your new password", {
+        position: "top-center",
+      });
+    }
+    // current password and new password are the same
+    else if (currentPassword === newPassword) {
+      toast.error("You entered the same password for both fields !!", {
+        position: "top-center",
+      });
+    }
+    // new password length less than 6
+    else if (newPassword.split(" ").join("").length < 6) {
+      toast.error("Password should be at least 6 characters long", {
+        position: "top-center",
+      });
     } else {
       try {
-        const res = await axios.patch("http://localhost:8080/api/v1/user/update-password/" + user.user_id, {
-          currentPW: currentPassword,
-          newPW: newPassword
-        });
-      
+        // update new password
+        const res = await axios.patch(
+          "http://localhost:8080/api/v1/user/update-password/" + user.user_id,
+          {
+            currentPW: currentPassword,
+            newPW: newPassword,
+          }
+        );
+        // password change successfully
         if (res.status === 200) {
-           toast.success(res.data.msg,
-        {
-          position: "top-center",
-        }
-      );
-          handleChange(false)
+          toast.success(res.data.msg, {
+            position: "top-center",
+          });
+          handleChange(false);
         }
       } catch (err) {
-      if (err.request.status === 403) {
+        // error occur
+        if (err.request.status === 403) {
           toast.error(err.response.data.msg, {
             position: "top-center",
           });
@@ -89,27 +93,27 @@ const PasswordModal = ({show, handleChange}) => {
     }
   };
 
-    return (
-        <Container>    
-          <Modal
-            show={show}
-            onHide={() => {
-              toast.dismiss();
-              handleChange(false)
-            }}
-            dialogClassName="modal-90w"
-            aria-labelledby="passwordModal"
-            centered
-          >
-            <Modal.Header closeButton>
-              <Modal.Title id="modalTitle">
-                Change Password
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
+  return (
+    <Container>
+      <Modal
+        show={show}
+        onHide={() => {
+          toast.dismiss();
+          handleChange(false);
+        }}
+        dialogClassName="modal-90w"
+        aria-labelledby="passwordModal"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="modalTitle">Change Password</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
           <Form>
             <Form.Group className="mb-3" controlId="formCurrentPassword">
-              <Form.Label style={{ color: 'black' }}>Current Password</Form.Label>
+              <Form.Label style={{ color: "black" }}>
+                Current Password
+              </Form.Label>
               <Form.Control
                 type="password"
                 placeholder="Please enter your current password"
@@ -117,9 +121,9 @@ const PasswordModal = ({show, handleChange}) => {
                 onChange={(e) => setCurrentPassword(e.target.value)}
               />
             </Form.Group>
-            
+
             <Form.Group className="mb-3" controlId="formNewPassword">
-              <Form.Label style={{ color: 'black' }}>New Password</Form.Label>
+              <Form.Label style={{ color: "black" }}>New Password</Form.Label>
               <Form.Control
                 type="password"
                 placeholder="Please enter your new password"
@@ -129,19 +133,22 @@ const PasswordModal = ({show, handleChange}) => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => {
+          <Button
+            variant="secondary"
+            onClick={() => {
               toast.dismiss();
-              handleChange(false)
-            }}>
+              handleChange(false);
+            }}
+          >
             Close
           </Button>
           <Button style={styles.customButton} onClick={handleSubmit}>
             Save Changes
           </Button>
         </Modal.Footer>
-          </Modal>
-        </Container>
-      );
-}
+      </Modal>
+    </Container>
+  );
+};
 
-export default PasswordModal
+export default PasswordModal;

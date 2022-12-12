@@ -13,8 +13,9 @@ import cartReducer from "./cartRedux";
 import fontSizeReducer from "./fontRedux";
 
 export default configureStore({
+  
   reducer: {
-    cart: cartReducer,
-    fontSize: fontSizeReducer,
+    cart: cartReducer, //cart reducer
+    fontSize: fontSizeReducer, //font size reducer
   },
 });

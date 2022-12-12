@@ -18,6 +18,7 @@ import {
 import Controls from "./controls/Controls";
 import CloseIcon from "@material-ui/icons/Close";
 
+// style the components
 const useStyles = makeStyles((theme) => ({
   dialogWrapper: {
     padding: theme.spacing(2),
@@ -35,6 +36,7 @@ const PopUp = (props) => {
   const classes = useStyles();
 
   return (
+    // pop up default setting
     <Dialog
       open={openPopup}
       maxWidth="md"

@@ -2,7 +2,7 @@
  *
  * PaymentProcessing.jsx
  *
- *   This file represents the payment processing page and 
+ *   This file represents the payment processing page and
  *   shows loading until the system finishes processing the payment.
  *
  ********************************************************************
@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useUser } from "../../context/UserContext";
 import Cookie from "js-cookie";
 
+// style the components
 const Container = styled.div`
   min-height: 100vh;
   position: relative;
@@ -48,23 +49,27 @@ const PaymentProcessing = () => {
     getPaymentDetails();
   }, [session_id]);
 
-  
+  // processing of submitted forms
   useEffect(() => {
     const handleSubmit = async () => {
+      // input is not empty
       if (inputs.length !== 0) {
         try {
+          // send payment information to the back end
           let res = await axios.post(
             "http://localhost:8080/api/v1/payment/new",
             { payment: "2", status: "1" }
           );
           const payment_id = res.data.insertId;
 
+          // send order information to the back end
           res = await axios.post(
             "http://localhost:8080/api/v1/order/neworder",
             [inputs, { user_id: user.user_id, payment_id: payment_id }]
           );
           const order_id = res.data.insertId;
 
+          // Send order history information to the back end
           res = await axios.post(
             "http://localhost:8080/api/v1/order/orderhistory",
             [cart.products, { order_id: order_id }]

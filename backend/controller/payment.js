@@ -2,9 +2,9 @@
  *
  * payment.js
  *
- *   This file contains a collection of controllers to handle 
+ *   This file contains a collection of controllers to handle
  *   requests to the backend for payment information
- * 
+ *
  ********************************************************************
  */
 
@@ -13,7 +13,6 @@ require("dotenv").config();
 
 const KEY = process.env.STRIPE_SECRET_KEY;
 const stripe = require("stripe")(KEY);
-
 
 const stripePayment = async (req, res) => {
   const session = await stripe.checkout.sessions.create({
