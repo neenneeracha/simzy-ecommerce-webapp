@@ -18,7 +18,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Badge from "react-bootstrap/Badge";
 import { useSelector, useDispatch } from "react-redux";
 import { getTotals } from "../redux/cartRedux";
-import { useUser, useUserUpdate } from "../../UserContext";
+import { useUser, useUserUpdate } from "../../context/UserContext";
 import Alert from "./Alert";
 import Button from "react-bootstrap/Button";
 import { increaseFontSize, decreaseFontSize } from "../redux/fontRedux";

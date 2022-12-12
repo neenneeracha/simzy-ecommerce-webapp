@@ -4,7 +4,13 @@ const express = require('express')
 const app = express()
 
 
+// enable built in middlewares
+
+// enable express.json to parses incoming JSON requests 
+// and puts the parsed data in req.body
 app.use(express.json())
+
+// enable CORS
 app.use(cors())
 
 // mount router at the specified path

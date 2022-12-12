@@ -16,7 +16,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { clearCart } from "../redux/cartRedux";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { useUser } from "../../UserContext";
+import { useUser } from "../../context/UserContext";
 import Cookie from "js-cookie";
 
 const Container = styled.div`

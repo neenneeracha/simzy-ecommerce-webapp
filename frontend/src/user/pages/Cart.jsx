@@ -22,7 +22,7 @@
  import { makeStyles } from "@material-ui/core/styles";
  import { MDBBtn } from "mdb-react-ui-kit";
  import OptionAlert from "../components/OptionAlert";
- import { useUser } from "../../UserContext";
+ import { useUser } from "../../context/UserContext";
  import {useNavigate } from "react-router-dom"; 
 
 const Container = styled.div`

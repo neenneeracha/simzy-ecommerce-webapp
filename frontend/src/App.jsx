@@ -10,7 +10,7 @@
 
 import React from "react";
 import RouteApp from "./RouteApp";
-import { UserProvider } from "./UserContext";
+import { UserProvider } from "./context/UserContext";
 
 const App = () => {
   return (

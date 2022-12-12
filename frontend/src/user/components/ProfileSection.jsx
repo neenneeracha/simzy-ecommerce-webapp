@@ -12,7 +12,7 @@
 import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
 import styled from "styled-components";
-import { useUser } from "../../UserContext";
+import { useUser } from "../../context/UserContext";
 import PasswordModal from "./PasswordModal";
 import UserInfo from "./UserInfo";
 import EditUserInfo from "./EditUserInfo";

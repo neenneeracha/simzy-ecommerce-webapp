@@ -14,7 +14,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import styled from "styled-components";
-import { useUser } from "../../UserContext";
+import { useUser } from "../../context/UserContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 

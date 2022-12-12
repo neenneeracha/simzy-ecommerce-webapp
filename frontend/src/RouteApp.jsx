@@ -13,7 +13,7 @@ import {
   RouterProvider,
   Navigate,
 } from "react-router-dom";
-import { useUser } from "./UserContext";
+import { useUser } from "./context/UserContext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Home from "./user/pages/Home";

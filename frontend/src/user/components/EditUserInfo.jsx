@@ -12,7 +12,7 @@
 import styled from "styled-components";
 import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../../UserContext";
+import { useUser } from "../../context/UserContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 

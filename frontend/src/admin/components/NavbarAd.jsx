@@ -12,7 +12,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useUserUpdate } from "../../UserContext";
+import { useUserUpdate } from "../../context/UserContext";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Confirmation from "../components/Confirmation";
 import { ExitToApp } from "@material-ui/icons";

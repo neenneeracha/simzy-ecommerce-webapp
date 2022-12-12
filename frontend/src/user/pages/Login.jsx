@@ -16,7 +16,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import BackNavBar from "../components/BackNavBar";
 import { Link, useNavigate } from "react-router-dom";
-import { useUserUpdate } from "../../UserContext";
+import { useUserUpdate } from "../../context/UserContext";
 import axios from "axios";
 import Alert from "../components/Alert";
 import { useSelector } from "react-redux";
