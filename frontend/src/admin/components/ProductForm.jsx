@@ -340,7 +340,7 @@ const ProductForm = ({
           : e.target.id.split("-")[1];
 
       for (i = 0; i < editedStocks.length; i++) {
-        if (editedStocks[i].stock_id === e.target.name) {
+        if (editedStocks[i].stock_id.toString() === e.target.name.toString()) {
           if (isNaN(e.target.value)) {
             newArr[i].quantity = "";
           } else {
