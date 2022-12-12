@@ -56,6 +56,7 @@ const styles = {
 };
 
 const UserForm = ({ addOrEdit, recordForEdit, formType, setChanged }) => {
+  
   // form validation
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
@@ -85,7 +86,7 @@ const UserForm = ({ addOrEdit, recordForEdit, formType, setChanged }) => {
       temp.email = !fieldValues.email
         ? "Email is required"
         : !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(fieldValues.email)
-        ? "Email is not valid"
+        ? "Please enter a valid email"
         : "";
 
     if ("password" in fieldValues) {
@@ -109,6 +110,8 @@ const UserForm = ({ addOrEdit, recordForEdit, formType, setChanged }) => {
         ? "Phone number should not exceed 10 digits"
         : fieldValues.phone_number.length < 10
         ? "Phone number should be 10 digits"
+        : !/^[0-9\b]+$/.test(fieldValues.phone_number)
+        ? "Phone number should contain only numbers"
         : "";
     if ("gender" in fieldValues)
       temp.gender = fieldValues.gender ? "" : "Gender is required";
