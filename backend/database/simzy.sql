@@ -1,11 +1,17 @@
+-- 
+-- simzy.sql
+-- 
+--  This file is the database file for the simzy e-commerce site.
+-- 
+
 -- phpMyAdmin SQL Dump
--- version 5.1.3
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 11, 2022 at 10:09 PM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 7.4.29
+-- Generation Time: Dec 12, 2022 at 11:50 AM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 8.1.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -113,6 +119,60 @@ CREATE TABLE `orderhistory` (
   `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `orderhistory`
+--
+
+INSERT INTO `orderhistory` (`order_history_id`, `order_id`, `stock_id`, `quantity`) VALUES
+(1, 1, 827, 2),
+(2, 1, 369, 1),
+(3, 2, 590, 1),
+(4, 3, 465, 1),
+(5, 3, 461, 1),
+(6, 3, 595, 2),
+(7, 4, 361, 1),
+(8, 4, 931, 1),
+(9, 5, 771, 1),
+(10, 5, 628, 1),
+(11, 6, 888, 3),
+(12, 7, 866, 1),
+(13, 7, 898, 3),
+(14, 8, 258, 1),
+(15, 9, 928, 1),
+(16, 10, 868, 1),
+(17, 10, 884, 1),
+(18, 10, 384, 1),
+(19, 11, 654, 1),
+(20, 11, 666, 1),
+(21, 12, 68, 1),
+(22, 12, 414, 2),
+(23, 13, 164, 1),
+(24, 13, 362, 1),
+(25, 14, 20, 1),
+(26, 14, 351, 2),
+(27, 15, 12, 1),
+(28, 15, 455, 1),
+(29, 15, 213, 1),
+(30, 16, 900, 1),
+(31, 16, 791, 1),
+(32, 17, 535, 1),
+(33, 17, 382, 1),
+(34, 17, 337, 2),
+(35, 18, 76, 2),
+(36, 18, 72, 2),
+(37, 19, 952, 1),
+(38, 19, 11, 1),
+(39, 19, 642, 1),
+(40, 20, 921, 1),
+(41, 20, 933, 1),
+(42, 20, 402, 1),
+(43, 20, 170, 1),
+(44, 21, 590, 1),
+(45, 21, 502, 1),
+(46, 22, 666, 1),
+(47, 22, 743, 1),
+(48, 22, 662, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -149,6 +209,34 @@ CREATE TABLE `payment` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `payment`
+--
+
+INSERT INTO `payment` (`payment_id`, `payment_type`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 0, '2022-12-12 05:28:53', '2022-12-12 05:28:53'),
+(2, 2, 1, '2022-12-12 05:35:02', '2022-12-12 05:35:02'),
+(3, 2, 1, '2022-12-12 05:55:10', '2022-12-12 05:55:10'),
+(4, 1, 0, '2022-12-12 05:59:05', '2022-12-12 05:59:05'),
+(5, 1, 0, '2022-12-12 06:17:14', '2022-12-12 06:17:14'),
+(6, 2, 1, '2022-12-12 06:19:51', '2022-12-12 06:19:51'),
+(7, 1, 0, '2022-12-12 06:22:16', '2022-12-12 06:22:16'),
+(8, 1, 0, '2022-12-12 06:30:43', '2022-12-12 06:30:43'),
+(9, 1, 0, '2022-12-12 06:31:12', '2022-12-12 06:31:12'),
+(10, 1, 0, '2022-12-12 06:36:07', '2022-12-12 06:36:07'),
+(11, 1, 0, '2022-12-12 06:43:00', '2022-12-12 06:43:00'),
+(12, 1, 0, '2022-12-12 06:48:41', '2022-12-12 06:48:41'),
+(13, 2, 1, '2022-12-12 08:08:46', '2022-12-12 08:08:46'),
+(14, 2, 1, '2022-12-12 08:21:24', '2022-12-12 08:21:24'),
+(15, 2, 1, '2022-12-12 08:26:08', '2022-12-12 08:26:08'),
+(16, 2, 1, '2022-12-12 08:33:42', '2022-12-12 08:33:42'),
+(17, 2, 1, '2022-12-12 08:44:36', '2022-12-12 08:44:36'),
+(18, 1, 0, '2022-12-12 10:01:05', '2022-12-12 10:01:05'),
+(19, 1, 0, '2022-12-12 10:02:39', '2022-12-12 10:02:39'),
+(20, 2, 1, '2022-12-12 10:06:31', '2022-12-12 10:06:31'),
+(21, 1, 0, '2022-12-12 10:13:34', '2022-12-12 10:13:34'),
+(22, 1, 0, '2022-12-12 10:21:13', '2022-12-12 10:21:13');
+
 -- --------------------------------------------------------
 
 --
@@ -175,7 +263,7 @@ INSERT INTO `product` (`product_id`, `category_id`, `product_name`, `description
 (2, 1, 'Jegging (Jeans Legging) J BRAND', 'Superb stretch for a flattering fit. Stylish design with subtle stitching.', 'BRIC DETAILS\n[01 OFF WHITE] Body: 77% Rayon, 18% Polyester, 5% Spandex/ Pocket Lining: 65% Polyester, 33% Cotton, 2% Spandex [09 BLACK, 69 NAVY] Body: 74% Rayon, 21% Polyester, 5% Spandex/ Pocket Lining: 65% Polyester, 33% Cotton, 2% Spandex\nWASHING INSTRUCTIONS\nMachine wash cold, gentle cycle, Do not Dry Clean', '3993.00', '2022-10-12 17:53:15', '2022-11-25 10:57:27'),
 (3, 1, 'Baggy Jeans', '\n100% cotton denim and a flattering baggy cut.', 'BRIC DETAILS\nBody: 100% Cotton/ Pocket Lining: 65% Polyester, 35% Cotton\nWASHING INSTRUCTIONS\nMachine wash cold, Do not Dry Clean', '1490.00', '2022-10-13 17:03:19', '2022-11-25 10:57:27'),
 (4, 1, 'Rounded Jeans Uniqlo U', 'Distinctive soft, comfortable feel. Soft and rounded silhouette flatters the legs.', 'BRIC DETAILS\nBody: 100% Cotton/ Pocket Lining: 65% Polyester, 35% Cotton\nWASHING INSTRUCTIONS\nMachine wash cold, Dry Clean', '1490.00', '2022-10-13 17:25:18', '2022-11-25 10:57:27'),
-(5, 1, 'Denim Jersey Shorts', 'Relaxed, easy shorts with a casual design.', 'BRIC DETAILS\n96% Cotton, 4% Spandex\nWASHING INSTRUCTIONS\nMachine wash cold, gentle cycle', '599.00', '2022-10-13 18:20:52', '2022-12-11 06:47:54'),
+(5, 1, 'Denim Jersey Shorts', 'Relaxed, easy shorts with a casual design.', 'BRIC DETAILS\n96% Cotton, 4% Spandex\nWASHING INSTRUCTIONS\nMachine wash cold, gentle cycle', '590.00', '2022-10-13 18:20:52', '2022-12-12 09:32:50'),
 (6, 1, 'Slim Flared Jeans', 'Sleek, slim silhouette with a subtly flared hem. Comfortable jeans with a leg-flattering effect.', 'BRIC DETAILS\nBody: 98% Cotton, 2% Spandex/ Pocket Lining: 65% Polyester, 35% Cotton\nWASHING INSTRUCTIONS\nMachine wash cold, Do not Dry Clean', '1490.00', '2022-10-13 18:56:35', '2022-11-25 10:57:27'),
 (7, 1, 'Peg Top High Rise Jeans', 'Loose-fitting, comfortable 100% cotton jeans. The sleek hem makes these jeans easy to put on.', 'BRIC DETAILS\nBody: 100% Cotton/ Pocket Lining: 65% Polyester, 35% Cotton\nWASHING INSTRUCTIONS\nMachine wash cold, gentle cycle, Do not Dry Clean', '1490.00', '2022-10-14 12:27:03', '2022-11-25 10:57:27'),
 (8, 2, 'Crew Neck Short Sleeve T-Shirt Uniqlo U', 'A stylish statement T-shirt. Meticulously designed for outstanding comfort.', 'BRIC DETAILS\n100% Cotton\nWASHING INSTRUCTIONS\nMachine wash cold', '390.00', '2022-10-14 12:42:30', '2022-11-25 10:57:27'),
@@ -1046,6 +1134,34 @@ CREATE TABLE `productorder` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `productorder`
+--
+
+INSERT INTO `productorder` (`order_id`, `user_id`, `payment_id`, `status_id`, `name`, `surname`, `phone_number`, `address`, `district`, `province`, `zip_code`, `created_at`, `updated_at`) VALUES
+(1, 3, 1, 5, 'Ryan', 'Seehawong', '0889645555', '45/55', 'Lamlukka', 'Pathumthani', '10250', '2022-12-12 05:28:53', '2022-12-12 05:28:53'),
+(2, 3, 2, 3, 'Ryan', 'Seehawong', '0889645555', '45/55', 'Lamlukka', 'Pathumthani', '10250', '2022-12-12 05:35:02', '2022-12-12 05:35:02'),
+(3, 4, 3, 2, 'Jennie', 'Kim', '0887774455', '99', 'Lak Si', 'Bangkok', '99800', '2022-12-12 05:55:10', '2022-12-12 05:55:10'),
+(4, 3, 4, 4, 'Ryan', 'Dog', '0889645555', '45/55', 'Lamlukka', 'Pathumthani', '10250', '2022-12-12 05:59:05', '2022-12-12 05:59:05'),
+(5, 5, 5, 5, 'Harry', 'Potter', '0987441234', '9/3/4', 'Min Buri', 'Bangkok', '78900', '2022-12-12 06:17:14', '2022-12-12 06:17:14'),
+(6, 4, 6, 3, 'Jennie', 'Kim', '0887774455', '99', 'Lak Si', 'Bangkok', '99800', '2022-12-12 06:19:51', '2022-12-12 06:19:51'),
+(7, 5, 7, 4, 'Harry', 'Potter', '0987441234', '9/3/4', 'Phaya Thai', 'Bangkok', '78000', '2022-12-12 06:22:16', '2022-12-12 06:22:16'),
+(8, 6, 8, 2, 'Kasikarn', 'Wisetkamin', '0964478855', '2/4', 'Thung Khru', 'Bangkok', '10450', '2022-12-12 06:30:43', '2022-12-12 06:30:43'),
+(9, 6, 9, 4, 'Kasikarn', 'Wisetkamin', '0964478855', '2/4', 'Thung Khru', 'Bangkok', '10450', '2022-12-12 06:31:12', '2022-12-12 06:31:12'),
+(10, 7, 10, 5, 'Nunthanut', 'Kittirattanaviwat', '0978451122', '31', 'Thung Khru', 'Bangkok', '10450', '2022-12-12 06:36:07', '2022-12-12 06:36:07'),
+(11, 8, 11, 4, 'Chayathit', 'Rattanapokil', '0987741122', '22/22', 'Yan Nawa', 'Bangkok', '10460', '2022-12-12 06:43:00', '2022-12-12 06:43:00'),
+(12, 9, 12, 5, 'Jiajia', 'Bai', '0941125577', '98/7', 'tapra', 'Bangkok', '10550', '2022-12-12 06:48:41', '2022-12-12 06:48:41'),
+(13, 10, 13, 2, 'Tamonwan', 'Boonpa', '0884445566', '55', 'prapradaeng', 'samuthprakarn', '10270', '2022-12-12 08:08:47', '2022-12-12 08:08:47'),
+(14, 11, 14, 3, 'Yuwapa ', 'Saykhamton', '0889647896', '987', 'Yan Nawa', 'Bangkok', '12030', '2022-12-12 08:21:24', '2022-12-12 08:21:24'),
+(15, 12, 15, 3, 'Sonia', 'Gautam', '0889543215', '9/8', 'Thung Khru', 'Bangkok', '10550', '2022-12-12 08:26:08', '2022-12-12 08:26:08'),
+(16, 13, 16, 2, 'Jeff', 'Bernatt', '0889543445', '9/88', 'kakao', 'Bangkok', '12000', '2022-12-12 08:33:42', '2022-12-12 08:33:42'),
+(17, 14, 17, 3, 'Vitada', 'Arkanai', '0841234567', '519', 'Tapra', 'Bangkok', '10490', '2022-12-12 08:44:36', '2022-12-12 08:44:36'),
+(18, 16, 18, 4, 'Lalisa', 'Manobal', '0987451122', '23/63', 'Sai Mai ', 'Bangkok', '98000', '2022-12-12 10:01:05', '2022-12-12 10:01:05'),
+(19, 15, 19, 1, 'Jintana', 'Polsanhe', '0865532050', '45/55', 'Lamlukka', 'Pathumthani', '10250', '2022-12-12 10:02:39', '2022-12-12 10:02:39'),
+(20, 17, 20, 1, 'Taeyeon', 'Kim', '0897745566', '987', 'Prawet ', 'Bangkok', '15200', '2022-12-12 10:06:31', '2022-12-12 10:06:31'),
+(21, 19, 21, 1, 'Pati', 'Slasher', '0998745632', '65/4', 'Mueng', 'ChiangMai', '10200', '2022-12-12 10:13:34', '2022-12-12 10:13:34'),
+(22, 20, 22, 1, 'Thana', 'Sainua', '0987774455', '12/34', 'Thung Khru', 'Bangkok', '10400', '2022-12-12 10:21:13', '2022-12-12 10:21:13');
+
 -- --------------------------------------------------------
 
 --
@@ -1069,14 +1185,14 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (5, 1, 'L', 0),
 (7, 1, 'XS', 0),
 (9, 4, 'XS', 29),
-(11, 4, 'M', 37),
-(12, 3, 'M', 35),
+(11, 4, 'M', 34),
+(12, 3, 'M', 34),
 (13, 3, 'L', 40),
 (14, 3, 'XS', 17),
 (15, 2, 'XS', 0),
 (17, 2, 'M', 0),
 (18, 5, 'XS', 35),
-(20, 5, 'L', 35),
+(20, 5, 'L', 34),
 (25, 6, 'S', 24),
 (26, 6, 'M', 39),
 (27, 6, 'L', 40),
@@ -1104,14 +1220,14 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (60, 14, 'L', 33),
 (61, 15, 'S', 15),
 (63, 15, 'M', 36),
-(64, 15, 'L', 23),
+(64, 15, 'L', 30),
 (65, 17, 'XS', 21),
-(68, 17, 'M', 45),
+(68, 17, 'M', 44),
 (69, 18, 'S', 34),
-(72, 18, 'L', 25),
+(72, 18, 'L', 23),
 (73, 19, 'S', 37),
 (75, 19, 'M', 61),
-(76, 19, 'L', 24),
+(76, 19, 'L', 22),
 (77, 20, 'XS', 34),
 (78, 20, 'S', 15),
 (79, 20, 'M', 45),
@@ -1198,12 +1314,12 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (161, 37, 'S', 34),
 (162, 37, 'M', 10),
 (163, 37, 'L', 21),
-(164, 37, 'XL', 57),
+(164, 37, 'XL', 56),
 (166, 38, 'XS', 12),
 (167, 38, 'S', 63),
 (168, 38, 'M', 25),
 (169, 38, 'L', 30),
-(170, 38, 'XL', 24),
+(170, 38, 'XL', 23),
 (171, 39, 'XS', 34),
 (172, 39, 'S', 36),
 (173, 39, 'M', 20),
@@ -1246,7 +1362,7 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (210, 46, 'XL', 36),
 (211, 47, 'XS', 20),
 (212, 47, 'S', 20),
-(213, 47, 'M', 25),
+(213, 47, 'M', 24),
 (214, 47, 'L', 30),
 (215, 47, 'XL', 50),
 (216, 48, 'XS', 14),
@@ -1291,7 +1407,7 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (255, 55, 'XL', 34),
 (256, 56, 'XS', 14),
 (257, 56, 'S', 29),
-(258, 56, 'M', 20),
+(258, 56, 'M', 19),
 (259, 56, 'L', 25),
 (260, 56, 'XL', 5),
 (261, 57, 'XS', 30),
@@ -1370,7 +1486,7 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (334, 73, 'XS', 24),
 (335, 73, 'M', 12),
 (336, 74, 'S', 12),
-(337, 74, 'M', 34),
+(337, 74, 'M', 32),
 (338, 74, 'XL', 5),
 (339, 75, 'XS', 21),
 (340, 75, 'S', 30),
@@ -1384,17 +1500,17 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (348, 77, 'XS', 23),
 (349, 77, 'S', 10),
 (350, 77, 'M', 14),
-(351, 77, 'L', 36),
-(360, 80, 'XS', 12),
+(351, 77, 'L', 34),
+(360, 80, 'XS', 10),
 (361, 80, 'S', 30),
-(362, 80, 'M', 24),
-(363, 80, 'L', 36),
-(364, 80, 'XL', 34),
+(362, 80, 'M', 25),
+(363, 80, 'L', 40),
+(364, 80, 'XL', 35),
 (365, 81, 'S', 23),
 (366, 81, 'M', 14),
 (367, 81, 'L', 30),
 (368, 82, 'S', 30),
-(369, 82, 'M', 15),
+(369, 82, 'M', 14),
 (370, 82, 'L', 20),
 (371, 83, 'XS', 32),
 (372, 83, 'S', 20),
@@ -1407,9 +1523,9 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (379, 85, 'XS', 12),
 (380, 85, 'S', 21),
 (381, 85, 'M', 36),
-(382, 85, 'L', 40),
+(382, 85, 'L', 39),
 (383, 86, 'XS', 12),
-(384, 86, 'S', 30),
+(384, 86, 'S', 29),
 (385, 86, 'M', 41),
 (386, 86, 'L', 25),
 (387, 87, 'XS', 30),
@@ -1427,7 +1543,7 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (399, 90, 'XS', 14),
 (400, 90, 'S', 45),
 (401, 90, 'M', 36),
-(402, 90, 'L', 14),
+(402, 90, 'L', 13),
 (403, 91, 'XS', 34),
 (404, 91, 'S', 24),
 (405, 91, 'M', 12),
@@ -1439,7 +1555,7 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (411, 92, 'XL', 14),
 (412, 93, 'XS', 14),
 (413, 93, 'S', 45),
-(414, 93, 'M', 43),
+(414, 93, 'M', 41),
 (415, 93, 'L', 10),
 (416, 93, 'XL', 15),
 (417, 94, 'XS', 15),
@@ -1460,17 +1576,17 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (452, 101, 'M', 45),
 (453, 101, 'L', 40),
 (454, 102, 'S', 34),
-(455, 102, 'M', 12),
+(455, 102, 'M', 11),
 (456, 102, 'L', 36),
 (457, 103, 'S', 36),
 (458, 103, 'M', 31),
 (459, 103, 'L', 20),
 (460, 104, 'S', 23),
-(461, 104, 'M', 18),
+(461, 104, 'M', 17),
 (462, 104, 'L', 32),
 (463, 105, 'XS', 21),
 (464, 105, 'S', 27),
-(465, 105, 'M', 34),
+(465, 105, 'M', 33),
 (466, 105, 'L', 9),
 (467, 106, 'XS', 28),
 (468, 106, 'S', 17),
@@ -1507,7 +1623,7 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (499, 115, 'XS', 20),
 (500, 115, 'S', 29),
 (501, 115, 'M', 26),
-(502, 115, 'L', 29),
+(502, 115, 'L', 28),
 (507, 117, 'XS', 18),
 (508, 117, 'S', 25),
 (509, 117, 'M', 30),
@@ -1536,7 +1652,7 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (532, 122, 'XS', 30),
 (533, 122, 'S', 28),
 (534, 122, 'M', 43),
-(535, 122, 'L', 40),
+(535, 122, 'L', 39),
 (536, 122, 'XL', 36),
 (537, 123, 'XS', 32),
 (538, 123, 'S', 28),
@@ -1552,22 +1668,22 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (548, 125, 'S', 30),
 (549, 125, 'M', 12),
 (550, 125, 'L', 15),
-(551, 125, 'XL', 24),
+(551, 125, 'XL', 20),
 (552, 126, 'XS', 30),
 (553, 126, 'S', 14),
 (554, 126, 'M', 36),
 (555, 126, 'L', 12),
-(556, 126, 'XL', 24),
+(556, 126, 'XL', 20),
 (557, 127, 'XS', 24),
 (558, 127, 'S', 32),
 (559, 127, 'M', 12),
 (560, 127, 'L', 34),
-(561, 127, 'XL', 12),
-(562, 128, 'XS', 16),
+(561, 127, 'XL', 20),
+(562, 128, 'XS', 20),
 (563, 128, 'S', 30),
 (564, 128, 'M', 45),
 (565, 128, 'L', 30),
-(566, 128, 'XL', 32),
+(566, 128, 'XL', 20),
 (567, 129, 'XS', 32),
 (568, 129, 'S', 12),
 (569, 129, 'M', 36),
@@ -1590,11 +1706,11 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (586, 132, 'XL', 32),
 (588, 133, 'S', 24),
 (589, 133, 'M', 14),
-(590, 133, 'L', 36),
+(590, 133, 'L', 34),
 (591, 134, 'XS', 17),
 (592, 134, 'S', 25),
 (594, 134, 'M', 30),
-(595, 134, 'L', 25),
+(595, 134, 'L', 23),
 (596, 134, 'XL', 36),
 (597, 135, 'XS', 36),
 (598, 135, 'M', 30),
@@ -1617,7 +1733,7 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (625, 141, 'XL', 24),
 (626, 140, 'S', 24),
 (627, 140, 'M', 21),
-(628, 140, 'L', 36),
+(628, 140, 'L', 35),
 (629, 140, 'XL', 10),
 (630, 142, 'XS', 14),
 (631, 142, 'S', 23),
@@ -1631,7 +1747,7 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (639, 144, 'XS', 14),
 (640, 144, 'S', 30),
 (641, 144, 'M', 6),
-(642, 144, 'L', 19),
+(642, 144, 'L', 18),
 (643, 145, 'XS', 63),
 (644, 145, 'S', 40),
 (645, 145, 'M', 36),
@@ -1643,7 +1759,7 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (651, 147, 'XS', 12),
 (652, 147, 'S', 30),
 (653, 147, 'M', 36),
-(654, 147, 'L', 12),
+(654, 147, 'L', 11),
 (655, 148, 'XS', 16),
 (656, 148, 'S', 20),
 (657, 148, 'M', 36),
@@ -1651,11 +1767,11 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (659, 149, 'XS', 22),
 (660, 149, 'S', 30),
 (661, 149, 'M', 36),
-(662, 149, 'L', 12),
+(662, 149, 'L', 11),
 (663, 150, 'XS', 13),
 (664, 150, 'S', 24),
 (665, 150, 'M', 30),
-(666, 150, 'L', 23),
+(666, 150, 'L', 21),
 (667, 151, 'XS', 23),
 (668, 151, 'S', 30),
 (669, 151, 'M', 34),
@@ -1706,7 +1822,7 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (740, 168, 'XL', 17),
 (741, 169, 'S', 8),
 (742, 169, 'M', 14),
-(743, 169, 'L', 14),
+(743, 169, 'L', 13),
 (744, 169, 'XL', 16),
 (745, 170, 'S', 18),
 (746, 170, 'M', 12),
@@ -1734,7 +1850,7 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (768, 175, 'L', 15),
 (769, 176, 'S', 30),
 (770, 176, 'M', 34),
-(771, 176, 'L', 25),
+(771, 176, 'L', 24),
 (772, 176, 'XL', 23),
 (773, 177, 'S', 11),
 (774, 177, 'M', 20),
@@ -1754,7 +1870,7 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (788, 180, 'XL', 17),
 (789, 181, 'S', 13),
 (790, 181, 'M', 20),
-(791, 181, 'L', 10),
+(791, 181, 'L', 9),
 (792, 182, 'S', 32),
 (793, 182, 'M', 21),
 (794, 182, 'L', 13),
@@ -1790,7 +1906,7 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (824, 190, 'M', 14),
 (825, 190, 'L', 20),
 (826, 191, 'XS', 32),
-(827, 191, 'S', 16),
+(827, 191, 'S', 14),
 (828, 191, 'M', 14),
 (829, 191, 'L', 36),
 (830, 192, 'XS', 21),
@@ -1829,9 +1945,9 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (863, 200, 'XS', 21),
 (864, 200, 'S', 17),
 (865, 200, 'M', 6),
-(866, 200, 'L', 10),
+(866, 200, 'L', 9),
 (867, 201, 'XS', 21),
-(868, 201, 'S', 10),
+(868, 201, 'S', 9),
 (869, 201, 'M', 21),
 (870, 201, 'L', 3),
 (871, 202, 'XS', 31),
@@ -1847,11 +1963,11 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (881, 204, 'M', 0),
 (882, 204, 'L', 22),
 (883, 205, 'XS', 21),
-(884, 205, 'S', 11),
+(884, 205, 'S', 10),
 (885, 205, 'M', 3),
 (886, 205, 'L', 16),
 (887, 206, 'XS', 26),
-(888, 206, 'S', 12),
+(888, 206, 'S', 9),
 (889, 206, 'M', 10),
 (890, 206, 'L', 15),
 (891, 207, 'XS', 21),
@@ -1861,9 +1977,9 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (895, 208, 'XS', 13),
 (896, 208, 'S', 3),
 (897, 208, 'M', 14),
-(898, 208, 'L', 4),
+(898, 208, 'L', 1),
 (899, 209, 'XS', 12),
-(900, 209, 'S', 30),
+(900, 209, 'S', 29),
 (901, 209, 'M', 12),
 (902, 209, 'L', 30),
 (903, 210, 'XS', 21),
@@ -1880,19 +1996,19 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (918, 213, 'L', 7),
 (919, 214, 'XS', 30),
 (920, 214, 'S', 21),
-(921, 214, 'M', 2),
+(921, 214, 'M', 1),
 (922, 214, 'L', 0),
 (923, 215, 'XS', 12),
 (924, 215, 'S', 10),
 (925, 215, 'M', 12),
 (926, 215, 'L', 9),
 (927, 216, 'XS', 30),
-(928, 216, 'S', 21),
+(928, 216, 'S', 20),
 (929, 216, 'M', 3),
 (930, 216, 'L', 10),
-(931, 217, 'XS', 5),
+(931, 217, 'XS', 4),
 (932, 217, 'S', 10),
-(933, 217, 'M', 4),
+(933, 217, 'M', 3),
 (934, 217, 'L', 11),
 (935, 218, 'XS', 20),
 (936, 218, 'S', 12),
@@ -1911,13 +2027,16 @@ INSERT INTO `productstock` (`stock_id`, `product_color_id`, `size`, `quantity`) 
 (949, 221, 'M', 12),
 (950, 221, 'L', 17),
 (951, 222, 'XS', 21),
-(952, 222, 'S', 12),
+(952, 222, 'S', 11),
 (953, 222, 'M', 6),
 (954, 222, 'L', 13),
 (955, 223, 'XS', 10),
 (956, 223, 'S', 17),
 (957, 223, 'M', 10),
-(958, 223, 'L', 4);
+(958, 223, 'L', 4),
+(959, 15, 'XL', 20),
+(960, 4, 'XL', 5),
+(961, 3, 'XL', 5);
 
 -- --------------------------------------------------------
 
@@ -1948,7 +2067,25 @@ CREATE TABLE `userinfo` (
 
 INSERT INTO `userinfo` (`user_id`, `is_admin`, `email`, `password`, `name`, `surname`, `gender`, `phone_number`, `address`, `district`, `province`, `zip_code`, `created_at`, `updated_at`) VALUES
 (1, 1, 'admin@simzy.net', '$2b$10$d/DMiv5/cgimArfotbYmyeBvB/eCXJE4xKLUbIBRb.MHUi44aQlci', 'Yutthakarn', 'Saykhamton', 'M', '0997448312', '126 Pracha Uthit Rd, Bang Mot', 'Thung Khru', 'Bangkok', '10140', '2022-10-29 19:57:40', '2022-12-11 21:07:01'),
-(2, 0, 'notadmin@simzy.net', '$2b$10$KU17ncuBbQEr6MjHyqf44ejMR/gVhLd6JbBAPU0MRy7drhqOpwSJK', 'Neeracha', 'Seehawong', 'W', '0870650324', '1522 Charoenkrung Road, Bangrak', 'Bangrak', 'Bangkok', '10500', '2022-12-11 21:09:14', '2022-12-11 21:09:14');
+(2, 0, 'notadmin@simzy.net', '$2b$10$KU17ncuBbQEr6MjHyqf44ejMR/gVhLd6JbBAPU0MRy7drhqOpwSJK', 'Neeracha', 'Seehawong', 'W', '0870650324', '1522 Charoenkrung Road, Bangrak', 'Bangrak', 'Bangkok', '10500', '2022-12-11 21:09:14', '2022-12-11 21:09:14'),
+(3, 0, 'Ryan@gmail.com', '$2b$10$chRVAaErJsg0zn4HAjXMkOhQ.m0sWkybBcUwk7GNU1/qu5DQrW0cu', 'Ryan', 'Dog', 'O', '0889645555', '45/55', 'Lamlukka', 'Pathumthani', '10250', '2022-12-12 05:21:35', '2022-12-12 05:56:53'),
+(4, 0, 'kimjen@hotmail.com', '$2b$10$1PKx0AVrTVQgoK/3tjrfDOYEBTUfsjTdV1/GOKWU9ZQFngzWOHvtC', 'Jennie', 'Kim', 'W', '0887774455', '99', 'Prawet', 'Bangkok', '99800', '2022-12-12 05:49:25', '2022-12-12 10:32:47'),
+(5, 0, 'harry@gmail.com', '$2b$10$epNUjjkNxsUerLPtnoECfOH4.osFAur4fCquWNDs1HsVrat13SUrS', 'Harry', 'Potter', 'M', '0987441234', '9/3/4', 'Bang Rak', 'Bangkok', '78987', '2022-12-12 06:03:23', '2022-12-12 06:03:23'),
+(6, 0, 'minnie@gmail.com', '$2b$10$4rnRBrIJqrbY0xgzd/TcZOPo8KMnOvf359x4cigdEOc2gEQB6BIWi', 'Kasikarn', 'Wisetkamin', 'W', '0964478855', '2/4', 'Thung Khru', 'Bangkok', '10450', '2022-12-12 06:29:21', '2022-12-12 06:29:21'),
+(7, 0, 'ponpon@gmail.com', '$2b$10$ZUneUuTF3NrhYqu2aIAyXuxGEdVnuItXhCGvvbmTJcLBA1JgRv4sS', 'Nunthanut', 'Kittirattanaviwat', 'W', '0978451122', '31', 'Thung Khru', 'Bangkok', '10450', '2022-12-12 06:35:00', '2022-12-12 06:35:00'),
+(8, 0, 'peachy@mail.kmutt.ac.th', '$2b$10$k8geB9B/ujDtmpCIvYLLluQgKiXqo.B02oafCR6MzRcJIoTYwA5GC', 'Chayathit', 'Rattanapokil', 'M', '0987741122', '22/22', 'Praram', 'Bangkok', '10460', '2022-12-12 06:41:04', '2022-12-12 06:44:27'),
+(9, 0, 'jiajia@mail.kmutt.ac.th', '$2b$10$Z6DS3HAOZ.REejS8dtc8iOkC1gpuozVFo0o2B.Y1XWchxOeoBOHMm', 'Jiajia', 'Bai', 'W', '0941125577', '98/7', 'tapra', 'Bangkok', '10550', '2022-12-12 06:47:15', '2022-12-12 06:47:15'),
+(10, 0, 'Nice@gmail.com', '$2b$10$Q7yr06sP.A/mtVhMUyBsguC2KJb3GJZ9JPk7osTO6riKkh9igeYau', 'Tamonwan', 'Boonpa', 'W', '0884445566', '55', 'prapradaeng', 'samuthprakarn', '10270', '2022-12-12 08:06:37', '2022-12-12 08:06:37'),
+(11, 0, 'Ploy@gmail.com', '$2b$10$VHqkf2Szw2NoPIGCv9dEW.hyYITTlwqm4Iqtjv.ykYtoLjBAESI0C', 'Yuwapa ', 'Saykhamton', 'W', '0889647896', '987', 'inburi', 'Bangkok', '12030', '2022-12-12 08:19:11', '2022-12-12 08:19:11'),
+(12, 0, 'sonia.g@gmail.com', '$2b$10$zckCIdJnlPccszbbiy5ZQeMRLJ6yhThj19Wa.gu.glC581F4nGwKC', 'Sonia', 'Gautam', 'W', '0889543215', '9/8', 'Thung Khru', 'Bangkok', '10550', '2022-12-12 08:23:30', '2022-12-12 08:23:30'),
+(13, 0, 'JBer@gmail.com', '$2b$10$Qm76D6zflLerlCt3nsc9TOpqy5WWG74gpqts0F1muqFA56tNp9xZi', 'Jeff', 'Bernatt', 'M', '0889543445', '9/88', 'Samphanthawong ', 'Bangkok', '12000', '2022-12-12 08:27:25', '2022-12-12 08:32:39'),
+(14, 0, 'GoodS@gmail.com', '$2b$10$iarhv6rSleVnS1eJo133mezy8tESs25gPg.ACwjRFyWFEY4yrfWSu', 'Vitada', 'Arkanai', 'O', '0841234567', '519', 'Tapra', 'Bangkok', '10490', '2022-12-12 08:41:49', '2022-12-12 08:41:49'),
+(15, 0, 'kai.p@gmail.com', '$2b$10$wHCa.ZEfneMELdtK1F9OVuTgzHLyRmVJUM06CvndHZJVB5IiKX9nS', 'Jintana', 'Polsanhe', 'W', '0865532050', '45/55', 'Lamlukka', 'Pathumthani', '10250', '2022-12-12 09:25:04', '2022-12-12 09:25:04'),
+(16, 0, 'lalisa@hotmail.com', '$2b$10$u2eTcyGC3HEjsaMDNhywD.EOCuxhog3egwo1.449Ze/2o/sdgDRLq', 'Lalisa', 'Manobal', 'W', '0987451122', '23/63', 'Wang Thonglang', 'Bangkok', '98000', '2022-12-12 09:27:08', '2022-12-12 09:27:08'),
+(17, 0, 'taetae@gmail.com', '$2b$10$qqx/w8jHhFdYde05b4zT3O99Kidpo8.NYOgYGk687SpEVc1gZdalS', 'Taeyeon', 'Kim', 'W', '0897745566', '987', 'Rat Burana', 'Bangkok', '98700', '2022-12-12 10:04:15', '2022-12-12 10:04:15'),
+(18, 0, 'Meghan@gmail.com', '$2b$10$pa6kK09Uqgvec/nOo07CSO80UV1BjgZG5RPYpmNMFk.Om9rMGdR1i', 'Meghan', 'Trainor', 'W', '0987774451', '12/34', 'prapradaeng', 'Bangkok', '25000', '2022-12-12 10:09:59', '2022-12-12 10:09:59'),
+(19, 0, 'Cigaretes@gmail.com', '$2b$10$tp.TsKZOlLzk9XWEhiwE6uXB1yqyfaVxL7GwPzeKeh1zeU1yu2qRe', 'Pati', 'Slasher', 'M', '0998745632', '65/4', 'Mueng', 'ChiangMai', '10200', '2022-12-12 10:12:37', '2022-12-12 10:12:37'),
+(20, 0, 'Thana@sainua.co.th', '$2b$10$7eE/0JmKH8MsvJD/kg.T0.3oU4ARyQKSvBLvjVJ/q5ju1dp./ep7K', 'Thana', 'Sainua', 'M', '0987774455', '12/34', 'Thung Khru', 'Bangkok', '10400', '2022-12-12 10:19:48', '2022-12-12 10:19:48');
 
 --
 -- Indexes for dumped tables
@@ -2052,7 +2189,7 @@ ALTER TABLE `colorgroup`
 -- AUTO_INCREMENT for table `orderhistory`
 --
 ALTER TABLE `orderhistory`
-  MODIFY `order_history_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_history_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `orderstatus`
@@ -2064,7 +2201,7 @@ ALTER TABLE `orderstatus`
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `product`
@@ -2082,19 +2219,19 @@ ALTER TABLE `productcolor`
 -- AUTO_INCREMENT for table `productorder`
 --
 ALTER TABLE `productorder`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `productstock`
 --
 ALTER TABLE `productstock`
-  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=959;
+  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=962;
 
 --
 -- AUTO_INCREMENT for table `userinfo`
 --
 ALTER TABLE `userinfo`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- Constraints for dumped tables
