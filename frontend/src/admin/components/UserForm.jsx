@@ -60,9 +60,27 @@ const UserForm = ({ addOrEdit, recordForEdit, formType, setChanged }) => {
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
     if ("name" in fieldValues)
-      temp.name = fieldValues.name ? "" : "First name is required";
+      temp.name = !fieldValues.name
+        ? "First name is required"
+        : !Boolean(
+            fieldValues.name
+              .split(" ")
+              .join("")
+              .match(/^[A-Za-z]*$/)
+          )
+        ? "First name should contain only letters"
+        : "";
     if ("surname" in fieldValues)
-      temp.surname = fieldValues.surname ? "" : "Surname is required";
+      temp.surname = !fieldValues.surname
+        ? "Surname is required"
+        : !Boolean(
+            fieldValues.surname
+              .split(" ")
+              .join("")
+              .match(/^[A-Za-z]*$/)
+          )
+        ? "Surname should contain only letters"
+        : "";
     if ("email" in fieldValues)
       temp.email = !fieldValues.email
         ? "Email is required"
@@ -87,17 +105,37 @@ const UserForm = ({ addOrEdit, recordForEdit, formType, setChanged }) => {
     if ("phone_number" in fieldValues)
       temp.phone_number = !fieldValues.phone_number
         ? "Phone Number is required"
-        : fieldValues.phone_number.length !== 10
-        ? "Phone Number is invalid"
+        : fieldValues.phone_number.length > 10
+        ? "Phone number should not exceed 10 digits"
+        : fieldValues.phone_number.length < 10
+        ? "Phone number should be 10 digits"
         : "";
     if ("gender" in fieldValues)
       temp.gender = fieldValues.gender ? "" : "Gender is required";
     if ("address" in fieldValues)
       temp.address = fieldValues.address ? "" : "Address is required";
     if ("district" in fieldValues)
-      temp.district = fieldValues.district ? "" : "District is required";
+      temp.district = !fieldValues.district
+        ? "District is required"
+        : !Boolean(
+            fieldValues.district
+              .split(" ")
+              .join("")
+              .match(/^[A-Za-z]*$/)
+          )
+        ? "District should contain only letters"
+        : "";
     if ("province" in fieldValues)
-      temp.province = fieldValues.province ? "" : "Province is required";
+      temp.province = !fieldValues.province
+        ? "Province is required"
+        : !Boolean(
+            fieldValues.province
+              .split(" ")
+              .join("")
+              .match(/^[A-Za-z]*$/)
+          )
+        ? "Province should contain only letters"
+        : "";
     if ("zip_code" in fieldValues)
       temp.zip_code = fieldValues.zip_code ? "" : "Zip Code is required";
 
@@ -152,7 +190,7 @@ const UserForm = ({ addOrEdit, recordForEdit, formType, setChanged }) => {
                 <Grid item xs={6}>
                   <Controls.Input
                     name="name"
-                    label="First Name"
+                    label="First Name (only characters are allowed)"
                     value={values.name}
                     readOnly
                   />
@@ -190,7 +228,7 @@ const UserForm = ({ addOrEdit, recordForEdit, formType, setChanged }) => {
                 <Grid item xs={6}>
                   <Controls.Input
                     name="surname"
-                    label="Last Name"
+                    label="Last Name (only characters are allowed)"
                     value={values.surname}
                     readOnly
                   />
@@ -226,7 +264,7 @@ const UserForm = ({ addOrEdit, recordForEdit, formType, setChanged }) => {
                 <Grid item xs={6}>
                   <Controls.Input
                     name="name"
-                    label="First Name"
+                    label="First Name (only characters are allowed)"
                     value={values.name}
                     onChange={handleInput}
                     error={errors.name}
@@ -270,7 +308,7 @@ const UserForm = ({ addOrEdit, recordForEdit, formType, setChanged }) => {
                 <Grid item xs={6}>
                   <Controls.Input
                     name="surname"
-                    label="Last Name"
+                    label="Last Name (only characters are allowed)"
                     value={values.surname}
                     onChange={handleInput}
                     error={errors.surname}
@@ -287,7 +325,7 @@ const UserForm = ({ addOrEdit, recordForEdit, formType, setChanged }) => {
                   ) : (
                     <Controls.Input
                       name="password"
-                      label="Password"
+                      label="Password (at least 6 characters long)"
                       value={values.password}
                       onChange={handleInput}
                       error={errors.password}
@@ -297,7 +335,7 @@ const UserForm = ({ addOrEdit, recordForEdit, formType, setChanged }) => {
 
                   <Controls.Input
                     name="address"
-                    label="Address"
+                    label="Address (e.g., 126 Pracha Uthit Rd)"
                     value={values.address}
                     onChange={handleInput}
                     error={errors.address}

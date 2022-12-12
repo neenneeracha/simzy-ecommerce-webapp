@@ -121,7 +121,7 @@ const Register = () => {
     ) {
       newErrors.firstname = "Firstname should contain only letters";
     }
-    // first last validation
+    // last name validation
     if (inputs.lastname.split(" ").join("").length < 1) {
       newErrors.lastname = "Please provide lastname";
     } else if (
